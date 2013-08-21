@@ -7,14 +7,14 @@
         android:showAsAction="always"/>
     <item
         android:id="@+id/menu_item_share_action_provider_action_bar"
-        android:actionProviderClass="com.navbuilder.app.hurricane.customview.CustomShareActionProvider"
+        android:actionProviderClass="com.app.afteryou.customview.CustomShareActionProvider"
         android:orderInCategory="3"
         android:showAsAction="always"
         android:title="@string/action_bar_share_with"/>
 
     <item
         android:id="@+id/action_search"
-        android:actionViewClass="com.navbuilder.app.hurricane.customview.ActionBarSearchView"
+        android:actionViewClass="com.app.afteryou.customview.ActionBarSearchView"
         android:icon="@drawable/actionbar_search"
         android:orderInCategory="1"
         android:showAsAction="never"

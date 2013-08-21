@@ -30,10 +30,6 @@ public class ActivityStack<T extends BaseActivity> extends ArrayList<BaseActivit
     public synchronized Activity getActivityByType(int viewType) {
         BaseActivity ret = null;
         for (BaseActivity activity: this) {
-//            if (activity.getViewType() == viewType) {
-//                ret = activity;
-//                break;
-//            }
         }
 
         return ret;

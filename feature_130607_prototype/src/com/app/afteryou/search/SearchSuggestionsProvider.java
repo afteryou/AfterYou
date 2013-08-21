@@ -10,7 +10,7 @@ public class SearchSuggestionsProvider extends SearchRecentSuggestionsProvider {
      * Manifest file, and any time you instantiate a 
      * {@link android.provider.SearchRecentSuggestions} helper class. 
      */
-    public final static String AUTHORITY = "com.navbuilder.app.hurricane.search.SearchSuggestionsProvider";
+    public final static String AUTHORITY = "com.app.afteryou.search.SearchSuggestionsProvider";
     /**
      * These flags determine the operating mode of the suggestions provider.  This value should 
      * not change from run to run, because when it does change, your suggestions database may 

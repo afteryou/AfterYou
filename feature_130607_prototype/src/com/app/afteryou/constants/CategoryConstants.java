@@ -1,7 +1,7 @@
 package com.app.afteryou.constants;
 
 public class CategoryConstants {
-	public static final String CATEGROY_PREFERENCE = "com.hurricane.preference.category";
+	public static final String CATEGROY_PREFERENCE = "com.afteryou.preference.category";
 	public static final String PREF_KEY_USER_CATEGORIES = "user_categories";
 	public static final String KEY_CATEGORY_TEXT = "TEXT";
 	public static final String EMPTY = "";

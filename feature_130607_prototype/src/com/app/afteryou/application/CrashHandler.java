@@ -32,7 +32,7 @@ public class CrashHandler implements UncaughtExceptionHandler {
 	private static final String VERSION_NAME = "versionName:";
 	private static final String VERSION_CODE = "versionCode:";
 	public static final String CRASH_LOG_EXTENSION = ".txt";
-	public static final String CRASH_LOG_DIR = FileUtils.getSDCardDirectory() + "/Hurricane/CrashLog/";
+	public static final String CRASH_LOG_DIR = FileUtils.getSDCardDirectory() + "/AfterYou/CrashLog/";
 	public static final String CRASH_LOG_DATE_PATTERN = "yyyy-MM-dd-HH-mm-sss";
 
 	private CrashHandler() {

@@ -2,7 +2,7 @@
 <resources>
 
     <string name="app_name">AfterYou</string>
-    <string name="main_activity_actionbar_title">Hurricane</string>
+    <string name="main_activity_actionbar_title">After You</string>
     <string name="action_settings">Settings</string>
     <string name="action_search">Search</string>
     <string name="action_asr">ASR</string>
@@ -27,7 +27,7 @@
     <string name="restart_required">Application restart is required for changes to take effect.</string>
     <string name="close_application">Close application</string>
     <string name="cancel">Cancel</string>
-    <string name="IDS_TO_OBTAIN_YOUR_CURRENT_POSITION">To obtain your current position, Hurricane requires \"Location Services\" setting to be turned on. Would you like to open the Location settings screen to turn setting on?</string>
+    <string name="IDS_TO_OBTAIN_YOUR_CURRENT_POSITION">To obtain your current position, After You requires \"Location Services\" setting to be turned on. Would you like to open the Location settings screen to turn setting on?</string>
     <string name="IDS_THERE_IS_NO_AVAILABLE_KNOWN_LOCATION">There is no available GPS location, app will exit.</string>
     <string name="IDS_OK">Ok</string>
     <string name="IDS_CANCEL">Cancel</string>
