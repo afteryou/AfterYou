@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="actionbar_nav_items">
+        <item>Around me</item>
+        <item>Los Angeles, CA</item>
+        <item>San Diuego, CA</item>
+        <item>Add a location</item>
+    </string-array>
+
+    <string-array name="default_categories">
+        <item>Restaurants</item>
+        <item>Coffee Shops</item>
+        <item>Deals</item>
+        <item>Movies</item>
+        <item>Live Music</item>
+        <item>Community</item>
+    </string-array>
+
+</resources>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <color name="main_view_bg">#ffffff</color>
+    <color name="eden_light">#ffffff</color>
+    <color name="black">#000000</color>
+    <color name="dark_gray">#ff404040</color>
+    <color name="eden_dark">#ff132e28</color>
+    <color name="light_gray">#FFEDECEC</color>
+    <color name="solid_blue">#770000ff</color>
+    <color name="eden_green">#ff9da842</color>
+    <color name="middle_gray">#ff9f9f9f</color>
+</resources>

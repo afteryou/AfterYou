@@ -1,0 +1,11 @@
+{ 
+	"interests": 
+		[
+			{ "name": "Restaurants", "code":"AE", "icon": "restaurant" },
+			{ "name": "Coffee Shops", "code": "AEE", "icon": "coffeeshop" },
+			{ "name": "ATMs", "code": "AA", "icon": "banksatms" },
+			{ "name": "Movies", "code":"ABE", "icon": "movietheater" },
+			{ "name": "Live Music", "code":"ECOG", "icon": "" },
+			{ "name": "Gas Prices", "code": "ACC", "icon": "gasstation"}
+		]
+}

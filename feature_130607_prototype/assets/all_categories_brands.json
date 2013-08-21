@@ -1,0 +1,38 @@
+{ 
+	"interests": 
+		[
+			{ "name": "Restaurants", "code":"AE", "icon": "restaurant" },
+			{ "name": "Coffee Shops", "code": "AEE", "icon": "coffeeshop" },
+			{ "name": "ATM", "code": "AA", "icon": "banksatms" },
+			{ "name": "Movies", "code":"ABE", "icon": "movietheater" },
+			{ "name": "Live Music", "code":"ECOG", "icon": "" },
+			{ "name": "Hotels & Motels", "code":"AHC", "icon": "lodging" },
+			{ "name": "Fast Food", "code":"AEF", "icon": "restaurant" },
+			{ "name": "Gas Stations", "code": "ACC", "icon": "gasstation"},
+			{ "name": "Airports", "code": "ALA", "icon": "airport"},
+			{ "name": "Post Offices", "code": "AFD", "icon": "convention"},
+			{ "name": "Pizza", "code":"AEK", "icon": "restaurant" }
+		],
+	"brands": 
+		[
+			{ "name": "Walmart" },
+			{ "name": "Starbuck" },
+			{ "name": "McDonalds" },
+			{ "name": "Home Depot" },
+			{ "name": "Target" },
+			{ "name": "Bank of America" },
+			{ "name": "Walgreens" },
+			{ "name": "Lowes" },
+			{ "name": "Costco" },
+			{ "name": "Wendy’s" },
+			{ "name": "Kohls" },
+			{ "name": "Verizon Wireless" },
+			{ "name": "Fed Ex" },
+			{ "name": "Barnes and Noble" },
+			{ "name": "Bed, Bath, & Beyond" },
+			{ "name": "Burger King" },
+			{ "name": "Holiday Inn" },
+			{ "name": "Subway" },
+			{ "name": "Wells Fargo" }
+		]
+}

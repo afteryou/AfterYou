@@ -1,0 +1,294 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/detail_content"
+    android:layout_width="fill_parent"
+    android:layout_height="0dip"
+    android:layout_alignParentBottom="true"
+    android:layout_centerInParent="true"
+    android:layout_marginBottom="5dip"
+    android:layout_marginLeft="5dip"
+    android:layout_marginRight="5dip"
+    android:background="@drawable/content_background_holo_light"
+    android:orientation="vertical"
+    android:visibility="gone" >
+
+    <RelativeLayout
+        android:id="@+id/detail_top"
+        android:layout_width="fill_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1.0" >
+
+        <ImageView
+            android:id="@+id/detail_graph"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:orientation="vertical"
+            android:paddingLeft="15dip" >
+
+            <TextView
+                android:id="@+id/detail_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:paddingTop="5dip"
+                android:text="Biergarten"
+                android:textColor="@color/eden_light"
+                android:textSize="@dimen/font_title"
+                android:textStyle="bold"/>
+
+            <TextView
+                android:id="@+id/detail_address"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:lines="2"
+                android:text="504 Western Ave,Los Angeles, CA"
+                android:textColor="@color/light_gray"
+                android:textSize="@dimen/font_content"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/detail_distance"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="0.5 mi"
+                android:textColor="@color/eden_light"
+                android:textSize="@dimen/font_content_large" />
+        </LinearLayout>
+    </RelativeLayout>
+
+    <LinearLayout
+        android:id="@+id/detail_middle"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop="5dip" >
+
+        <!--
+                       <ListView android:id="@+id/detail_comments"
+			               android:layout_height="wrap_content"
+			               android:layout_width="fill_parent"
+			               android:drawSelectorOnTop="false"
+			               android:isScrollContainer="false">
+			           </ListView>
+			           <ImageView
+				        android:id="@+id/expand"
+				        android:layout_width="wrap_content"
+				        android:layout_height="wrap_content"
+				        android:paddingRight="10dip"
+				        android:layout_gravity="right"
+				        android:src="@drawable/arrow_down_2" />
+        -->
+    </LinearLayout>
+
+    <ImageView
+        style="@style/GrayDividerImageView"
+        android:layout_width="fill_parent"
+        android:layout_height="1dip"
+        android:adjustViewBounds="true"
+        android:paddingLeft="5dip"
+        android:paddingRight="5dip"
+        android:scaleType="fitXY" />
+
+    <LinearLayout
+        android:id="@+id/detail_bottom"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:orientation="horizontal"
+        android:paddingLeft="10dip"
+        android:paddingRight="10dip"
+        android:paddingTop="5dip" >
+
+        <LinearLayout
+            android:id="@+id/detail_contact"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0"
+            android:orientation="vertical" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:text="Phone:"
+                android:textColor="@color/middle_gray"
+                android:textSize="@dimen/font_content" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingLeft="16dip"
+                android:text="(555)452-3948"
+                android:textColor="@color/solid_blue"
+                android:textSize="@dimen/font_content"
+                android:textStyle="bold" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:text="Website:"
+                android:textColor="@color/middle_gray"
+                android:textSize="@dimen/font_content" />
+
+            <TextView
+                android:id="@+id/detail_address"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingLeft="16dip"
+                android:singleLine="false"
+                android:text="www.biergarten.com"
+                android:textColor="@color/solid_blue"
+                android:textSize="@dimen/font_content"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/detail_availabletime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0"
+            android:orientation="vertical" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="left"
+                android:text="Hours:"
+                android:textColor="@color/middle_gray"
+                android:textSize="@dimen/font_content" />
+
+            <TableLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="15dip" >
+
+                <TableRow>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.0"
+                        android:gravity="left"
+                        android:text="M-F"
+                        android:textColor="@color/middle_gray"
+                        android:textSize="@dimen/font_content"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.0"
+                        android:gravity="center"
+                        android:text="6am - 8pm"
+                        android:textColor="@color/middle_gray"
+                        android:textSize="@dimen/font_content"
+                        android:textStyle="bold" />
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.0"
+                        android:gravity="left"
+                        android:text="Sa"
+                        android:textColor="@color/middle_gray"
+                        android:textSize="@dimen/font_content"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.0"
+                        android:gravity="center"
+                        android:text="6am - 9pm"
+                        android:textColor="@color/middle_gray"
+                        android:textSize="@dimen/font_content"
+                        android:textStyle="bold" />
+                </TableRow>
+
+                <TableRow>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.0"
+                        android:gravity="left"
+                        android:text="Su"
+                        android:textColor="@color/middle_gray"
+                        android:textSize="@dimen/font_content"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1.0"
+                        android:gravity="center"
+                        android:text="6am - 5pm"
+                        android:textColor="@color/middle_gray"
+                        android:textSize="@dimen/font_content"
+                        android:textStyle="bold" />
+                </TableRow>
+            </TableLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal|bottom"
+        android:orientation="horizontal" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="40dip"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:padding="5dip" >
+
+            <ImageView
+                android:id="@+id/like_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:scaleType="centerInside"
+                android:src="@drawable/thumb_up"
+                android:textAlignment="center" />
+
+            <ImageView
+                android:id="@+id/unlike_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:scaleType="centerInside"
+                android:src="@drawable/thumb_down"
+                android:textAlignment="center" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Go"
+            android:textColor="@color/middle_gray"
+            android:textSize="@dimen/font_title" />
+    </LinearLayout>
+
+</LinearLayout>

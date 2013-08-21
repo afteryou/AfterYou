@@ -1,6 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<resources>
-    <dimen name="menu_header_line">3dp</dimen>
-    <dimen name="sliding_menu_item_text_margin">20dip</dimen>
-    <dimen name="sliding_menu_shadow_width">15dip</dimen>
-</resources>

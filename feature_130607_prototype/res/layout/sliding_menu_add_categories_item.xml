@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="10dip"
+    android:layout_marginRight="25dip" >
+
+    <Button
+        android:id="@+id/btn_add_cagegory"
+        android:layout_width="match_parent"
+        android:layout_height="50dip"
+        android:layout_marginBottom="25dip"
+        android:layout_marginLeft="10dip"
+        android:layout_marginRight="25dip"
+        android:layout_marginTop="6dip"
+        android:background="@drawable/sliding_menu_item_selector"
+        android:text="+ Add Category"
+        android:textColor="@color/sliding_menu_text" />
+
+</FrameLayout>
