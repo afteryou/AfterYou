@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/main_view_bg">
 
-    <com.navbuilder.app.hurricane.ui.staggered.CustomGridView
+    <com.app.afteryou.ui.staggered.CustomGridView
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/list"
         android:layout_width="match_parent"

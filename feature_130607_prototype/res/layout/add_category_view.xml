@@ -39,7 +39,7 @@
                     android:textSize="20sp" 
                     android:textStyle="italic"/>
 
-                <com.navbuilder.app.hurricane.customview.ExpandableColumnLayout
+                <com.app.afteryou.customview.ExpandableColumnLayout
                     android:id="@+id/brands_gridview"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -67,7 +67,7 @@
                     android:textSize="20sp" 
                     android:textStyle="italic"/>
 
-                <com.navbuilder.app.hurricane.customview.ExpandableColumnLayout
+                <com.app.afteryou.customview.ExpandableColumnLayout
                     android:id="@+id/categories_gridview"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

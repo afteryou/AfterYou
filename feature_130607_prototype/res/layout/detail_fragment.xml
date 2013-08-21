@@ -82,7 +82,7 @@
 					android:paddingRight="5dip"
 					android:layout_marginBottom="5dip"
 					style="@style/GrayDividerImageView"/>
-				<com.navbuilder.app.hurricane.ui.staggered.CustomGridView 
+				<com.app.afteryou.ui.staggered.CustomGridView 
 				    xmlns:app="http://schemas.android.com/apk/res-auto"
 				    android:id="@+id/interest_more"
 				    android:layout_width="match_parent"

@@ -5,7 +5,7 @@
     android:layout_height="wrap_content"
     android:background="@drawable/content_background_holo_light"
     android:orientation="vertical" >
-   <com.navbuilder.app.hurricane.ui.view.ScaleImageView
+   <com.app.afteryou.ui.view.ScaleImageView
         android:id="@+id/news_pic"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
