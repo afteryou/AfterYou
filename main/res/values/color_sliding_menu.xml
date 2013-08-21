@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <color name="sliding_menu_bg">#E0E2E4</color>
+    <color name="sliding_menu_item_bg">#FFFFFF</color>
+    <color name="sliding_menu_text">#808080</color>
+    <color name="sliding_menu_highlight_text">#FFFFFF</color>
+</resources>

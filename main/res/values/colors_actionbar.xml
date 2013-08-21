@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<resources>
+    <color name="actionbar_background">#4d89bf</color>
+    <color name="actionbar_popup_background">#114f76</color>
+    <color name="actionbar_popup_text_color">#ffffff</color>
+    <color name="actionbar_text_color">#ffffff</color>
+    <color name="actionbar_btn_selected">#3EA4D5</color>
+</resources>

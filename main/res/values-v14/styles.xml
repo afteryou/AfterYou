@@ -1,0 +1,155 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <!--
+        Base application theme for API 14+. This theme completely replaces
+        AppBaseTheme from BOTH res/values/styles.xml and
+        res/values-v11/styles.xml on API 14+ devices.	-->
+    <style name="AppBaseTheme" parent="android:Theme.Holo">
+        <!--
+        API 14 theme customizations can go here. 
+        <item name="android:actionMenuTextColor">@color/actionbar_background</item>
+        -->
+        <item name="android:actionBarStyle">@style/Actionbar.Style</item>
+        <item name="android:windowContentOverlay">@drawable/actionbar_shadow</item>
+        <item name="android:popupMenuStyle">@style/PopupMenu.Style</item>
+        <item name="android:actionDropDownStyle">@style/PopupMenu.Style</item>
+        <item name="android:itemTextAppearance">@style/myCustomMenuTextApearance</item>
+        <item name="android:actionOverflowButtonStyle">@style/MyActionButtonOverflow</item>
+    </style>
+
+    <style name="MyActionButtonOverflow" parent="android:style/Widget.Holo.ActionButton.Overflow">
+        <!-- <item name="android:src">@drawable/overflow</item> -->
+    </style>
+
+    <style name="myCustomMenuTextApearance" parent="@android:style/TextAppearance.Widget.TextView.PopupMenu">
+        <item name="android:textColor">@color/actionbar_text_color</item>
+    </style>
+	<!-- 
+    <style name="CustomActivityTheme.ActionBar.OverFlow" parent="@android:style/TextAppearance">
+        <item name="android:textColor">#404040</item>
+        <item name="android:textSize">18sp</item>
+    </style>
+	 -->
+    <style name="Actionbar.Style" parent="@android:style/Widget.Holo.Light.ActionBar">
+        <item name="android:background">@color/actionbar_background</item>
+        <item name="android:titleTextStyle">@style/ActionBar.TitleTextStyle</item>
+    </style>
+
+    <style name="ActionBar.TitleTextStyle" parent="@android:style/TextAppearance.Holo.Widget.ActionBar.Title">
+        <item name="android:textColor">@color/actionbar_text_color</item>
+    </style>
+
+    <style name="PopupMenu.Style" parent="@android:style/Widget.Holo.Light.ListPopupWindow">
+        <item name="android:popupBackground">@color/actionbar_popup_background</item>
+        <item name="android:textColor">@color/actionbar_popup_text_color</item>
+    </style>
+
+</resources>
+
+<!-- 
+//Custom you own actionbar style:
+
+<style name="CustomActivityTheme" parent="@android:style/Theme.Holo">
+    <item name="android:actionBarStyle">@style/CustomActivityTheme.ActionBar</item>
+    <item name="android:actionMenuTextColor">#000000</item>
+    <item name="android:divider">@drawable/action_bar_div</item>
+    <item name="android:actionOverflowButtonStyle">@style/MyActionButtonOverflow</item>
+    <item name="android:popupMenuStyle">@style/MyPopupMenu</item>
+    <item name="android:itemBackground">@drawable/menu_item_background_fill</item>
+
+    <item name="android:itemTextAppearance">@style/myCustomMenuTextApearance</item>
+</style>
+
+<style name="myCustomMenuTextApearance" parent="@android:style/TextAppearance.Widget.TextView.PopupMenu">
+    <item name="android:textColor">#404040</item>
+</style>
+
+<style name="CustomActivityTheme.ActionBar.OverFlow" parent="@android:style/TextAppearance">
+    <item name="android:textColor">#404040</item>
+    <item name="android:textSize">18sp</item>
+</style>
+<style name="CustomButton"> 
+     <item name="android:background">@drawable/button_selector</item>
+</style>
+ <style name="CustomProgressButton">
+     <item name="android:background">@drawable/custom_progress_button</item>
+</style>
+<style name="CustomProfileButton">
+     <item name="android:background">@drawable/custom_profile_button</item>
+</style>
+<style name="CustomSharingButton">
+     <item name="android:background">@drawable/custom_sharing_button</item>
+</style>
+<style name="CustomListBlue">
+     <item name="android:background">@drawable/custom_listblue</item>
+</style>
+
+<style name="MyPopupMenu" parent="android:style/Widget.Holo.Light.ListPopupWindow">
+    //<item name="android:background">#B2B2B2</item>
+    <item name="android:popupBackground">#B2B2B2</item>
+
+</style>
+
+<style name="MyActionButtonOverflow" parent="android:style/Widget.Holo.ActionButton.Overflow">
+    <item name="android:src">@drawable/overflow</item>
+</style>
+
+<style name="CustomActivityTheme.ActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">
+    <item name="android:background">@drawable/actionbar_bg</item>
+    <item name="android:titleTextStyle">@style/CustomActivityTheme.ActionBar.Text</item>
+    <item name="android:subtitleTextStyle">@style/CustomActivityTheme.ActionBar.Text</item>
+    //<item name="android:actionOverflowButtonStyle">@drawable/overflow.png</item>
+</style>
+
+<style name="CustomActivityTheme.ActionBar.Text" parent="@android:style/TextAppearance">
+    <item name="android:textColor">#000000</item>
+    <item name="android:textSize">16sp</item>
+</style>
+
+<style name="activated" parent="android:Theme.Holo">
+    <item name="android:background">?android:attr/activatedBackgroundIndicator</item>
+</style>
+
+// style for removing the floating dialog 
+<style name="CustomDialogTheme">
+    <item name="android:windowIsFloating">false</item>
+    <item name="android:windowNoTitle">true</item>
+</style>
+
+//style for transparent image resource  activity 
+
+<style name="Theme.Transparent" parent="android:Theme">
+    <item name="android:windowIsTranslucent">true</item>
+    <item name="android:windowBackground">@android:color/transparent</item>
+    <item name="android:windowContentOverlay">@null</item>
+    <item name="android:windowNoTitle">true</item>
+    <item name="android:windowIsFloating">false</item>
+    <item name="android:backgroundDimEnabled">true</item>
+    <item name="android:windowAnimationStyle">@style/MyAnimation.Window</item>
+</style>
+
+// Animations for a non-full-screen window or activity. 
+<style name="MyAnimation.Window" parent="@android:style/Animation.Dialog">
+    <item name="android:windowEnterAnimation">@anim/grow_from_middle</item>
+    <item name="android:windowExitAnimation">@anim/shrink_to_middle</item>
+</style>
+
+//style for transparent audio and video resource  activity 
+
+<style name="Theme.Transparent_Player" parent="android:Theme">
+    <item name="android:windowIsTranslucent">true</item>
+    <item name="android:windowBackground">@android:color/transparent</item>
+    <item name="android:windowContentOverlay">@null</item>
+    <item name="android:windowNoTitle">true</item>
+    <item name="android:windowIsFloating">false</item>
+    <item name="android:backgroundDimEnabled">true</item>
+    <item name="android:windowAnimationStyle">@style/MyPlayerAnimation.Window</item>
+</style>
+
+// Animations for a non-full-screen window or activity. 
+<style name="MyPlayerAnimation.Window" parent="@android:style/Animation.Dialog">
+    <item name="android:windowEnterAnimation">@anim/grow_from_action_bar</item>
+    <item name="android:windowExitAnimation">@anim/shrink_to_action_bar</item>
+</style>
+
+ -->

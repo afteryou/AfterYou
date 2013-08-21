@@ -1,0 +1,12 @@
+{ 
+	"interests": 
+		[
+			{ "name": "Bookmarks", "type" : "bookmark"},
+			{ "name": "Restaurants", "code":"AE", "icon": "restaurant", "type" : "categorie"},
+			{ "name": "Coffee Shops", "code": "AEE", "icon": "coffeeshop", "type" : "categorie"},
+			{ "name": "ATMs", "code": "AA", "icon": "banksatms", "type" : "categorie"},
+			{ "name": "Movies", "code":"ABE", "icon": "movietheater" , "type" : "categorie"},
+			{ "name": "Live Music", "code":"ECOG", "icon": "", "type" : "categorie"},
+			{ "name": "Things To Do", "code": "ALD,ALF,ABD,ABG,ABI,ABJ", "icon": "gasstation", "type" : "categorie"}
+		]
+}
