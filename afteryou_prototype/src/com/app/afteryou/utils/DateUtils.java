@@ -175,7 +175,6 @@ public final class DateUtils {
 	 * threadlocal way because SimpleDateFormat is not threadsafe as noted in
 	 * {@link SimpleDateFormat its javadoc}.
 	 * 
-	 * @author Daniel Mueller
 	 */
 	final static class DateFormatHolder {
 

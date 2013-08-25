@@ -16,7 +16,6 @@ import android.widget.RelativeLayout;
  * This view also contains an ImageChangeListener which calls changed(boolean
  * isEmpty) once a change has been made to the ImageView
  * 
- * @author Maurycy Wojtowicz
  * 
  */
 public class ScaleImageView extends ImageView {

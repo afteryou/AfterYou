@@ -44,7 +44,6 @@ import com.app.afteryou.R;
 /**
  * For showing sliding menu behind main view.
  * 
- * @author qwang
  * 
  */
 public class SlidingMenuFragment extends Fragment implements OnItemClickListener, OnItemLongClickListener, OnClickListener, OnLongClickListener {

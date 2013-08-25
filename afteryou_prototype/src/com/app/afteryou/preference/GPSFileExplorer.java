@@ -1,15 +1,3 @@
-/*
- * (C) Copyright 2012 by TeleCommunication Systems, Inc.
- *
- * The information contained herein is confidential, proprietary
- * to TeleCommunication Systems, Inc., and considered a trade secret
- * as defined in section 499C of the penal code of the State of
- * California. Use of this information by anyone other than
- * authorized employees of TeleCommunication Systems is granted only
- * under a written non-disclosure agreement, expressly prescribing
- * the scope and manner of such use.
- *
- */
 
 package com.app.afteryou.preference;
 
@@ -37,11 +25,6 @@ import android.widget.FrameLayout.LayoutParams;
 
 import com.app.afteryou.log.Nimlog;
 import com.app.afteryou.R;
-/**
- * 
- * @author lxie
- * Contains a Tree Data Structure, but only used in file name separate rules.
- */
 public class GPSFileExplorer extends ViewFlipper {
     ////////////////////////Leon Begins////////////////////
     public class FileNode{

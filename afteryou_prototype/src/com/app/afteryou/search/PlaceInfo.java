@@ -1,20 +1,3 @@
-/*--------------------------------------------------------------------------
-
-	@file     PlaceInfo.java
-	@date     05/13/2010
-
-	PlaceInfo class definition.
-
-	(C) Copyright 2010-2011 by TeleCommunication Systems, Inc.
-
-	The files and materials contained herein are the property of
-	TeleCommunication Systems, Inc. (TCS) and their licensors.
-	All use is subject to a license agreement between you and TCS.
-	Contact us at contactus@navbuilderinside.com if you did not
-	receive a copy of the license agreement when downloading or
-	otherwise receiving these files and materials.
-
----------------------------------------------------------------------------*/
 
 package com.app.afteryou.search;
 

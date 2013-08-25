@@ -114,7 +114,6 @@ public class MainActivity extends BaseActivity implements OnQueryTextListener, O
 		Nimlog.d(this, "[MainActivity][onTaskEnd]task end");
 		AppUtils.setFirstTimeStart(false);
 		isAppInitFinished = true;
-//		initMapKit();
 		doInterestSearch(CategoryController.getInstance().getUserCategoriesFromPref());
 	}
 
@@ -125,17 +124,10 @@ public class MainActivity extends BaseActivity implements OnQueryTextListener, O
 	}
 
 	private void initMapKit() {
-		// Copy assets
-//		mAssertMAnager = new NBAssetManager(this);
 
 		// Start initializing
 		new SetupTask().execute();
 
-		// TODO: need to do in other place
-		// PalRadio.init(this.getApplicationContext());
-		// GPSLocationManager.init(this.getApplicationContext());
-//		PalRadio.init(this.getApplicationContext());
-//		GPSLocationManager.init(this.getApplicationContext());
 	}
 
 	private class SetupTask extends AsyncTask<Void, Void, Boolean> {
@@ -148,11 +140,6 @@ public class MainActivity extends BaseActivity implements OnQueryTextListener, O
 
 		@Override
 		protected Boolean doInBackground(Void... params) {
-			// Copy files from Asserts to cache folder
-//			boolean ret = mAssertMAnager.setupAssets();
-
-			// Load Native libraries
-//			ret = !ret ? ret : ControllerManager.staticInitialize(mAssertMAnager.getControllerManagerProperties());
 			return true;
 		}
 

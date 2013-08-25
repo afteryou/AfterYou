@@ -34,7 +34,6 @@ import android.util.Log;
  * A portion of this class is based on android-log-collector
  * (http://code.google.com/p/android-log-collector/)
  * 
- * @author lintonye
  * 
  */
 public class DDMSLogUtils {
