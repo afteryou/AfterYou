@@ -1,0 +1,79 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/preview_back" >
+
+    <include
+        android:id="@+id/header_image"
+        layout="@layout/header" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/header_image"
+        android:orientation="vertical"
+        android:weightSum="1" >
+
+        <ImageView
+            android:id="@+id/user_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_weight="0.5"
+            android:src="@drawable/sample_image" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:paddingTop="7dp"
+            android:layout_weight="0.5"
+            android:background="@drawable/capture_photo_button_bg" >
+
+            <ImageButton
+                android:id="@+id/take_photo_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/login_btn"
+                android:src="@drawable/takephoto_txt" />
+
+            <ImageButton
+                android:id="@+id/library_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/take_photo_btn"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/login_btn"
+                android:src="@drawable/choosefrom_liabrary_txt" />
+
+            <ImageButton
+                android:id="@+id/facebook_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/library_btn"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/login_btn"
+                android:src="@drawable/choosefrom_facebook_txt" />
+
+            <ImageButton
+                android:id="@+id/edit_crop_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/facebook_btn"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/login_btn"
+                android:src="@drawable/edit_crop" />
+
+            <ImageButton
+                android:id="@+id/submit_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/edit_crop_btn"
+                android:layout_centerHorizontal="true"
+                android:background="@drawable/sign_up_btn"
+                android:src="@drawable/submit_txt" />
+        </RelativeLayout>
+    </LinearLayout>
+
+</RelativeLayout>

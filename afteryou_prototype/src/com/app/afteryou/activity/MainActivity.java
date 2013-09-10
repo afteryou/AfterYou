@@ -123,12 +123,6 @@ public class MainActivity extends BaseActivity implements OnQueryTextListener, O
 		exitApp();
 	}
 
-	private void initMapKit() {
-
-		// Start initializing
-		new SetupTask().execute();
-
-	}
 
 	private class SetupTask extends AsyncTask<Void, Void, Boolean> {
 		private ProgressDialog dialog;

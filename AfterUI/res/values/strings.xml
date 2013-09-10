@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">AfterYou</string>
+    <string name="action_settings">Settings</string>
+    <string name="email_hint">Email</string>
+    <string name="password_hint">Password</string>
+    <string name="male_text">Male</string>
+    <string name="female_text">Female</string>
+    <string name="birth_day_hint_txt">M / DD / YYYY</string>
+    <string name="email_txt">eMail</string>
+    <string name="password_txt">Password</string>
+    <string name="first_name_text_hint">First Name</string>
+    <string name="last_name_text_hint">Last Name</string>
+    <string name="email_name_text">eMail</string>
+    <string name="birth_day_text">Birth date</string>
+    <string name="password_text">Password</string>
+    <string name="confirm_password_text">Confirm Password</string>
+    <string name="camera_roll_txt">Camera Roll</string>
+    <string name="number_of_photos_txt">(517)</string>
+    <string name="other_roll_txt">Other Roll</string>
+    <string name="other_roll_number_of_photos_txt">(110)</string>
+    <string name="about_you_text">About You</string>
+
+</resources>
