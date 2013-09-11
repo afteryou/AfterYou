@@ -8,43 +8,55 @@
         android:minSdkVersion="14"
         android:targetSdkVersion="14" />
 
-    <application
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.Manifest.permission.KILL_BACKGROUND_PROCESSES" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
+	<uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
+
+	<application
+        android:name="com.beacon.afterui.application.AfterYouApplication"
         android:allowBackup="true"
         android:icon="@drawable/logo"
         android:label="@string/app_name"
         android:theme="@style/Theme.AfterYou" >
         <activity
-            android:name=".LandingActivity"
+            android:name="com.beacon.afterui.views.LandingActivity"
             android:windowSoftInputMode="stateAlwaysHidden"
             android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".LoginScreen"
+            android:name="com.beacon.afterui.views.LoginScreen"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".SignUpActivity"
+            android:name="com.beacon.afterui.views.SignUpActivity"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".CapturePictureActivity"
+            android:name="com.beacon.afterui.views.CapturePictureActivity"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".PhotoPreview"
+            android:name="com.beacon.afterui.views.PhotoPreview"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".ImageSettingActivity"
+            android:name="com.beacon.afterui.views.ImageSettingActivity"
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".PhotoAlbum"
+            android:name="com.beacon.afterui.views.PhotoAlbum"
             android:screenOrientation="portrait" >
         </activity>
     </application>
