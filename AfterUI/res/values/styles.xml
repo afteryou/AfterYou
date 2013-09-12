@@ -17,7 +17,7 @@
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
 
-    <style name="Theme.AfterYou" parent="@android:style/Theme.Holo.NoActionBar">
+    <style name="Theme.AfterYou" parent="@android:style/Theme.Holo.Light.DarkActionBar">
         <item name="android:windowBackground">@color/app_theme_color</item>
     </style>
 

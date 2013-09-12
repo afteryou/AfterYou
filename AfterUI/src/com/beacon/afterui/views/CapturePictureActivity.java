@@ -28,5 +28,8 @@ public class CapturePictureActivity extends BaseActivity {
 //			}
 //		});
 	}
+	
+	
+
 
 }

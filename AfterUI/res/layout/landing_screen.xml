@@ -59,6 +59,7 @@
             android:src="@drawable/fb_sign_up_text"
             android:layout_centerInParent="true"
              />
+       
     </RelativeLayout>
 
     <ImageButton

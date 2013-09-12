@@ -184,8 +184,10 @@ or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>na
         public static final int home_screen=0x7f080000;
     }
     public static final class string {
+        public static final int Log_Out=0x7f060015;
         public static final int about_you_text=0x7f060013;
         public static final int action_settings=0x7f060001;
+        public static final int app_id=0x7f060014;
         public static final int app_name=0x7f060000;
         public static final int birth_day_hint_txt=0x7f060006;
         public static final int birth_day_text=0x7f06000c;

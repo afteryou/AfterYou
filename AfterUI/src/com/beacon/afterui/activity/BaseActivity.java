@@ -4,20 +4,23 @@ import java.lang.reflect.Field;
 
 import android.app.Activity;
 import android.app.ActivityManager;
-import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
-import android.content.DialogInterface.OnCancelListener;
+import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewConfiguration;
 
 import com.beacon.afterui.R;
 import com.beacon.afterui.log.AfterUIlog;
-import com.beacon.afterui.utils.AppUtils;
 import com.beacon.afterui.utils.DebugUtils;
+import com.beacon.afterui.views.CapturePictureActivity;
+import com.beacon.afterui.views.LandingActivity;
+import com.facebook.Session;
+import com.facebook.SessionState;
 
 
 public class BaseActivity extends Activity {
@@ -27,6 +30,8 @@ public class BaseActivity extends Activity {
 	public static final String VIEW_TYPE = "_view_type";
 
 	public static final String VIEW_ROOT = "_view_root";
+	
+	private static final int MENU_LOG_OUT = 1001;
 
 	protected int mViewType;
 
@@ -121,7 +126,6 @@ public class BaseActivity extends Activity {
 		}
 	}
 	
-
 	
 	@Override
 	protected Dialog onCreateDialog(int id) {
@@ -137,16 +141,56 @@ public class BaseActivity extends Activity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		DebugUtils.addDebugMenuItems(menu);
+		Session session = Session.getActiveSession();
+        if (session.isOpened()) {
+        	menu.add(Menu.NONE,MENU_LOG_OUT,1,R.string.Log_Out);
+        }
 		return true;
 	}
 
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		DebugUtils.onDebugOptionsItemSelected(this, item);
+		switch (item.getItemId()) {
+		case MENU_LOG_OUT:
+			onClickLogout();
+			break;
+		}
 		return super.onOptionsItemSelected(item);
 	}
 
 	public ControllerManager getControllerManager() {
 		return mControllerManager;
 	}
+	
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Session.getActiveSession().onActivityResult(this, requestCode, resultCode, data);
+    }
+    
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        Session session = Session.getActiveSession();
+        Session.saveSession(session, outState);
+    }
+    
+
+
+    private void onClickLogout() {
+        Session session = Session.getActiveSession();
+        if (!session.isClosed()) {
+            session.closeAndClearTokenInformation();
+        }
+        finish();
+        Intent intent = new Intent(this, LandingActivity.class);
+        try {
+			startActivity(intent);
+		} catch (ActivityNotFoundException e) {
+			AfterUIlog.e(TAG, " Activity not found : " + e.getMessage());
+		}
+    }
+    
+
 }

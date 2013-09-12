@@ -21,5 +21,7 @@
     <string name="other_roll_txt">Other Roll</string>
     <string name="other_roll_number_of_photos_txt">(110)</string>
     <string name="about_you_text">About You</string>
+    <string name="app_id">431666200287780</string>
+    <string name="Log_Out">Log Out</string>
 
 </resources>
