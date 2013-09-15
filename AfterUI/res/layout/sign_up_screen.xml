@@ -28,6 +28,7 @@
             android:hint="@string/first_name_text_hint" />
 
         <ImageView
+            android:id="@+id/cross_btn_firstname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignRight="@id/first_name_edit_text"
@@ -46,6 +47,7 @@
             android:hint="@string/last_name_text_hint" />
 
         <ImageView
+            android:id="@+id/cross_btn_lastname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignRight="@id/last_name_edit_text"
@@ -64,6 +66,7 @@
             android:hint="@string/email_hint" />
 
         <ImageView
+            android:id="@+id/cross_btn_email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignRight="@id/email_edit_text"
@@ -82,6 +85,7 @@
             android:hint="@string/birth_day_hint_txt" />
 
         <ImageView
+            android:id="@+id/cross_btn_birth_day"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignRight="@id/birthday_edit_text"
@@ -89,6 +93,16 @@
             android:layout_marginRight="10dp"
             android:layout_marginTop="10dp"
             android:src="@drawable/cross_btn" />
+
+        <ImageView
+            android:id="@+id/date_of_birth_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/email_edit_text"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_toLeftOf="@id/cross_btn_birth_day"
+            android:src="@drawable/date_of_birth_txt" />
 
         <EditText
             android:id="@+id/password_edit_text"
@@ -101,6 +115,7 @@
             android:inputType="textPassword" />
 
         <ImageView
+            android:id="@+id/cross_btn_password"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignRight="@id/password_edit_text"
@@ -108,6 +123,16 @@
             android:layout_marginRight="10dp"
             android:layout_marginTop="10dp"
             android:src="@drawable/cross_btn" />
+
+        <ImageView
+            android:id="@+id/password_validation_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/birthday_edit_text"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_toLeftOf="@id/cross_btn_password"
+            android:src="@drawable/six_eight_char" />
 
         <ImageView
             android:id="@+id/six_to_eight_txt"
@@ -129,6 +154,7 @@
             android:inputType="textPassword" />
 
         <ImageView
+            android:id="@+id/cross_btn_confirm_password"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignRight="@id/confirm_edit_text"
@@ -150,7 +176,7 @@
             custom:selectedDrawable="@drawable/switch_btn" />
 
         <ImageButton
-            android:id="@+id/submit_btn"
+            android:id="@+id/sign_in_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/gender_selection"
