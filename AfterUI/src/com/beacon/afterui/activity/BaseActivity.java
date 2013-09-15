@@ -8,30 +8,33 @@ import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.ViewConfiguration;
 
 import com.beacon.afterui.R;
+import com.beacon.afterui.application.AfterYouApplication;
 import com.beacon.afterui.log.AfterUIlog;
 import com.beacon.afterui.utils.DebugUtils;
-import com.beacon.afterui.views.CapturePictureActivity;
+import com.beacon.afterui.utils.FacebookGraphUserInfo;
 import com.beacon.afterui.views.LandingActivity;
+import com.facebook.Request;
+import com.facebook.Response;
 import com.facebook.Session;
-import com.facebook.SessionState;
+import com.facebook.model.GraphUser;
 
 
 public class BaseActivity extends Activity {
 
-	private static final String TAG = "BaseActivity";
+	protected static final String TAG = "BaseActivity";
 
 	public static final String VIEW_TYPE = "_view_type";
 
 	public static final String VIEW_ROOT = "_view_root";
 	
 	private static final int MENU_LOG_OUT = 1001;
+	
+	private static final int MENU_DEBUG_FACEBOOK = 1002;
 
 	protected int mViewType;
 
@@ -40,6 +43,13 @@ public class BaseActivity extends Activity {
 	protected ScreenManager mScreenManager;
 
 	private ControllerManager mControllerManager;
+	
+    private Session userInfoSession = null; // the Session used to fetch the current user info
+
+	private UserInfoChangedCallback userInfoChangedCallback;
+
+	private GraphUser user = null;
+
 	
 	public void setIsRootView(boolean isRootView) {
 		this.mIsRootView = isRootView;
@@ -144,6 +154,10 @@ public class BaseActivity extends Activity {
 		Session session = Session.getActiveSession();
         if (session.isOpened()) {
         	menu.add(Menu.NONE,MENU_LOG_OUT,1,R.string.Log_Out);
+        	if(user != null)
+        	{
+        		menu.add(Menu.NONE,MENU_DEBUG_FACEBOOK,2,"Check Facebook User");
+        	}
         }
 		return true;
 	}
@@ -154,6 +168,14 @@ public class BaseActivity extends Activity {
 		switch (item.getItemId()) {
 		case MENU_LOG_OUT:
 			onClickLogout();
+			break;
+		case MENU_DEBUG_FACEBOOK:
+			Intent intent = new Intent(this, FacebookGraphUserInfo.class);
+	        try {
+				startActivity(intent);
+			} catch (ActivityNotFoundException e) {
+				AfterUIlog.e(TAG, " Activity not found : " + e.getMessage());
+			}
 			break;
 		}
 		return super.onOptionsItemSelected(item);
@@ -176,6 +198,63 @@ public class BaseActivity extends Activity {
         Session.saveSession(session, outState);
     }
     
+    protected void fetchUserInfo() {
+            final Session currentSession = ((AfterYouApplication)getApplication()).getOpenSession();
+            user  = ((AfterYouApplication)getApplication()).getUser();
+            if (currentSession != null) {
+                if (currentSession != userInfoSession) {
+                    Request request = Request.newMeRequest(currentSession, new Request.GraphUserCallback() {
+                        @Override
+                        public void onCompleted(GraphUser me,  Response response) {
+                                user = me;
+                                if (userInfoChangedCallback != null) {
+                                    userInfoChangedCallback.onUserInfoFetched(user);
+                                }
+                            if (response.getError() != null) {
+                        		AfterUIlog.i(TAG, "FetchUser Info Exception=" + response.getError().getException());
+                            }
+                            invalidateOptionsMenu();
+                        }
+                    });
+                    Request.executeBatchAsync(request);
+                    userInfoSession = currentSession;
+                }
+            } else {
+                user = null;
+                if (userInfoChangedCallback != null) {
+                    userInfoChangedCallback.onUserInfoFetched(user);
+                }
+            }
+    }
+    
+    /**
+     * Specifies a callback interface that will be called when the button's notion of the current
+     * user changes (if the fetch_user_info attribute is true for this control).
+     */
+    public interface UserInfoChangedCallback {
+        /**
+         * Called when the current user changes.
+         * @param user  the current user, or null if there is no user
+         */
+        void onUserInfoFetched(GraphUser user);
+    }
+    
+    /**
+     * Gets the callback interface that will be called when the current user changes.
+     * @return the callback interface
+     */
+    public UserInfoChangedCallback getUserInfoChangedCallback() {
+        return userInfoChangedCallback;
+    }
+
+    /**
+     * Sets the callback interface that will be called when the current user changes.
+     *
+     * @param userInfoChangedCallback   the callback interface
+     */
+    public void setUserInfoChangedCallback(UserInfoChangedCallback userInfoChangedCallback) {
+        this.userInfoChangedCallback = userInfoChangedCallback;
+    }
 
 
     private void onClickLogout() {

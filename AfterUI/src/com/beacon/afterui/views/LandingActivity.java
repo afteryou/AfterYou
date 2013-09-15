@@ -14,6 +14,7 @@ import android.widget.ImageView;
 
 import com.beacon.afterui.R;
 import com.beacon.afterui.activity.BaseActivity;
+import com.beacon.afterui.application.AfterYouApplication;
 import com.facebook.LoggingBehavior;
 import com.facebook.Session;
 import com.facebook.SessionState;
@@ -142,6 +143,7 @@ public class LandingActivity extends BaseActivity implements OnClickListener {
 		@Override
 		public void call(Session session, SessionState state,
 				Exception exception) {
+			((AfterYouApplication)getApplication()).setSessionCallBack(session);
 			mSplashHandler.sendEmptyMessageDelayed(SPLASH_END, SPALSH_VISIBLE_TIME);
 		}
 	}

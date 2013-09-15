@@ -5,6 +5,8 @@ import android.widget.ImageView;
 
 import com.beacon.afterui.R;
 import com.beacon.afterui.activity.BaseActivity;
+import com.beacon.afterui.application.AfterYouApplication;
+import com.facebook.model.GraphUser;
 
 public class CapturePictureActivity extends BaseActivity {
 
@@ -27,9 +29,16 @@ public class CapturePictureActivity extends BaseActivity {
 //
 //			}
 //		});
+//		(new FacebookUserInfo(this))
+//				.execute(new FacebookGraphUserInfo());
+		setUserInfoChangedCallback(new UserInfoChangedCallback() {
+			
+			@Override
+			public void onUserInfoFetched(GraphUser user) {
+				((AfterYouApplication)getApplication()).setUser(user);				
+			}
+		});
+		fetchUserInfo();
 	}
-	
-	
-
 
 }

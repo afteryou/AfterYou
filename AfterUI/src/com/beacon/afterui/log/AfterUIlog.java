@@ -16,7 +16,7 @@ import com.beacon.afterui.constants.AppConstants;
 
 public final class AfterUIlog {
 
-	private static final String LOG_TAG = "NIM-";
+	private static final String LOG_TAG = "AfterUI-";
 	public static void printStackTrace(Throwable e) {
 		if(!AppConstants.isDebugMode()){
 			return;
@@ -297,9 +297,9 @@ public final class AfterUIlog {
 			try {
 				logToFile = new LogToFile();
 			} catch (RuntimeException e) {
-				Log.e("NIM-NimLog", e.toString());
+				Log.e("AfterUI-AfterUILog", e.toString());
 			} catch (IOException e) {
-				Log.e("NIM-Nimlog", e.toString());
+				Log.e("AfterUI-AfterUIlog", e.toString());
 			}	
 		}		
 	}
@@ -336,9 +336,9 @@ public final class AfterUIlog {
 
 class LogToFile {
 	public static final String SD_CARD = "/sdcard";
-	public static final String FILE1 = "/sdcard/demo.nimlog";
-	public static final String FILE2 = "/sdcard/demo2.nimlog";
-	public static final String FILE3 = "/sdcard/demo3.nimlog";
+	public static final String FILE1 = "/sdcard/demo.afteruilog";
+	public static final String FILE2 = "/sdcard/demo2.afteruilog";
+	public static final String FILE3 = "/sdcard/demo3.afteruilog";
 	public static final int MAX_FILE_SIZE = 2;// M bytes
 	private FileWriter fileWriter;
 
