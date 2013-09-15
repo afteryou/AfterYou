@@ -10,9 +10,11 @@ import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteException;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.net.Uri;
+import android.text.TextUtils;
 import android.util.Log;
 
 import com.beacon.afterui.framework.rest.RESTfulContentProvider;
+import com.beacon.afterui.framework.rest.ResponseHandler;
 import com.beacon.afterui.provider.AfterYouMetadata.AuthDetails;
 import com.beacon.afterui.provider.AfterYouMetadata.AuthTable;
 
@@ -67,8 +69,35 @@ public class AfterYouContentProvider extends RESTfulContentProvider {
 
     @Override
     public Uri insert(Uri uri, ContentValues cv, SQLiteDatabase db) {
-        // TODO Auto-generated method stub
-        return null;
+
+        String tableName = null;
+        switch (sUriMatcher.match(uri)) {
+        case AUTH:
+            tableName = AuthTable.TABLE_NAME;
+            break;
+
+        case AUTH_DETAILS:
+            tableName = AuthDetails.TABLE_NAME;
+            break;
+
+        default:
+            throw new IllegalArgumentException("URL not known!");
+        }
+
+        if (TextUtils.isEmpty(tableName)) {
+            throw new IllegalArgumentException(
+                    "Write op not supported for this URI!");
+        }
+
+        long id = db.insert(tableName, null, cv);
+
+        if (id >= 0) {
+            Uri insertUri = ContentUris.withAppendedId(uri, id);
+            getContext().getContentResolver().notifyChange(insertUri, null);
+            return insertUri;
+        }
+
+        throw new IllegalStateException("Could not insert!");
     }
 
     @Override
@@ -112,6 +141,12 @@ public class AfterYouContentProvider extends RESTfulContentProvider {
         switch (sUriMatcher.match(uri)) {
         case AUTH:
             tableName = AuthTable.TABLE_NAME;
+
+            // add to asyn request and return.
+            asyncInsertRequest(APP_AUTH, uri, values);
+            return null;
+
+        case AUTH_DETAILS:
             break;
 
         default:
@@ -201,5 +236,10 @@ public class AfterYouContentProvider extends RESTfulContentProvider {
         }
 
         return query.toString();
+    }
+
+    @Override
+    protected ResponseHandler newResponseHandler(String requestTag) {
+        return null;
     }
 }

@@ -16,18 +16,10 @@ import android.util.Log;
  * URI. After the network content is loaded, the task delegates handling of the
  * request to a ResponseHandler specialized to handle the given content.
  */
-public class UriPostRequestTask implements Runnable {
+public class UriPostRequestTask extends UriRequestTask {
 
     /** TAG */
     private static final String TAG = UriPostRequestTask.class.getSimpleName();
-
-    private HttpUriRequest mRequest;
-    private ResponseHandler mHandler;
-
-    protected Context mAppContext;
-
-    private RESTfulContentProvider mSiteProvider;
-    private String mRequestTag;
 
     private int mRawResponse = -1;
 
@@ -35,17 +27,13 @@ public class UriPostRequestTask implements Runnable {
 
     public UriPostRequestTask(HttpUriRequest request, ResponseHandler handler,
             Context appContext) {
-        this(null, null, request, handler, appContext);
+        super(request, handler, appContext);
     }
 
     public UriPostRequestTask(String requestTag,
             RESTfulContentProvider siteProvider, HttpUriRequest request,
             ResponseHandler handler, Context appContext) {
-        mRequestTag = requestTag;
-        mSiteProvider = siteProvider;
-        mRequest = request;
-        mHandler = handler;
-        mAppContext = appContext;
+        super(requestTag, siteProvider, request, handler, appContext);
     }
 
     public void setRawResponse(int rawResponse) {

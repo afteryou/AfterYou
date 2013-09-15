@@ -15,37 +15,25 @@ import java.io.IOException;
  * URI. After the network content is loaded, the task delegates handling of the
  * request to a ResponseHandler specialized to handle the given content.
  */
-public class UriGetRequestTask implements Runnable {
-    
-    /** TAG */
-    private static final String TAG = UriGetRequestTask.class.getSimpleName();
-    
-    private HttpUriRequest mRequest;
-    private ResponseHandler mHandler;
-
-    protected Context mAppContext;
-
-    private RESTfulContentProvider mSiteProvider;
-    private String mRequestTag;
-
-    private int mRawResponse = -1;
-
-    // private int mRawResponse = R.raw.map_src;
+public class UriGetRequestTask extends UriRequestTask {
 
     public UriGetRequestTask(HttpUriRequest request, ResponseHandler handler,
             Context appContext) {
-        this(null, null, request, handler, appContext);
+        super(request, handler, appContext);
     }
 
     public UriGetRequestTask(String requestTag,
             RESTfulContentProvider siteProvider, HttpUriRequest request,
             ResponseHandler handler, Context appContext) {
-        mRequestTag = requestTag;
-        mSiteProvider = siteProvider;
-        mRequest = request;
-        mHandler = handler;
-        mAppContext = appContext;
+        super(requestTag, siteProvider, request, handler, appContext);
     }
+
+    /** TAG */
+    private static final String TAG = UriGetRequestTask.class.getSimpleName();
+
+    private int mRawResponse = -1;
+
+    // private int mRawResponse = R.raw.map_src;
 
     public void setRawResponse(int rawResponse) {
         mRawResponse = rawResponse;
@@ -72,12 +60,12 @@ public class UriGetRequestTask implements Runnable {
     }
 
     private HttpResponse execute(HttpUriRequest mRequest) throws IOException {
-//        if (mRawResponse >= 0) {
-//            return new RawResponse(mAppContext, mRawResponse);
-//        } else {
-            HttpClient client = new DefaultHttpClient();
-            return client.execute(mRequest);
-//        }
+        // if (mRawResponse >= 0) {
+        // return new RawResponse(mAppContext, mRawResponse);
+        // } else {
+        HttpClient client = new DefaultHttpClient();
+        return client.execute(mRequest);
+        // }
     }
 
     public Uri getUri() {
