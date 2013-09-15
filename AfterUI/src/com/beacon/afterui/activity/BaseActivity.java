@@ -150,8 +150,11 @@ public class BaseActivity extends Activity {
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
+		AfterUIlog.i(TAG, "hereeee");
 		DebugUtils.addDebugMenuItems(menu);
+		AfterUIlog.i(TAG, "hereeee111111111");
 		Session session = Session.getActiveSession();
+		AfterUIlog.i(TAG, "hereeee2222222222");
         if (session.isOpened()) {
         	menu.add(Menu.NONE,MENU_LOG_OUT,1,R.string.Log_Out);
         	if(user != null)
@@ -159,6 +162,7 @@ public class BaseActivity extends Activity {
         		menu.add(Menu.NONE,MENU_DEBUG_FACEBOOK,2,"Check Facebook User");
         	}
         }
+        AfterUIlog.i(TAG, "hereeee333333333333");
 		return true;
 	}
 

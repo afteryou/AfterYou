@@ -26,6 +26,7 @@ public class CapturePictureActivity extends BaseActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+    	setIsRootView(true);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.capture_picture);
         mSubmitBtn = (ImageButton) findViewById(R.id.submit_btn);
