@@ -24,5 +24,7 @@
     <string name="app_id">431666200287780</string>
     <string name="Log_Out">Log Out</string>
     <string name="hello_user">Hello %1$s!</string>
+    <string name="select_date">Select date</string>
+    <string name="done_txt">Done</string>
 
 </resources>

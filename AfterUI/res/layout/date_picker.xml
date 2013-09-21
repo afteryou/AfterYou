@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white_color"
+    android:orientation="vertical" >
+
+    <DatePicker
+        android:id="@+id/dob_picker"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <ImageView
+        android:id="@+id/image_bar_dialog"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_marginTop="7dp"
+        android:background="@color/image_bar_dialog" />
+
+    <Button
+        android:id="@+id/done_btn_dob_dialog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:background="@android:color/transparent"
+        android:text="@string/done_txt"
+        android:textColor="@color/image_bar_dialog"
+        android:textStyle="bold" />
+
+</LinearLayout>

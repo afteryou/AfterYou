@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <color name="app_theme_color">#ccdef3</color>
     <color name="login_text_color">#7ab4e2</color>
-    
+    <color name="white_color">#ffffff</color>
+    <color name="image_bar_dialog">#3bb1de</color>
+
 </resources>

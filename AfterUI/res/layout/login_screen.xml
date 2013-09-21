@@ -2,92 +2,97 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-     >
+    android:background="@drawable/app_bg" >
 
     <include
         android:id="@+id/header_login"
         layout="@layout/header" />
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@drawable/app_bg"
-        android:layout_below="@id/header_login"
-         >
+        android:id="@+id/center_layout_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="135dp" >
 
         <RelativeLayout
-            android:id="@+id/center_layout_email"
+            android:id="@+id/fb_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/fb_sign_up_btn" >
+
+            <ImageView
+                android:id="@+id/fb_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:src="@drawable/fb_icon_login" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:src="@drawable/fb_sign_up_text" />
+        </RelativeLayout>
+
+        <EditText
+            android:id="@+id/email_text"
+            style="@style/LoginPageEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/fb_layout"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/edit_box"
+            android:hint="@string/email_hint"
+            android:inputType="textEmailAddress"
+            android:paddingRight="35dp" />
+
+        <ImageView
+            android:id="@+id/cross_btn_email_login_screen"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="150dp"
-            android:layout_centerHorizontal="true" >
+            android:layout_alignRight="@id/email_text"
+            android:layout_below="@id/fb_layout"
+            android:layout_marginRight="13dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/cross_btn" />
 
-            <RelativeLayout
-                android:id="@+id/fb_layout"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/fb_sign_up_btn" >
+        <EditText
+            android:id="@+id/password_text"
+            style="@style/LoginPageEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/email_text"
+            android:layout_centerHorizontal="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/edit_box"
+            android:hint="@string/password_hint"
+            android:inputType="textPassword"
+            android:paddingRight="35dp" />
 
-                <ImageView
-                    android:id="@+id/fb_icon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:src="@drawable/fb_icon_login" />
+        <ImageView
+            android:id="@+id/cross_btn_password_login_screen"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignRight="@id/password_text"
+            android:layout_below="@id/email_text"
+            android:layout_marginRight="13dp"
+            android:layout_marginTop="10dp"
+            android:src="@drawable/cross_btn" />
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:src="@drawable/fb_sign_up_text" />
-            </RelativeLayout>
-
-            <EditText
-                android:id="@+id/email_text"
-                style="@style/LoginPageEditText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/fb_layout"
-                android:background="@drawable/edit_box"
-                android:hint="@string/email_hint" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignRight="@id/email_text"
-                android:layout_below="@id/fb_layout"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp"
-                android:src="@drawable/cross_btn" />
-
-            <EditText
-                android:id="@+id/password_text"
-                style="@style/LoginPageEditText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/email_text"
-                android:layout_centerHorizontal="true"
-                android:background="@drawable/edit_box"
-                android:hint="@string/password_hint"
-                android:inputType="textPassword" />
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignRight="@id/password_text"
-                android:layout_below="@id/email_text"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp"
-                android:src="@drawable/cross_btn" />
-
-            <ImageButton
-                android:id="@+id/login_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/password_text"
-                android:background="@drawable/fb_button"
-                android:src="@drawable/sign_in_txt" />
-        </RelativeLayout>
+        <ImageButton
+            android:id="@+id/sign_in_btn_login_screen"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/password_text"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/fb_button"
+            android:src="@drawable/sign_in_txt" />
     </RelativeLayout>
 
 </RelativeLayout>
