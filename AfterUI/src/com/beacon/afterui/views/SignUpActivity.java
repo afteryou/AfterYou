@@ -176,7 +176,7 @@ public class SignUpActivity extends Activity implements OnClickListener,
 		}
 		try {
 			startActivity(intent);
-			overridePendingTransition(R.anim.bounce, 0);
+			overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 		} catch (ActivityNotFoundException e) {
 
 			Log.e(TAG, " Activity not found : " + e.getMessage());
