@@ -24,6 +24,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.beacon.afterui.R;
+import com.beacon.afterui.provider.PreferenceEngine;
+import com.beacon.afterui.utils.Utilities;
+import com.beacon.afterui.utils.customviews.AfterYouDialogImpl;
+import com.beacon.afterui.utils.customviews.CustomerDatePickDialog;
 
 public class SignUpActivity extends Activity implements OnClickListener,
 		OnFocusChangeListener {
@@ -40,7 +44,6 @@ public class SignUpActivity extends Activity implements OnClickListener,
 	private ImageView mCrossDateOfBirthBtn;
 	private ImageView mCrossPasswordBtn;
 	private ImageView mCrossConfirmPasswordBtn;
-	private DatePicker mDatePicker;
 	private int mLength;
 
 	private EditText mFirstnameText;
@@ -49,6 +52,7 @@ public class SignUpActivity extends Activity implements OnClickListener,
 	private static EditText mBirthDayText;
 	private EditText mPasswordText;
 	private EditText mConfirmText;
+	private Calendar mCalendar;
 
 	private static String mDateOfBirthTxt;
 
@@ -93,6 +97,7 @@ public class SignUpActivity extends Activity implements OnClickListener,
 
 		mBirthDayText.setOnFocusChangeListener(this);
 		mPasswordText.setOnFocusChangeListener(this);
+		mCalendar = Calendar.getInstance();
 
 	}
 
@@ -135,7 +140,7 @@ public class SignUpActivity extends Activity implements OnClickListener,
 		switch (v.getId()) {
 		case R.id.sign_in_btn_signup_screen:
 			intent = new Intent(SignUpActivity.this,
-					CapturePictureActivity.class);
+					ProfileSettingsActivity.class);
 			break;
 
 		case R.id.cross_btn_firstname:
@@ -190,10 +195,7 @@ public class SignUpActivity extends Activity implements OnClickListener,
 
 		case R.id.birthday_edit_text:
 			if (hasFocus) {
-				// dateDialog();
-
-				DialogFragment fragment = new DatePickerFragment();
-				fragment.show(getFragmentManager(), "DatePicker");
+				getDatePickDialog().show();
 			} else {
 				if (mBirthDayText.length() == 0) {
 					mBirthDayTextImg.setVisibility(View.VISIBLE);
@@ -215,52 +217,27 @@ public class SignUpActivity extends Activity implements OnClickListener,
 		}
 
 	}
-
-	private void dateDialog() {
-		final Dialog dateDialog = new Dialog(this);
-		dateDialog.setContentView(R.layout.date_picker);
-		dateDialog.setTitle("Select date");
-		mDatePicker = (DatePicker) dateDialog.findViewById(R.id.dob_picker);
-		Button doneBtn = (Button) dateDialog
-				.findViewById(R.id.done_btn_dob_dialog);
-
-		doneBtn.setOnClickListener(new OnClickListener() {
-
-			@Override
-			public void onClick(View v) {
-				final int day = mDatePicker.getDayOfMonth();
-				final int month = mDatePicker.getMonth() + 1;
-				final int year = mDatePicker.getYear();
-
-				mDateOfBirthTxt = day + "/" + month + "/" + year;
-				mBirthDayText.setText(mDateOfBirthTxt);
-				dateDialog.dismiss();
-				mBirthDayText.clearFocus();
-
-			}
-		});
-		dateDialog.show();
+	
+	private Dialog getDatePickDialog() {
+		 
+		return new CustomerDatePickDialog(new AfterYouDialogImpl(this), this,
+				R.style.Theme_CustomDialog, mDateSetListener,
+				mCalendar.get(Calendar.YEAR), mCalendar.get(Calendar.MONTH),
+				mCalendar.get(Calendar.DATE));
 	}
 
-	public static class DatePickerFragment extends DialogFragment implements
-			OnDateSetListener {
+	private DatePickerDialog.OnDateSetListener mDateSetListener = new DatePickerDialog.OnDateSetListener() {
 
-		@Override
-		public Dialog onCreateDialog(Bundle savedInstanceState) {
-
-			final Calendar c = Calendar.getInstance();
-			final int year = c.get(Calendar.YEAR);
-			final int month = c.get(Calendar.MONTH);
-			final int day = c.get(Calendar.DAY_OF_MONTH);
-			return new DatePickerDialog(getActivity(), this, year, month, day);
-		}
-
-		@Override
-		public void onDateSet(DatePicker view, int year, int month, int day) {
-			mDateOfBirthTxt = day + "/" + month + "/" + year;
+		public void onDateSet(DatePicker view, int year, int monthOfYear,
+				int dayOfMonth) {
+			mDateOfBirthTxt = dayOfMonth + "/" + monthOfYear + "/" + year;
 			mBirthDayText.setText(mDateOfBirthTxt);
 			mBirthDayText.clearFocus();
-
+			mCalendar.set(year, monthOfYear, dayOfMonth);
+			String date = Utilities.getDateByCalendar(mCalendar);
+			PreferenceEngine.getInstance(getApplicationContext()).saveBirthday(date);
 		}
-	}
+	};
+
+
 }

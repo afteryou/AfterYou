@@ -58,6 +58,40 @@ public class PreferenceEngine {
 		editor.putInt(AppConstants.SELF_RELIGION_INT, rlg);
 		editor.commit();
 	}
+	
+	public String getSelfRelation() {
+		return getDefaultSharePreference().getString(AppConstants.SELF_RELATION, null);
+	}
+	
+	public int getSelfRelationInt() {
+		return getDefaultSharePreference().getInt(AppConstants.SELF_RELATION_INT, 0);
+	}
+	
+	public void setSelfRelation(String rltn)
+	{
+		Editor editor = getDefaultSharePreference().edit();
+		editor.putString(AppConstants.SELF_RELATION, rltn);
+		editor.commit();
+	}
+	
+	public void setSelfRelationInt(int rltn)
+	{
+		Editor editor = getDefaultSharePreference().edit();
+		editor.putInt(AppConstants.SELF_RELATION_INT, rltn);
+		editor.commit();
+	}
+	
+	public void saveHaveChildren(boolean hvChld)
+	{
+		Editor editor = getDefaultSharePreference().edit();
+		editor.putBoolean(AppConstants.HAVE_CHILDREN, hvChld);
+		editor.commit();
+	}
+	
+	public boolean getHaveChildren()
+	{
+		return getDefaultSharePreference().getBoolean(AppConstants.HAVE_CHILDREN, false);
+	}
 
 //	public void saveLastLocation(double latitude, double longitude) {
 //		Editor editor = getDefaultSharePreference().edit();

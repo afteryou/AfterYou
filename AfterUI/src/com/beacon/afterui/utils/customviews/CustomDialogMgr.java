@@ -482,7 +482,7 @@ public class CustomDialogMgr {
                 }
 				if (mIsLowerCaseTitle){
 					((LinearLayout) mTitleView.getParent())
-						.setBackgroundResource(R.color.dark_gray);
+						.setBackgroundResource(R.color.brown_background);
 				}
             } else {
 
@@ -619,8 +619,8 @@ public class CustomDialogMgr {
         /* Get all the different background required */
         int fullDark = R.drawable.dialog_body;
         int topDark = R.drawable.dialog_title;
-        int centerDark = R.drawable.dialog_body;
-        int bottomDark = R.drawable.dialog_body;
+        int centerDark = R.drawable.cal_dialog_body;
+        int bottomDark = R.drawable.cal_dialog_body;
         int fullBright = R.drawable.dialog_body;
         int topBright = R.drawable.dialog_body;
         int centerBright = R.drawable.dialog_body;

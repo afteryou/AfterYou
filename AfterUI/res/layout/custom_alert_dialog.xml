@@ -117,7 +117,10 @@
 				android:layout_weight="1"
 				android:layout_width="fill_parent"
 				android:padding="16dp"
-				style="@style/button_dlg"/>
+				android:textSize="@dimen/font_size_content_fnt_bold"
+				android:textStyle="bold"
+				android:textColor="@color/blue_sky"
+				android:background="@drawable/button_menu" />
 			<ImageView
 				android:id="@+id/imageView2"
 				android:layout_height="fill_parent"
@@ -129,7 +132,10 @@
 				android:layout_weight="1"
 				android:layout_width="fill_parent"
 				android:padding="16dp"
-				style="@style/button_dlg"/>
+				android:textSize="@dimen/font_size_content_fnt_bold"
+				android:textStyle="bold"
+				android:textColor="@color/blue_sky"
+				android:background="@drawable/button_menu" />
 			<ImageView
 				android:id="@+id/imageView2"
 				android:layout_height="fill_parent"
@@ -141,7 +147,10 @@
 				android:layout_weight="1"
 				android:layout_width="fill_parent"
 				android:padding="16dp"
-				style="@style/button_dlg"/>
+				android:textSize="@dimen/font_size_content_fnt_bold"
+				android:textStyle="bold"
+				android:textColor="@color/blue_sky"
+				android:background="@drawable/button_menu" />
 			<LinearLayout
 				android:id="@+id/rightSpacer"
 				android:layout_height="fill_parent"

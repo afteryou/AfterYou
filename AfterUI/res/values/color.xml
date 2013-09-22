@@ -6,12 +6,12 @@
     <color name="white_color">#ffffff</color>
     <color name="image_bar_dialog">#3bb1de</color>
     <color name="blue_sky">#537BB1</color>
+    <color name="light_blue_background">#bfcee2</color>
     <color name="eden_light_green">#ffe1df9e</color>
     <color name="eden_green">#ff9da842</color>
     <color name="eden_dark_green">#ff648c13</color>
     <color name="eden_dark">#ff132e28</color>
     <color name="eden_red">#ffa12d0d</color>
-    <color name="eden_light">#ffffffff</color>
     <color name="translucent_white">#99ffffff</color>
     <color name="solid_blue">#770000ff</color>
     <color name="eden_gray">#ffB8B8B8</color>
@@ -63,7 +63,7 @@
     <color name="red_border">#00B000</color>
     <color name="grey_border">#808080</color>
     <color name="hint_gray">#ff555555</color>
-
+    <color name="brown_background">#653c18</color>
     <drawable name="map_background_color">#ffaaaaaa</drawable>
     <drawable name="translucent_background">#e0303030</drawable>
     <drawable name="translucent_white">#99ffffff</drawable>

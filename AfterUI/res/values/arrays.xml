@@ -1,13 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-	<string-array name="religion_choices">
-		<item>@string/RLG_HINDU</item>
-		<item>@string/RLG_MUSLIM</item>
-		<item>@string/RLG_CHRISTIAN</item>
-		<item>@string/RLG_PARSI</item>
-		<item>@string/RLG_JEW</item>
-		<item>@string/RLG_ATHEIST</item>
-	</string-array>
+    <string-array name="religion_choices">
+        <item>@string/RLG_HINDU</item>
+        <item>@string/RLG_MUSLIM</item>
+        <item>@string/RLG_CHRISTIAN</item>
+        <item>@string/RLG_PARSI</item>
+        <item>@string/RLG_JEW</item>
+        <item>@string/RLG_ATHEIST</item>
+    </string-array>
+    <string-array name="relation_choices">
+        <item>@string/RLN_SINGLE</item>
+        <item>@string/RLN_DATING</item>
+        <item>@string/RLN_DIVORCED</item>
+        <item>@string/RLN_OPEN_MARRIAGE</item>
+    </string-array>
+    <string-array name="selfhvChld_choices">
+        <item>@string/IDS_YES</item>
+        <item>@string/IDS_NO</item>
+    </string-array>
 
 </resources>
