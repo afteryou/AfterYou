@@ -95,7 +95,7 @@ public class LandingActivity extends BaseActivity implements OnClickListener {
         Intent intent = null;
         switch (v.getId()) {
         case R.id.login_btn:
-            intent = new Intent(LandingActivity.this, LoginScreen.class);
+            intent = new Intent(LandingActivity.this, ProfileSettingsActivity.class);
             break;
 
         case R.id.signup_btn:

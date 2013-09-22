@@ -2,13 +2,13 @@
 
     <!--
         Base application theme, dependent on API level. This theme is replaced
-        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
     -->
     <style name="AppBaseTheme" parent="android:Theme.Light">
         <!--
             Theme customizations available in newer API levels can go in
             res/values-vXX/styles.xml, while customizations related to
-            backward-compatibility can go here.
+            backward-compatibility can go here.
         -->
     </style>
 
@@ -17,7 +17,7 @@
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
 
-    <style name="Theme.AfterYou" parent="@android:style/Theme.Holo.Light.DarkActionBar">
+    <style name="Theme.AfterYou" parent="@android:style/Theme.Holo.Light.NoActionBar">
         <item name="android:windowBackground">@color/app_theme_color</item>
     </style>
 
@@ -50,6 +50,125 @@
         <item name="android:textColor">#086299</item>
         <item name="android:textSize">16sp</item>
         <item name="android:textStyle">bold</item>
+    </style>
+    <!-- Theme.Dialog -->
+    <style name="Theme.Dialog" parent="android:Theme.Dialog" />
+    <!-- Theme.BaseDialog -->
+    <style name="Theme.BaseDialog" parent="Theme.Dialog">
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:editTextStyle">@style/EditText</item>
+        <item name="android:textAppearance">@style/body</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
+        <item name="android:windowBackground">@android:drawable/dialog_holo_dark_frame</item>
+        <item name="android:radioButtonStyle">@style/radio_btn</item>
+    </style>
+    <!-- Theme.CustomDialog -->
+    <style name="Theme.CustomDialog" parent="Theme.BaseDialog">
+        <item name="android:listViewStyle">@style/DialogListView</item>
+        <item name="android:windowNoDisplay">true</item>
+    </style>
+    <!-- Theme.CustomDialog -->
+    <style name="Theme.CustomDialogWithWindow" parent="Theme.BaseDialog">
+        <item name="android:listViewStyle">@style/DialogListView</item>
+    </style>
+
+    <!-- EditText -->
+    <style name="EditText" parent="android:Widget.EditText">
+        <item name="android:textColorHint">@color/app_theme_color</item>
+    </style>
+    <!-- body -->
+    <style name="body">
+        <item name="android:textColor">#ff000000</item>
+        <item name="android:textStyle">normal</item>
+    </style>
+    <!-- radio_btn -->
+    <style name="radio_btn" parent="@android:style/Widget.CompoundButton.RadioButton">
+        <item name="android:button">@drawable/radio_btn</item>
+    </style>
+
+    <style name="DialogListView" parent="Widget.ListView"></style>
+
+    <style name="Widget.ListView">
+        <item name="android:fadingEdgeLength">8dip</item>
+        <item name="android:divider">@color/com_facebook_blue</item>
+        <item name="android:dividerHeight">2px</item>
+        <item name="android:scrollbars">vertical</item>
+    </style>
+
+    <style name="Widget" parent="android:Widget" />
+
+    <style name="autoDismissFadeOut">
+        <item name="android:windowExitAnimation">@anim/auto_dismiss_alpha_animation</item>
+    </style>
+
+    <style name="button_dlg" parent="@android:style/Widget.Button">
+        <item name="android:padding">7dp</item>
+        <item name="android:textAppearance">@style/text_btn</item>
+    </style>
+
+    <style name="text_btn">
+        <item name="android:textSize">@dimen/font_size_content_fnt_bold</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="CustomAlertDialogLinearLayout"></style>
+
+    <style name="CustomLinearLayout"></style>
+
+    <style name="CustomDialogTitle">
+        <item name="android:textColor">@color/light_gray</item>
+    </style>
+
+    <style name="DarkDividerImageView">
+        <item name="android:src">@drawable/divider_horizontal_dim_dark</item>
+    </style>
+
+    <style name="TextViewMasterInfo">
+        <item name="android:textColor">@drawable/text_selector</item>
+    </style>
+
+    <style name="NotifyImageView">
+        <item name="android:background">@color/gray</item>
+    </style>
+
+    <style name="ContextListView" parent="Widget.ListView">
+        <item name="android:background">@color/flat_backrounds1</item>
+    </style>
+
+    <style name="CustomAlertDialogListView">
+        <item name="android:cacheColorHint">@null</item>
+    </style>
+
+    <style name="custom_list_view_item">
+        <item name="android:textColor">@drawable/text_selector</item>
+        <item name="android:ellipsize">marquee</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
+        <item name="android:minHeight">?android:attr/listPreferredItemHeight</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingLeft">14dip</item>
+        <item name="android:paddingRight">15dip</item>
+    </style>
+
+    <style name="DialogListItemTextView">
+        <item name="android:textSize">15dip</item>
+        <item name="android:textAppearance">?android:attr/textAppearanceLarge</item>
+        <item name="android:minHeight">?android:attr/listPreferredItemHeight</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:checkMark">@drawable/btn_check</item>
+        <item name="android:textColor">@drawable/text_selector</item>
+        <item name="android:ellipsize">marquee</item>
+    </style>
+
+    <style name="SingleChoiceCheckedTextView">
+        <item name="android:checkMark">@drawable/radio_btn</item>
+        <item name="android:textColor">@drawable/text_selector</item>
+        <item name="android:layout_height">?android:attr/listPreferredItemHeight</item>
+        <item name="android:singleLine">true</item>
+        <item name="android:ellipsize">marquee</item>
     </style>
 
 </resources>

@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CheckedTextView
+	android:gravity="center_vertical"
+	android:id="@+id/text1"
+	android:layout_width="fill_parent"
+	android:paddingLeft="@dimen/dialog_list_content_margin"
+	android:paddingRight="@dimen/dialog_content_margin"
+	android:textAppearance="?android:attr/textAppearanceLarge"
+	android:textSize="15dip"
+	style="@style/SingleChoiceCheckedTextView"
+	xmlns:android="http://schemas.android.com/apk/res/android"/>

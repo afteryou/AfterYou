@@ -43,7 +43,7 @@ public final class DebugUtils {
 			}
 		}
 		EMailUtils.send(activity, CRASH_LOG_RECEIVERS, CRASH_LOG_RECEIVERS,
-				"Crash Log " + DateUtils.formatDate(new Date(), CrashHandler.CRASH_LOG_DATE_PATTERN),
+				"Crash Log " + Utilities.formatDate(new Date(), CrashHandler.CRASH_LOG_DATE_PATTERN),
 				buffer.toString(), files);
 	}
 
@@ -74,7 +74,7 @@ public final class DebugUtils {
 		case MENU_SEND_DDMS_LOG:
 			DDMSLogUtils du = new DDMSLogUtils(activity);
 			du.collect();
-			String date = DateUtils.formatDate(new Date());
+			String date = Utilities.formatDate(new Date());
 			du.sendLog(CRASH_LOG_RECEIVERS, "ddms log " + date, date);
 		}
 	}

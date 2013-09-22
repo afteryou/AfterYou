@@ -1,0 +1,140 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/app_bg" >
+
+    <include
+        android:id="@+id/include1"
+        layout="@layout/header" />
+
+    <RelativeLayout
+        android:id="@+id/profilebar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/include1" >
+
+        <ImageButton
+            android:id="@+id/sign_up_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:background="@drawable/take_photo_bar"
+            android:src="@drawable/img_7" />
+
+        <ImageButton
+            android:id="@+id/cancelbtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="3dp"
+            android:background="@drawable/done_btn"
+            android:src="@drawable/done_txt" />
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/about_you"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_below="@+id/profilebar"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="40dp"
+        android:src="@drawable/img_13" />
+
+    <ImageView
+        android:id="@+id/about_you"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@+id/profilebar"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="40dp"
+        android:src="@drawable/img_14" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_below="@id/about_you"
+         >
+
+        <FrameLayout
+            android:id="@+id/brith_lay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/birthday_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:paddingLeft="80dp" 
+                android:background="@drawable/sign_up_btn">
+            </TextView>
+
+            <TextView
+                android:id="@+id/date_of_birth_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:paddingLeft="10dp"
+                android:text="@string/birth_day_text"/>
+        </FrameLayout>
+        
+        <FrameLayout
+            android:id="@+id/religion_lay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/brith_lay"
+            >
+
+            <TextView
+                android:id="@+id/religion_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:paddingLeft="80dp" 
+                android:background="@drawable/sign_up_btn">
+            </TextView>
+
+            <TextView
+                android:id="@+id/religion_label_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:paddingLeft="10dp"
+                android:text="@string/religion_label"/>
+        </FrameLayout>
+        <FrameLayout
+            android:id="@+id/relation_lay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/religion_lay"
+            >
+
+            <TextView
+                android:id="@+id/relation_edit_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:paddingLeft="80dp" 
+                android:background="@drawable/sign_up_btn">
+            </TextView>
+
+            <TextView
+                android:id="@+id/relation_label_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:paddingLeft="10dp"
+                android:text="@string/relation_label"/>
+        </FrameLayout>
+        
+    </RelativeLayout>
+
+</RelativeLayout>

@@ -13,7 +13,7 @@
     <string name="first_name_text_hint">First Name</string>
     <string name="last_name_text_hint">Last Name</string>
     <string name="email_name_text">eMail</string>
-    <string name="birth_day_text">Birth date</string>
+    <string name="birth_day_text">Birthday</string>
     <string name="password_text">Password</string>
     <string name="confirm_password_text">Confirm Password</string>
     <string name="camera_roll_txt">Camera Roll</string>
@@ -24,5 +24,15 @@
     <string name="app_id">431666200287780</string>
     <string name="Log_Out">Log Out</string>
     <string name="hello_user">Hello %1$s!</string>
-
+	<string name="IDS_SET">Set</string>
+	<string name="IDS_CANCEL">Cancel</string>
+	<string name="IDS_OK">Ok</string>
+	<string name="religion_label">Religion</string>
+	<string name="relation_label">RelationShip</string>
+	<string name="RLG_HINDU">Hindu</string>
+	<string name="RLG_MUSLIM">Muslim</string>
+	<string name="RLG_CHRISTIAN">Christian</string>
+	<string name="RLG_PARSI">Parsi</string>
+	<string name="RLG_JEW">Jew</string>
+	<string name="RLG_ATHEIST">Atheist</string>
 </resources>

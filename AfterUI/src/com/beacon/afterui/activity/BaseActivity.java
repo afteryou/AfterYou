@@ -1,16 +1,14 @@
 package com.beacon.afterui.activity;
 
-import java.lang.reflect.Field;
-
 import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.ViewConfiguration;
 
 import com.beacon.afterui.R;
 import com.beacon.afterui.application.AfterYouApplication;
@@ -49,6 +47,9 @@ public class BaseActivity extends Activity {
 	private UserInfoChangedCallback userInfoChangedCallback;
 
 	private GraphUser user = null;
+	
+	private Dialog displayingDialog;
+
 
 	
 	public void setIsRootView(boolean isRootView) {
@@ -104,10 +105,15 @@ public class BaseActivity extends Activity {
 		// ControllerManager cm = ControllerManager.getInstance();
 		// cm.destroy();
 		// android.os.Process.killProcess(android.os.Process.myPid());
+		try{
 		ActivityManager activityMgr = (ActivityManager) this.getSystemService(ACTIVITY_SERVICE);
 		activityMgr.killBackgroundProcesses(getPackageName());
 		android.os.Process.killProcess(android.os.Process.myPid());
 		System.exit(1);
+		}catch(Exception e)
+		{
+			
+		}
 	}
 	
 	public int getViewType() {
@@ -122,19 +128,18 @@ public class BaseActivity extends Activity {
 
 		actStack.push(this);
 	}
-
-	private void hackToShowActionBarOverflow() {
-		try {
-			ViewConfiguration config = ViewConfiguration.get(this);
-			Field menuKeyField = ViewConfiguration.class.getDeclaredField("sHasPermanentMenuKey");
-			if (menuKeyField != null) {
-				menuKeyField.setAccessible(true);
-				menuKeyField.setBoolean(config, false);
-			}
-		} catch (Exception ex) {
-			// Ignore
+	
+	private void displayDialog() {		
+		if(displayingDialog != null && displayingDialog.isShowing()){
+			AfterUIlog.i(this, "showing dialog...");
+			//In order to display the dialog properly, we need dismiss the dialog first
+			//dismissing dialog immediately before the show in JB causes the dialog view to detach from the window
+			if(Build.VERSION.SDK_INT < 16) 
+				displayingDialog.dismiss();
+			displayingDialog.show();
 		}
 	}
+
 	
 	
 	@Override
@@ -275,5 +280,8 @@ public class BaseActivity extends Activity {
 		}
     }
     
-
+	public void setCurrentShowingDialog(Dialog customDialog) {
+		displayingDialog = customDialog;		
+	}
+    
 }
