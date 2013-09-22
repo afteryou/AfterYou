@@ -87,61 +87,68 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            
             android:layout_weight="0.4" >
 
-            <ImageButton
-                android:id="@+id/crop_bar_btn"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:background="@drawable/crop_bar_transparant_img"
-                android:src="@drawable/crop_bar_on_image"
-                android:visibility="invisible" />
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:weightSum="1" >
 
-            <RelativeLayout
-                android:id="@+id/fb_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/crop_bar_btn"
-                android:background="@drawable/fb_square_btn" >
+                <ImageButton
+                    android:id="@+id/crop_bar_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.2"
+                    android:background="@drawable/crop_bar_transparant_img"
+                    android:src="@drawable/crop_bar_on_image"
+                    android:visibility="invisible" />
 
-                <ImageView
-                    android:id="@+id/fb_icon"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentLeft="true"
-                    android:src="@drawable/fb_icon_square" />
+                <RelativeLayout
+                    android:id="@+id/fb_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.2"
+                    android:background="@drawable/fb_square_btn" >
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_centerInParent="true"
-                    android:src="@drawable/choose_from_facebook_white_txt" />
-            </RelativeLayout>
+                    <ImageView
+                        android:id="@+id/fb_icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentLeft="true"
+                        android:src="@drawable/fb_icon_square" />
 
-            <ImageButton
-                android:id="@+id/choose_from_library_btn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/fb_layout"
-                android:background="@drawable/square_btn_white"
-                android:src="@drawable/choosefrom_liabrary_txt" />
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:src="@drawable/choose_from_facebook_white_txt" />
+                </RelativeLayout>
 
-            <ImageButton
-                android:id="@+id/edit_crop_btn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/choose_from_library_btn"
-                android:background="@drawable/edit_btn_light_blue"
-                android:src="@drawable/edit_txt" />
+                <ImageButton
+                    android:id="@+id/choose_from_library_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.2"
+                    android:background="@drawable/square_btn_white"
+                    android:src="@drawable/choosefrom_liabrary_txt" />
 
-            <ImageButton
-                android:id="@+id/submit_btn"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/edit_crop_btn"
-                android:background="@drawable/sign_in_bg"
-                android:src="@drawable/submit_txt" />
+                <ImageButton
+                    android:id="@+id/edit_crop_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.2"
+                    android:background="@drawable/edit_btn_light_blue"
+                    android:src="@drawable/edit_txt" />
+
+                <ImageButton
+                    android:id="@+id/submit_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.2"
+                    android:background="@drawable/sign_in_bg"
+                    android:src="@drawable/submit_txt" />
+            </LinearLayout>
         </RelativeLayout>
     </LinearLayout>
 
