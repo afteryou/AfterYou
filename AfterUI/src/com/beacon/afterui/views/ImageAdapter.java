@@ -1,6 +1,6 @@
 package com.beacon.afterui.views;
 
-import com.beacon.afterui.R;
+import java.util.List;
 
 import android.content.Context;
 import android.view.View;
@@ -9,32 +9,30 @@ import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
 
+import com.beacon.afterui.utils.Photo;
+
 public class ImageAdapter extends BaseAdapter {
 
 	private Context mContext;
 
-	public Integer[] mImageId = { R.drawable.user_image,
-			R.drawable.user_image, R.drawable.user_image,
-			R.drawable.user_image, R.drawable.user_image,
-			R.drawable.user_image, R.drawable.user_image,
-			R.drawable.user_image, R.drawable.user_image,
-			R.drawable.user_image, R.drawable.user_image,
-			R.drawable.user_image, R.drawable.user_image,
-			R.drawable.user_image, R.drawable.user_image,
-			R.drawable.user_image, R.drawable.user_image };
+	private List<Photo> mPhotoList;
 
 	public ImageAdapter(Context c) {
 		mContext = c;
 	}
 
+	public void setPhotoList(List<Photo> photoList) {
+		mPhotoList = photoList;
+	}
+
 	@Override
 	public int getCount() {
-		return mImageId.length;
+		return mPhotoList == null ? 0 : mPhotoList.size();
 	}
 
 	@Override
 	public Object getItem(int position) {
-		return mImageId[position];
+		return mPhotoList.get(position);
 	}
 
 	@Override
@@ -45,8 +43,15 @@ public class ImageAdapter extends BaseAdapter {
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 
-		ImageView photoImage = new ImageView(mContext);
-		photoImage.setImageResource(mImageId[position]);
+		ImageView photoImage = null;
+		if( convertView == null ){
+			photoImage = new ImageView(mContext);
+		} else {
+			photoImage = (ImageView) convertView;
+		}
+		
+		Photo photo = (Photo) getItem(position);
+		photoImage.setImageBitmap(photo.thumb);
 		photoImage.setLayoutParams(new GridView.LayoutParams(85, 85));
 		photoImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
 		photoImage.setPadding(8, 8, 8, 8);

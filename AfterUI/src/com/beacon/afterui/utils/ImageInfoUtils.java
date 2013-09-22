@@ -5,7 +5,15 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
+import android.content.ContentResolver;
+import android.content.Context;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.net.Uri;
+import android.provider.MediaStore;
 import android.util.Log;
 
 public class ImageInfoUtils {
@@ -14,7 +22,7 @@ public class ImageInfoUtils {
 	private static final String PNG = "PNG";
 	private static final String JPG = "JPG";
 	private static final String BMP = "BMP";
-	
+
 	private static final int HEADER_SIZE = 512;
 
 	public static ImageInfo getImageInfo(byte[] header) {
@@ -106,30 +114,30 @@ public class ImageInfoUtils {
 	public static ImageInfo getImageInfofromUrl(String urlString) {
 		HttpURLConnection urlConnection = null;
 		InputStream in = null;
-        try {
-        	 final URL url = new URL(urlString);
-             urlConnection = (HttpURLConnection) url.openConnection();
-             in = urlConnection.getInputStream();
-             byte[] buf = new byte[HEADER_SIZE];
-             in.read(buf);
-             return getImageInfo(buf);
-        } catch (final IOException e) {
-            Log.e("ImageInfoUtils", "Error in getImageInfo - " + e);
-        } finally {
-        	 if (urlConnection != null) {
-                 urlConnection.disconnect();
-             }
-             if (in != null) {
-                 try {
-                     in.close();
-                 } catch (final IOException e) {
-                     Log.e("ImageInfoUtils", "Error in getImageInfo - " + e);
-                 }
-             }
-        }
-        return null;
+		try {
+			final URL url = new URL(urlString);
+			urlConnection = (HttpURLConnection) url.openConnection();
+			in = urlConnection.getInputStream();
+			byte[] buf = new byte[HEADER_SIZE];
+			in.read(buf);
+			return getImageInfo(buf);
+		} catch (final IOException e) {
+			Log.e("ImageInfoUtils", "Error in getImageInfo - " + e);
+		} finally {
+			if (urlConnection != null) {
+				urlConnection.disconnect();
+			}
+			if (in != null) {
+				try {
+					in.close();
+				} catch (final IOException e) {
+					Log.e("ImageInfoUtils", "Error in getImageInfo - " + e);
+				}
+			}
+		}
+		return null;
 	}
-	
+
 	private static byte[] readFromFile(String fileName) throws IOException {
 		FileInputStream fin = null;
 		try {
@@ -147,12 +155,14 @@ public class ImageInfoUtils {
 		String strFileExtendName;
 		strFileExtendName = null;
 		// header bytes contains GIF87a or GIF89a?
-		if ((byte1[0] == 71) && (byte1[1] == 73) && (byte1[2] == 70) && (byte1[3] == 56)
-				&& ((byte1[4] == 55) || (byte1[4] == 57)) && (byte1[5] == 97)) {
+		if ((byte1[0] == 71) && (byte1[1] == 73) && (byte1[2] == 70)
+				&& (byte1[3] == 56) && ((byte1[4] == 55) || (byte1[4] == 57))
+				&& (byte1[5] == 97)) {
 			strFileExtendName = GIF;
 		}
 		// header bytes contains JFIF?
-		if ((byte1[6] == 74) && (byte1[7] == 70) && (byte1[8] == 73) && (byte1[9] == 70)) {
+		if ((byte1[6] == 74) && (byte1[7] == 70) && (byte1[8] == 73)
+				&& (byte1[9] == 70)) {
 			strFileExtendName = JPG;
 		}
 		// header bytes contains BM?
@@ -166,7 +176,8 @@ public class ImageInfoUtils {
 		return strFileExtendName;
 	}
 
-	private static int getFileAttribute(byte[] byte2, int n, int m, String fileextendname) {
+	private static int getFileAttribute(byte[] byte2, int n, int m,
+			String fileextendname) {
 		int j, FileAttributeValue;
 		j = 0;
 		FileAttributeValue = 0;
@@ -184,7 +195,8 @@ public class ImageInfoUtils {
 			if (str1.length() < 2) {
 				str1 = "0" + str1;
 			}
-			if (fileextendname.equalsIgnoreCase("JPG") || fileextendname.equalsIgnoreCase("PNG")) {
+			if (fileextendname.equalsIgnoreCase("JPG")
+					|| fileextendname.equalsIgnoreCase("PNG")) {
 				str = str1 + str;
 			} else {
 				str = str + str1;
@@ -249,7 +261,7 @@ public class ImageInfoUtils {
 	}
 
 	public static void main(String[] args) {
-		//ImageInfo model = getImageInfo("d:/test.png");	
+		// ImageInfo model = getImageInfo("d:/test.png");
 		ImageInfo model = getImageInfofromUrl("http://www.gayot.com/images/hotels/reviews/LAHOT021490.jpg");
 		System.out.println("picextendname is:" + model.getExtension());
 		System.out.println("picwidth is:" + model.getWidth());
@@ -320,4 +332,88 @@ public class ImageInfoUtils {
 
 	}
 
+	public static List<Album> getAlbumList(Context context) {
+
+		Uri uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+		String[] projection = { MediaStore.Images.Media._ID,
+				MediaStore.Images.Media.BUCKET_ID,
+				MediaStore.Images.Media.BUCKET_DISPLAY_NAME };
+
+		Cursor cursor = context.getContentResolver().query(uri, projection,
+				null, null, null);
+
+		ArrayList<String> ids = new ArrayList<String>();
+		ArrayList<Album> mAlbumsList = new ArrayList<Album>();
+		mAlbumsList.clear();
+		if (cursor != null && cursor.moveToFirst()) {
+			do {
+				Album album = new Album();
+
+				int columnIndex = cursor
+						.getColumnIndex(MediaStore.Images.Media.BUCKET_ID);
+				album.id = cursor.getString(columnIndex);
+
+				if (!ids.contains(album.id)) {
+					columnIndex = cursor
+							.getColumnIndex(MediaStore.Images.Media.BUCKET_DISPLAY_NAME);
+					album.name = cursor.getString(columnIndex);
+
+					columnIndex = cursor
+							.getColumnIndex(MediaStore.Images.Media._ID);
+					album.coverID = cursor.getLong(columnIndex);
+
+					album.thumb = MediaStore.Images.Thumbnails.getThumbnail(
+							context.getContentResolver(), album.coverID,
+							MediaStore.Images.Thumbnails.MICRO_KIND, null);
+
+					mAlbumsList.add(album);
+					ids.add(album.id);
+				} else {
+					mAlbumsList.get(ids.indexOf(album.id)).count++;
+				}
+			}while (cursor.moveToNext());
+			cursor.close();
+
+		}
+		return mAlbumsList;
+	}
+	
+	public static List<Photo> getPhotoList( final Context context, final String bucketId ){
+		List<Photo> photoList = new ArrayList<Photo>();
+		
+		ContentResolver resolver = context.getContentResolver();
+		
+		String where = MediaStore.Images.Media.BUCKET_ID + "=?";
+		String whereArgs[] = {bucketId};
+		
+		Uri uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+		String[] projection = { MediaStore.Images.Media._ID,
+				MediaStore.Images.Media.BUCKET_ID,
+				MediaStore.Images.Media.BUCKET_DISPLAY_NAME };
+
+		Cursor cursor = resolver.query(uri, projection,
+				where, whereArgs, null);
+		
+		if( cursor != null && cursor.moveToFirst() ){
+			do {
+				Photo photo = new Photo();
+				int columnIndex = cursor
+						.getColumnIndex(MediaStore.Images.Media.BUCKET_ID);
+				photo.id = cursor.getString(columnIndex); 
+
+				columnIndex = cursor
+						.getColumnIndex(MediaStore.Images.Media._ID);
+				photo.coverId = cursor.getLong(columnIndex);
+
+				photo.thumb = MediaStore.Images.Thumbnails.getThumbnail(
+						resolver, photo.coverId,
+						MediaStore.Images.Thumbnails.MICRO_KIND, null);
+
+				photoList.add(photo);
+				
+			}while(cursor.moveToNext());
+		}
+		
+		return photoList;
+	}
 }

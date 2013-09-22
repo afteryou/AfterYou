@@ -17,11 +17,6 @@ public class FullImageActivity extends Activity {
 		setContentView(R.layout.full_image_activity);
 		mFullSizeImage = (ImageView) findViewById(R.id.photo_of_user_full_image);
 
-		Intent i = getIntent();
-		int position = i.getExtras().getInt(POSITION);
-		ImageAdapter image = new ImageAdapter(this);
-		mFullSizeImage.setImageResource(image.mImageId[position]);
-
 	}
 
 }
