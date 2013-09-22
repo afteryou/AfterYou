@@ -1,10 +1,14 @@
 package com.beacon.afterui.views;
 
+import java.util.Calendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import android.app.Activity;
+import android.app.DatePickerDialog;
+import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.Dialog;
+import android.app.DialogFragment;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.os.Bundle;
@@ -42,11 +46,11 @@ public class SignUpActivity extends Activity implements OnClickListener,
 	private EditText mFirstnameText;
 	private EditText mLastNameText;
 	private EditText mEmailText;
-	private EditText mBirthDayText;
+	private static EditText mBirthDayText;
 	private EditText mPasswordText;
 	private EditText mConfirmText;
 
-	private String mDateOfBirthTxt;
+	private static String mDateOfBirthTxt;
 
 	private TextView mLeftImage;
 
@@ -164,7 +168,6 @@ public class SignUpActivity extends Activity implements OnClickListener,
 			break;
 
 		case R.id.birthday_edit_text:
-			dateDialog();
 			break;
 		}
 
@@ -173,8 +176,7 @@ public class SignUpActivity extends Activity implements OnClickListener,
 		}
 		try {
 			startActivity(intent);
-			overridePendingTransition(R.anim.slide_in,
-					R.anim.slide_out);
+			overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 		} catch (ActivityNotFoundException e) {
 
 			Log.e(TAG, " Activity not found : " + e.getMessage());
@@ -188,7 +190,10 @@ public class SignUpActivity extends Activity implements OnClickListener,
 
 		case R.id.birthday_edit_text:
 			if (hasFocus) {
-				dateDialog();
+				// dateDialog();
+
+				DialogFragment fragment = new DatePickerFragment();
+				fragment.show(getFragmentManager(), "DatePicker");
 			} else {
 				if (mBirthDayText.length() == 0) {
 					mBirthDayTextImg.setVisibility(View.VISIBLE);
@@ -235,5 +240,27 @@ public class SignUpActivity extends Activity implements OnClickListener,
 			}
 		});
 		dateDialog.show();
+	}
+
+	public static class DatePickerFragment extends DialogFragment implements
+			OnDateSetListener {
+
+		@Override
+		public Dialog onCreateDialog(Bundle savedInstanceState) {
+
+			final Calendar c = Calendar.getInstance();
+			final int year = c.get(Calendar.YEAR);
+			final int month = c.get(Calendar.MONTH);
+			final int day = c.get(Calendar.DAY_OF_MONTH);
+			return new DatePickerDialog(getActivity(), this, year, month, day);
+		}
+
+		@Override
+		public void onDateSet(DatePicker view, int year, int month, int day) {
+			mDateOfBirthTxt = day + "/" + month + "/" + year;
+			mBirthDayText.setText(mDateOfBirthTxt);
+			mBirthDayText.clearFocus();
+
+		}
 	}
 }
