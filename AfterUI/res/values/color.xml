@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+
     <color name="app_theme_color">#ccdef3</color>
     <color name="login_text_color">#7ab4e2</color>
-    <color name="eden_light">#ffffffff</color>
-	<color name="blue_sky">#537BB1</color>
+    <color name="white_color">#ffffff</color>
+    <color name="image_bar_dialog">#3bb1de</color>
 	<color name="eden_light_green">#ffe1df9e</color>
 	<color name="eden_green">#ff9da842</color>
 	<color name="eden_dark_green">#ff648c13</color>
