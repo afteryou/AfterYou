@@ -22,7 +22,7 @@
             android:src="@drawable/choose_from_liabrary_white_txt" />
 
         <ImageButton
-            android:id="@+id/cancel_btn_photo_album"
+            android:id="@+id/cancel_btn_full_image_activity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
@@ -32,7 +32,7 @@
             android:src="@drawable/cancel_txt" />
 
         <ImageButton
-            android:id="@+id/done_btn_photo_album"
+            android:id="@+id/done_btn_full_image_activity"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"

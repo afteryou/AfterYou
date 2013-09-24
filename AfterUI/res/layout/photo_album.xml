@@ -31,15 +31,6 @@
             android:background="@drawable/cancel_btn"
             android:src="@drawable/cancel_txt" />
 
-        <ImageButton
-            android:id="@+id/done_btn_photo_album"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerInParent="true"
-            android:layout_marginRight="10dp"
-            android:background="@drawable/done_btn"
-            android:src="@drawable/done_txt" />
     </RelativeLayout>
 
     <RelativeLayout

@@ -67,7 +67,9 @@
                 android:id="@+id/user_image"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:src="@drawable/user_image" />
+                android:src="@drawable/capture_photo_place_holder"
+                android:scaleType="center"
+                android:background="@drawable/capture_photo_bg" />
 
             <ImageView
                 android:id="@+id/crop_image_sqaure"

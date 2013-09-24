@@ -13,49 +13,47 @@ import com.beacon.afterui.utils.Photo;
 
 public class ImageAdapter extends BaseAdapter {
 
-	private Context mContext;
+    private Context mContext;
 
-	private List<Photo> mPhotoList;
+    private List<Photo> mPhotoList;
 
-	public ImageAdapter(Context c) {
-		mContext = c;
-	}
+    public ImageAdapter(Context c) {
+        mContext = c;
+    }
 
-	public void setPhotoList(List<Photo> photoList) {
-		mPhotoList = photoList;
-	}
+    public void setPhotoList(List<Photo> photoList) {
+        mPhotoList = photoList;
+    }
 
-	@Override
-	public int getCount() {
-		return mPhotoList == null ? 0 : mPhotoList.size();
-	}
+    @Override
+    public int getCount() {
+        return mPhotoList == null ? 0 : mPhotoList.size();
+    }
 
-	@Override
-	public Object getItem(int position) {
-		return mPhotoList.get(position);
-	}
+    @Override
+    public Object getItem(int position) {
+        return mPhotoList.get(position);
+    }
 
-	@Override
-	public long getItemId(int id) {
-		return id;
-	}
+    @Override
+    public long getItemId(int id) {
+        return id;
+    }
 
-	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
 
-		ImageView photoImage = null;
-		if( convertView == null ){
-			photoImage = new ImageView(mContext);
-		} else {
-			photoImage = (ImageView) convertView;
-		}
-		
-		Photo photo = (Photo) getItem(position);
-		photoImage.setImageBitmap(photo.thumb);
-		photoImage.setLayoutParams(new GridView.LayoutParams(85, 85));
-		photoImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
-		photoImage.setPadding(8, 8, 8, 8);
-		return photoImage;
-	}
+        ImageView photoImage = null;
+        if (convertView == null) {
+            photoImage = new ImageView(mContext);
+        } else {
+            photoImage = (ImageView) convertView;
+        }
+
+        Photo photo = (Photo) getItem(position);
+        photoImage.setImageBitmap(photo.thumb);
+        photoImage.setScaleType(ImageView.ScaleType.CENTER);
+        return photoImage;
+    }
 
 }

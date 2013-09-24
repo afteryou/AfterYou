@@ -13,7 +13,7 @@
     <string name="first_name_text_hint">First Name</string>
     <string name="last_name_text_hint">Last Name</string>
     <string name="email_name_text">eMail</string>
-    <string name="birth_day_text">Birthday</string>
+    <string name="birth_day_text">Birth date</string>
     <string name="password_text">Password</string>
     <string name="confirm_password_text">Confirm Password</string>
     <string name="camera_roll_txt">Camera Roll</string>
