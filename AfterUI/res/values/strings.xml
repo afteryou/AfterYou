@@ -85,7 +85,7 @@
 	<string name="IDS_Bagri_Rajasthani">Bagri Rajasthani</string>
 	<string name="IDS_Banjari">Banjari</string>
 	<string name="IDS_Bodo">Bodo</string>
-	<string name="IDS_Bundeli/Bundelkhan">Bundeli/Bundelkhan</string>
+	<string name="IDS_Bundeli_Bundelkhan">Bundeli/Bundelkhan</string>
 	<string name="IDS_Chhattisgarhi">Chhattisgarhi</string>
 	<string name="IDS_Dhundhari">Dhundhari</string>
 	<string name="IDS_Dogri">Dogri</string>
@@ -123,4 +123,5 @@
 	<string name="IDS_Vegan">Vegan</string>
 	<string name="IDS_NO_MATTER">Does not matter</string>
 	<string name="IDS_Mandatory_Field">Mandatory Field</string>
+	<string name="IDS_MANDATORY_PROFILE">The Mandatory fields needs to be filled in order to proceed</string>
 </resources>
