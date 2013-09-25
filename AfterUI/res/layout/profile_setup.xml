@@ -74,7 +74,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:background="@drawable/sign_up_btn"
-                android:gravity="center" >
+                android:gravity="center"
+                android:hint="@string/IDS_Mandatory_Field" >
             </TextView>
 
             <TextView
@@ -100,7 +101,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:background="@drawable/sign_up_btn"
-                android:gravity="center" >
+                android:gravity="center"
+                android:hint="@string/IDS_Mandatory_Field" >
             </TextView>
 
             <TextView
@@ -126,7 +128,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:background="@drawable/sign_up_btn"
-                android:gravity="center" >
+                android:gravity="center"
+                android:hint="@string/IDS_Mandatory_Field" >
             </TextView>
 
             <TextView
@@ -152,7 +155,8 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:background="@drawable/sign_up_btn"
-                android:gravity="center" >
+                android:gravity="center"
+                android:hint="@string/IDS_Mandatory_Field" >
             </TextView>
 
             <TextView
@@ -192,10 +196,36 @@
         </FrameLayout>
 
         <FrameLayout
-            android:id="@+id/height_lay"
+            android:id="@+id/languages_lay"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/wantchild_lay" >
+
+            <TextView
+                android:id="@+id/languages_edit_text"
+                style="@style/LoginPageEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:background="@drawable/sign_up_btn"
+                android:gravity="center" >
+            </TextView>
+
+            <TextView
+                android:id="@+id/languages_label_txt"
+                style="@style/ProfilePageEditText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:paddingLeft="10dp"
+                android:text="@string/languages_label" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/height_lay"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/languages_lay" >
 
             <TextView
                 android:id="@+id/height_edit_text"

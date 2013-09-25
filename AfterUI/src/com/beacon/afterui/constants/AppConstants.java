@@ -15,6 +15,15 @@ public final class AppConstants {
 	public static final String HAVE_CHILDREN = "hv_chld";
 	public static final String SELF_RELATION = "Self_Rltn";
 	public static final String SELF_RELATION_INT = "Self_Rltn_Int";
+	public static final String WANT_CHILDREN = "wnt_chld";
+	public static final String SELF_HEIGHT = "self_height";
+	public static final String SELF_HEIGHT_INT ="self_height_int";
+	public static final String SELF_BODY = "self_body";
+	public static final String SELF_BODY_INT ="self_body_int";
+	public static final String SELF_COMM = "self_comm";
+	public static final String SELF_COMM_INT ="self_comm_int";
+	public static final String SELF_DIET = "self_diet";
+	public static final String SELF_DIET_INT ="self_diet_int";
 
 	public static boolean isDebugMode() {
 		return DEBUGMODE.trim().equals("true");

@@ -19,5 +19,99 @@
         <item>@string/IDS_YES</item>
         <item>@string/IDS_NO</item>
     </string-array>
+    <string-array name="height_choices">
+        <item>4 feet</item>
+        <item>4 feet 1 inches</item>
+        <item>4 feet 2 inches</item>
+        <item>4 feet 3 inches</item>
+        <item>4 feet 4 inches</item>
+        <item>4 feet 5 inches</item>
+        <item>4 feet 6 inches</item>
+        <item>4 feet 7 inches</item>
+        <item>4 feet 8 inches</item>
+        <item>4 feet 9 inches</item>
+        <item>4 feet 10 inches</item>
+        <item>4 feet 11 inches</item>
+        <item>5 feet</item>
+        <item>5 feet 1 inches</item>
+        <item>5 feet 2 inches</item>
+        <item>5 feet 3 inches</item>
+        <item>5 feet 4 inches</item>
+        <item>5 feet 5 inches</item>
+        <item>5 feet 6 inches</item>
+        <item>5 feet 7 inches</item>
+        <item>5 feet 8 inches</item>
+        <item>5 feet 9 inches</item>
+        <item>5 feet 10 inches</item>
+        <item>5 feet 11 inches</item>
+        <item>6 feet</item>
+        <item>6 feet 1 inches</item>
+        <item>6 feet 2 inches</item>
+        <item>6 feet 3 inches</item>
+        <item>6 feet 4 inches</item>
+        <item>6 feet 5 inches</item>
+        <item>6 feet 6 inches</item>
+        <item>6 feet 7 inches</item>
+        <item>6 feet 8 inches</item>
+        <item>6 feet 9 inches</item>
+        <item>6 feet 10 inches</item>
+        <item>6 feet 11 inches</item>
+        <item>7 feet</item>
+        <item>7 feet 1 inches</item>
+        <item>7 feet 2 inches</item>
+        <item>7 feet 3 inches</item>
+        <item>7 feet 4 inches</item>
+        <item>7 feet 5 inches</item>
+        <item>7 feet 6 inches</item>
+    </string-array>
+    <string-array name="body_type_choices">
+        <item>@string/IDS_THIN</item>
+        <item>@string/IDS_AVERAGE</item>
+        <item>@string/IDS_Athletic</item>
+        <item>@string/IDS_BAB</item>
+        <item>@string/IDS_EXTRA</item>
+        <item>@string/IDS_Any</item>
+    </string-array>
+    <string-array name="self_community">
+        <item>@string/IDS_Assamese</item>
+        <item>@string/IDS_Bengali</item>
+        <item>@string/IDS_Bhojpuri</item>
+        <item>@string/IDS_Garhwali</item>
+        <item>@string/IDS_Garo</item>
+        <item>@string/IDS_Gujarati</item>
+        <item>@string/IDS_Hindi</item>
+        <item>@string/IDS_Kannada</item>
+        <item>@string/IDS_Kashmiri</item>
+        <item>@string/IDS_Khasi</item>
+        <item>@string/IDS_Konkani</item>
+        <item>@string/IDS_Kutchi</item>
+        <item>@string/IDS_Malayalam</item>
+        <item>@string/IDS_Manipuri</item>
+        <item>@string/IDS_Marathi</item>
+        <item>@string/IDS_Marwari</item>
+        <item>@string/IDS_Miji</item>
+        <item>@string/IDS_Mizo</item>
+        <item>@string/IDS_Nepali</item>
+        <item>@string/IDS_Oriya</item>
+        <item>@string/IDS_Parsi</item>
+        <item>@string/IDS_Punjabi</item>
+        <item>@string/IDS_Rajasthani</item>
+        <item>@string/IDS_Sanskrit</item>
+        <item>@string/IDS_Sindhi</item>
+        <item>@string/IDS_Tamil</item>
+        <item>@string/IDS_Telugu</item>
+        <item>@string/IDS_Tulu</item>
+        <item>@string/IDS_Urdu</item>
+        <item>@string/IDS_Baniya</item>
+        <item>@string/IDS_Teli</item>
+        <item>@string/IDS_Other</item>
+    </string-array>
+    <string-array name="diet">
+        <item>@string/IDS_Veg</item>
+        <item>@string/IDS_NonVeg</item>
+        <item>@string/IDS_Vegan</item>
+        <item>@string/IDS_Jain</item>
+        <item>@string/IDS_NO_MATTER</item>
+    </string-array>
 
 </resources>

@@ -46,6 +46,7 @@ public class CustomerDatePickDialog extends CustomDialog implements
         setView(view);
         mDatePicker = (DatePicker) view.findViewById(R.id.datePicker);
         mDatePicker.init(mInitialYear, mInitialMonth, mInitialDay, this);
+        mDatePicker.setCalendarViewShown(false);
         titleCalendar = Calendar.getInstance();
         titleCalendar.set(Calendar.YEAR, year);
         titleCalendar.set(Calendar.MONTH, monthOfYear);
