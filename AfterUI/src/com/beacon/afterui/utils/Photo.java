@@ -7,4 +7,5 @@ public class Photo {
 	public long coverId;
 	public String name;
 	public Bitmap thumb;
+	public String path;
 }

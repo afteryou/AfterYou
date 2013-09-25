@@ -368,6 +368,7 @@ public class ImageInfoUtils {
 
 					mAlbumsList.add(album);
 					ids.add(album.id);
+					mAlbumsList.get(ids.indexOf(album.id)).count++;
 				} else {
 					mAlbumsList.get(ids.indexOf(album.id)).count++;
 				}
@@ -415,5 +416,34 @@ public class ImageInfoUtils {
 		}
 		
 		return photoList;
+	}
+
+	public static String getPhotoPath(final Context context, final String id) {
+		List<Photo> photoList = new ArrayList<Photo>();
+		ContentResolver resolver = context.getContentResolver();
+		Log.d("ImageInfoUtils :", "ID : " + id);
+
+		String where = MediaStore.Images.Media._ID + "=?";
+		String whereArgs[] = { id };
+
+		Uri uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
+		String[] projection = { MediaStore.Images.Media.DATA };
+
+		Cursor cursor = resolver.query(uri, projection, where, whereArgs, null);
+
+		Log.d("ImageInfoUtils :", cursor.toString());
+		Log.d("cursor.getCount()) :", cursor.getCount() + "");
+		String path = null;
+		if (cursor != null && cursor.moveToFirst()) {
+			do {
+				int columnIndex = cursor
+						.getColumnIndex(MediaStore.Images.Media.DATA);
+				path = cursor.getString(columnIndex);
+				Log.d("ImageInfoUtils :", "Path :" + path);
+
+			} while (cursor.moveToNext());
+		}
+
+		return path;
 	}
 }
