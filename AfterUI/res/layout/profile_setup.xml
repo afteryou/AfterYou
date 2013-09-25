@@ -34,296 +34,306 @@
             android:src="@drawable/done_txt" />
     </RelativeLayout>
 
-    <ImageView
-        android:id="@+id/about_you"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@+id/profilebar"
-        android:layout_marginLeft="10dp"
-        android:layout_marginTop="40dp"
-        android:src="@drawable/img_13" />
+    <ScrollView
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+         android:layout_below="@+id/profilebar" >
 
-    <ImageView
-        android:id="@+id/about_you"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@+id/profilebar"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="40dp"
-        android:src="@drawable/img_14" />
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            >
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/about_you"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="20dp" >
-
-        <FrameLayout
-            android:id="@+id/brith_lay"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" >
-
-            <TextView
-                android:id="@+id/birthday_edit_text"
-                style="@style/LoginPageEditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:background="@drawable/sign_up_btn"
-                android:gravity="center"
-                android:hint="@string/IDS_Mandatory_Field" >
-            </TextView>
-
-            <TextView
-                android:id="@+id/date_of_birth_txt"
-                style="@style/ProfilePageEditText"
+            <ImageView
+                android:id="@+id/about_you"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:paddingLeft="10dp"
-                android:text="@string/birth_day_text" />
-        </FrameLayout>
+                android:layout_alignParentLeft="true"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="40dp"
+                android:src="@drawable/img_13" />
 
-        <FrameLayout
-            android:id="@+id/religion_lay"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/brith_lay" >
-
-            <TextView
-                android:id="@+id/religion_edit_text"
-                style="@style/LoginPageEditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:background="@drawable/sign_up_btn"
-                android:gravity="center"
-                android:hint="@string/IDS_Mandatory_Field" >
-            </TextView>
-
-            <TextView
-                android:id="@+id/religion_label_txt"
-                style="@style/ProfilePageEditText"
+            <ImageView
+                android:id="@+id/about_you"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:paddingLeft="10dp"
-                android:text="@string/religion_label" />
-        </FrameLayout>
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="40dp"
+                android:src="@drawable/img_14" />
 
-        <FrameLayout
-            android:id="@+id/relation_lay"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/religion_lay" >
-
-            <TextView
-                android:id="@+id/relation_edit_text"
-                style="@style/LoginPageEditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:background="@drawable/sign_up_btn"
-                android:gravity="center"
-                android:hint="@string/IDS_Mandatory_Field" >
-            </TextView>
-
-            <TextView
-                android:id="@+id/relation_label_txt"
-                style="@style/ProfilePageEditText"
+            <RelativeLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:paddingLeft="10dp"
-                android:text="@string/relation_label" />
-        </FrameLayout>
+                android:layout_below="@id/about_you"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="20dp" >
 
-        <FrameLayout
-            android:id="@+id/havechild_lay"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/relation_lay" >
+                <FrameLayout
+                    android:id="@+id/brith_lay"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content" >
 
-            <TextView
-                android:id="@+id/havechild_edit_text"
-                style="@style/LoginPageEditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:background="@drawable/sign_up_btn"
-                android:gravity="center"
-                android:hint="@string/IDS_Mandatory_Field" >
-            </TextView>
+                    <TextView
+                        android:id="@+id/birthday_edit_text"
+                        style="@style/LoginPageEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:background="@drawable/sign_up_btn"
+                        android:gravity="center"
+                        android:hint="@string/IDS_Mandatory_Field" >
+                    </TextView>
 
-            <TextView
-                android:id="@+id/havechild_label_txt"
-                style="@style/ProfilePageEditText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:paddingLeft="10dp"
-                android:text="@string/havechild_label" />
-        </FrameLayout>
+                    <TextView
+                        android:id="@+id/date_of_birth_txt"
+                        style="@style/ProfilePageEditText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:paddingLeft="10dp"
+                        android:text="@string/birth_day_text" />
+                </FrameLayout>
 
-        <FrameLayout
-            android:id="@+id/wantchild_lay"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/havechild_lay" >
+                <FrameLayout
+                    android:id="@+id/religion_lay"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/brith_lay" >
 
-            <TextView
-                android:id="@+id/wantchild_edit_text"
-                style="@style/LoginPageEditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:background="@drawable/sign_up_btn"
-                android:gravity="center" >
-            </TextView>
+                    <TextView
+                        android:id="@+id/religion_edit_text"
+                        style="@style/LoginPageEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:background="@drawable/sign_up_btn"
+                        android:gravity="center"
+                        android:hint="@string/IDS_Mandatory_Field" >
+                    </TextView>
 
-            <TextView
-                android:id="@+id/wantchild_label_txt"
-                style="@style/ProfilePageEditText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:paddingLeft="10dp"
-                android:text="@string/wantchild_label" />
-        </FrameLayout>
+                    <TextView
+                        android:id="@+id/religion_label_txt"
+                        style="@style/ProfilePageEditText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:paddingLeft="10dp"
+                        android:text="@string/religion_label" />
+                </FrameLayout>
 
-        <FrameLayout
-            android:id="@+id/languages_lay"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/wantchild_lay" >
+                <FrameLayout
+                    android:id="@+id/relation_lay"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/religion_lay" >
 
-            <TextView
-                android:id="@+id/languages_edit_text"
-                style="@style/LoginPageEditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:background="@drawable/sign_up_btn"
-                android:gravity="center" >
-            </TextView>
+                    <TextView
+                        android:id="@+id/relation_edit_text"
+                        style="@style/LoginPageEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:background="@drawable/sign_up_btn"
+                        android:gravity="center"
+                        android:hint="@string/IDS_Mandatory_Field" >
+                    </TextView>
 
-            <TextView
-                android:id="@+id/languages_label_txt"
-                style="@style/ProfilePageEditText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:paddingLeft="10dp"
-                android:text="@string/languages_label" />
-        </FrameLayout>
+                    <TextView
+                        android:id="@+id/relation_label_txt"
+                        style="@style/ProfilePageEditText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:paddingLeft="10dp"
+                        android:text="@string/relation_label" />
+                </FrameLayout>
 
-        <FrameLayout
-            android:id="@+id/height_lay"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/languages_lay" >
+                <FrameLayout
+                    android:id="@+id/havechild_lay"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/relation_lay" >
 
-            <TextView
-                android:id="@+id/height_edit_text"
-                style="@style/LoginPageEditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:background="@drawable/sign_up_btn"
-                android:gravity="center" >
-            </TextView>
+                    <TextView
+                        android:id="@+id/havechild_edit_text"
+                        style="@style/LoginPageEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:background="@drawable/sign_up_btn"
+                        android:gravity="center"
+                        android:hint="@string/IDS_Mandatory_Field" >
+                    </TextView>
 
-            <TextView
-                android:id="@+id/height_label_txt"
-                style="@style/ProfilePageEditText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:paddingLeft="10dp"
-                android:text="@string/height_label" />
-        </FrameLayout>
+                    <TextView
+                        android:id="@+id/havechild_label_txt"
+                        style="@style/ProfilePageEditText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:paddingLeft="10dp"
+                        android:text="@string/havechild_label" />
+                </FrameLayout>
 
-        <FrameLayout
-            android:id="@+id/bodyType_lay"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/height_lay" >
+                <FrameLayout
+                    android:id="@+id/wantchild_lay"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/havechild_lay" >
 
-            <TextView
-                android:id="@+id/bodyType_edit_text"
-                style="@style/LoginPageEditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:background="@drawable/sign_up_btn"
-                android:gravity="center" >
-            </TextView>
+                    <TextView
+                        android:id="@+id/wantchild_edit_text"
+                        style="@style/LoginPageEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:background="@drawable/sign_up_btn"
+                        android:gravity="center" >
+                    </TextView>
 
-            <TextView
-                android:id="@+id/bodyType_label_txt"
-                style="@style/ProfilePageEditText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:paddingLeft="10dp"
-                android:text="@string/bodyType_label" />
-        </FrameLayout>
+                    <TextView
+                        android:id="@+id/wantchild_label_txt"
+                        style="@style/ProfilePageEditText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:paddingLeft="10dp"
+                        android:text="@string/wantchild_label" />
+                </FrameLayout>
 
-        <FrameLayout
-            android:id="@+id/comm_lay"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/bodyType_lay" >
+                <FrameLayout
+                    android:id="@+id/languages_lay"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/wantchild_lay" >
 
-            <TextView
-                android:id="@+id/comm_edit_text"
-                style="@style/LoginPageEditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:background="@drawable/sign_up_btn"
-                android:gravity="center" >
-            </TextView>
+                    <TextView
+                        android:id="@+id/languages_edit_text"
+                        style="@style/LoginPageEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:background="@drawable/sign_up_btn"
+                        android:gravity="center" >
+                    </TextView>
 
-            <TextView
-                android:id="@+id/comm_label_txt"
-                style="@style/ProfilePageEditText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:paddingLeft="10dp"
-                android:text="@string/comm_label" />
-        </FrameLayout>
+                    <TextView
+                        android:id="@+id/languages_label_txt"
+                        style="@style/ProfilePageEditText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:paddingLeft="10dp"
+                        android:text="@string/languages_label" />
+                </FrameLayout>
 
-        <FrameLayout
-            android:id="@+id/diet_lay"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/comm_lay" >
+                <FrameLayout
+                    android:id="@+id/height_lay"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/languages_lay" >
 
-            <TextView
-                android:id="@+id/diet_edit_text"
-                style="@style/LoginPageEditText"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:background="@drawable/sign_up_btn"
-                android:gravity="center" >
-            </TextView>
+                    <TextView
+                        android:id="@+id/height_edit_text"
+                        style="@style/LoginPageEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:background="@drawable/sign_up_btn"
+                        android:gravity="center" >
+                    </TextView>
 
-            <TextView
-                android:id="@+id/diet_label_txt"
-                style="@style/ProfilePageEditText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_vertical"
-                android:paddingLeft="10dp"
-                android:text="@string/diet_label" />
-        </FrameLayout>
-    </RelativeLayout>
+                    <TextView
+                        android:id="@+id/height_label_txt"
+                        style="@style/ProfilePageEditText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:paddingLeft="10dp"
+                        android:text="@string/height_label" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:id="@+id/bodyType_lay"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/height_lay" >
+
+                    <TextView
+                        android:id="@+id/bodyType_edit_text"
+                        style="@style/LoginPageEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:background="@drawable/sign_up_btn"
+                        android:gravity="center" >
+                    </TextView>
+
+                    <TextView
+                        android:id="@+id/bodyType_label_txt"
+                        style="@style/ProfilePageEditText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:paddingLeft="10dp"
+                        android:text="@string/bodyType_label" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:id="@+id/comm_lay"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/bodyType_lay" >
+
+                    <TextView
+                        android:id="@+id/comm_edit_text"
+                        style="@style/LoginPageEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:background="@drawable/sign_up_btn"
+                        android:gravity="center" >
+                    </TextView>
+
+                    <TextView
+                        android:id="@+id/comm_label_txt"
+                        style="@style/ProfilePageEditText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:paddingLeft="10dp"
+                        android:text="@string/comm_label" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:id="@+id/diet_lay"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/comm_lay" >
+
+                    <TextView
+                        android:id="@+id/diet_edit_text"
+                        style="@style/LoginPageEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:background="@drawable/sign_up_btn"
+                        android:gravity="center" >
+                    </TextView>
+
+                    <TextView
+                        android:id="@+id/diet_label_txt"
+                        style="@style/ProfilePageEditText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:paddingLeft="10dp"
+                        android:text="@string/diet_label" />
+                </FrameLayout>
+            </RelativeLayout>
+        </RelativeLayout>
+    </ScrollView>
 
 </RelativeLayout>
