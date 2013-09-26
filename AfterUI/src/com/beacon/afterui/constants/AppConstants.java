@@ -24,6 +24,16 @@ public final class AppConstants {
 	public static final String SELF_COMM_INT ="self_comm_int";
 	public static final String SELF_DIET = "self_diet";
 	public static final String SELF_DIET_INT ="self_diet_int";
+	public static final String SELF_LANG ="self_lang";
+
+	public static final String FACEBOOK_USER = "FACEBOOK_USER";
+
+	public static final String SELF_FIRST_NAME = "SELF_FIRST_NAME";
+
+	public static final String SELF_LAST_NAME = "SELF_LAST_NAME";
+
+	public static final String SELF_GENDER = "self_gender";
+	public static final String SELF_FB_ID = "SELF_FB_ID";
 
 	public static boolean isDebugMode() {
 		return DEBUGMODE.trim().equals("true");

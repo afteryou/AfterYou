@@ -51,7 +51,7 @@
         <activity android:name="com.beacon.afterui.views.PhotoGallaryActivity" 
 		android:screenOrientation="portrait">
         </activity>
-        <activity android:name="com.beacon.afterui.views.PhotoAlbum" 
+        <activity android:name="com.beacon.afterui.views.PhotoAlbumActivity" 
 		android:screenOrientation="portrait">
         </activity>
         <activity android:name="com.beacon.afterui.utils.FacebookGraphUserInfo" 

@@ -124,4 +124,6 @@
 	<string name="IDS_NO_MATTER">Does not matter</string>
 	<string name="IDS_Mandatory_Field">Mandatory Field</string>
 	<string name="IDS_MANDATORY_PROFILE">The Mandatory fields needs to be filled in order to proceed</string>
+	<string name="smoke_label">Smoking</string>
+	<string name="drink_label">Drinking</string>
 </resources>

@@ -1,22 +1,22 @@
 package com.beacon.afterui.views;
 
+import java.lang.ref.WeakReference;
 import java.util.Calendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
-import android.app.DatePickerDialog.OnDateSetListener;
 import android.app.Dialog;
-import android.app.DialogFragment;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -24,6 +24,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.beacon.afterui.R;
+import com.beacon.afterui.constants.AppConstants;
 import com.beacon.afterui.provider.PreferenceEngine;
 import com.beacon.afterui.utils.Utilities;
 import com.beacon.afterui.utils.customviews.AfterYouDialogImpl;
@@ -55,10 +56,18 @@ public class SignUpActivity extends Activity implements OnClickListener,
 	private Calendar mCalendar;
 
 	private static String mDateOfBirthTxt;
+	
+	private static final int AUTO_SIGN_UP_END = 1;
+
+	private static final int AUTO_SIGN_UP_VISIBLE_TIME = 3000;
 
 	private TextView mLeftImage;
 
 	private TextView mRightImage;
+
+	private SignUpHandler mSplashHandler;
+	
+	private boolean isFromFacebook;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -98,7 +107,49 @@ public class SignUpActivity extends Activity implements OnClickListener,
 		mBirthDayText.setOnFocusChangeListener(this);
 		mPasswordText.setOnFocusChangeListener(this);
 		mCalendar = Calendar.getInstance();
+		
+		if(getIntent().hasExtra(AppConstants.FACEBOOK_USER))
+		{
+			isFromFacebook = true;
+			mFirstnameText.setText(PreferenceEngine.getInstance(this).getFirstName());
+			mLastNameText.setText(PreferenceEngine.getInstance(this).getLastName());
+			if(PreferenceEngine.getInstance(this).getGender().equalsIgnoreCase("male"))
+			{
+				mLeftImage.setBackgroundResource(R.drawable.switch_btn);
+				mRightImage.setBackgroundDrawable(null);
+			}else{
+				mRightImage.setBackgroundResource(R.drawable.switch_btn);
+				mLeftImage.setBackgroundDrawable(null);
+			}
+			mEmailText.setVisibility(View.GONE);
+			mBirthDayText.setText(PreferenceEngine.getInstance(this).getBirthday());
+			mPasswordText.setVisibility(View.GONE);
+			mConfirmText.setVisibility(View.GONE);
+			mCrossEmailBtn.setVisibility(View.GONE);
+			mCrossPasswordBtn.setVisibility(View.GONE);
+			mCrossConfirmPasswordBtn.setVisibility(View.GONE);
+			mSplashHandler = new SignUpHandler(this);
+			mSplashHandler.sendEmptyMessageDelayed(AUTO_SIGN_UP_END, AUTO_SIGN_UP_VISIBLE_TIME);
+		}
 
+	}
+	
+	
+	private class SignUpHandler extends Handler {
+
+		private final WeakReference<SignUpActivity> mActivity;
+
+		public SignUpHandler(SignUpActivity signUpActivity) {
+			mActivity = new WeakReference<SignUpActivity>(signUpActivity);
+		}
+
+		@Override
+		public void handleMessage(Message msg) {
+
+			
+			mSignInBtn.performClick();
+
+		}
 	}
 
 	private static final boolean comparePassword(String password,
@@ -141,6 +192,10 @@ public class SignUpActivity extends Activity implements OnClickListener,
 		case R.id.sign_in_btn_signup_screen:
 			intent = new Intent(SignUpActivity.this,
 					ProfileSettingsActivity.class);
+			if(isFromFacebook)
+			{
+				intent.putExtra(AppConstants.FACEBOOK_USER, true);
+			}
 			break;
 
 		case R.id.cross_btn_firstname:

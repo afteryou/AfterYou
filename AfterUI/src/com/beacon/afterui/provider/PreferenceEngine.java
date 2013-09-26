@@ -174,7 +174,7 @@ public class PreferenceEngine {
 		editor.putInt(AppConstants.SELF_BODY_INT, bdyInt);
 		editor.commit();
 	}
-	
+
 	public String getSelfCommunity() {
 		return getDefaultSharePreference().getString(AppConstants.SELF_COMM,
 				null);
@@ -196,7 +196,7 @@ public class PreferenceEngine {
 		editor.putInt(AppConstants.SELF_COMM_INT, bdyInt);
 		editor.commit();
 	}
-	
+
 	public String getSelfDiet() {
 		return getDefaultSharePreference().getString(AppConstants.SELF_DIET,
 				null);
@@ -218,5 +218,87 @@ public class PreferenceEngine {
 		editor.putInt(AppConstants.SELF_DIET_INT, bdyInt);
 		editor.commit();
 	}
+	
+	public void setSelfLangList(String selfLang) {
+		Editor editor = getDefaultSharePreference().edit();
+		editor.putString(AppConstants.SELF_LANG, selfLang);
+		editor.commit();
+	}
 
+
+	public String getSelfLangList() {
+		return getDefaultSharePreference().getString(AppConstants.SELF_LANG,
+				null);
+	}
+
+	public boolean[] getSelfLangBoolean(String[] referenceList) {
+		boolean[] selectedLang = new boolean[referenceList.length];
+		String[] saveList;
+		if (getSelfLangList() != null) {
+			saveList = getSelfLangList().split(";");
+
+			for (int i = 0; i < saveList.length; i++) {
+				for (int j = 0; j < referenceList.length; j++) {
+					 if(referenceList[j].equalsIgnoreCase(saveList[i]))
+					 {
+						 selectedLang[j] = true;
+						 break;
+					 }
+				}
+			}
+		}
+		
+		return selectedLang;
+	}
+
+	public void setFirstName(String firstName) {
+		Editor editor = getDefaultSharePreference().edit();
+		editor.putString(AppConstants.SELF_FIRST_NAME, firstName);
+		editor.commit();
+		
+	}
+	
+	public String getFirstName()
+	{
+		return getDefaultSharePreference().getString(AppConstants.SELF_FIRST_NAME,
+				null);
+	}
+	
+	public void setLastName(String lastName) {
+		Editor editor = getDefaultSharePreference().edit();
+		editor.putString(AppConstants.SELF_LAST_NAME, lastName);
+		editor.commit();
+		
+	}
+	
+	public String getLastName()
+	{
+		return getDefaultSharePreference().getString(AppConstants.SELF_LAST_NAME,
+				null);
+	}
+
+	public void saveGender(Object gender) {
+		Editor editor = getDefaultSharePreference().edit();
+		editor.putString(AppConstants.SELF_GENDER,(String)gender);
+		editor.commit();
+		
+	}
+	
+	public String getGender()
+	{
+		return getDefaultSharePreference().getString(AppConstants.SELF_GENDER,
+				null);
+	}
+
+	public void saveProfileUserName(String id) {
+		Editor editor = getDefaultSharePreference().edit();
+		editor.putString(AppConstants.SELF_FB_ID,id);
+		editor.commit();
+	}
+	public String getProfileID()
+	{
+		return getDefaultSharePreference().getString(AppConstants.SELF_FB_ID,
+				null);
+	}
+	
 }

@@ -106,6 +106,56 @@
         <item>@string/IDS_Teli</item>
         <item>@string/IDS_Other</item>
     </string-array>
+    <string-array name="languages_list">
+        <item>@string/IDS_English</item>
+        <item>@string/IDS_Assamese</item>
+        <item>@string/IDS_Awadhi</item>
+        <item>@string/IDS_Bagheli</item>
+        <item>@string/IDS_Bagri_Rajasthani</item>
+        <item>@string/IDS_Banjari</item>
+        <item>@string/IDS_Bengali</item>
+        <item>@string/IDS_Bhojpuri</item>
+        <item>@string/IDS_Bodo</item>
+        <item>@string/IDS_Bundeli_Bundelkhan</item>
+        <item>@string/IDS_Chhattisgarhi</item>
+        <item>@string/IDS_Dhundhari</item>
+        <item>@string/IDS_Dogri</item>
+        <item>@string/IDS_Garhwali</item>
+        <item>@string/IDS_Gujarati</item>
+        <item>@string/IDS_Haryanvi</item>
+        <item>@string/IDS_Hindi</item>
+        <item>@string/IDS_Kangri</item>
+        <item>@string/IDS_Kannada</item>
+        <item>@string/IDS_Kashmiri</item>
+        <item>@string/IDS_Khorth_Khotta</item>
+        <item>@string/IDS_Konkani</item>
+        <item>@string/IDS_Kumauni</item>
+        <item>@string/IDS_Laman</item>
+        <item>@string/IDS_Magadh</item>
+        <item>@string/IDS_Maithili</item>
+        <item>@string/IDS_Malayalam</item>
+        <item>@string/IDS_Malvi</item>
+        <item>@string/IDS_Manipuri</item>
+        <item>@string/IDS_Marwari</item>
+        <item>@string/IDS_Mewari</item>
+        <item>@string/IDS_Nagpuria</item>
+        <item>@string/IDS_Nepali</item>
+        <item>@string/IDS_Nimadi</item>
+        <item>@string/IDS_Oriya</item>
+        <item>@string/IDS_Pahari</item>
+        <item>@string/IDS_Punjabi</item>
+        <item>@string/IDS_Rajasthani</item>
+        <item>@string/IDS_Sadan</item>
+        <item>@string/IDS_Sanskrit</item>
+        <item>@string/IDS_Santhali</item>
+        <item>@string/IDS_Sindhi</item>
+        <item>@string/IDS_Surgujia</item>
+        <item>@string/IDS_Surjapuri</item>
+        <item>@string/IDS_Tamil</item>
+        <item>@string/IDS_Telugu</item>
+        <item>@string/IDS_Urdu</item>
+        <item>@string/IDS_Other</item>
+    </string-array>
     <string-array name="diet">
         <item>@string/IDS_Veg</item>
         <item>@string/IDS_NonVeg</item>
