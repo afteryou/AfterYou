@@ -1,6 +1,7 @@
 package com.beacon.afterui.views;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
@@ -14,6 +15,7 @@ import org.json.JSONObject;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -26,6 +28,7 @@ import android.view.View.OnClickListener;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.beacon.afterui.R;
@@ -33,205 +36,280 @@ import com.beacon.afterui.activity.BaseActivity;
 import com.beacon.afterui.application.AfterYouApplication;
 import com.beacon.afterui.constants.AppConstants;
 import com.beacon.afterui.provider.PreferenceEngine;
+import com.beacon.afterui.utils.ImageInfoUtils;
 import com.beacon.afterui.utils.ImageUtils;
+import com.facebook.Session;
 
 public class CapturePictureActivity extends BaseActivity implements
-		OnClickListener {
+        OnClickListener {
 
-	private ImageButton mSubmitBtn;
-	private ImageButton mEditBtn;
-	private ImageButton mCancelBtn;
-	private ImageButton mDoneBtn;
-	private ImageButton mCropBarBtn;
-	private ImageButton mChooseFromLiabraryBtn;
-	private ImageView mCropImgSqaureGray;
-	private ImageView mCropImgSqaureLine;
-	private String PATH = "path";
-	private ImageView mUserImage;
-	JSONObject profileURL = null;
-	private Context ctx;
-	private String accessToken = null;
+    private ImageButton mSubmitBtn;
+    private ImageButton mEditBtn;
+    private ImageButton mCancelBtn;
+    private ImageButton mDoneBtn;
+    private ImageButton mCropBarBtn;
+    private ImageButton mChooseFromLiabraryBtn;
+    private ImageView mCropImgSqaureGray;
+    private ImageView mCropImgSqaureLine;
+    private ImageButton mImageRotateBtn;
+    private ImageButton mImageCropBtn;
+    private ImageButton mImageEffectBtn;
+    private ImageButton mImageRedEyeBtn;
+    private static final String PATH = "path";
+    private static final String ID = "id";
+    private ImageView mUserImage;
+    private JSONObject profileURL = null;
+    private Context ctx;
+    private String accessToken = null;
 
-	public static final int GET_URL = 0;
-	public static final int DONE_URL = 1;
+    public static final int GET_URL = 0;
+    public static final int DONE_URL = 1;
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		setIsRootView(true);
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.capture_picture);
-		this.ctx = this;
-		mSubmitBtn = (ImageButton) findViewById(R.id.submit_btn);
-		mEditBtn = (ImageButton) findViewById(R.id.edit_crop_btn);
-		mCancelBtn = (ImageButton) findViewById(R.id.cancel_btn_capture_picture);
-		mDoneBtn = (ImageButton) findViewById(R.id.done_btn_capture_picture);
-		mCropBarBtn = (ImageButton) findViewById(R.id.crop_bar_btn);
-		mChooseFromLiabraryBtn = (ImageButton) findViewById(R.id.choose_from_library_btn);
-		mCropImgSqaureGray = (ImageView) findViewById(R.id.crop_image_sqaure);
-		mCropImgSqaureLine = (ImageView) findViewById(R.id.crop_image_sqaure_white);
-		mUserImage = (ImageView) findViewById(R.id.user_image);
+    private RelativeLayout mImageEditLayout;
+    private static final String FLAG = "ok";
 
-		mEditBtn.setOnClickListener(this);
-		mChooseFromLiabraryBtn.setOnClickListener(this);
-		mSubmitBtn.setOnClickListener(this);
+    private String mId;
+    private Uri mImageUri;
 
-		accessToken = ((AfterYouApplication)getApplication()).getOpenSession().getAccessToken();
-		if (getIntent().hasExtra(AppConstants.FACEBOOK_USER)) {
-			initView();
-		}
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        setIsRootView(true);
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.capture_picture);
+        this.ctx = this;
+        mSubmitBtn = (ImageButton) findViewById(R.id.submit_btn);
+        mEditBtn = (ImageButton) findViewById(R.id.edit_btn);
+        mChooseFromLiabraryBtn = (ImageButton) findViewById(R.id.choose_from_library_btn);
 
-	}
+        mCancelBtn = (ImageButton) findViewById(R.id.cancel_btn_capture_picture);
+        mDoneBtn = (ImageButton) findViewById(R.id.done_btn_capture_picture);
 
-	private void initView() {
+        mImageCropBtn = (ImageButton) findViewById(R.id.image_crop_btn);
+        mImageRotateBtn = (ImageButton) findViewById(R.id.image_rotate_btn);
+        mImageEffectBtn = (ImageButton) findViewById(R.id.image_effect_btn);
+        mImageRedEyeBtn = (ImageButton) findViewById(R.id.image_red_eye_btn);
+        mImageEditLayout = (RelativeLayout) findViewById(R.id.image_edit_layout);
 
-		HandlerThread urlThread = new HandlerThread("profile_url");
-		urlThread.start();
+        mCropImgSqaureGray = (ImageView) findViewById(R.id.crop_image_sqaure);
+        mCropImgSqaureLine = (ImageView) findViewById(R.id.crop_image_sqaure_white);
+        mUserImage = (ImageView) findViewById(R.id.user_image);
+        mUserImage.setRotation(0);
 
-		Looper mLoop = urlThread.getLooper();
-		URLHandler urlHandle = new URLHandler(mLoop);
+        mEditBtn.setEnabled(false);
+        mEditBtn.setOnClickListener(this);
+        mChooseFromLiabraryBtn.setOnClickListener(this);
+        mSubmitBtn.setOnClickListener(this);
 
-		urlHandle.sendEmptyMessage(GET_URL);
-		
-		ImageUtils.getInstance(ctx).loadImage("https://fbcdn-profile-a.akamaihd.net/hprofile-ak-ash4/372183_100002526091955_998385602_q.jpg", mUserImage);
+        mImageCropBtn.setOnClickListener(this);
+        mImageRotateBtn.setOnClickListener(this);
+        mImageEffectBtn.setOnClickListener(this);
+        mImageRedEyeBtn.setOnClickListener(this);
 
-	}
+        mCancelBtn.setOnClickListener(this);
+        mDoneBtn.setOnClickListener(this);
 
-	class URLHandler extends Handler {
-		public URLHandler(Looper loop) {
-			super(loop);
-		}
+        Session session = ((AfterYouApplication) getApplication())
+                .getOpenSession();
 
-		@Override
-		public void handleMessage(Message msg)
-		{
-			switch(msg.what)
-			{
-			case GET_URL:
-				InputStream is = null;
-				String result = "";
-				String url = "https://graph.facebook.com/"+PreferenceEngine.getInstance(ctx).getProfileID()+"/picture?redirect=false?access_token="+accessToken;
-				
-				try {   
-				    HttpClient httpclient = new DefaultHttpClient(); // for port 80 requests!
-				    HttpPost httppost = new HttpPost(url);
-				    HttpResponse response = httpclient.execute(httppost);
-				    HttpEntity entity = response.getEntity();
-				    is = entity.getContent();
+        if (session == null) {
+            return;
+        }
+        accessToken = session.getAccessToken();
 
-				    // Read response to string
-				    BufferedReader reader = new BufferedReader(new InputStreamReader(is,"utf-8"),1024);
-				    StringBuilder sb = new StringBuilder();
-				    String line = "";
-				    while ((line = reader.readLine()) != null) {
-				    sb.append(line + "\n");
-				    }
-				    is.close();
-				    result = sb.toString(); 
+        if (getIntent().hasExtra(AppConstants.FACEBOOK_USER)) {
+            initView();
+        }
+    }
 
+    private void initView() {
 
-				    if (result.isEmpty()) { 
-				        result = "nothing"; 
-				        Toast message = Toast.makeText(getBaseContext(), result, Toast.LENGTH_LONG);
-				        message.show();
-				    }
-				 // Convert string to object
+        HandlerThread urlThread = new HandlerThread("profile_url");
+        urlThread.start();
 
-				    profileURL = new JSONObject(result);
-				    sendEmptyMessage(DONE_URL);
-				
-			
-				}
-				catch(Exception ex)
-				{
-					
-				}
-				break;
-			case DONE_URL:
-//				if(profileURL.optBoolean("is_silhouette"))
-//				{
-					
-//				}
-				break;
-		}
-	}
-	}
+        Looper mLoop = urlThread.getLooper();
+        URLHandler urlHandle = new URLHandler(mLoop);
 
-	@Override
-	public void onClick(View v) {
+        urlHandle.sendEmptyMessage(GET_URL);
 
-		Intent intent = null;
-		switch (v.getId()) {
-		case R.id.choose_from_library_btn:
+        ImageUtils
+                .getInstance(ctx)
+                .loadImage(
+                        "https://fbcdn-profile-a.akamaihd.net/hprofile-ak-ash4/372183_100002526091955_998385602_q.jpg",
+                        mUserImage);
 
-			intent = new Intent(CapturePictureActivity.this,
-					PhotoAlbumActivity.class);
-			break;
+    }
 
-		case R.id.submit_btn:
+    class URLHandler extends Handler {
+        public URLHandler(Looper loop) {
+            super(loop);
+        }
 
-			break;
+        @Override
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+            case GET_URL:
+                InputStream is = null;
+                String result = "";
+                String url = "https://graph.facebook.com/"
+                        + PreferenceEngine.getInstance(ctx).getProfileID()
+                        + "/picture?redirect=false?access_token=" + accessToken;
 
-		case R.id.edit_crop_btn:
+                try {
+                    HttpClient httpclient = new DefaultHttpClient(); // for port
+                                                                     // 80
+                                                                     // requests!
+                    HttpPost httppost = new HttpPost(url);
+                    HttpResponse response = httpclient.execute(httppost);
+                    HttpEntity entity = response.getEntity();
+                    is = entity.getContent();
 
-			mCancelBtn.setVisibility(View.VISIBLE);
-			mDoneBtn.setVisibility(View.VISIBLE);
-			mCropBarBtn.setVisibility(View.VISIBLE);
-			mCropImgSqaureGray.setVisibility(View.VISIBLE);
-			mCropImgSqaureLine.setVisibility(View.VISIBLE);
-			break;
+                    // Read response to string
+                    BufferedReader reader = new BufferedReader(
+                            new InputStreamReader(is, "utf-8"), 1024);
+                    StringBuilder sb = new StringBuilder();
+                    String line = "";
+                    while ((line = reader.readLine()) != null) {
+                        sb.append(line + "\n");
+                    }
+                    is.close();
+                    result = sb.toString();
 
-		case R.id.cancel_btn_capture_picture:
+                    if (result.isEmpty()) {
+                        result = "nothing";
+                        Toast message = Toast.makeText(getBaseContext(),
+                                result, Toast.LENGTH_LONG);
+                        message.show();
+                    }
+                    // Convert string to object
 
-			break;
-		case R.id.done_btn_capture_picture:
+                    profileURL = new JSONObject(result);
+                    sendEmptyMessage(DONE_URL);
 
-			break;
+                } catch (Exception ex) {
 
-		case R.id.crop_bar_btn:
+                }
+                break;
+            case DONE_URL:
+                // if(profileURL.optBoolean("is_silhouette"))
+                // {
 
-			break;
+                // }
+                break;
+            }
+        }
+    }
 
-		case R.id.crop_image_sqaure:
+    @Override
+    public void onClick(View v) {
 
-			break;
+        Intent intent = null;
+        switch (v.getId()) {
 
-		case R.id.crop_image_sqaure_white:
+        case R.id.cancel_btn_capture_picture:
+            finish();
+            break;
 
-			break;
+        case R.id.choose_from_library_btn:
 
-		}
+            intent = new Intent(CapturePictureActivity.this,
+                    PhotoAlbumActivity.class);
+            mImageEditLayout.setVisibility(View.INVISIBLE);
+            mCropImgSqaureGray.setVisibility(View.GONE);
+            mCropImgSqaureLine.setVisibility(View.GONE);
+            break;
 
-		if (intent == null) {
-			return;
-		}
-		try {
-			startActivityForResult(intent, 1);
-			overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
-		} catch (ActivityNotFoundException e) {
-			Log.e(TAG, " Activity not found : " + e.getMessage());
-		}
-	}
+        case R.id.submit_btn:
 
+            break;
 
-	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        case R.id.edit_btn:
 
-		if (data == null) {
-			Log.d(TAG, "User cancelled the operation!");
-			return;
-		}
+            mImageEditLayout.setVisibility(View.VISIBLE);
 
-		switch (resultCode) {
-		case RESULT_OK:
-			String result = data.getStringExtra(PATH);
-			Uri uri = Uri.parse(result);
-			mUserImage.setImageURI(uri);
-			mUserImage.setScaleType(ScaleType.CENTER_CROP);
-			break;
-		}
-	}
+            break;
 
-	// (new FacebookUserInfo(this))
-	// .execute(new FacebookGraphUserInfo());
+        case R.id.crop_image_sqaure:
+
+            break;
+
+        case R.id.crop_image_sqaure_white:
+
+            break;
+
+        case R.id.image_crop_btn:
+
+            mCropImgSqaureGray.setVisibility(View.VISIBLE);
+            mCropImgSqaureLine.setVisibility(View.VISIBLE);
+
+            break;
+
+        case R.id.image_rotate_btn:
+            // float rotation = mUserImage.getRotation();
+            // mUserImage.setRotation(rotation+90);
+//            ImageInfoUtils.rotateImage(ctx, mId, 90);
+//            mUserImage.setImageURI(mImageUri);
+            rotateImage();
+            
+            break;
+
+        case R.id.image_effect_btn:
+
+            break;
+
+        case R.id.image_red_eye_btn:
+
+            break;
+
+        }
+
+        if (intent == null) {
+            return;
+        }
+        try {
+            startActivityForResult(intent, 1);
+            overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+        } catch (ActivityNotFoundException e) {
+            Log.e(TAG, " Activity not found : " + e.getMessage());
+        }
+    }
+    
+    private void rotateImage() {
+        
+        ExifInterface exif;
+        try {
+            exif = new ExifInterface(mImageUri.toString());
+            int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, 1);
+            Log.d( "test", " Orientation : " + orientation);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (data == null) {
+            Log.d(TAG, "User cancelled the operation!");
+            return;
+        }
+
+        switch (resultCode) {
+        case RESULT_OK:
+            mId = String.valueOf(data.getLongExtra(ID, -1));
+            String result = data.getStringExtra(PATH);
+            mImageUri = Uri.parse(result);
+            mUserImage.setImageURI(mImageUri);
+            mUserImage.setScaleType(ScaleType.CENTER_CROP);
+            String flag = data.getStringExtra(FLAG);
+            if (flag.equals("ok")) {
+                mEditBtn.setEnabled(true);
+
+            }
+            break;
+        }
+    }
+
+    // (new FacebookUserInfo(this))
+    // .execute(new FacebookGraphUserInfo());
 
 }
