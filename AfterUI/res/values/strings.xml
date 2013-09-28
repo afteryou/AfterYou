@@ -126,4 +126,5 @@
 	<string name="IDS_MANDATORY_PROFILE">The Mandatory fields needs to be filled in order to proceed</string>
 	<string name="smoke_label">Smoking</string>
 	<string name="drink_label">Drinking</string>
+    <string name="no_images_txt">No images in gallary!</string>
 </resources>

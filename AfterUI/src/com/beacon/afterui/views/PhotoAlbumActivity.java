@@ -36,6 +36,8 @@ public class PhotoAlbumActivity extends BaseActivity implements
 
     private static final int LOADING_ALBUMS_COMPLETED = 2;
 
+	private static final int NO_IMAGE = 3;
+
     private HandlerThread mHandlerThread;
 
     private static List<Album> sAlbumList;
@@ -45,6 +47,8 @@ public class PhotoAlbumActivity extends BaseActivity implements
     private Handler mAlbumHandler;
 
     private ListView mListView;
+
+    private TextView mNoImageGallary;
 
     public static final String ID = "id";
     public static final String NAME = "name";
@@ -56,6 +60,7 @@ public class PhotoAlbumActivity extends BaseActivity implements
         mCancelBtn = (ImageView) findViewById(R.id.cancel_btn_photo_album);
         mListView = (ListView) findViewById(R.id.album_list);
         mListView.setOnItemClickListener(this);
+        mNoImageGallary = (TextView) findViewById(R.id.no_images);
         mCancelBtn.setOnClickListener(this);
         mHandlerThread = new HandlerThread("album_loader");
         mHandlerThread.start();
@@ -79,6 +84,11 @@ public class PhotoAlbumActivity extends BaseActivity implements
                 mProgresDialog.dismiss();
                 mListView.setAdapter(new AlbumAdapter());
                 break;
+
+			case NO_IMAGE:
+				mProgresDialog.dismiss();
+				mNoImageGallary.setVisibility(View.VISIBLE);
+				break;
             }
         };
     };
@@ -113,7 +123,11 @@ public class PhotoAlbumActivity extends BaseActivity implements
         @Override
         public void run() {
             sAlbumList = ImageInfoUtils.getAlbumList(PhotoAlbumActivity.this);
-            mHandler.sendEmptyMessage(LOADING_ALBUMS_COMPLETED);
+			if (sAlbumList.size() > 0) {
+				mHandler.sendEmptyMessage(LOADING_ALBUMS_COMPLETED);
+			} else {
+				mHandler.sendEmptyMessage(NO_IMAGE);
+			}
         }
     };
 

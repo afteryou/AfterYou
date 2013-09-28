@@ -30,13 +30,12 @@
             android:layout_marginLeft="10dp"
             android:background="@drawable/cancel_btn"
             android:src="@drawable/cancel_txt" />
-
     </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/camera_roll_rl"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:layout_below="@id/photo_album_layout"
         android:layout_margin="10dp"
         android:background="@drawable/image_preview_bg_white" >
@@ -44,60 +43,18 @@
         <ListView
             android:id="@+id/album_list"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-           >
+            android:layout_height="wrap_content" >
         </ListView>
     </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/other_roll_rl"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/no_images"
+        style="@style/BrownTextPhotoAlbum"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/camera_roll_rl" >
-
-        <ImageView
-            android:id="@+id/photo_user_album"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:src="@drawable/other_rol_photo" />
-
-        <TextView
-            android:id="@+id/other_roll_txt"
-            style="@style/BrownTextPhotoAlbum"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="4dp"
-            android:layout_toRightOf="@id/photo_user_album"
-            android:paddingLeft="4dp"
-            android:text="@string/other_roll_txt" />
-
-        <TextView
-            android:id="@+id/other_roll_number_txt"
-            style="@style/NumberTextPhotoAlbum"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginLeft="5dp"
-            android:layout_toRightOf="@id/other_roll_txt"
-            android:paddingLeft="6dp"
-            android:text="@string/other_roll_number_of_photos_txt" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="13dp"
-            android:src="@drawable/right_direction_img" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/photo_user_album"
-            android:src="@drawable/divider_img" >
-        </ImageView>
-    </RelativeLayout>
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:text="@string/no_images_txt"
+        android:visibility="gone" />
 
 </RelativeLayout>

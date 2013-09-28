@@ -1,7 +1,6 @@
 package com.beacon.afterui.views;
 
 import java.io.BufferedReader;
-import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
@@ -16,6 +15,8 @@ import org.json.JSONObject;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
@@ -37,6 +38,7 @@ import com.beacon.afterui.activity.BaseActivity;
 import com.beacon.afterui.application.AfterYouApplication;
 import com.beacon.afterui.application.CrashHandler;
 import com.beacon.afterui.constants.AppConstants;
+import com.beacon.afterui.utils.ImageInfoUtils;
 import com.beacon.afterui.utils.ImageUtils;
 import com.facebook.Session;
 
@@ -64,7 +66,6 @@ public class CapturePictureActivity extends BaseActivity implements
     private RelativeLayout mImageEditLayout;
     private static final String FLAG = "ok";
 
-    private String mId;
     private Uri mImageUri;
 
     private String accessToken = null;
@@ -74,6 +75,9 @@ public class CapturePictureActivity extends BaseActivity implements
     public static final int GET_URL = 0;
     public static final int DONE_URL = 1;
     public static final int UPDATE_IMAGE = 2;
+
+    private HandlerThread mDeamonThread;
+    private Handler mDeamonHandler;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -112,6 +116,8 @@ public class CapturePictureActivity extends BaseActivity implements
         mCancelBtn.setOnClickListener(this);
         mDoneBtn.setOnClickListener(this);
 
+        initDeamonThread();
+
         Session session = ((AfterYouApplication) getApplication())
                 .getOpenSession();
 
@@ -131,10 +137,19 @@ public class CapturePictureActivity extends BaseActivity implements
         urlThread.start();
 
         Looper mLoop = urlThread.getLooper();
-        URLHandler urlHandle = new URLHandler(mLoop);
+        URLHandler uriHandler = new URLHandler(mLoop);
 
-        urlHandle.sendEmptyMessage(GET_URL);
+        uriHandler.sendEmptyMessage(GET_URL);
+    }
 
+    /**
+     * Should be used for backend processing.
+     */
+    private void initDeamonThread() {
+        mDeamonThread = new HandlerThread("deamon");
+        mDeamonThread.start();
+
+        mDeamonHandler = new Handler(mDeamonThread.getLooper());
     }
 
     class UIHandler extends Handler {
@@ -151,7 +166,7 @@ public class CapturePictureActivity extends BaseActivity implements
         }
     }
 
-    class URLHandler extends Handler {
+    private class URLHandler extends Handler {
         public URLHandler(Looper loop) {
             super(loop);
         }
@@ -226,16 +241,29 @@ public class CapturePictureActivity extends BaseActivity implements
 
     private void rotateImage() {
 
-        ExifInterface exif;
-        try {
-            exif = new ExifInterface(mImageUri.toString());
-            int orientation = exif.getAttributeInt(
-                    ExifInterface.TAG_ORIENTATION, 1);
-            Log.d("test", " Orientation : " + orientation);
-        } catch (IOException e) {
-            e.printStackTrace();
+        Bitmap bitmap = ((BitmapDrawable) mUserImage.getDrawable()).getBitmap();
+
+        Bitmap rotatedBitmap = ImageInfoUtils.rotateToPortrait(bitmap,
+                ExifInterface.ORIENTATION_ROTATE_90);
+
+        // We don't need to release old bitmap, because image view does it on
+        // our behalf.
+        if (rotatedBitmap != null) {
+            mUserImage.setImageBitmap(rotatedBitmap);
+            Log.d("test", " mUrlHandler : " + mDeamonHandler);
+            mDeamonHandler.post(mSaveImage);
         }
     }
+
+    private Runnable mSaveImage = new Runnable() {
+
+        @Override
+        public void run() {
+            // store to media store.
+            ImageInfoUtils.saveToMediaStore(CapturePictureActivity.this,
+                    ((BitmapDrawable) mUserImage.getDrawable()).getBitmap());
+        }
+    };
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -247,7 +275,6 @@ public class CapturePictureActivity extends BaseActivity implements
 
         switch (resultCode) {
         case RESULT_OK:
-            mId = String.valueOf(data.getLongExtra(ID, -1));
             String result = data.getStringExtra(PATH);
             mImageUri = Uri.parse(result);
             mUserImage.setImageURI(mImageUri);
@@ -306,12 +333,7 @@ public class CapturePictureActivity extends BaseActivity implements
             break;
 
         case R.id.image_rotate_btn:
-            // float rotation = mUserImage.getRotation();
-            // mUserImage.setRotation(rotation+90);
-            // ImageInfoUtils.rotateImage(ctx, mId, 90);
-            // mUserImage.setImageURI(mImageUri);
             rotateImage();
-
             break;
 
         case R.id.image_effect_btn:
@@ -333,6 +355,20 @@ public class CapturePictureActivity extends BaseActivity implements
         } catch (ActivityNotFoundException e) {
             Log.e(TAG, " Activity not found : " + e.getMessage());
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+
+        if (urlThread != null && urlThread.isAlive()) {
+            urlThread.quit();
+        }
+
+        if (mDeamonThread != null && mDeamonThread.isAlive()) {
+            mDeamonThread.quit();
+        }
+
+        super.onDestroy();
     }
 
 }

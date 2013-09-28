@@ -1,6 +1,9 @@
 package com.beacon.afterui.utils;
 
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -13,12 +16,19 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
 import android.net.Uri;
-import android.nfc.tech.MifareClassic;
+import android.os.Environment;
 import android.provider.MediaStore;
+import android.provider.MediaStore.Images;
+import android.provider.MediaStore.Images.Media;
 import android.util.Log;
 
 public class ImageInfoUtils {
+
+    /** TAG */
+    private static final String TAG = ImageInfoUtils.class.getSimpleName();
 
     private static final String GIF = "GIF";
     private static final String PNG = "PNG";
@@ -26,6 +36,9 @@ public class ImageInfoUtils {
     private static final String BMP = "BMP";
 
     private static final int HEADER_SIZE = 512;
+
+    /** Folder name for storing data related to app. */
+    public static final String FOLDER_PATH = "afteryou";
 
     public static ImageInfo getImageInfo(byte[] header) {
         ImageInfo model = null;
@@ -422,7 +435,6 @@ public class ImageInfoUtils {
 
     public static String getPhotoPath(final Context context, final String id) {
         ContentResolver resolver = context.getContentResolver();
-        Log.d( "test", " FULL ID : " + id);
         String where = MediaStore.Images.Media._ID + "=?";
         String whereArgs[] = { id };
 
@@ -457,9 +469,8 @@ public class ImageInfoUtils {
 
         String where = MediaStore.Images.Media._ID + "=?";
         String[] selectionArgs = { id };
-        
+
         int rowsUpdated = resolver.update(uri, values, where, selectionArgs);
-        Log.d("test", "Rows updated : " + rowsUpdated);
     }
 
     public static int getImageOrientation(final Context context) {
@@ -479,5 +490,106 @@ public class ImageInfoUtils {
         } else {
             return 0;
         }
+    }
+
+    public static Bitmap rotateToPortrait(final Bitmap bitmap, final int ori) {
+        Matrix matrix = new Matrix();
+        int w = bitmap.getWidth();
+        int h = bitmap.getHeight();
+        if (ori == ExifInterface.ORIENTATION_ROTATE_90
+                || ori == ExifInterface.ORIENTATION_ROTATE_270
+                || ori == ExifInterface.ORIENTATION_TRANSPOSE
+                || ori == ExifInterface.ORIENTATION_TRANSVERSE) {
+            int tmp = w;
+            w = h;
+            h = tmp;
+        }
+        switch (ori) {
+        case ExifInterface.ORIENTATION_ROTATE_90:
+            matrix.setRotate(90, w / 2f, h / 2f);
+            break;
+        case ExifInterface.ORIENTATION_ROTATE_180:
+            matrix.setRotate(180, w / 2f, h / 2f);
+            break;
+        case ExifInterface.ORIENTATION_ROTATE_270:
+            matrix.setRotate(270, w / 2f, h / 2f);
+            break;
+        case ExifInterface.ORIENTATION_FLIP_HORIZONTAL:
+            matrix.preScale(-1, 1);
+            break;
+        case ExifInterface.ORIENTATION_FLIP_VERTICAL:
+            matrix.preScale(1, -1);
+            break;
+        case ExifInterface.ORIENTATION_TRANSPOSE:
+            matrix.setRotate(90, w / 2f, h / 2f);
+            matrix.preScale(1, -1);
+            break;
+        case ExifInterface.ORIENTATION_TRANSVERSE:
+            matrix.setRotate(270, w / 2f, h / 2f);
+            matrix.preScale(1, -1);
+            break;
+        case ExifInterface.ORIENTATION_NORMAL:
+        default:
+            return bitmap;
+        }
+
+        return Bitmap.createBitmap(bitmap, 0, 0, bitmap.getWidth(),
+                bitmap.getHeight(), matrix, true);
+    }
+
+    public static boolean saveToMediaStore(final Context context,
+            final Bitmap sourceBitmap) {
+
+        String imageName = null;
+
+        boolean imageSaved = false;
+
+        boolean imageOvewritten = false;
+
+        if (sourceBitmap != null && !sourceBitmap.isRecycled()) {
+            File storagePath = new File(
+                    Environment.getExternalStorageDirectory() + "/"
+                            + FOLDER_PATH + "/");
+
+            if (!storagePath.exists()) {
+                storagePath.mkdirs();
+            }
+
+            imageName = "profile.png";
+
+            FileOutputStream out = null;
+            File imageFile = new File(storagePath, imageName);
+
+            if (imageFile.exists()) {
+                imageOvewritten = true;
+            }
+
+            try {
+                out = new FileOutputStream(imageFile);
+                imageSaved = sourceBitmap.compress(Bitmap.CompressFormat.PNG,
+                        90, out);
+                try {
+                    out.flush();
+                    out.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+            } catch (FileNotFoundException e) {
+                Log.e(TAG, "Unable to write the image to gallery" + e);
+            }
+
+            if (!imageOvewritten) {
+                ContentValues values = new ContentValues(3);
+                values.put(Images.Media.TITLE, imageName);
+                values.put(Images.Media.MIME_TYPE, "image/png");
+                values.put("_data", imageFile.getAbsolutePath());
+
+                context.getContentResolver().insert(Media.EXTERNAL_CONTENT_URI,
+                        values);
+            }
+        }
+
+        return imageSaved;
     }
 }
