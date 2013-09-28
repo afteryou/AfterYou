@@ -134,17 +134,6 @@ public class BaseActivity extends Activity {
 		actStack.push(this);
 	}
 	
-	private void displayDialog() {		
-		if(displayingDialog != null && displayingDialog.isShowing()){
-			AfterUIlog.i(this, "showing dialog...");
-			//In order to display the dialog properly, we need dismiss the dialog first
-			//dismissing dialog immediately before the show in JB causes the dialog view to detach from the window
-			if(Build.VERSION.SDK_INT < 16) 
-				displayingDialog.dismiss();
-			displayingDialog.show();
-		}
-	}
-
 	
 	
 	@Override

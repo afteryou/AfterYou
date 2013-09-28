@@ -8,8 +8,9 @@ import java.io.InputStreamReader;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.ActivityNotFoundException;
@@ -34,9 +35,8 @@ import android.widget.Toast;
 import com.beacon.afterui.R;
 import com.beacon.afterui.activity.BaseActivity;
 import com.beacon.afterui.application.AfterYouApplication;
+import com.beacon.afterui.application.CrashHandler;
 import com.beacon.afterui.constants.AppConstants;
-import com.beacon.afterui.provider.PreferenceEngine;
-import com.beacon.afterui.utils.ImageInfoUtils;
 import com.beacon.afterui.utils.ImageUtils;
 import com.facebook.Session;
 
@@ -60,16 +60,20 @@ public class CapturePictureActivity extends BaseActivity implements
     private ImageView mUserImage;
     private JSONObject profileURL = null;
     private Context ctx;
-    private String accessToken = null;
-
-    public static final int GET_URL = 0;
-    public static final int DONE_URL = 1;
 
     private RelativeLayout mImageEditLayout;
     private static final String FLAG = "ok";
 
     private String mId;
     private Uri mImageUri;
+
+    private String accessToken = null;
+    private HandlerThread urlThread;
+    private UIHandler handler;
+
+    public static final int GET_URL = 0;
+    public static final int DONE_URL = 1;
+    public static final int UPDATE_IMAGE = 2;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -123,7 +127,7 @@ public class CapturePictureActivity extends BaseActivity implements
 
     private void initView() {
 
-        HandlerThread urlThread = new HandlerThread("profile_url");
+        urlThread = new HandlerThread("profile_url");
         urlThread.start();
 
         Looper mLoop = urlThread.getLooper();
@@ -131,12 +135,20 @@ public class CapturePictureActivity extends BaseActivity implements
 
         urlHandle.sendEmptyMessage(GET_URL);
 
-        ImageUtils
-                .getInstance(ctx)
-                .loadImage(
-                        "https://fbcdn-profile-a.akamaihd.net/hprofile-ak-ash4/372183_100002526091955_998385602_q.jpg",
-                        mUserImage);
+    }
 
+    class UIHandler extends Handler {
+        public UIHandler(Looper loop) {
+            super(loop);
+        }
+
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
+            case UPDATE_IMAGE:
+                setImage();
+                break;
+            }
+        }
     }
 
     class URLHandler extends Handler {
@@ -150,22 +162,24 @@ public class CapturePictureActivity extends BaseActivity implements
             case GET_URL:
                 InputStream is = null;
                 String result = "";
-                String url = "https://graph.facebook.com/"
-                        + PreferenceEngine.getInstance(ctx).getProfileID()
-                        + "/picture?redirect=false?access_token=" + accessToken;
+                String url = "https://graph.facebook.com/me/picture?redirect=false&width="
+                        + mUserImage.getDrawable().getIntrinsicWidth()
+                        + "&height="
+                        + mUserImage.getDrawable().getIntrinsicHeight()
+                        + "&access_token=" + accessToken;
 
                 try {
                     HttpClient httpclient = new DefaultHttpClient(); // for port
                                                                      // 80
                                                                      // requests!
-                    HttpPost httppost = new HttpPost(url);
-                    HttpResponse response = httpclient.execute(httppost);
+                    HttpGet httpget = new HttpGet(url);
+                    HttpResponse response = httpclient.execute(httpget);
                     HttpEntity entity = response.getEntity();
                     is = entity.getContent();
 
                     // Read response to string
                     BufferedReader reader = new BufferedReader(
-                            new InputStreamReader(is, "utf-8"), 1024);
+                            new InputStreamReader(is));
                     StringBuilder sb = new StringBuilder();
                     String line = "";
                     while ((line = reader.readLine()) != null) {
@@ -190,12 +204,60 @@ public class CapturePictureActivity extends BaseActivity implements
                 }
                 break;
             case DONE_URL:
-                // if(profileURL.optBoolean("is_silhouette"))
-                // {
-
-                // }
+                if (!profileURL.optBoolean("is_silhouette")) {
+                    handler.sendEmptyMessage(UPDATE_IMAGE);
+                    urlThread.quit();
+                }
                 break;
             }
+        }
+    }
+
+    public void setImage() {
+        try {
+            ImageUtils.getInstance(ctx).loadImage(
+                    profileURL.getJSONObject("data").getString("url"),
+                    mUserImage);
+        } catch (JSONException ex) {
+            CrashHandler.getInstance().collectCrashDeviceInfo(this);
+        }
+
+    }
+
+    private void rotateImage() {
+
+        ExifInterface exif;
+        try {
+            exif = new ExifInterface(mImageUri.toString());
+            int orientation = exif.getAttributeInt(
+                    ExifInterface.TAG_ORIENTATION, 1);
+            Log.d("test", " Orientation : " + orientation);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        if (data == null) {
+            Log.d(TAG, "User cancelled the operation!");
+            return;
+        }
+
+        switch (resultCode) {
+        case RESULT_OK:
+            mId = String.valueOf(data.getLongExtra(ID, -1));
+            String result = data.getStringExtra(PATH);
+            mImageUri = Uri.parse(result);
+            mUserImage.setImageURI(mImageUri);
+            mUserImage.setScaleType(ScaleType.CENTER_CROP);
+            String flag = data.getStringExtra(FLAG);
+            if (flag.equals("ok")) {
+                mEditBtn.setEnabled(true);
+
+            }
+            break;
         }
     }
 
@@ -246,10 +308,10 @@ public class CapturePictureActivity extends BaseActivity implements
         case R.id.image_rotate_btn:
             // float rotation = mUserImage.getRotation();
             // mUserImage.setRotation(rotation+90);
-//            ImageInfoUtils.rotateImage(ctx, mId, 90);
-//            mUserImage.setImageURI(mImageUri);
+            // ImageInfoUtils.rotateImage(ctx, mId, 90);
+            // mUserImage.setImageURI(mImageUri);
             rotateImage();
-            
+
             break;
 
         case R.id.image_effect_btn:
@@ -272,44 +334,5 @@ public class CapturePictureActivity extends BaseActivity implements
             Log.e(TAG, " Activity not found : " + e.getMessage());
         }
     }
-    
-    private void rotateImage() {
-        
-        ExifInterface exif;
-        try {
-            exif = new ExifInterface(mImageUri.toString());
-            int orientation = exif.getAttributeInt(ExifInterface.TAG_ORIENTATION, 1);
-            Log.d( "test", " Orientation : " + orientation);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-        if (data == null) {
-            Log.d(TAG, "User cancelled the operation!");
-            return;
-        }
-
-        switch (resultCode) {
-        case RESULT_OK:
-            mId = String.valueOf(data.getLongExtra(ID, -1));
-            String result = data.getStringExtra(PATH);
-            mImageUri = Uri.parse(result);
-            mUserImage.setImageURI(mImageUri);
-            mUserImage.setScaleType(ScaleType.CENTER_CROP);
-            String flag = data.getStringExtra(FLAG);
-            if (flag.equals("ok")) {
-                mEditBtn.setEnabled(true);
-
-            }
-            break;
-        }
-    }
-
-    // (new FacebookUserInfo(this))
-    // .execute(new FacebookGraphUserInfo());
 
 }
