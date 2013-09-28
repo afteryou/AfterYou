@@ -16,7 +16,16 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Color;
 import android.graphics.Matrix;
+import android.graphics.Paint;
+import android.graphics.Path;
+import android.graphics.PorterDuff.Mode;
+import android.graphics.PorterDuffXfermode;
+import android.graphics.Rect;
+import android.graphics.RectF;
+import android.graphics.drawable.BitmapDrawable;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Environment;
@@ -544,9 +553,10 @@ public class ImageInfoUtils {
 
         boolean imageSaved = false;
 
-        boolean imageOvewritten = false;
+        ContentResolver resolver = context.getContentResolver();
 
         if (sourceBitmap != null && !sourceBitmap.isRecycled()) {
+
             File storagePath = new File(
                     Environment.getExternalStorageDirectory() + "/"
                             + FOLDER_PATH + "/");
@@ -560,9 +570,11 @@ public class ImageInfoUtils {
             FileOutputStream out = null;
             File imageFile = new File(storagePath, imageName);
 
-            if (imageFile.exists()) {
-                imageOvewritten = true;
-            }
+            String where = Images.Media.DATA + "=?";
+            String[] selectionArgs = { imageFile.getAbsolutePath() };
+
+            // Delete old image.
+            resolver.delete(Media.EXTERNAL_CONTENT_URI, where, selectionArgs);
 
             try {
                 out = new FileOutputStream(imageFile);
@@ -574,22 +586,36 @@ public class ImageInfoUtils {
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-
             } catch (FileNotFoundException e) {
                 Log.e(TAG, "Unable to write the image to gallery" + e);
             }
 
-            if (!imageOvewritten) {
-                ContentValues values = new ContentValues(3);
-                values.put(Images.Media.TITLE, imageName);
-                values.put(Images.Media.MIME_TYPE, "image/png");
-                values.put("_data", imageFile.getAbsolutePath());
-
-                context.getContentResolver().insert(Media.EXTERNAL_CONTENT_URI,
-                        values);
-            }
+            ContentValues values = new ContentValues(3);
+            values.put(Images.Media.TITLE, imageName);
+            values.put(Images.Media.MIME_TYPE, "image/png");
+            values.put(Images.Media.DATA, imageFile.getAbsolutePath());
+            resolver.insert(Media.EXTERNAL_CONTENT_URI, values);
         }
 
         return imageSaved;
+    }
+
+    public static Bitmap roundCornered(final Bitmap bitmap, final int roundPx) {
+
+        Bitmap result = Bitmap.createBitmap(bitmap.getWidth(),
+                bitmap.getHeight(), Bitmap.Config.ARGB_8888);
+        Canvas canvas = new Canvas(result);
+
+        Paint paint = new Paint();
+        Rect rect = new Rect(0, 0, bitmap.getWidth(), bitmap.getHeight());
+        RectF rectF = new RectF(rect);
+        paint.setAntiAlias(true);
+        canvas.drawARGB(0, 0, 0, 0);
+        paint.setColor(Color.BLUE);
+        canvas.drawRoundRect(rectF, roundPx, roundPx, paint);
+        paint.setXfermode(new PorterDuffXfermode(Mode.SRC_IN));
+        canvas.drawBitmap(bitmap, rect, rect, paint);
+
+        return result;
     }
 }

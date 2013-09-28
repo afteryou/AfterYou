@@ -32,209 +32,216 @@ import com.facebook.model.GraphUser;
 
 public class LandingActivity extends BaseActivity implements OnClickListener {
 
-	/** TAG */
-	private static final String TAG = LandingActivity.class.getSimpleName();
+    /** TAG */
+    private static final String TAG = LandingActivity.class.getSimpleName();
 
-	private static ImageView sLoginButton;
-	private static ImageView sSignUpButton;
+    private static ImageView sLoginButton;
+    private static ImageView sSignUpButton;
 
-	private static final int SPLASH_END = 1;
+    private static final int SPLASH_END = 1;
 
-	private static final int SPALSH_VISIBLE_TIME = 3000;
+    private static final int SPALSH_VISIBLE_TIME = 3000;
 
-	private SplashHandler mSplashHandler;
+    private SplashHandler mSplashHandler;
 
-	private static View sFbContainer;
-	
-	private Context ctx;
+    private static View sFbContainer;
 
-	private Session.StatusCallback statusCallback = new SessionStatusCallback();
+    private Context ctx;
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		
-		setContentView(R.layout.landing_screen);
-		
-		this.ctx = this;
+    private Session.StatusCallback statusCallback = new SessionStatusCallback();
 
-		sLoginButton = (ImageView) findViewById(R.id.login_btn);
-		sSignUpButton = (ImageView) findViewById(R.id.signup_btn);
-		sFbContainer = findViewById(R.id.fb_container);
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-		sLoginButton.setOnClickListener(this);
-		sSignUpButton.setOnClickListener(this);
-		sFbContainer.setOnClickListener(this);
+        setContentView(R.layout.landing_screen);
 
-		Settings.addLoggingBehavior(LoggingBehavior.INCLUDE_ACCESS_TOKENS);
+        this.ctx = this;
 
-		Session session = Session.getActiveSession();
-		if (session == null) {
-			if (savedInstanceState != null) {
-				session = Session.restoreSession(this, null, statusCallback,
-						savedInstanceState);
-			}
-			if (session == null) {
-				session = new Session(this);
-			}
-			Session.setActiveSession(session);
-			if (session.getState().equals(SessionState.CREATED_TOKEN_LOADED)) {
-				session.openForRead(new Session.OpenRequest(this)
-						.setCallback(statusCallback));
-			}
-		}
+        sLoginButton = (ImageView) findViewById(R.id.login_btn);
+        sSignUpButton = (ImageView) findViewById(R.id.signup_btn);
+        sFbContainer = findViewById(R.id.fb_container);
 
-		mSplashHandler = new SplashHandler(this);
-		mSplashHandler.sendEmptyMessageDelayed(SPLASH_END, SPALSH_VISIBLE_TIME);
-	}
+        sLoginButton.setOnClickListener(this);
+        sSignUpButton.setOnClickListener(this);
+        sFbContainer.setOnClickListener(this);
 
-	private class SplashHandler extends Handler {
+        Settings.addLoggingBehavior(LoggingBehavior.INCLUDE_ACCESS_TOKENS);
 
-		private final WeakReference<LandingActivity> mActivity;
+        Session session = Session.getActiveSession();
+        if (session == null) {
+            if (savedInstanceState != null) {
+                session = Session.restoreSession(this, null, statusCallback,
+                        savedInstanceState);
+            }
+            if (session == null) {
+                session = new Session(this);
+            }
+            Session.setActiveSession(session);
+            if (session.getState().equals(SessionState.CREATED_TOKEN_LOADED)) {
+                session.openForRead(new Session.OpenRequest(this)
+                        .setCallback(statusCallback));
+            }
+        }
 
-		public SplashHandler(LandingActivity landingActivity) {
-			mActivity = new WeakReference<LandingActivity>(landingActivity);
-		}
+        mSplashHandler = new SplashHandler(this);
+        mSplashHandler.sendEmptyMessageDelayed(SPLASH_END, SPALSH_VISIBLE_TIME);
+    }
 
-		@Override
-		public void handleMessage(Message msg) {
+    private class SplashHandler extends Handler {
 
-			updateView();
+        private final WeakReference<LandingActivity> mActivity;
 
-		}
-	}
+        public SplashHandler(LandingActivity landingActivity) {
+            mActivity = new WeakReference<LandingActivity>(landingActivity);
+        }
 
-	@Override
-	public void onClick(View v) {
+        @Override
+        public void handleMessage(Message msg) {
 
-		Intent intent = null;
-		switch (v.getId()) {
-		case R.id.login_btn:
-			intent = new Intent(LandingActivity.this, LoginScreen.class);
+            updateView();
 
-			ContentValues values = new ContentValues();
-			values.put("Email", "peacemanav@gmail.com");
-			values.put("Passwd", "Complex1234");
-			values.put("source", "Test");
+        }
+    }
 
-			getContentResolver().insert(AuthTable.CONTENT_URI, values);
-			try {
-				startActivity(intent);
-				overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
-			} catch (ActivityNotFoundException e) {
-				Log.e(TAG, " Activity not found : " + e.getMessage());
-			}
+    @Override
+    public void onClick(View v) {
 
-			break;
+        Intent intent = null;
+        switch (v.getId()) {
+        case R.id.login_btn:
+            intent = new Intent(LandingActivity.this, LoginScreen.class);
 
-		case R.id.signup_btn:
-			intent = new Intent(LandingActivity.this, SignUpActivity.class);
-			try {
-				startActivity(intent);
-				overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
-			} catch (ActivityNotFoundException e) {
-				Log.e(TAG, " Activity not found : " + e.getMessage());
-			}
-			break;
+            ContentValues values = new ContentValues();
+            values.put("Email", "peacemanav@gmail.com");
+            values.put("Passwd", "Complex1234");
+            values.put("source", "Test");
 
-		case R.id.fb_container:
-			onClickLogin();
-			break;
-		}
+            getContentResolver().insert(AuthTable.CONTENT_URI, values);
+            try {
+                startActivity(intent);
+                overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+            } catch (ActivityNotFoundException e) {
+                Log.e(TAG, " Activity not found : " + e.getMessage());
+            }
 
-		if (intent == null) {
-			return;
-		}
+            break;
 
-	}
+        case R.id.signup_btn:
+            intent = new Intent(LandingActivity.this, SignUpActivity.class);
+            try {
+                startActivity(intent);
+                overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+            } catch (ActivityNotFoundException e) {
+                Log.e(TAG, " Activity not found : " + e.getMessage());
+            }
+            break;
 
-	@Override
-	public void onStart() {
-		super.onStart();
-		Session.getActiveSession().addCallback(statusCallback);
-	}
+        case R.id.fb_container:
+            onClickLogin();
+            break;
+        }
 
-	@Override
-	public void onStop() {
-		super.onStop();
-		Session.getActiveSession().removeCallback(statusCallback);
-	}
+        if (intent == null) {
+            return;
+        }
 
-	private void onClickLogin() {
-		Session session = Session.getActiveSession();
-		if (!session.isOpened() && !session.isClosed()) {
-			session.openForRead(new Session.OpenRequest(this)
-					.setCallback(statusCallback));
-		} else {
-			Session.openActiveSession(this, true, statusCallback);
-		}
-	}
+    }
 
-	private class SessionStatusCallback implements Session.StatusCallback {
-		@Override
-		public void call(Session session, SessionState state,
-				Exception exception) {
-			if (state == SessionState.OPENED) {
-				((AfterYouApplication) getApplication())
-						.setSessionCallBack(session);
-				mSplashHandler.sendEmptyMessageDelayed(SPLASH_END,
-						SPALSH_VISIBLE_TIME);
-			}
-		}
-	}
+    @Override
+    public void onStart() {
+        super.onStart();
+        Session.getActiveSession().addCallback(statusCallback);
+    }
 
-	public void updateView() {
-		Session session = Session.getActiveSession();
-		if (session.isOpened()) {
-	        setUserInfoChangedCallback(new UserInfoChangedCallback() {
+    @Override
+    public void onStop() {
+        super.onStop();
+        Session.getActiveSession().removeCallback(statusCallback);
+    }
 
-	            @Override
-	            public void onUserInfoFetched(GraphUser user) {
-	                ((AfterYouApplication) getApplication()).setUser(user);
-	                PreferenceEngine.getInstance(ctx).setFirstName(user.getFirstName());
-	                PreferenceEngine.getInstance(ctx).setLastName(user.getLastName());
-	                PreferenceEngine.getInstance(ctx).saveBirthday(user.getBirthday());
-	                PreferenceEngine.getInstance(ctx).saveGender(user.getProperty("gender"));
-	                PreferenceEngine.getInstance(ctx).saveProfileUserName(user.getUsername());
-	                StringBuffer userInfo = new StringBuffer();
-	                JSONArray languages = (JSONArray)user.getProperty("languages");
-	                if (languages.length() > 0) {
-	                    for (int i=0; i < languages.length(); i++) {
-	                        JSONObject language = languages.optJSONObject(i);
-	                        // Add the language name to a list. Use JSON
-	                        // methods to get access to the name field. 
-	                        userInfo.append(language.optString("name")+";");
-	                    }           
-//	                    userInfo.append(String.format("Languages: %s\n\n", 
-//	                    languageNames.toString()));
-	                }
-	                PreferenceEngine.getInstance(ctx).setSelfLangList(userInfo.toString());
-	                Intent intent = new Intent(ctx,SignUpActivity.class);
-	                intent.putExtra(AppConstants.FACEBOOK_USER, true);
-	                try {
-	    				startActivity(intent);
-	    			} catch (ActivityNotFoundException e) {
-	    				Log.e(TAG, " Activity not found : " + e.getMessage());
-	    			}
-	            }
-	        });
+    private void onClickLogin() {
+        Session session = Session.getActiveSession();
+        if (!session.isOpened() && !session.isClosed()) {
+            session.openForRead(new Session.OpenRequest(this)
+                    .setCallback(statusCallback));
+        } else {
+            Session.openActiveSession(this, true, statusCallback);
+        }
+    }
 
-	        fetchUserInfo();
-			
-		} else {
+    private class SessionStatusCallback implements Session.StatusCallback {
+        @Override
+        public void call(Session session, SessionState state,
+                Exception exception) {
+            if (state == SessionState.OPENED) {
+                ((AfterYouApplication) getApplication())
+                        .setSessionCallBack(session);
+                mSplashHandler.sendEmptyMessageDelayed(SPLASH_END,
+                        SPALSH_VISIBLE_TIME);
+            }
+        }
+    }
 
-			if (sLoginButton != null) {
-				sLoginButton.setVisibility(View.VISIBLE);
-			}
+    public void updateView() {
+        Session session = Session.getActiveSession();
+        if (session.isOpened()) {
+            setUserInfoChangedCallback(new UserInfoChangedCallback() {
 
-			if (sSignUpButton != null) {
-				sSignUpButton.setVisibility(View.VISIBLE);
-			}
+                @Override
+                public void onUserInfoFetched(GraphUser user) {
+                    ((AfterYouApplication) getApplication()).setUser(user);
+                    PreferenceEngine.getInstance(ctx).setFirstName(
+                            user.getFirstName());
+                    PreferenceEngine.getInstance(ctx).setLastName(
+                            user.getLastName());
+                    PreferenceEngine.getInstance(ctx).saveBirthday(
+                            user.getBirthday());
+                    PreferenceEngine.getInstance(ctx).saveGender(
+                            user.getProperty("gender"));
+                    PreferenceEngine.getInstance(ctx).saveProfileUserName(
+                            user.getUsername());
+                    StringBuffer userInfo = new StringBuffer();
+                    JSONArray languages = (JSONArray) user
+                            .getProperty("languages");
+                    if (languages.length() > 0) {
+                        for (int i = 0; i < languages.length(); i++) {
+                            JSONObject language = languages.optJSONObject(i);
+                            // Add the language name to a list. Use JSON
+                            // methods to get access to the name field.
+                            userInfo.append(language.optString("name") + ";");
+                        }
+                        // userInfo.append(String.format("Languages: %s\n\n",
+                        // languageNames.toString()));
+                    }
+                    PreferenceEngine.getInstance(ctx).setSelfLangList(
+                            userInfo.toString());
+                    Intent intent = new Intent(ctx, SignUpActivity.class);
+                    intent.putExtra(AppConstants.FACEBOOK_USER, true);
+                    try {
+                        startActivity(intent);
+                    } catch (ActivityNotFoundException e) {
+                        Log.e(TAG, " Activity not found : " + e.getMessage());
+                    }
+                }
+            });
 
-			if (sFbContainer != null) {
-				sFbContainer.setVisibility(View.VISIBLE);
-			}
-		}
+            fetchUserInfo();
 
-	}
+        } else {
+
+            if (sLoginButton != null) {
+                sLoginButton.setVisibility(View.VISIBLE);
+            }
+
+            if (sSignUpButton != null) {
+                sSignUpButton.setVisibility(View.VISIBLE);
+            }
+
+            if (sFbContainer != null) {
+                sFbContainer.setVisibility(View.VISIBLE);
+            }
+        }
+
+    }
 }

@@ -111,6 +111,7 @@ public class PhotoGallaryActivity extends Activity implements OnClickListener {
             intent.putExtra(ID, photo.coverId);
             Log.d("PhotoGallaryActivity", "Photo Id: " + photo.coverId);
             startActivityForResult(intent, 1);
+            overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 
         }
     };

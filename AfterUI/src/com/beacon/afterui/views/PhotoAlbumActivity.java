@@ -4,10 +4,10 @@ import java.util.List;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -27,16 +27,16 @@ import com.beacon.afterui.utils.ImageInfoUtils;
 public class PhotoAlbumActivity extends BaseActivity implements
         OnClickListener, OnItemClickListener {
 
+    /** TAG */
+    private static final String TAG = PhotoAlbumActivity.class.getSimpleName();
+
     private ImageView mCancelBtn;
-    private static final int SELECT_PICTURE = 1;
-    private String filemanagerstring;
-    private String selectedImagePath;
 
     private static final int LOADING_ALBUMS = 1;
 
     private static final int LOADING_ALBUMS_COMPLETED = 2;
 
-	private static final int NO_IMAGE = 3;
+    private static final int NO_IMAGE = 3;
 
     private HandlerThread mHandlerThread;
 
@@ -77,6 +77,7 @@ public class PhotoAlbumActivity extends BaseActivity implements
                 mAlbumHandler.post(mLoadAlbums);
                 mProgresDialog = new ProgressDialog(PhotoAlbumActivity.this);
                 mProgresDialog.setTitle("Loading albums..");
+                mProgresDialog.setMessage("Loading...");
                 mProgresDialog.show();
                 break;
 
@@ -85,10 +86,10 @@ public class PhotoAlbumActivity extends BaseActivity implements
                 mListView.setAdapter(new AlbumAdapter());
                 break;
 
-			case NO_IMAGE:
-				mProgresDialog.dismiss();
-				mNoImageGallary.setVisibility(View.VISIBLE);
-				break;
+            case NO_IMAGE:
+                mProgresDialog.dismiss();
+                mNoImageGallary.setVisibility(View.VISIBLE);
+                break;
             }
         };
     };
@@ -123,11 +124,11 @@ public class PhotoAlbumActivity extends BaseActivity implements
         @Override
         public void run() {
             sAlbumList = ImageInfoUtils.getAlbumList(PhotoAlbumActivity.this);
-			if (sAlbumList.size() > 0) {
-				mHandler.sendEmptyMessage(LOADING_ALBUMS_COMPLETED);
-			} else {
-				mHandler.sendEmptyMessage(NO_IMAGE);
-			}
+            if (sAlbumList.size() > 0) {
+                mHandler.sendEmptyMessage(LOADING_ALBUMS_COMPLETED);
+            } else {
+                mHandler.sendEmptyMessage(NO_IMAGE);
+            }
         }
     };
 
@@ -157,17 +158,24 @@ public class PhotoAlbumActivity extends BaseActivity implements
         @Override
         public View getView(int position, View view, ViewGroup parent) {
 
+            Album album = (Album) getItem(position);
+
             if (view == null) {
                 view = inflator.inflate(R.layout.albumlayout, null, false);
-            }
 
-            Album album = (Album) getItem(position);
+                if (position == 0) {
+                    Bitmap bitmap = ImageInfoUtils
+                            .roundCornered(album.thumb, 4);
+                    album.thumb.recycle();
+                    album.thumb = bitmap;
+                }
+            }
 
             TextView albumName = (TextView) view.findViewById(R.id.album_name);
             albumName.setText(album.name);
 
             TextView albumCount = (TextView) view.findViewById(R.id.number_txt);
-            albumCount.setText("" + album.count);
+            albumCount.setText(String.valueOf(album.count));
 
             ImageView coverImage = (ImageView) view
                     .findViewById(R.id.photo_of_user);
@@ -199,5 +207,6 @@ public class PhotoAlbumActivity extends BaseActivity implements
         intent.putExtra(ID, album.id);
         intent.putExtra(NAME, album.name);
         startActivityForResult(intent, 1);
+        overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
     }
 }
