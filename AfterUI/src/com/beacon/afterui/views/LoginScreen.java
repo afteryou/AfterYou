@@ -1,6 +1,5 @@
 package com.beacon.afterui.views;
 
-import android.app.Activity;
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -13,11 +12,12 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.beacon.afterui.R;
+import com.beacon.afterui.activity.BaseActivity;
 import com.beacon.afterui.utils.Utilities;
 import com.beacon.afterui.utils.customviews.AfterYouDialogImpl;
 import com.beacon.afterui.utils.customviews.ErrorDialog;
 
-public class LoginScreen extends Activity implements OnClickListener {
+public class LoginScreen extends BaseActivity implements OnClickListener {
 
     /** TAG */
     private static final String TAG = LoginScreen.class.getSimpleName();
@@ -34,7 +34,7 @@ public class LoginScreen extends Activity implements OnClickListener {
     private static final boolean isTest = false;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login_screen);
         mLoginButton = (ImageButton) findViewById(R.id.sign_in_btn_login_screen);
@@ -52,6 +52,11 @@ public class LoginScreen extends Activity implements OnClickListener {
         mCrossEmailBtn.setOnClickListener(this);
         mCrossPasswordBtn.setOnClickListener(this);
         mLoginButton.setOnClickListener(this);
+    }
+    
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 
     @Override
@@ -94,9 +99,7 @@ public class LoginScreen extends Activity implements OnClickListener {
                 CapturePictureActivity.class);
         try {
             startActivity(intent);
-            overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
         } catch (ActivityNotFoundException e) {
-
             Log.e(TAG, " Activity not found : " + e.getMessage());
         }
     }

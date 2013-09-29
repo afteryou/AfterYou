@@ -1,6 +1,5 @@
 package com.beacon.afterui.views;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -10,9 +9,10 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 
 import com.beacon.afterui.R;
+import com.beacon.afterui.activity.BaseActivity;
 import com.beacon.afterui.utils.ImageInfoUtils;
 
-public class FullImageActivity extends Activity implements OnClickListener {
+public class FullImageActivity extends BaseActivity implements OnClickListener {
 	private static final String ID = "id";
 	private static final String PATH = "path";
 	private static final String FLAG = "ok";
@@ -23,7 +23,7 @@ public class FullImageActivity extends Activity implements OnClickListener {
 	private long mId;
 
 	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.full_image_activity);
 		mFullSizeImage = (ImageView) findViewById(R.id.photo_of_user_full_image);

@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
@@ -20,12 +21,10 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Paint;
-import android.graphics.Path;
 import android.graphics.PorterDuff.Mode;
 import android.graphics.PorterDuffXfermode;
 import android.graphics.Rect;
 import android.graphics.RectF;
-import android.graphics.drawable.BitmapDrawable;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Environment;
@@ -386,7 +385,7 @@ public class ImageInfoUtils {
                             .getColumnIndex(MediaStore.Images.Media._ID);
                     album.coverID = cursor.getLong(columnIndex);
 
-                    album.thumb = MediaStore.Images.Thumbnails.getThumbnail(
+                    album.thumb = Images.Thumbnails.getThumbnail(
                             context.getContentResolver(), album.coverID,
                             MediaStore.Images.Thumbnails.MICRO_KIND, null);
 
@@ -430,13 +429,15 @@ public class ImageInfoUtils {
                         .getColumnIndex(MediaStore.Images.Media._ID);
                 photo.coverId = cursor.getLong(columnIndex);
 
-                photo.thumb = MediaStore.Images.Thumbnails.getThumbnail(
-                        resolver, photo.coverId,
-                        MediaStore.Images.Thumbnails.MICRO_KIND, null);
+                photo.thumb = Images.Thumbnails.getThumbnail(resolver,
+                        photo.coverId, MediaStore.Images.Thumbnails.MICRO_KIND,
+                        null);
 
                 photoList.add(photo);
 
             } while (cursor.moveToNext());
+
+            cursor.close();
         }
 
         return photoList;
@@ -460,6 +461,8 @@ public class ImageInfoUtils {
                 path = cursor.getString(columnIndex);
 
             } while (cursor.moveToNext());
+
+            cursor.close();
         }
 
         return path;

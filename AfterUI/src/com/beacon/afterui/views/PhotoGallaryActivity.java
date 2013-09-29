@@ -2,7 +2,6 @@ package com.beacon.afterui.views;
 
 import java.util.List;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,10 +16,11 @@ import android.widget.GridView;
 import android.widget.ImageButton;
 
 import com.beacon.afterui.R;
+import com.beacon.afterui.activity.BaseActivity;
 import com.beacon.afterui.utils.ImageInfoUtils;
 import com.beacon.afterui.utils.Photo;
 
-public class PhotoGallaryActivity extends Activity implements OnClickListener {
+public class PhotoGallaryActivity extends BaseActivity implements OnClickListener {
 
     private GridView mPhotoGridView;
     private static final String ID = "id";
@@ -44,7 +44,7 @@ public class PhotoGallaryActivity extends Activity implements OnClickListener {
     private ImageAdapter mImageAdapter;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.photo_gallary);
 
@@ -109,9 +109,7 @@ public class PhotoGallaryActivity extends Activity implements OnClickListener {
             Intent intent = new Intent(getApplicationContext(),
                     FullImageActivity.class);
             intent.putExtra(ID, photo.coverId);
-            Log.d("PhotoGallaryActivity", "Photo Id: " + photo.coverId);
             startActivityForResult(intent, 1);
-            overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 
         }
     };

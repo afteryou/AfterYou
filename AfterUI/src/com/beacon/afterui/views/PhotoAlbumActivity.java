@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -116,6 +117,7 @@ public class PhotoAlbumActivity extends BaseActivity implements
             mProgresDialog.dismiss();
         }
 
+        Log.d( "test", "OnDestory of PhotoAlbumActivity");
         super.onDestroy();
     }
 
@@ -207,6 +209,5 @@ public class PhotoAlbumActivity extends BaseActivity implements
         intent.putExtra(ID, album.id);
         intent.putExtra(NAME, album.name);
         startActivityForResult(intent, 1);
-        overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
     }
 }

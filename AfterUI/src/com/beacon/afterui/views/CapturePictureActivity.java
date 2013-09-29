@@ -81,7 +81,6 @@ public class CapturePictureActivity extends BaseActivity implements
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        setIsRootView(true);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.capture_picture);
         this.ctx = this;
@@ -351,12 +350,11 @@ public class CapturePictureActivity extends BaseActivity implements
         }
         try {
             startActivityForResult(intent, 1);
-            overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
         } catch (ActivityNotFoundException e) {
             Log.e(TAG, " Activity not found : " + e.getMessage());
         }
     }
-
+    
     @Override
     protected void onDestroy() {
 

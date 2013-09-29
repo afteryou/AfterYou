@@ -1,7 +1,6 @@
 package com.beacon.afterui.views;
 
 import java.lang.ref.WeakReference;
-import java.util.ArrayList;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -110,31 +109,17 @@ public class LandingActivity extends BaseActivity implements OnClickListener {
         Intent intent = null;
         switch (v.getId()) {
         case R.id.login_btn:
+            // ContentValues values = new ContentValues();
+            // values.put("Email", "peacemanav@gmail.com");
+            // values.put("Passwd", "Complex1234");
+            // values.put("source", "Test");
+            //
+            // getContentResolver().insert(AuthTable.CONTENT_URI, values);
             intent = new Intent(LandingActivity.this, LoginScreen.class);
-
-            ContentValues values = new ContentValues();
-            values.put("Email", "peacemanav@gmail.com");
-            values.put("Passwd", "Complex1234");
-            values.put("source", "Test");
-
-            getContentResolver().insert(AuthTable.CONTENT_URI, values);
-            try {
-                startActivity(intent);
-                overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
-            } catch (ActivityNotFoundException e) {
-                Log.e(TAG, " Activity not found : " + e.getMessage());
-            }
-
             break;
 
         case R.id.signup_btn:
             intent = new Intent(LandingActivity.this, SignUpActivity.class);
-            try {
-                startActivity(intent);
-                overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
-            } catch (ActivityNotFoundException e) {
-                Log.e(TAG, " Activity not found : " + e.getMessage());
-            }
             break;
 
         case R.id.fb_container:
@@ -146,6 +131,11 @@ public class LandingActivity extends BaseActivity implements OnClickListener {
             return;
         }
 
+        try {
+            startActivity(intent);
+        } catch (ActivityNotFoundException e) {
+            Log.e(TAG, " Activity not found : " + e.getMessage());
+        }
     }
 
     @Override

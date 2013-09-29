@@ -25,6 +25,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.beacon.afterui.R;
+import com.beacon.afterui.activity.BaseActivity;
 import com.beacon.afterui.constants.AppConstants;
 import com.beacon.afterui.provider.PreferenceEngine;
 import com.beacon.afterui.utils.Utilities;
@@ -32,7 +33,7 @@ import com.beacon.afterui.utils.customviews.AfterYouDialogImpl;
 import com.beacon.afterui.utils.customviews.CustomerDatePickDialog;
 import com.beacon.afterui.utils.customviews.ErrorDialog;
 
-public class SignUpActivity extends Activity implements OnClickListener,
+public class SignUpActivity extends BaseActivity implements OnClickListener,
         OnFocusChangeListener {
 
     /** TAG */
@@ -71,7 +72,7 @@ public class SignUpActivity extends Activity implements OnClickListener,
     private boolean isFromFacebook;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.sign_up_screen);
         mSignInBtn = (ImageButton) findViewById(R.id.sign_in_btn_signup_screen);
@@ -148,9 +149,7 @@ public class SignUpActivity extends Activity implements OnClickListener,
 
         @Override
         public void handleMessage(Message msg) {
-
             mSignInBtn.performClick();
-
         }
     }
 
@@ -232,7 +231,6 @@ public class SignUpActivity extends Activity implements OnClickListener,
         }
         try {
             startActivity(intent);
-            overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
         } catch (ActivityNotFoundException e) {
             Log.e(TAG, " Activity not found : " + e.getMessage());
         }
