@@ -300,5 +300,125 @@ public class PreferenceEngine {
 		return getDefaultSharePreference().getString(AppConstants.SELF_FB_ID,
 				null);
 	}
+
+	public void setSelfDrinkingInt(int mCurrentSlfDriking) {
+		Editor editor = getDefaultSharePreference().edit();
+		editor.putInt(AppConstants.SELF_DRINKING_INT, mCurrentSlfDriking);
+		editor.commit();
+		
+	}
+
+	public void setSelfDrinking(String selectedSlfDrinking) {
+		Editor editor = getDefaultSharePreference().edit();
+		editor.putString(AppConstants.SELF_DRINKING, selectedSlfDrinking);
+		editor.commit();
+		
+	}
+
+	public void setSelfSmokingInt(int mCurrentSlfSmoking) {
+		Editor editor = getDefaultSharePreference().edit();
+		editor.putInt(AppConstants.SELF_SMOKING_INT, mCurrentSlfSmoking);
+		editor.commit();
+		
+	}
+
+	public void setSelfSmoking(String selectedSlfSmoking) {
+		Editor editor = getDefaultSharePreference().edit();
+		editor.putString(AppConstants.SELF_SMOKING, selectedSlfSmoking);
+		editor.commit();
+		
+	}
+
+	public void setSelfEducationInt(int mCurrentSlfEducation) {
+		Editor editor = getDefaultSharePreference().edit();
+		editor.putInt(AppConstants.SELF_EDUCATION_INT, mCurrentSlfEducation);
+		editor.commit();
+		
+	}
+
+	public void setSelfEducation(String selectedSlfEducation) {
+		Editor editor = getDefaultSharePreference().edit();
+		editor.putString(AppConstants.SELF_EDUCATION, selectedSlfEducation);
+		editor.commit();
+		
+	}
+
+	public void setSelfSalaryInt(int mCurrentSlfSalary) {
+		Editor editor = getDefaultSharePreference().edit();
+		editor.putInt(AppConstants.SELF_SALARY_INT, mCurrentSlfSalary);
+		editor.commit();
+		
+	}
+
+	public void setSelfSalary(String selectedSlfSalary) {
+		Editor editor = getDefaultSharePreference().edit();
+		editor.putString(AppConstants.SELF_SALARY, selectedSlfSalary);
+		editor.commit();
+		
+	}
+
+	public void setWantAgeInt(int mCurrentWntAge) {
+		Editor editor = getDefaultSharePreference().edit();
+		editor.putInt(AppConstants.WANT_AGE_INT, mCurrentWntAge);
+		editor.commit();
+		
+	}
+
+	public void setWantAge(String selectedWntAge) {
+		Editor editor = getDefaultSharePreference().edit();
+		editor.putString(AppConstants.WANT_AGE, selectedWntAge);
+		editor.commit();
+		
+	}
+
+	public int getWantAgeInt() {
+		return getDefaultSharePreference().getInt(AppConstants.WANT_AGE_INT,
+				0);
+	}
+
+	public String getWantAge() {
+		return getDefaultSharePreference().getString(AppConstants.WANT_AGE,
+				null);
+	}
+
+	public int getSelfSmokingInt() {
+		return getDefaultSharePreference().getInt(AppConstants.SELF_SMOKING_INT,
+				0);
+	}
+
+	public String getSelfSalary() {
+		return getDefaultSharePreference().getString(AppConstants.SELF_SALARY,
+				null);
+	}
+
+	public int getSelfEducationInt() {
+		return getDefaultSharePreference().getInt(AppConstants.SELF_EDUCATION_INT,
+				0);
+	}
+
+	public String getSelfEducation() {
+		return getDefaultSharePreference().getString(AppConstants.SELF_EDUCATION,
+				null);
+	}
+
+	public int getSelfDrinkInt() {
+		return getDefaultSharePreference().getInt(AppConstants.SELF_DRINKING_INT,
+				0);
+	}
+
+	public String getSelfDrinking() {
+		return getDefaultSharePreference().getString(AppConstants.SELF_DRINKING,
+				null);
+	}
+
+	public String getSelfSmoking() {
+		return getDefaultSharePreference().getString(AppConstants.SELF_SMOKING,
+				null);
+	}
+
+	public int getSelfSalaryInt() {
+		return getDefaultSharePreference().getInt(AppConstants.SELF_SALARY_INT,
+				0);
+	}
 	
 }

@@ -29,6 +29,15 @@ public class CustomerNumberPickerDialog extends CustomDialog implements
         View view = inflater.inflate(R.layout.custom_number_picker_dialog, null);
         setView(view);
         mNumberPicker = (NumberPicker) view.findViewById(R.id.numberPicker);
+        mNumberPicker.setOnValueChangedListener(new OnValueChangeListener() {
+			
+			@Override
+			public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+				oldValue = oldVal;
+				newValue = newVal;
+				
+			}
+		});
         if(displayedValues != null)
         {
         	mNumberPicker.setMaxValue(displayedValues.length -1);

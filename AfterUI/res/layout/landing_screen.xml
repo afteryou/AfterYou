@@ -86,4 +86,32 @@
         android:src="@drawable/login_txt"
         android:visibility="gone" />
 
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_below="@id/center_layout"
+        android:layout_centerHorizontal="true" >
+
+        <TextView
+            android:id="@+id/progress_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dip"
+            android:gravity="center"
+            android:paddingLeft="65dip"
+            android:paddingRight="65dip"
+            android:textColor="@color/brown_background"
+            android:visibility="gone" />
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/progress_text"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="20dip"
+            android:visibility="gone" />
+    </RelativeLayout>
+
 </RelativeLayout>

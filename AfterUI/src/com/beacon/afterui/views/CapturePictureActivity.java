@@ -8,13 +8,13 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -35,8 +35,9 @@ import com.beacon.afterui.activity.BaseActivity;
 import com.beacon.afterui.application.AfterYouApplication;
 import com.beacon.afterui.application.CrashHandler;
 import com.beacon.afterui.constants.AppConstants;
-import com.beacon.afterui.provider.PreferenceEngine;
 import com.beacon.afterui.utils.ImageUtils;
+import com.beacon.afterui.utils.customviews.CustomProgressDialog;
+import com.beacon.afterui.utils.customviews.DialogHelper;
 
 public class CapturePictureActivity extends BaseActivity implements
 		OnClickListener {
@@ -60,6 +61,7 @@ public class CapturePictureActivity extends BaseActivity implements
 	public static final int GET_URL = 0;
 	public static final int DONE_URL = 1;
 	public static final int UPDATE_IMAGE = 2;
+	public static final int START_GETTING_IMAGE = 3;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -77,14 +79,16 @@ public class CapturePictureActivity extends BaseActivity implements
 		mCropImgSqaureGray = (ImageView) findViewById(R.id.crop_image_sqaure);
 		mCropImgSqaureLine = (ImageView) findViewById(R.id.crop_image_sqaure_white);
 		mUserImage = (ImageView) findViewById(R.id.user_image);
-		mUserImage.setImageDrawable(getResources().getDrawable(R.drawable.capture_photo_bg));
+		mUserImage.setImageDrawable(getResources().getDrawable(
+				R.drawable.capture_photo_bg));
 
 		mEditBtn.setOnClickListener(this);
 		mChooseFromLiabraryBtn.setOnClickListener(this);
 		mSubmitBtn.setOnClickListener(this);
-
-		accessToken = ((AfterYouApplication)getApplication()).getOpenSession().getAccessToken();
 		if (getIntent().hasExtra(AppConstants.FACEBOOK_USER)) {
+			accessToken = ((AfterYouApplication) getApplication())
+					.getOpenSession().getAccessToken();
+
 			initView();
 		}
 
@@ -92,28 +96,54 @@ public class CapturePictureActivity extends BaseActivity implements
 
 	private void initView() {
 
-		 urlThread = new HandlerThread("profile_url");
+		urlThread = new HandlerThread("profile_url");
 		urlThread.start();
 
 		Looper mLoop = urlThread.getLooper();
 		URLHandler urlHandle = new URLHandler(mLoop);
-
+		handler.sendEmptyMessage(START_GETTING_IMAGE);
 		urlHandle.sendEmptyMessage(GET_URL);
 		
+
 	}
-	
-	class UIHandler extends Handler{
+
+	class UIHandler extends Handler {
+		private CustomProgressDialog wait_progress;
+
 		public UIHandler(Looper loop) {
 			super(loop);
 		}
-		public void handleMessage(Message msg)
-		{
-			switch(msg.what)
-			{
+
+		public void handleMessage(Message msg) {
+			switch (msg.what) {
+			case START_GETTING_IMAGE:
+				wait_progress = DialogHelper.createProgessDialog(ctx, null);
+	        	wait_progress.setMessage(ctx.getString(R.string.IDS_GETTING_IMAGE_FROM_FACEBOOK));
+	        	wait_progress.setOnCancelListener(new DialogInterface.OnCancelListener() {
+	            @Override
+	            public void onCancel(DialogInterface dialog) {
+	            	removeDialog();
+	            }
+	        });
+	        	wait_progress.show();
+				break;
 			case UPDATE_IMAGE:
+				
 				setImage();
+				removeDialog();
 				break;
 			}
+		}
+
+		protected void removeDialog() {
+	        
+        	if( null != ctx && 
+					null != wait_progress && wait_progress.isShowing() ) {
+				
+		    		wait_progress.dismiss();
+				
+				}
+			
 		}
 	}
 
@@ -123,59 +153,60 @@ public class CapturePictureActivity extends BaseActivity implements
 		}
 
 		@Override
-		public void handleMessage(Message msg)
-		{
-			switch(msg.what)
-			{
+		public void handleMessage(Message msg) {
+			switch (msg.what) {
 			case GET_URL:
 				InputStream is = null;
 				String result = "";
-				String url = "https://graph.facebook.com/me/picture?redirect=false&width="+mUserImage.getDrawable().getIntrinsicWidth()+"&height="+mUserImage.getDrawable().getIntrinsicHeight()+"&access_token="+accessToken ;
-				
-				try {   
-				    HttpClient httpclient = new DefaultHttpClient(); // for port 80 requests!
-				    HttpGet httpget = new HttpGet(url);
-				    HttpResponse response = httpclient.execute(httpget);
-				    HttpEntity entity = response.getEntity();
-				    is = entity.getContent();
+				String url = "https://graph.facebook.com/me/picture?redirect=false&width="
+						+ mUserImage.getDrawable().getIntrinsicWidth()
+						+ "&height="
+						+ mUserImage.getDrawable().getIntrinsicHeight()
+						+ "&access_token=" + accessToken;
 
-				    // Read response to string
-				    BufferedReader reader = new BufferedReader(new InputStreamReader(is));
-				    StringBuilder sb = new StringBuilder();
-				    String line = "";
-				    while ((line = reader.readLine()) != null) {
-				    sb.append(line + "\n");
-				    }
-				    is.close();
-				    result = sb.toString(); 
+				try {
+					HttpClient httpclient = new DefaultHttpClient(); // for port
+																		// 80
+																		// requests!
+					HttpGet httpget = new HttpGet(url);
+					HttpResponse response = httpclient.execute(httpget);
+					HttpEntity entity = response.getEntity();
+					is = entity.getContent();
 
+					// Read response to string
+					BufferedReader reader = new BufferedReader(
+							new InputStreamReader(is));
+					StringBuilder sb = new StringBuilder();
+					String line = "";
+					while ((line = reader.readLine()) != null) {
+						sb.append(line + "\n");
+					}
+					is.close();
+					result = sb.toString();
 
-				    if (result.isEmpty()) { 
-				        result = "nothing"; 
-				        Toast message = Toast.makeText(getBaseContext(), result, Toast.LENGTH_LONG);
-				        message.show();
-				    }
-				 // Convert string to object
+					if (result.isEmpty()) {
+						result = "nothing";
+						Toast message = Toast.makeText(getBaseContext(),
+								result, Toast.LENGTH_LONG);
+						message.show();
+					}
+					// Convert string to object
 
-				    profileURL = new JSONObject(result);
-				    sendEmptyMessage(DONE_URL);
-				
-			
-				}
-				catch(Exception ex)
-				{
-					
+					profileURL = new JSONObject(result);
+					sendEmptyMessage(DONE_URL);
+
+				} catch (Exception ex) {
+
 				}
 				break;
 			case DONE_URL:
-				if(!profileURL.optBoolean("is_silhouette"))
-				{
+				if (!profileURL.optBoolean("is_silhouette")) {
 					handler.sendEmptyMessage(UPDATE_IMAGE);
 					urlThread.quit();
 				}
 				break;
+			}
 		}
-	}
 	}
 
 	@Override
@@ -234,15 +265,15 @@ public class CapturePictureActivity extends BaseActivity implements
 		}
 	}
 
-
 	public void setImage() {
-		try{
-			ImageUtils.getInstance(ctx).loadImage(profileURL.getJSONObject("data").getString("url"), mUserImage);
-		}catch(JSONException ex)
-		{
+		try {
+			ImageUtils.getInstance(ctx).loadImage(
+					profileURL.getJSONObject("data").getString("url"),
+					mUserImage);
+		} catch (JSONException ex) {
 			CrashHandler.getInstance().collectCrashDeviceInfo(this);
 		}
-		
+
 	}
 
 	@Override

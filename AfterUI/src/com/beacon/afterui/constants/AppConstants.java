@@ -24,6 +24,16 @@ public final class AppConstants {
 	public static final String SELF_COMM_INT ="self_comm_int";
 	public static final String SELF_DIET = "self_diet";
 	public static final String SELF_DIET_INT ="self_diet_int";
+	public static final String SELF_DRINKING = "self_driking";
+	public static final String SELF_DRINKING_INT ="self_driking_int";
+	public static final String SELF_SMOKING = "self_smoking";
+	public static final String SELF_SMOKING_INT ="self_smoking_int";
+	public static final String SELF_EDUCATION = "self_education";
+	public static final String SELF_EDUCATION_INT ="self_education_int";
+	public static final String SELF_SALARY = "self_salary";
+	public static final String SELF_SALARY_INT ="self_salary_int";
+	public static final String WANT_AGE = "want_age";
+	public static final String WANT_AGE_INT ="want_age_int";
 	public static final String SELF_LANG ="self_lang";
 
 	public static final String FACEBOOK_USER = "FACEBOOK_USER";

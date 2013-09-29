@@ -163,5 +163,28 @@
         <item>@string/IDS_Jain</item>
         <item>@string/IDS_NO_MATTER</item>
     </string-array>
+    <string-array name="smoking">
+        <item>@string/IDS_NO</item>
+        <item>@string/IDS_Daily</item>
+        <item>@string/IDS_Trying</item>
+        <item>@string/IDS_Occasionally</item>
+    </string-array>
+    <string-array name="education">
+        <item>@string/IDS_High_school</item>
+        <item>@string/IDS_Graduate</item>
+        <item>@string/IDS_MASTERS</item>
+        <item>@string/IDS_PhD</item>
+    </string-array>
+    <string-array name="salary">
+        <item>@string/IDS_less_2lakh</item>
+        <item>@string/IDS_2to4</item>
+        <item>@string/IDS_5to10</item>
+        <item>@string/IDS_morethan10</item>
+    </string-array>
+    <string-array name="age_range">
+        <item>@string/IDS_18to24</item>
+        <item>@string/IDS_25to29</item>
+        <item>@string/IDS_30to40</item>
+    </string-array>
 
 </resources>

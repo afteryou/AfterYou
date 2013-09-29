@@ -194,7 +194,8 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:background="@drawable/sign_up_btn"
-                        android:gravity="center" >
+                        android:gravity="right|center"
+                        android:paddingRight="10dp" >
                     </TextView>
 
                     <TextView
@@ -248,7 +249,8 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:background="@drawable/sign_up_btn"
-                        android:gravity="center" >
+                        android:gravity="right|center"
+                        android:paddingRight="10dp" >
                     </TextView>
 
                     <TextView
@@ -257,6 +259,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
+                        android:gravity="right|center"
                         android:paddingLeft="10dp"
                         android:text="@string/height_label" />
                 </FrameLayout>
@@ -274,7 +277,8 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:background="@drawable/sign_up_btn"
-                        android:gravity="center" >
+                        android:gravity="right|center"
+                        android:paddingRight="10dp" >
                     </TextView>
 
                     <TextView
@@ -300,7 +304,8 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:background="@drawable/sign_up_btn"
-                        android:gravity="center" >
+                        android:gravity="right|center"
+                        android:paddingRight="10dp" >
                     </TextView>
 
                     <TextView
@@ -326,7 +331,8 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:background="@drawable/sign_up_btn"
-                        android:gravity="center" >
+                        android:gravity="right|center"
+                        android:paddingRight="10dp" >
                     </TextView>
 
                     <TextView
@@ -352,7 +358,8 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:background="@drawable/sign_up_btn"
-                        android:gravity="center" >
+                        android:gravity="right|center"
+                        android:paddingRight="10dp" >
                     </TextView>
 
                     <TextView
@@ -378,7 +385,8 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:background="@drawable/sign_up_btn"
-                        android:gravity="center" >
+                        android:gravity="right|center"
+                        android:paddingRight="10dp" >
                     </TextView>
 
                     <TextView
@@ -389,6 +397,60 @@
                         android:layout_gravity="center_vertical"
                         android:paddingLeft="10dp"
                         android:text="@string/drink_label" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:id="@+id/education_id"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/drink_lay" >
+
+                    <TextView
+                        android:id="@+id/education_text"
+                        style="@style/LoginPageEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:background="@drawable/sign_up_btn"
+                        android:gravity="right|center"
+                        android:paddingRight="10dp" >
+                    </TextView>
+
+                    <TextView
+                        android:id="@+id/education_label_txt"
+                        style="@style/ProfilePageEditText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:paddingLeft="10dp"
+                        android:text="@string/IDS_Education_Label" />
+                </FrameLayout>
+
+                <FrameLayout
+                    android:id="@+id/self_salary_id"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/education_id" >
+
+                    <TextView
+                        android:id="@+id/salary_edit_text"
+                        style="@style/LoginPageEditText"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:background="@drawable/sign_up_btn"
+                        android:gravity="right|center"
+                        android:paddingRight="10dp" >
+                    </TextView>
+
+                    <TextView
+                        android:id="@+id/salary_label_txt"
+                        style="@style/ProfilePageEditText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:paddingLeft="10dp"
+                        android:text="@string/IDS_Salary_Label" />
                 </FrameLayout>
             </RelativeLayout>
 
@@ -401,7 +463,6 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="40dp"
                 android:src="@drawable/img_24" />
-
 
             <RelativeLayout
                 android:layout_width="wrap_content"
@@ -424,7 +485,6 @@
                         android:layout_gravity="center_vertical"
                         android:background="@drawable/sign_up_btn"
                         android:gravity="right|center"
-                        android:hint="@string/IDS_Mandatory_Field"
                         android:paddingRight="10dp" >
                     </TextView>
 
@@ -435,7 +495,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:paddingLeft="10dp"
-                        android:text="@string/birth_day_text" />
+                        android:text="@string/IDS_AgeRange_Label" />
                 </FrameLayout>
 
                 <FrameLayout
@@ -452,7 +512,6 @@
                         android:layout_gravity="center_vertical"
                         android:background="@drawable/sign_up_btn"
                         android:gravity="right|center"
-                        android:hint="@string/IDS_Mandatory_Field"
                         android:paddingRight="10dp" >
                     </TextView>
 

@@ -48,7 +48,7 @@ public class LoginScreen extends Activity implements OnClickListener {
 
 		switch (v.getId()) {
 		case R.id.sign_in_btn_login_screen:
-			intent = new Intent(LoginScreen.this, CapturePictureActivity.class);
+			intent = new Intent(LoginScreen.this, ProfileSettingsActivity.class);
 			break;
 
 		case R.id.cross_btn_email_login_screen:

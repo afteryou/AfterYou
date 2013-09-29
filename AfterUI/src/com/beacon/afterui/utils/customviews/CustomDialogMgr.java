@@ -933,7 +933,7 @@ public class CustomDialogMgr {
                             int position, long id) {
                         mOnClickListener.onClick(dialog.mDialogInterface,
                                 position);
-                        if (!mIsSingleChoice) {
+                        if (mIsSingleChoice) {
                             dialog.mDialogInterface.dismiss();
                         }
                     }

@@ -1,7 +1,6 @@
 package com.beacon.afterui.views;
 
 import java.lang.ref.WeakReference;
-import java.util.ArrayList;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -17,6 +16,8 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.beacon.afterui.R;
 import com.beacon.afterui.activity.BaseActivity;
@@ -39,23 +40,29 @@ public class LandingActivity extends BaseActivity implements OnClickListener {
 	private static ImageView sSignUpButton;
 
 	private static final int SPLASH_END = 1;
+	private static final int START_SPINNER = 2;
+	private static final int STOP_SPINNER = 3;
 
 	private static final int SPALSH_VISIBLE_TIME = 3000;
 
 	private SplashHandler mSplashHandler;
 
 	private static View sFbContainer;
-	
+
 	private Context ctx;
 
 	private Session.StatusCallback statusCallback = new SessionStatusCallback();
 
+	private ProgressBar mCustomProgress;
+
+	private TextView progrssText;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		
+
 		setContentView(R.layout.landing_screen);
-		
+
 		this.ctx = this;
 
 		sLoginButton = (ImageView) findViewById(R.id.login_btn);
@@ -99,7 +106,26 @@ public class LandingActivity extends BaseActivity implements OnClickListener {
 		@Override
 		public void handleMessage(Message msg) {
 
-			updateView();
+			switch (msg.what) {
+			case SPLASH_END:
+				updateView();
+				break;
+			case START_SPINNER:
+				startSpinner(true);
+				break;
+
+			case STOP_SPINNER:
+				startSpinner(false);
+				Intent intent = new Intent(ctx, SignUpActivity.class);
+				intent.putExtra(AppConstants.FACEBOOK_USER, true);
+				try {
+					startActivity(intent);
+				} catch (ActivityNotFoundException e) {
+					Log.e(TAG, " Activity not found : " + e.getMessage());
+				}
+				break;
+
+			}
 
 		}
 	}
@@ -148,6 +174,28 @@ public class LandingActivity extends BaseActivity implements OnClickListener {
 
 	}
 
+	public void startSpinner(boolean start) {
+		if (start) {
+			if (mCustomProgress == null) {
+				mCustomProgress = (ProgressBar) findViewById(R.id.progress_bar);
+				mCustomProgress.setIndeterminate(true);
+				mCustomProgress.setIndeterminateDrawable(getResources()
+						.getDrawable(R.drawable.progress_spinner));
+			}
+			if (progrssText == null) {
+				progrssText = (TextView) findViewById(R.id.progress_text);
+				progrssText.setText(getResources().getString(
+						R.string.IDS_AUTHENTICATING));
+			}
+			progrssText.setVisibility(View.VISIBLE);
+			mCustomProgress.setVisibility(View.VISIBLE);
+		} else {
+			progrssText.setVisibility(View.GONE);
+			mCustomProgress.setVisibility(View.GONE);
+		}
+
+	}
+
 	@Override
 	public void onStart() {
 		super.onStart();
@@ -186,41 +234,58 @@ public class LandingActivity extends BaseActivity implements OnClickListener {
 	public void updateView() {
 		Session session = Session.getActiveSession();
 		if (session.isOpened()) {
-	        setUserInfoChangedCallback(new UserInfoChangedCallback() {
+			setUserInfoChangedCallback(new UserInfoChangedCallback() {
 
-	            @Override
-	            public void onUserInfoFetched(GraphUser user) {
-	                ((AfterYouApplication) getApplication()).setUser(user);
-	                PreferenceEngine.getInstance(ctx).setFirstName(user.getFirstName());
-	                PreferenceEngine.getInstance(ctx).setLastName(user.getLastName());
-	                PreferenceEngine.getInstance(ctx).saveBirthday(user.getBirthday());
-	                PreferenceEngine.getInstance(ctx).saveGender(user.getProperty("gender"));
-	                PreferenceEngine.getInstance(ctx).saveProfileUserName(user.getUsername());
-	                StringBuffer userInfo = new StringBuffer();
-	                JSONArray languages = (JSONArray)user.getProperty("languages");
-	                if (languages.length() > 0) {
-	                    for (int i=0; i < languages.length(); i++) {
-	                        JSONObject language = languages.optJSONObject(i);
-	                        // Add the language name to a list. Use JSON
-	                        // methods to get access to the name field. 
-	                        userInfo.append(language.optString("name")+";");
-	                    }           
-//	                    userInfo.append(String.format("Languages: %s\n\n", 
-//	                    languageNames.toString()));
-	                }
-	                PreferenceEngine.getInstance(ctx).setSelfLangList(userInfo.toString());
-	                Intent intent = new Intent(ctx,SignUpActivity.class);
-	                intent.putExtra(AppConstants.FACEBOOK_USER, true);
-	                try {
-	    				startActivity(intent);
-	    			} catch (ActivityNotFoundException e) {
-	    				Log.e(TAG, " Activity not found : " + e.getMessage());
-	    			}
-	            }
-	        });
+				@Override
+				public void onUserInfoFetched(GraphUser user) {
+					((AfterYouApplication) getApplication()).setUser(user);
+					if (user != null) {
+						if (user.getFirstName() != null) {
+							PreferenceEngine.getInstance(ctx).setFirstName(
+									user.getFirstName());
+						}
+						if (user.getLastName() != null) {
+							PreferenceEngine.getInstance(ctx).setLastName(
+									user.getLastName());
+						}
+						if (user.getBirthday() != null) {
+							PreferenceEngine.getInstance(ctx).saveBirthday(
+									user.getBirthday());
+						}
+						PreferenceEngine.getInstance(ctx).saveGender(
+								user.getProperty("gender"));
+						PreferenceEngine.getInstance(ctx).saveProfileUserName(
+								user.getUsername());
+						StringBuffer userInfo = new StringBuffer();
+						JSONArray languages = (JSONArray) user
+								.getProperty("languages");
+						if (languages.length() > 0) {
+							for (int i = 0; i < languages.length(); i++) {
+								JSONObject language = languages
+										.optJSONObject(i);
+								// Add the language name to a list. Use JSON
+								// methods to get access to the name field.
+								userInfo.append(language.optString("name")
+										+ ";");
+							}
+							// userInfo.append(String.format("Languages: %s\n\n",
+							// languageNames.toString()));
+						}
+						if (userInfo.length() > 0) {
+							PreferenceEngine.getInstance(ctx).setSelfLangList(
+									userInfo.toString());
+							mSplashHandler.sendEmptyMessageDelayed(STOP_SPINNER,
+									SPALSH_VISIBLE_TIME);
+						}
+					}
 
-	        fetchUserInfo();
-			
+				}
+			});
+
+			mSplashHandler.sendEmptyMessageDelayed(START_SPINNER,
+					SPALSH_VISIBLE_TIME);
+			fetchUserInfo();
+
 		} else {
 
 			if (sLoginButton != null) {

@@ -4,44 +4,44 @@
         
     <item android:state_checked="true" android:state_window_focused="false"
           android:state_enabled="true"
-          android:drawable="@drawable/radio_btn_selected" />
+          android:drawable="@drawable/btn_radio_on_pressed" />
     <item android:state_checked="false" android:state_window_focused="false"
           android:state_enabled="true"
-          android:drawable="@drawable/radio_btn_unselected" />
+          android:drawable="@drawable/btn_radio_off_selected" />
 
     <item android:state_checked="true" android:state_pressed="true"
           android:state_enabled="true"
-          android:drawable="@drawable/radio_btn_selected" />
+          android:drawable="@drawable/btn_radio_on_pressed" />
     <item android:state_checked="false" android:state_pressed="true"
           android:state_enabled="true"
-          android:drawable="@drawable/radio_btn_unselected" />
+          android:drawable="@drawable/btn_radio_off_pressed" />
 
     <item android:state_checked="true" android:state_focused="true"
           android:state_enabled="true"
-          android:drawable="@drawable/radio_btn_selected" />
+          android:drawable="@drawable/btn_radio_on_selected" />
     <item android:state_checked="false" android:state_focused="true"
           android:state_enabled="true"
-          android:drawable="@drawable/radio_btn_unselected" />
+          android:drawable="@drawable/btn_radio_off_selected" />
 
     <item android:state_checked="false"
           android:state_enabled="true"
-          android:drawable="@drawable/radio_btn_unselected" />
+          android:drawable="@drawable/btn_radio_off_selected" />
     <item android:state_checked="true"
           android:state_enabled="true"
-          android:drawable="@drawable/radio_btn_selected" />
+          android:drawable="@drawable/btn_radio_on_selected" />
 		  
 
 	<!-- Disabled states -->
     <item android:state_checked="true" android:state_window_focused="false"
-          android:drawable="@drawable/radio_btn_selected" />
+          android:drawable="@drawable/btn_radio_on_disabled" />
     <item android:state_checked="false" android:state_window_focused="false"
-          android:drawable="@drawable/radio_btn_unselected" />
+          android:drawable="@drawable/btn_radio_off_disabled" />
 
     <item android:state_checked="true" android:state_focused="true"
-          android:drawable="@drawable/radio_btn_selected" />
+          android:drawable="@drawable/btn_radio_on_disabled" />
     <item android:state_checked="false" android:state_focused="true"
-          android:drawable="@drawable/radio_btn_unselected" />
+          android:drawable="@drawable/btn_radio_off_disabled" />
 
-    <item android:state_checked="false" android:drawable="@drawable/radio_btn_unselected" />
-    <item android:state_checked="true" android:drawable="@drawable/radio_btn_selected" />
+    <item android:state_checked="false" android:drawable="@drawable/btn_radio_off_disabled" />
+    <item android:state_checked="true" android:drawable="@drawable/btn_radio_on_disabled" />
 </selector> 

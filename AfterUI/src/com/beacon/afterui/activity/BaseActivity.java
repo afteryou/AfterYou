@@ -69,7 +69,7 @@ public class BaseActivity extends Activity {
 		Bundle bundle = getIntent().getExtras();
 		if (bundle != null) {
 			mViewType = bundle.getInt(VIEW_TYPE);
-			mIsRootView = bundle.getBoolean(VIEW_ROOT, false);
+			mIsRootView = bundle.getBoolean(VIEW_ROOT, mIsRootView);
 		}
 
 		mControllerManager = ControllerManager.getInstance();
@@ -96,10 +96,9 @@ public class BaseActivity extends Activity {
 
 	@Override
 	public void onBackPressed() {
-		if (mIsRootView) {
-			exitApp();
-			return;
-		}
+//		if (mIsRootView) {
+//			exitApp();
+//		}
 		finish();
 	}
 
@@ -113,11 +112,11 @@ public class BaseActivity extends Activity {
 		try{
 		ActivityManager activityMgr = (ActivityManager) this.getSystemService(ACTIVITY_SERVICE);
 		activityMgr.killBackgroundProcesses(getPackageName());
-		android.os.Process.killProcess(android.os.Process.myPid());
+//		android.os.Process.killProcess(android.os.Process.myPid());
 		System.exit(1);
 		}catch(Exception e)
 		{
-			
+			AfterUIlog.d(TAG, e.toString());
 		}
 	}
 	
