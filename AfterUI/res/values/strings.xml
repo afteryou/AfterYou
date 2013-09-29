@@ -126,6 +126,17 @@
     <string name="IDS_MANDATORY_PROFILE">The Mandatory fields needs to be filled in order to proceed</string>
     <string name="smoke_label">Smoking</string>
     <string name="drink_label">Drinking</string>
+        <string name="no_images_txt">No images in gallary!</string>
+    <string name="username_password_empty_desc">Username or Password can not be empty!</string>
+    <string name="invalid_email">Invalid Email</string>
+    <string name="first_name_empty">First Name can not be empty!</string>
+    <string name="last_name_empty">Last Name can not be empty!</string>
+    <string name="email_empty">Email can not be empty!</string>
+    <string name="birth_date_empty">Date Of Birth can not be empty!</string>
+    <string name="password_empty">Password can not be empty!</string>
+    <string name="password_length">Password should above 6 characters long!</string>
+    <string name="confirm_password_empty">Confirm Password can not be empty!</string>
+    <string name="password_not_match">Password does not match!</string>
     <string name="IDS_Occasionally">Occasionally</string>
     <string name="IDS_Trying">Trying to quit</string>
     <string name="IDS_Daily">Daily</string>
@@ -146,4 +157,5 @@
     <string name="IDS_30to40">less than 40</string>
     <string name="IDS_AUTHENTICATING">Authenticating...</string>
     <string name="IDS_GETTING_IMAGE_FROM_FACEBOOK">Getting Your Profile Picture from Facebook..</string>
+
 </resources>

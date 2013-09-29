@@ -6,9 +6,9 @@ import android.content.Context;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.GridView;
 import android.widget.ImageView;
 
+import com.beacon.afterui.R;
 import com.beacon.afterui.utils.Photo;
 
 public class ImageAdapter extends BaseAdapter {
@@ -46,14 +46,15 @@ public class ImageAdapter extends BaseAdapter {
         ImageView photoImage = null;
         if (convertView == null) {
             photoImage = new ImageView(mContext);
+            photoImage.setScaleType(ImageView.ScaleType.FIT_XY);
+			photoImage.setBackgroundResource(R.drawable.image_border);
+			photoImage.setPadding(2, 2, 2, 2);
         } else {
             photoImage = (ImageView) convertView;
         }
 
         Photo photo = (Photo) getItem(position);
         photoImage.setImageBitmap(photo.thumb);
-        photoImage.setScaleType(ImageView.ScaleType.CENTER);
         return photoImage;
     }
-
 }

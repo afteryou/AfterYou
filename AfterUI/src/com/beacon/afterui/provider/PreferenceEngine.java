@@ -420,5 +420,17 @@ public class PreferenceEngine {
 		return getDefaultSharePreference().getInt(AppConstants.SELF_SALARY_INT,
 				0);
 	}
+
+	public void saveUserEmail(Object email) {
+		Editor editor = getDefaultSharePreference().edit();
+		editor.putString(AppConstants.SELF_EMAIL, (String)email);
+		editor.commit();
+		
+	}
+
+	public String getUserEmail() {
+		return getDefaultSharePreference().getString(AppConstants.SELF_EMAIL,
+				null);
+	}
 	
 }

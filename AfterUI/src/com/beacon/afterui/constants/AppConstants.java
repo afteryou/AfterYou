@@ -35,6 +35,8 @@ public final class AppConstants {
 	public static final String WANT_AGE = "want_age";
 	public static final String WANT_AGE_INT ="want_age_int";
 	public static final String SELF_LANG ="self_lang";
+	public static final String SELF_EMAIL ="self_email";
+	
 
 	public static final String FACEBOOK_USER = "FACEBOOK_USER";
 

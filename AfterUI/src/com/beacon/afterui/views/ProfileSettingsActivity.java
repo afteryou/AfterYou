@@ -13,7 +13,6 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageButton;
 import android.widget.NumberPicker;
@@ -1060,7 +1059,6 @@ public class ProfileSettingsActivity extends BaseActivity implements
 					intent.putExtra(AppConstants.FACEBOOK_USER, true);
 				}
 				startActivity(intent);
-				overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
 			} else {
 				showErrorDialog();
 			}

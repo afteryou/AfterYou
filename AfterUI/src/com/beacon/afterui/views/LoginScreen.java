@@ -1,9 +1,7 @@
 package com.beacon.afterui.views;
 
-import com.beacon.afterui.R;
-
-import android.app.Activity;
 import android.content.ActivityNotFoundException;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -13,65 +11,109 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 
-public class LoginScreen extends Activity implements OnClickListener {
+import com.beacon.afterui.R;
+import com.beacon.afterui.activity.BaseActivity;
+import com.beacon.afterui.utils.Utilities;
+import com.beacon.afterui.utils.customviews.AfterYouDialogImpl;
+import com.beacon.afterui.utils.customviews.ErrorDialog;
 
-	/** TAG */
-	private static final String TAG = LoginScreen.class.getSimpleName();
+public class LoginScreen extends BaseActivity implements OnClickListener {
 
-	private ImageButton mLoginButton;
+    /** TAG */
+    private static final String TAG = LoginScreen.class.getSimpleName();
 
-	private ImageView mCrossEmailBtn;
+    private ImageButton mLoginButton;
 
-	private ImageView mCrossPasswordBtn;
+    private ImageView mCrossEmailBtn;
 
-	private EditText mEmailText;
-	private EditText mPasswordText;
+    private ImageView mCrossPasswordBtn;
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.login_screen);
-		mLoginButton = (ImageButton) findViewById(R.id.sign_in_btn_login_screen);
-		mCrossEmailBtn = (ImageView) findViewById(R.id.cross_btn_email_login_screen);
-		mCrossPasswordBtn = (ImageView) findViewById(R.id.cross_btn_password_login_screen);
-		mEmailText = (EditText) findViewById(R.id.email_text);
-		mPasswordText = (EditText) findViewById(R.id.password_text);
+    private EditText mEmailText;
+    private EditText mPasswordText;
 
-		mCrossEmailBtn.setOnClickListener(this);
-		mCrossPasswordBtn.setOnClickListener(this);
-		mLoginButton.setOnClickListener(this);
-	}
+    private static final boolean isTest = false;
 
-	@Override
-	public void onClick(View v) {
-		Intent intent = null;
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.login_screen);
+        mLoginButton = (ImageButton) findViewById(R.id.sign_in_btn_login_screen);
+        mCrossEmailBtn = (ImageView) findViewById(R.id.cross_btn_email_login_screen);
+        mCrossPasswordBtn = (ImageView) findViewById(R.id.cross_btn_password_login_screen);
+        mEmailText = (EditText) findViewById(R.id.email_text);
+        mPasswordText = (EditText) findViewById(R.id.password_text);
 
-		switch (v.getId()) {
-		case R.id.sign_in_btn_login_screen:
-			intent = new Intent(LoginScreen.this, ProfileSettingsActivity.class);
-			break;
+        if (isTest) {
+            // TODO remove this, it is for testing
+            mEmailText.setText("abc@def.com");
+            mPasswordText.setText("wieehj");
+        }
 
-		case R.id.cross_btn_email_login_screen:
+        mCrossEmailBtn.setOnClickListener(this);
+        mCrossPasswordBtn.setOnClickListener(this);
+        mLoginButton.setOnClickListener(this);
+    }
+    
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
 
-			mEmailText.setText("");
-			break;
-		case R.id.cross_btn_password_login_screen:
-			mPasswordText.setText("");
-			break;
+    @Override
+    public void onClick(View v) {
 
-		}
-		if (intent == null) {
-			return;
-		}
-		try {
-			startActivity(intent);
-			overridePendingTransition(R.anim.slide_in,
-					R.anim.slide_out);
-		} catch (ActivityNotFoundException e) {
+        switch (v.getId()) {
+        case R.id.sign_in_btn_login_screen:
+            handleSignInButton();
+            break;
 
-			Log.e(TAG, " Activity not found : " + e.getMessage());
-		}
+        case R.id.cross_btn_email_login_screen:
 
-	}
+            mEmailText.setText("");
+            break;
+        case R.id.cross_btn_password_login_screen:
+            mPasswordText.setText("");
+            break;
 
+        }
+    }
+
+    private void handleSignInButton() {
+
+        // check user name not NULL.
+        if (mEmailText.getText().length() <= 0
+                || mPasswordText.getText().length() <= 0) {
+
+            // Show dialog and return
+            showErrorDialog(R.string.username_password_empty_desc);
+            return;
+        }
+
+        if (!Utilities.isValidEmail(mEmailText.getText())) {
+            // Show dialog and return
+            showErrorDialog(R.string.invalid_email);
+            return;
+        }
+
+        Intent intent = new Intent(LoginScreen.this,
+                CapturePictureActivity.class);
+        try {
+            startActivity(intent);
+        } catch (ActivityNotFoundException e) {
+            Log.e(TAG, " Activity not found : " + e.getMessage());
+        }
+    }
+
+    private void showErrorDialog(int stringResId) {
+        ErrorDialog errDialog = new ErrorDialog(new AfterYouDialogImpl(this),
+                this, R.style.Theme_CustomDialog,
+                new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                }, getResources().getString(stringResId));
+        errDialog.show();
+    }
 }

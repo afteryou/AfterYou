@@ -1,10 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <declare-styleable name="CustomSwitch">
-        <attr name="lefText" format="string" />
-        <attr name="rightText" format="string" />
-        <attr name="selectedDrawable" format="reference" />
-    </declare-styleable>
-
 </resources>

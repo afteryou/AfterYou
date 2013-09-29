@@ -16,6 +16,9 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -28,6 +31,7 @@ import android.view.View.OnClickListener;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.beacon.afterui.R;
@@ -35,84 +39,128 @@ import com.beacon.afterui.activity.BaseActivity;
 import com.beacon.afterui.application.AfterYouApplication;
 import com.beacon.afterui.application.CrashHandler;
 import com.beacon.afterui.constants.AppConstants;
+import com.beacon.afterui.utils.ImageInfoUtils;
 import com.beacon.afterui.utils.ImageUtils;
 import com.beacon.afterui.utils.customviews.CustomProgressDialog;
 import com.beacon.afterui.utils.customviews.DialogHelper;
+import com.facebook.Session;
 
 public class CapturePictureActivity extends BaseActivity implements
-		OnClickListener {
+        OnClickListener {
 
-	private ImageButton mSubmitBtn;
-	private ImageButton mEditBtn;
-	private ImageButton mCancelBtn;
-	private ImageButton mDoneBtn;
-	private ImageButton mCropBarBtn;
-	private ImageButton mChooseFromLiabraryBtn;
-	private ImageView mCropImgSqaureGray;
-	private ImageView mCropImgSqaureLine;
-	private String PATH = "path";
-	private ImageView mUserImage;
-	JSONObject profileURL = null;
-	private Context ctx;
-	private String accessToken = null;
-	private HandlerThread urlThread;
-	private UIHandler handler;
+    private ImageButton mSubmitBtn;
+    private ImageButton mEditBtn;
+    private ImageButton mCancelBtn;
+    private ImageButton mDoneBtn;
+    private ImageButton mCropBarBtn;
+    private ImageButton mChooseFromLiabraryBtn;
+    private ImageView mCropImgSqaureGray;
+    private ImageView mCropImgSqaureLine;
+    private ImageButton mImageRotateBtn;
+    private ImageButton mImageCropBtn;
+    private ImageButton mImageEffectBtn;
+    private ImageButton mImageRedEyeBtn;
+    private static final String PATH = "path";
+    private static final String ID = "id";
+    private ImageView mUserImage;
+    private JSONObject profileURL = null;
+    private Context ctx;
 
-	public static final int GET_URL = 0;
-	public static final int DONE_URL = 1;
-	public static final int UPDATE_IMAGE = 2;
+    private RelativeLayout mImageEditLayout;
+    private static final String FLAG = "ok";
+
+    private Uri mImageUri;
+
+    private String accessToken = null;
+    private HandlerThread urlThread;
+    private UIHandler handler;
+
+    public static final int GET_URL = 0;
+    public static final int DONE_URL = 1;
+    public static final int UPDATE_IMAGE = 2;
 	public static final int START_GETTING_IMAGE = 3;
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		setIsRootView(true);
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.capture_picture);
-		this.ctx = this;
-		handler = new UIHandler(getMainLooper());
-		mSubmitBtn = (ImageButton) findViewById(R.id.submit_btn);
-		mEditBtn = (ImageButton) findViewById(R.id.edit_crop_btn);
-		mCancelBtn = (ImageButton) findViewById(R.id.cancel_btn_capture_picture);
-		mDoneBtn = (ImageButton) findViewById(R.id.done_btn_capture_picture);
-		mCropBarBtn = (ImageButton) findViewById(R.id.crop_bar_btn);
-		mChooseFromLiabraryBtn = (ImageButton) findViewById(R.id.choose_from_library_btn);
-		mCropImgSqaureGray = (ImageView) findViewById(R.id.crop_image_sqaure);
-		mCropImgSqaureLine = (ImageView) findViewById(R.id.crop_image_sqaure_white);
-		mUserImage = (ImageView) findViewById(R.id.user_image);
-		mUserImage.setImageDrawable(getResources().getDrawable(
-				R.drawable.capture_photo_bg));
+    private HandlerThread mDeamonThread;
+    private Handler mDeamonHandler;
 
-		mEditBtn.setOnClickListener(this);
-		mChooseFromLiabraryBtn.setOnClickListener(this);
-		mSubmitBtn.setOnClickListener(this);
-		if (getIntent().hasExtra(AppConstants.FACEBOOK_USER)) {
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+    	setIsRootView(true);
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.capture_picture);
+        this.ctx = this;
+        mSubmitBtn = (ImageButton) findViewById(R.id.submit_btn);
+        mEditBtn = (ImageButton) findViewById(R.id.edit_btn);
+        mChooseFromLiabraryBtn = (ImageButton) findViewById(R.id.choose_from_library_btn);
+
+        mCancelBtn = (ImageButton) findViewById(R.id.cancel_btn_capture_picture);
+        mDoneBtn = (ImageButton) findViewById(R.id.done_btn_capture_picture);
+
+        mImageCropBtn = (ImageButton) findViewById(R.id.image_crop_btn);
+        mImageRotateBtn = (ImageButton) findViewById(R.id.image_rotate_btn);
+        mImageEffectBtn = (ImageButton) findViewById(R.id.image_effect_btn);
+        mImageRedEyeBtn = (ImageButton) findViewById(R.id.image_red_eye_btn);
+        mImageEditLayout = (RelativeLayout) findViewById(R.id.image_edit_layout);
+
+        mCropImgSqaureGray = (ImageView) findViewById(R.id.crop_image_sqaure);
+        mCropImgSqaureLine = (ImageView) findViewById(R.id.crop_image_sqaure_white);
+        mUserImage = (ImageView) findViewById(R.id.user_image);
+        mUserImage.setImageDrawable(getResources().getDrawable(
+				R.drawable.capture_photo_bg));
+        mUserImage.setRotation(0);
+			
+
+        mEditBtn.setEnabled(false);
+        mEditBtn.setOnClickListener(this);
+        mChooseFromLiabraryBtn.setOnClickListener(this);
+        mSubmitBtn.setOnClickListener(this);
+        mImageCropBtn.setOnClickListener(this);
+        mImageRotateBtn.setOnClickListener(this);
+        mImageEffectBtn.setOnClickListener(this);
+        mImageRedEyeBtn.setOnClickListener(this);
+
+        mCancelBtn.setOnClickListener(this);
+        mDoneBtn.setOnClickListener(this);
+
+        initDeamonThread();
+
+        handler = new UIHandler(getMainLooper());
+        if (getIntent().hasExtra(AppConstants.FACEBOOK_USER)) {
 			accessToken = ((AfterYouApplication) getApplication())
 					.getOpenSession().getAccessToken();
 
-			initView();
-		}
+            initView();
+        }
+    }
 
-	}
+    private void initView() {
 
-	private void initView() {
+        urlThread = new HandlerThread("profile_url");
+        urlThread.start();
 
-		urlThread = new HandlerThread("profile_url");
-		urlThread.start();
-
-		Looper mLoop = urlThread.getLooper();
-		URLHandler urlHandle = new URLHandler(mLoop);
+        Looper mLoop = urlThread.getLooper();
+        URLHandler uriHandler = new URLHandler(mLoop);
 		handler.sendEmptyMessage(START_GETTING_IMAGE);
-		urlHandle.sendEmptyMessage(GET_URL);
-		
+        uriHandler.sendEmptyMessage(GET_URL);
+    }
 
-	}
+    /**
+     * Should be used for backend processing.
+     */
+    private void initDeamonThread() {
+        mDeamonThread = new HandlerThread("deamon");
+        mDeamonThread.start();
 
-	class UIHandler extends Handler {
+
+        mDeamonHandler = new Handler(mDeamonThread.getLooper());
+    }
+
+    class UIHandler extends Handler {
 		private CustomProgressDialog wait_progress;
 
-		public UIHandler(Looper loop) {
-			super(loop);
-		}
+        public UIHandler(Looper loop) {
+            super(loop);
+        }
 
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
@@ -127,13 +175,13 @@ public class CapturePictureActivity extends BaseActivity implements
 	        });
 	        	wait_progress.show();
 				break;
-			case UPDATE_IMAGE:
+            case UPDATE_IMAGE:
 				
-				setImage();
+                setImage();
 				removeDialog();
-				break;
-			}
-		}
+                break;
+            }
+        }
 
 		protected void removeDialog() {
 	        
@@ -145,14 +193,14 @@ public class CapturePictureActivity extends BaseActivity implements
 				}
 			
 		}
-	}
+    }
 
-	class URLHandler extends Handler {
-		public URLHandler(Looper loop) {
-			super(loop);
-		}
+    private class URLHandler extends Handler {
+        public URLHandler(Looper loop) {
+            super(loop);
+        }
 
-		@Override
+        @Override
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
 			case GET_URL:
@@ -184,6 +232,7 @@ public class CapturePictureActivity extends BaseActivity implements
 					is.close();
 					result = sb.toString();
 
+
 					if (result.isEmpty()) {
 						result = "nothing";
 						Toast message = Toast.makeText(getBaseContext(),
@@ -197,104 +246,159 @@ public class CapturePictureActivity extends BaseActivity implements
 
 				} catch (Exception ex) {
 
-				}
-				break;
+                }
+                break;
 			case DONE_URL:
 				if (!profileURL.optBoolean("is_silhouette")) {
-					handler.sendEmptyMessage(UPDATE_IMAGE);
-					urlThread.quit();
-				}
-				break;
+                    handler.sendEmptyMessage(UPDATE_IMAGE);
+                    urlThread.quit();
+                }
+                break;
 			}
 		}
-	}
+    }
 
-	@Override
-	public void onClick(View v) {
+    public void setImage() {
+        try {
+            ImageUtils.getInstance(ctx).loadImage(
+                    profileURL.getJSONObject("data").getString("url"),
+                    mUserImage);
+            mEditBtn.setEnabled(true);
+        } catch (JSONException ex) {
+            CrashHandler.getInstance().collectCrashDeviceInfo(this);
+        }
 
-		Intent intent = null;
-		switch (v.getId()) {
-		case R.id.choose_from_library_btn:
+    }
 
-			intent = new Intent(CapturePictureActivity.this,
-					PhotoAlbumActivity.class);
-			break;
+    private void rotateImage() {
 
-		case R.id.submit_btn:
+        Bitmap bitmap = ((BitmapDrawable) mUserImage.getDrawable()).getBitmap();
 
-			break;
+        Bitmap rotatedBitmap = ImageInfoUtils.rotateToPortrait(bitmap,
+                ExifInterface.ORIENTATION_ROTATE_90);
 
-		case R.id.edit_crop_btn:
+        // We don't need to release old bitmap, because image view does it on
+        // our behalf.
+        if (rotatedBitmap != null) {
+            mUserImage.setImageBitmap(rotatedBitmap);
+            Log.d("test", " mUrlHandler : " + mDeamonHandler);
+            mDeamonHandler.post(mSaveImage);
+        }
+    }
 
-			mCancelBtn.setVisibility(View.VISIBLE);
-			mDoneBtn.setVisibility(View.VISIBLE);
-			mCropBarBtn.setVisibility(View.VISIBLE);
-			mCropImgSqaureGray.setVisibility(View.VISIBLE);
-			mCropImgSqaureLine.setVisibility(View.VISIBLE);
-			break;
+    private Runnable mSaveImage = new Runnable() {
 
-		case R.id.cancel_btn_capture_picture:
+        @Override
+        public void run() {
+            // store to media store.
+            ImageInfoUtils.saveToMediaStore(CapturePictureActivity.this,
+                    ((BitmapDrawable) mUserImage.getDrawable()).getBitmap());
+        }
+    };
 
-			break;
-		case R.id.done_btn_capture_picture:
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-			break;
+        if (data == null) {
+            Log.d(TAG, "User cancelled the operation!");
+            return;
+        }
 
-		case R.id.crop_bar_btn:
+        switch (resultCode) {
+        case RESULT_OK:
+            String result = data.getStringExtra(PATH);
+            mImageUri = Uri.parse(result);
+            mUserImage.setImageURI(mImageUri);
+            mUserImage.setScaleType(ScaleType.CENTER_CROP);
+            String flag = data.getStringExtra(FLAG);
+            if (flag.equals("ok")) {
+                mEditBtn.setEnabled(true);
 
-			break;
+            }
+            break;
+        }
+    }
 
-		case R.id.crop_image_sqaure:
+    @Override
+    public void onClick(View v) {
 
-			break;
+        Intent intent = null;
+        switch (v.getId()) {
 
-		case R.id.crop_image_sqaure_white:
+        case R.id.cancel_btn_capture_picture:
+            finish();
+            break;
 
-			break;
+        case R.id.choose_from_library_btn:
 
-		}
+            intent = new Intent(CapturePictureActivity.this,
+                    PhotoAlbumActivity.class);
+            mImageEditLayout.setVisibility(View.INVISIBLE);
+            mCropImgSqaureGray.setVisibility(View.GONE);
+            mCropImgSqaureLine.setVisibility(View.GONE);
+            break;
 
-		if (intent == null) {
-			return;
-		}
-		try {
-			startActivityForResult(intent, 1);
-			overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
-		} catch (ActivityNotFoundException e) {
-			Log.e(TAG, " Activity not found : " + e.getMessage());
-		}
-	}
+        case R.id.submit_btn:
 
-	public void setImage() {
-		try {
-			ImageUtils.getInstance(ctx).loadImage(
-					profileURL.getJSONObject("data").getString("url"),
-					mUserImage);
-		} catch (JSONException ex) {
-			CrashHandler.getInstance().collectCrashDeviceInfo(this);
-		}
+            break;
 
-	}
+        case R.id.edit_btn:
 
-	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+            mImageEditLayout.setVisibility(View.VISIBLE);
 
-		if (data == null) {
-			Log.d(TAG, "User cancelled the operation!");
-			return;
-		}
+            break;
 
-		switch (resultCode) {
-		case RESULT_OK:
-			String result = data.getStringExtra(PATH);
-			Uri uri = Uri.parse(result);
-			mUserImage.setImageURI(uri);
-			mUserImage.setScaleType(ScaleType.CENTER_CROP);
-			break;
-		}
-	}
+        case R.id.crop_image_sqaure:
 
-	// (new FacebookUserInfo(this))
-	// .execute(new FacebookGraphUserInfo());
+            break;
+
+        case R.id.crop_image_sqaure_white:
+
+            break;
+
+        case R.id.image_crop_btn:
+
+            mCropImgSqaureGray.setVisibility(View.VISIBLE);
+            mCropImgSqaureLine.setVisibility(View.VISIBLE);
+
+            break;
+
+        case R.id.image_rotate_btn:
+            rotateImage();
+            break;
+
+        case R.id.image_effect_btn:
+
+            break;
+
+        case R.id.image_red_eye_btn:
+
+            break;
+
+        }
+
+        if (intent == null) {
+            return;
+        }
+        try {
+            startActivityForResult(intent, 1);
+        } catch (ActivityNotFoundException e) {
+            Log.e(TAG, " Activity not found : " + e.getMessage());
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+
+        if (urlThread != null && urlThread.isAlive()) {
+            urlThread.quit();
+        }
+
+        if (mDeamonThread != null && mDeamonThread.isAlive()) {
+            mDeamonThread.quit();
+        }
+
+        super.onDestroy();
+    }
 
 }

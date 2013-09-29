@@ -33,78 +33,78 @@ import com.facebook.model.GraphUser;
 
 public class LandingActivity extends BaseActivity implements OnClickListener {
 
-	/** TAG */
-	private static final String TAG = LandingActivity.class.getSimpleName();
+    /** TAG */
+    private static final String TAG = LandingActivity.class.getSimpleName();
 
-	private static ImageView sLoginButton;
-	private static ImageView sSignUpButton;
+    private static ImageView sLoginButton;
+    private static ImageView sSignUpButton;
 
-	private static final int SPLASH_END = 1;
+    private static final int SPLASH_END = 1;
 	private static final int START_SPINNER = 2;
 	private static final int STOP_SPINNER = 3;
 
-	private static final int SPALSH_VISIBLE_TIME = 3000;
+    private static final int SPALSH_VISIBLE_TIME = 3000;
 
-	private SplashHandler mSplashHandler;
+    private SplashHandler mSplashHandler;
 
-	private static View sFbContainer;
+    private static View sFbContainer;
 
-	private Context ctx;
+    private Context ctx;
 
-	private Session.StatusCallback statusCallback = new SessionStatusCallback();
+    private Session.StatusCallback statusCallback = new SessionStatusCallback();
 
 	private ProgressBar mCustomProgress;
 
 	private TextView progrssText;
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-		setContentView(R.layout.landing_screen);
+        setContentView(R.layout.landing_screen);
 
-		this.ctx = this;
+        this.ctx = this;
 
-		sLoginButton = (ImageView) findViewById(R.id.login_btn);
-		sSignUpButton = (ImageView) findViewById(R.id.signup_btn);
-		sFbContainer = findViewById(R.id.fb_container);
+        sLoginButton = (ImageView) findViewById(R.id.login_btn);
+        sSignUpButton = (ImageView) findViewById(R.id.signup_btn);
+        sFbContainer = findViewById(R.id.fb_container);
 
-		sLoginButton.setOnClickListener(this);
-		sSignUpButton.setOnClickListener(this);
-		sFbContainer.setOnClickListener(this);
+        sLoginButton.setOnClickListener(this);
+        sSignUpButton.setOnClickListener(this);
+        sFbContainer.setOnClickListener(this);
 
-		Settings.addLoggingBehavior(LoggingBehavior.INCLUDE_ACCESS_TOKENS);
+        Settings.addLoggingBehavior(LoggingBehavior.INCLUDE_ACCESS_TOKENS);
 
-		Session session = Session.getActiveSession();
-		if (session == null) {
-			if (savedInstanceState != null) {
-				session = Session.restoreSession(this, null, statusCallback,
-						savedInstanceState);
-			}
-			if (session == null) {
-				session = new Session(this);
-			}
-			Session.setActiveSession(session);
-			if (session.getState().equals(SessionState.CREATED_TOKEN_LOADED)) {
-				session.openForRead(new Session.OpenRequest(this)
-						.setCallback(statusCallback));
-			}
-		}
+        Session session = Session.getActiveSession();
+        if (session == null) {
+            if (savedInstanceState != null) {
+                session = Session.restoreSession(this, null, statusCallback,
+                        savedInstanceState);
+            }
+            if (session == null) {
+                session = new Session(this);
+            }
+            Session.setActiveSession(session);
+            if (session.getState().equals(SessionState.CREATED_TOKEN_LOADED)) {
+                session.openForRead(new Session.OpenRequest(this)
+                        .setCallback(statusCallback));
+            }
+        }
 
-		mSplashHandler = new SplashHandler(this);
-		mSplashHandler.sendEmptyMessageDelayed(SPLASH_END, SPALSH_VISIBLE_TIME);
-	}
+        mSplashHandler = new SplashHandler(this);
+        mSplashHandler.sendEmptyMessageDelayed(SPLASH_END, SPALSH_VISIBLE_TIME);
+    }
 
-	private class SplashHandler extends Handler {
+    private class SplashHandler extends Handler {
 
-		private final WeakReference<LandingActivity> mActivity;
+        private final WeakReference<LandingActivity> mActivity;
 
-		public SplashHandler(LandingActivity landingActivity) {
-			mActivity = new WeakReference<LandingActivity>(landingActivity);
-		}
+        public SplashHandler(LandingActivity landingActivity) {
+            mActivity = new WeakReference<LandingActivity>(landingActivity);
+        }
 
-		@Override
-		public void handleMessage(Message msg) {
+        @Override
+        public void handleMessage(Message msg) {
 
 			switch (msg.what) {
 			case SPLASH_END:
@@ -127,52 +127,43 @@ public class LandingActivity extends BaseActivity implements OnClickListener {
 
 			}
 
-		}
-	}
+        }
+    }
 
-	@Override
-	public void onClick(View v) {
+    @Override
+    public void onClick(View v) {
 
-		Intent intent = null;
-		switch (v.getId()) {
-		case R.id.login_btn:
-			intent = new Intent(LandingActivity.this, LoginScreen.class);
+        Intent intent = null;
+        switch (v.getId()) {
+        case R.id.login_btn:
+            // ContentValues values = new ContentValues();
+            // values.put("Email", "peacemanav@gmail.com");
+            // values.put("Passwd", "Complex1234");
+            // values.put("source", "Test");
+            //
+            // getContentResolver().insert(AuthTable.CONTENT_URI, values);
+            intent = new Intent(LandingActivity.this, LoginScreen.class);
+            break;
 
-			ContentValues values = new ContentValues();
-			values.put("Email", "peacemanav@gmail.com");
-			values.put("Passwd", "Complex1234");
-			values.put("source", "Test");
+        case R.id.signup_btn:
+            intent = new Intent(LandingActivity.this, SignUpActivity.class);
+            break;
 
-			getContentResolver().insert(AuthTable.CONTENT_URI, values);
-			try {
-				startActivity(intent);
-				overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
-			} catch (ActivityNotFoundException e) {
-				Log.e(TAG, " Activity not found : " + e.getMessage());
-			}
+        case R.id.fb_container:
+            onClickLogin();
+            break;
+        }
 
-			break;
+        if (intent == null) {
+            return;
+        }
 
-		case R.id.signup_btn:
-			intent = new Intent(LandingActivity.this, SignUpActivity.class);
-			try {
-				startActivity(intent);
-				overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
-			} catch (ActivityNotFoundException e) {
-				Log.e(TAG, " Activity not found : " + e.getMessage());
-			}
-			break;
-
-		case R.id.fb_container:
-			onClickLogin();
-			break;
-		}
-
-		if (intent == null) {
-			return;
-		}
-
-	}
+        try {
+            startActivity(intent);
+        } catch (ActivityNotFoundException e) {
+            Log.e(TAG, " Activity not found : " + e.getMessage());
+        }
+    }
 
 	public void startSpinner(boolean start) {
 		if (start) {
@@ -196,44 +187,44 @@ public class LandingActivity extends BaseActivity implements OnClickListener {
 
 	}
 
-	@Override
-	public void onStart() {
-		super.onStart();
-		Session.getActiveSession().addCallback(statusCallback);
-	}
+    @Override
+    public void onStart() {
+        super.onStart();
+        Session.getActiveSession().addCallback(statusCallback);
+    }
 
-	@Override
-	public void onStop() {
-		super.onStop();
-		Session.getActiveSession().removeCallback(statusCallback);
-	}
+    @Override
+    public void onStop() {
+        super.onStop();
+        Session.getActiveSession().removeCallback(statusCallback);
+    }
 
-	private void onClickLogin() {
-		Session session = Session.getActiveSession();
-		if (!session.isOpened() && !session.isClosed()) {
-			session.openForRead(new Session.OpenRequest(this)
-					.setCallback(statusCallback));
-		} else {
-			Session.openActiveSession(this, true, statusCallback);
-		}
-	}
+    private void onClickLogin() {
+        Session session = Session.getActiveSession();
+        if (!session.isOpened() && !session.isClosed()) {
+            session.openForRead(new Session.OpenRequest(this)
+                    .setCallback(statusCallback));
+        } else {
+            Session.openActiveSession(this, true, statusCallback);
+        }
+    }
 
-	private class SessionStatusCallback implements Session.StatusCallback {
-		@Override
-		public void call(Session session, SessionState state,
-				Exception exception) {
-			if (state == SessionState.OPENED) {
-				((AfterYouApplication) getApplication())
-						.setSessionCallBack(session);
-				mSplashHandler.sendEmptyMessageDelayed(SPLASH_END,
-						SPALSH_VISIBLE_TIME);
-			}
-		}
-	}
+    private class SessionStatusCallback implements Session.StatusCallback {
+        @Override
+        public void call(Session session, SessionState state,
+                Exception exception) {
+            if (state == SessionState.OPENED) {
+                ((AfterYouApplication) getApplication())
+                        .setSessionCallBack(session);
+                mSplashHandler.sendEmptyMessageDelayed(SPLASH_END,
+                        SPALSH_VISIBLE_TIME);
+            }
+        }
+    }
 
-	public void updateView() {
-		Session session = Session.getActiveSession();
-		if (session.isOpened()) {
+    public void updateView() {
+        Session session = Session.getActiveSession();
+        if (session.isOpened()) {
 			setUserInfoChangedCallback(new UserInfoChangedCallback() {
 
 				@Override
@@ -252,6 +243,7 @@ public class LandingActivity extends BaseActivity implements OnClickListener {
 							PreferenceEngine.getInstance(ctx).saveBirthday(
 									user.getBirthday());
 						}
+						PreferenceEngine.getInstance(ctx).saveUserEmail(user.getProperty("email"));
 						PreferenceEngine.getInstance(ctx).saveGender(
 								user.getProperty("gender"));
 						PreferenceEngine.getInstance(ctx).saveProfileUserName(
@@ -286,20 +278,20 @@ public class LandingActivity extends BaseActivity implements OnClickListener {
 					SPALSH_VISIBLE_TIME);
 			fetchUserInfo();
 
-		} else {
+        } else {
 
-			if (sLoginButton != null) {
-				sLoginButton.setVisibility(View.VISIBLE);
-			}
+            if (sLoginButton != null) {
+                sLoginButton.setVisibility(View.VISIBLE);
+            }
 
-			if (sSignUpButton != null) {
-				sSignUpButton.setVisibility(View.VISIBLE);
-			}
+            if (sSignUpButton != null) {
+                sSignUpButton.setVisibility(View.VISIBLE);
+            }
 
-			if (sFbContainer != null) {
-				sFbContainer.setVisibility(View.VISIBLE);
-			}
-		}
+            if (sFbContainer != null) {
+                sFbContainer.setVisibility(View.VISIBLE);
+            }
+        }
 
-	}
+    }
 }
