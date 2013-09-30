@@ -17,6 +17,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.beacon.afterui.R;
@@ -56,6 +57,9 @@ public class LandingActivity extends BaseActivity implements OnClickListener {
 	private ProgressBar mCustomProgress;
 
 	private TextView progrssText;
+	
+	private RelativeLayout user_inter;
+	private TextView userwarn;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -65,9 +69,11 @@ public class LandingActivity extends BaseActivity implements OnClickListener {
 
         this.ctx = this;
 
+        user_inter = (RelativeLayout)findViewById(R.id.user_but_id);
         sLoginButton = (ImageView) findViewById(R.id.login_btn);
         sSignUpButton = (ImageView) findViewById(R.id.signup_btn);
         sFbContainer = findViewById(R.id.fb_container);
+        userwarn = (TextView)findViewById(R.id.user_fb_warn);
 
         sLoginButton.setOnClickListener(this);
         sSignUpButton.setOnClickListener(this);
@@ -124,9 +130,7 @@ public class LandingActivity extends BaseActivity implements OnClickListener {
 					Log.e(TAG, " Activity not found : " + e.getMessage());
 				}
 				break;
-
 			}
-
         }
     }
 
@@ -226,7 +230,6 @@ public class LandingActivity extends BaseActivity implements OnClickListener {
         Session session = Session.getActiveSession();
         if (session.isOpened()) {
 			setUserInfoChangedCallback(new UserInfoChangedCallback() {
-
 				@Override
 				public void onUserInfoFetched(GraphUser user) {
 					((AfterYouApplication) getApplication()).setUser(user);
@@ -280,17 +283,15 @@ public class LandingActivity extends BaseActivity implements OnClickListener {
 
         } else {
 
-            if (sLoginButton != null) {
-                sLoginButton.setVisibility(View.VISIBLE);
-            }
-
-            if (sSignUpButton != null) {
-                sSignUpButton.setVisibility(View.VISIBLE);
-            }
-
-            if (sFbContainer != null) {
-                sFbContainer.setVisibility(View.VISIBLE);
-            }
+        	if(user_inter != null)
+        	{
+        		user_inter.setVisibility(View.VISIBLE);
+        	}
+        	if(userwarn != null)
+        	{
+        		userwarn.setVisibility(View.VISIBLE);
+        	}
+        	
         }
 
     }

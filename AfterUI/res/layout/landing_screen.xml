@@ -37,60 +37,74 @@
     </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/fb_container"
+        android:id="@+id/user_but_id"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="40dp"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:background="@drawable/fb_button"
-        android:visibility="gone" >
+        android:layout_below="@id/center_layout"
+        android:layout_marginTop="50dip" 
+        android:visibility="gone">
 
-        <ImageView
-            android:id="@+id/fb_icon"
-            android:layout_width="wrap_content"
+        <ImageButton
+            android:id="@+id/login_btn"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:src="@drawable/fb_icon" />
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/login_btn"
+            android:src="@drawable/login_txt" />
 
-        <ImageView
-            android:layout_width="wrap_content"
+        <ImageButton
+            android:id="@+id/signup_btn"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:src="@drawable/fb_sign_up_text" />
+            android:layout_below="@id/login_btn"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/sign_up_btn"
+            android:src="@drawable/sign_up_txt" />
+
+        <FrameLayout
+            android:id="@+id/fb_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/signup_btn"
+            android:layout_marginBottom="40dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="5dp"
+            android:background="@drawable/fb_button" >
+
+            <ImageView
+                android:id="@+id/fb_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/fb_icon" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/fb_sign_up_text" />
+        </FrameLayout>
     </RelativeLayout>
 
-    <ImageButton
-        android:id="@+id/signup_btn"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/user_fb_warn"
+        android:layout_width="200dip"
         android:layout_height="wrap_content"
-        android:layout_above="@id/fb_container"
+        android:layout_below="@id/user_but_id"
         android:layout_centerHorizontal="true"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:background="@drawable/sign_up_btn"
-        android:src="@drawable/sign_up_txt"
-        android:visibility="gone" />
-
-    <ImageButton
-        android:id="@+id/login_btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@id/signup_btn"
-        android:layout_centerHorizontal="true"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:background="@drawable/login_btn"
-        android:src="@drawable/login_txt"
-        android:visibility="gone" />
+        android:layout_marginLeft="100dip"
+        android:layout_marginTop="25dip"
+        android:gravity="center"
+        android:text="@string/IDS_USER_WARN"
+        android:textColor="@color/brown_background" 
+        android:visibility="gone"/>
 
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_below="@id/center_layout"
+        android:layout_below="@id/user_fb_warn"
         android:layout_centerHorizontal="true" >
 
         <TextView

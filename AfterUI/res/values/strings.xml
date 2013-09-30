@@ -157,5 +157,7 @@
     <string name="IDS_30to40">less than 40</string>
     <string name="IDS_AUTHENTICATING">Authenticating...</string>
     <string name="IDS_GETTING_IMAGE_FROM_FACEBOOK">Getting Your Profile Picture from Facebook..</string>
-
+    <string name="IDS_APPLYING_FILTER">Applying Filter to the image..</string>
+    <string name="IDS_USER_WARN">We will not post anything to your facebook profile</string>
+    <string name="IDS_ERROR_FILTER">There was an error applying filter to this image. THis might be aformat/path issue.</string>
 </resources>

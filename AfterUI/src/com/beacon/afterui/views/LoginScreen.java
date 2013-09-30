@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnFocusChangeListener;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -17,7 +18,7 @@ import com.beacon.afterui.utils.Utilities;
 import com.beacon.afterui.utils.customviews.AfterYouDialogImpl;
 import com.beacon.afterui.utils.customviews.ErrorDialog;
 
-public class LoginScreen extends BaseActivity implements OnClickListener {
+public class LoginScreen extends BaseActivity implements OnClickListener,OnFocusChangeListener {
 
     /** TAG */
     private static final String TAG = LoginScreen.class.getSimpleName();
@@ -41,7 +42,9 @@ public class LoginScreen extends BaseActivity implements OnClickListener {
         mCrossEmailBtn = (ImageView) findViewById(R.id.cross_btn_email_login_screen);
         mCrossPasswordBtn = (ImageView) findViewById(R.id.cross_btn_password_login_screen);
         mEmailText = (EditText) findViewById(R.id.email_text);
+        mEmailText.setOnFocusChangeListener(this);
         mPasswordText = (EditText) findViewById(R.id.password_text);
+        mPasswordText.setOnFocusChangeListener(this);
 
         if (isTest) {
             // TODO remove this, it is for testing
@@ -116,4 +119,26 @@ public class LoginScreen extends BaseActivity implements OnClickListener {
                 }, getResources().getString(stringResId));
         errDialog.show();
     }
+
+	@Override
+	public void onFocusChange(View v, boolean hasFocus) {
+		switch (v.getId()) {
+
+		case R.id.email_text:
+			if (hasFocus) {
+				mEmailText.setSelection(0);
+				mEmailText.setHint("");
+				mEmailText.setCursorVisible(true);
+			}
+			break;
+		case R.id.password_text:
+			if (hasFocus) {
+				mPasswordText.setSelection(0);
+				mPasswordText.setHint("");
+				mPasswordText.setCursorVisible(true);
+			}
+			break;
+		}
+		
+	}
 }

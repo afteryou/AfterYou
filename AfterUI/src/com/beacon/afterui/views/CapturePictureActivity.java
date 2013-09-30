@@ -1,6 +1,7 @@
 package com.beacon.afterui.views;
 
 import java.io.BufferedReader;
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
@@ -17,7 +18,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
@@ -25,7 +28,6 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
 import android.os.Message;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
@@ -39,168 +41,214 @@ import com.beacon.afterui.activity.BaseActivity;
 import com.beacon.afterui.application.AfterYouApplication;
 import com.beacon.afterui.application.CrashHandler;
 import com.beacon.afterui.constants.AppConstants;
+import com.beacon.afterui.imageUtils.ImageResizer;
+import com.beacon.afterui.log.AfterUIlog;
 import com.beacon.afterui.utils.ImageInfoUtils;
 import com.beacon.afterui.utils.ImageUtils;
+import com.beacon.afterui.utils.customviews.AfterYouDialogImpl;
 import com.beacon.afterui.utils.customviews.CustomProgressDialog;
 import com.beacon.afterui.utils.customviews.DialogHelper;
-import com.facebook.Session;
+import com.beacon.afterui.utils.customviews.ErrorDialog;
 
 public class CapturePictureActivity extends BaseActivity implements
-        OnClickListener {
+		OnClickListener {
 
-    private ImageButton mSubmitBtn;
-    private ImageButton mEditBtn;
-    private ImageButton mCancelBtn;
-    private ImageButton mDoneBtn;
-    private ImageButton mCropBarBtn;
-    private ImageButton mChooseFromLiabraryBtn;
-    private ImageView mCropImgSqaureGray;
-    private ImageView mCropImgSqaureLine;
-    private ImageButton mImageRotateBtn;
-    private ImageButton mImageCropBtn;
-    private ImageButton mImageEffectBtn;
-    private ImageButton mImageRedEyeBtn;
-    private static final String PATH = "path";
-    private static final String ID = "id";
-    private ImageView mUserImage;
-    private JSONObject profileURL = null;
-    private Context ctx;
+	private ImageButton mSubmitBtn;
+	private ImageButton mEditBtn;
+	private ImageButton mCancelBtn;
+	private ImageButton mDoneBtn;
+	private ImageButton mCropBarBtn;
+	private ImageButton mChooseFromLiabraryBtn;
+	private ImageView mCropImgSqaureGray;
+	private ImageView mCropImgSqaureLine;
+	private ImageButton mImageRotateBtn;
+	private ImageButton mImageCropBtn;
+	private ImageButton mImageEffectBtn;
+	private ImageButton mImageRedEyeBtn;
+	private static final String PATH = "path";
+	private static final String ID = "id";
+	private ImageView mUserImage;
+	private JSONObject profileURL = null;
+	private Context ctx;
+	Bitmap editedBitmap;
 
-    private RelativeLayout mImageEditLayout;
-    private static final String FLAG = "ok";
+	private RelativeLayout mImageEditLayout;
+	private static final String FLAG = "ok";
 
-    private Uri mImageUri;
+	private Uri mImageUri;
 
-    private String accessToken = null;
-    private HandlerThread urlThread;
-    private UIHandler handler;
+	private String accessToken = null;
+	private HandlerThread urlThread;
+	private UIHandler handler;
 
-    public static final int GET_URL = 0;
-    public static final int DONE_URL = 1;
-    public static final int UPDATE_IMAGE = 2;
+	public static final int GET_URL = 0;
+	public static final int DONE_URL = 1;
+	public static final int UPDATE_IMAGE = 2;
 	public static final int START_GETTING_IMAGE = 3;
+	public static final int START_EDITING_IMAGE = 4;
+	public static final int DONE_GETTING_IMAGE = 5;
+	public static final int START_PROCESS_IMAGE = 6;
+	public static final int ERROR_FILTERING_IMAGE = 7;
 
-    private HandlerThread mDeamonThread;
-    private Handler mDeamonHandler;
+	private HandlerThread mDeamonThread;
+	private Handler mDeamonHandler;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-    	setIsRootView(true);
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.capture_picture);
-        this.ctx = this;
-        mSubmitBtn = (ImageButton) findViewById(R.id.submit_btn);
-        mEditBtn = (ImageButton) findViewById(R.id.edit_btn);
-        mChooseFromLiabraryBtn = (ImageButton) findViewById(R.id.choose_from_library_btn);
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		setIsRootView(true);
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.capture_picture);
+		this.ctx = this;
+		mSubmitBtn = (ImageButton) findViewById(R.id.submit_btn);
+		mEditBtn = (ImageButton) findViewById(R.id.edit_btn);
+		mChooseFromLiabraryBtn = (ImageButton) findViewById(R.id.choose_from_library_btn);
 
-        mCancelBtn = (ImageButton) findViewById(R.id.cancel_btn_capture_picture);
-        mDoneBtn = (ImageButton) findViewById(R.id.done_btn_capture_picture);
+		mCancelBtn = (ImageButton) findViewById(R.id.cancel_btn_capture_picture);
+		mDoneBtn = (ImageButton) findViewById(R.id.done_btn_capture_picture);
 
-        mImageCropBtn = (ImageButton) findViewById(R.id.image_crop_btn);
-        mImageRotateBtn = (ImageButton) findViewById(R.id.image_rotate_btn);
-        mImageEffectBtn = (ImageButton) findViewById(R.id.image_effect_btn);
-        mImageRedEyeBtn = (ImageButton) findViewById(R.id.image_red_eye_btn);
-        mImageEditLayout = (RelativeLayout) findViewById(R.id.image_edit_layout);
+		mImageCropBtn = (ImageButton) findViewById(R.id.image_crop_btn);
+		mImageRotateBtn = (ImageButton) findViewById(R.id.image_rotate_btn);
+		mImageEffectBtn = (ImageButton) findViewById(R.id.image_effect_btn);
+		mImageRedEyeBtn = (ImageButton) findViewById(R.id.image_red_eye_btn);
+		mImageEditLayout = (RelativeLayout) findViewById(R.id.image_edit_layout);
 
-        mCropImgSqaureGray = (ImageView) findViewById(R.id.crop_image_sqaure);
-        mCropImgSqaureLine = (ImageView) findViewById(R.id.crop_image_sqaure_white);
-        mUserImage = (ImageView) findViewById(R.id.user_image);
-        mUserImage.setImageDrawable(getResources().getDrawable(
+		mCropImgSqaureGray = (ImageView) findViewById(R.id.crop_image_sqaure);
+		mCropImgSqaureLine = (ImageView) findViewById(R.id.crop_image_sqaure_white);
+		mUserImage = (ImageView) findViewById(R.id.user_image);
+		mUserImage.setImageDrawable(getResources().getDrawable(
 				R.drawable.capture_photo_bg));
-        mUserImage.setRotation(0);
-			
+		mUserImage.setRotation(0);
 
-        mEditBtn.setEnabled(false);
-        mEditBtn.setOnClickListener(this);
-        mChooseFromLiabraryBtn.setOnClickListener(this);
-        mSubmitBtn.setOnClickListener(this);
-        mImageCropBtn.setOnClickListener(this);
-        mImageRotateBtn.setOnClickListener(this);
-        mImageEffectBtn.setOnClickListener(this);
-        mImageRedEyeBtn.setOnClickListener(this);
+		mEditBtn.setEnabled(false);
+		mEditBtn.setOnClickListener(this);
+		mChooseFromLiabraryBtn.setOnClickListener(this);
+		mSubmitBtn.setOnClickListener(this);
+		mImageCropBtn.setOnClickListener(this);
+		mImageRotateBtn.setOnClickListener(this);
+		mImageEffectBtn.setOnClickListener(this);
+		mImageRedEyeBtn.setOnClickListener(this);
 
-        mCancelBtn.setOnClickListener(this);
-        mDoneBtn.setOnClickListener(this);
+		mCancelBtn.setOnClickListener(this);
+		mDoneBtn.setOnClickListener(this);
 
-        initDeamonThread();
+		initDeamonThread();
 
-        handler = new UIHandler(getMainLooper());
-        if (getIntent().hasExtra(AppConstants.FACEBOOK_USER)) {
+		handler = new UIHandler(getMainLooper());
+		if (getIntent().hasExtra(AppConstants.FACEBOOK_USER)) {
 			accessToken = ((AfterYouApplication) getApplication())
 					.getOpenSession().getAccessToken();
 
-            initView();
-        }
-    }
+			initView();
+		}
+	}
 
-    private void initView() {
+	private void initView() {
 
-        urlThread = new HandlerThread("profile_url");
-        urlThread.start();
+		urlThread = new HandlerThread("profile_url");
+		urlThread.start();
 
-        Looper mLoop = urlThread.getLooper();
-        URLHandler uriHandler = new URLHandler(mLoop);
+		Looper mLoop = urlThread.getLooper();
+		URLHandler uriHandler = new URLHandler(mLoop);
 		handler.sendEmptyMessage(START_GETTING_IMAGE);
-        uriHandler.sendEmptyMessage(GET_URL);
-    }
+		uriHandler.sendEmptyMessage(GET_URL);
+	}
 
-    /**
-     * Should be used for backend processing.
-     */
-    private void initDeamonThread() {
-        mDeamonThread = new HandlerThread("deamon");
-        mDeamonThread.start();
+	/**
+	 * Should be used for backend processing.
+	 */
+	private void initDeamonThread() {
+		mDeamonThread = new HandlerThread("deamon");
+		mDeamonThread.start();
 
+		mDeamonHandler = new Handler(mDeamonThread.getLooper());
+	}
 
-        mDeamonHandler = new Handler(mDeamonThread.getLooper());
-    }
-
-    class UIHandler extends Handler {
+	class UIHandler extends Handler {
 		private CustomProgressDialog wait_progress;
 
-        public UIHandler(Looper loop) {
-            super(loop);
-        }
+		public UIHandler(Looper loop) {
+			super(loop);
+		}
 
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
+			case ERROR_FILTERING_IMAGE:
+				showErrorDialog(R.string.IDS_ERROR_FILTER);
+				break;
 			case START_GETTING_IMAGE:
 				wait_progress = DialogHelper.createProgessDialog(ctx, null);
-	        	wait_progress.setMessage(ctx.getString(R.string.IDS_GETTING_IMAGE_FROM_FACEBOOK));
-	        	wait_progress.setOnCancelListener(new DialogInterface.OnCancelListener() {
-	            @Override
-	            public void onCancel(DialogInterface dialog) {
-	            	removeDialog();
-	            }
-	        });
-	        	wait_progress.show();
+				wait_progress.setMessage(ctx
+						.getString(R.string.IDS_GETTING_IMAGE_FROM_FACEBOOK));
+				wait_progress
+						.setOnCancelListener(new DialogInterface.OnCancelListener() {
+							@Override
+							public void onCancel(DialogInterface dialog) {
+								removeDialog();
+							}
+						});
+				wait_progress.show();
 				break;
-            case UPDATE_IMAGE:
-				
-                setImage();
+
+			case START_PROCESS_IMAGE:
+				wait_progress = DialogHelper.createProgessDialog(ctx, null);
+				wait_progress.setMessage(ctx
+						.getString(R.string.IDS_APPLYING_FILTER));
+				wait_progress
+						.setOnCancelListener(new DialogInterface.OnCancelListener() {
+							@Override
+							public void onCancel(DialogInterface dialog) {
+								removeDialog();
+							}
+						});
+				wait_progress.show();
+				break;
+			case DONE_GETTING_IMAGE:
 				removeDialog();
-                break;
-            }
-        }
+				if (editedBitmap != null) {
+					mUserImage.setImageBitmap(editedBitmap);
+					AfterUIlog.d("test", " mUrlHandler : " + mDeamonHandler);
+					mDeamonHandler.post(mSaveImage);
+				}
+				break;
+			case UPDATE_IMAGE:
+
+				setImage();
+				removeDialog();
+				break;
+			}
+		}
 
 		protected void removeDialog() {
-	        
-        	if( null != ctx && 
-					null != wait_progress && wait_progress.isShowing() ) {
-				
-		    		wait_progress.dismiss();
-				
-				}
-			
+
+			if (null != ctx && null != wait_progress
+					&& wait_progress.isShowing()) {
+
+				wait_progress.dismiss();
+
+			}
+
 		}
-    }
+	}
+	
+	private void showErrorDialog(int stringResId) {
+		ErrorDialog errDialog = new ErrorDialog(new AfterYouDialogImpl(this),
+				this, R.style.Theme_CustomDialog,
+				new DialogInterface.OnClickListener() {
 
-    private class URLHandler extends Handler {
-        public URLHandler(Looper loop) {
-            super(loop);
-        }
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
 
-        @Override
+					}
+				}, getResources().getString(stringResId));
+		errDialog.show();
+	}
+
+	private class URLHandler extends Handler {
+		public URLHandler(Looper loop) {
+			super(loop);
+		}
+
+		@Override
 		public void handleMessage(Message msg) {
 			switch (msg.what) {
 			case GET_URL:
@@ -232,7 +280,6 @@ public class CapturePictureActivity extends BaseActivity implements
 					is.close();
 					result = sb.toString();
 
-
 					if (result.isEmpty()) {
 						result = "nothing";
 						Toast message = Toast.makeText(getBaseContext(),
@@ -246,159 +293,203 @@ public class CapturePictureActivity extends BaseActivity implements
 
 				} catch (Exception ex) {
 
-                }
-                break;
+				}
+				break;
 			case DONE_URL:
 				if (!profileURL.optBoolean("is_silhouette")) {
-                    handler.sendEmptyMessage(UPDATE_IMAGE);
-                    urlThread.quit();
-                }
-                break;
+					handler.sendEmptyMessage(UPDATE_IMAGE);
+					urlThread.quit();
+				}
+				break;
 			}
 		}
-    }
+	}
 
-    public void setImage() {
-        try {
-            ImageUtils.getInstance(ctx).loadImage(
-                    profileURL.getJSONObject("data").getString("url"),
-                    mUserImage);
-            mEditBtn.setEnabled(true);
-        } catch (JSONException ex) {
-            CrashHandler.getInstance().collectCrashDeviceInfo(this);
-        }
+	public void setImage() {
+		try {
+			ImageUtils.getInstance(ctx).loadImage(
+					profileURL.getJSONObject("data").getString("url"),
+					mUserImage);
+			mEditBtn.setEnabled(true);
+		} catch (JSONException ex) {
+			CrashHandler.getInstance().collectCrashDeviceInfo(this);
+		}
 
-    }
+	}
 
-    private void rotateImage() {
+	private void rotateImage() {
 
-        Bitmap bitmap = ((BitmapDrawable) mUserImage.getDrawable()).getBitmap();
+		Bitmap bitmap = ((BitmapDrawable) mUserImage.getDrawable()).getBitmap();
 
-        Bitmap rotatedBitmap = ImageInfoUtils.rotateToPortrait(bitmap,
-                ExifInterface.ORIENTATION_ROTATE_90);
+		Bitmap rotatedBitmap = ImageInfoUtils.rotateToPortrait(bitmap,
+				ExifInterface.ORIENTATION_ROTATE_90);
 
-        // We don't need to release old bitmap, because image view does it on
-        // our behalf.
-        if (rotatedBitmap != null) {
-            mUserImage.setImageBitmap(rotatedBitmap);
-            Log.d("test", " mUrlHandler : " + mDeamonHandler);
-            mDeamonHandler.post(mSaveImage);
-        }
-    }
+		// We don't need to release old bitmap, because image view does it on
+		// our behalf.
+		if (rotatedBitmap != null) {
+			mUserImage.setImageBitmap(rotatedBitmap);
+			AfterUIlog.d("test", " mUrlHandler : " + mDeamonHandler);
+			mDeamonHandler.post(mSaveImage);
+		}
+	}
 
-    private Runnable mSaveImage = new Runnable() {
+	private Runnable mSaveImage = new Runnable() {
 
-        @Override
-        public void run() {
-            // store to media store.
-            ImageInfoUtils.saveToMediaStore(CapturePictureActivity.this,
-                    ((BitmapDrawable) mUserImage.getDrawable()).getBitmap());
-        }
-    };
+		@Override
+		public void run() {
+			// store to media store.
+			ImageInfoUtils.saveToMediaStore(CapturePictureActivity.this,
+					((BitmapDrawable) mUserImage.getDrawable()).getBitmap());
+		}
+	};
 
-    @Override
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        if (data == null) {
-            Log.d(TAG, "User cancelled the operation!");
-            return;
-        }
+		if (data == null) {
+			AfterUIlog.d(TAG, "User cancelled the operation!");
+			return;
+		}
 
-        switch (resultCode) {
-        case RESULT_OK:
-            String result = data.getStringExtra(PATH);
-            mImageUri = Uri.parse(result);
-            mUserImage.setImageURI(mImageUri);
-            mUserImage.setScaleType(ScaleType.CENTER_CROP);
-            String flag = data.getStringExtra(FLAG);
-            if (flag.equals("ok")) {
-                mEditBtn.setEnabled(true);
+		switch (resultCode) {
+		case RESULT_OK:
+			String result = data.getStringExtra(PATH);
+			mImageUri = Uri.parse(result);
+			mUserImage.setImageURI(mImageUri);
+			mUserImage.setScaleType(ScaleType.CENTER_CROP);
+			String flag = data.getStringExtra(FLAG);
+			if (flag.equals("ok")) {
+				mEditBtn.setEnabled(true);
 
-            }
-            break;
-        }
-    }
+			}
+			break;
+		}
+	}
 
-    @Override
-    public void onClick(View v) {
+	@Override
+	public void onClick(View v) {
 
-        Intent intent = null;
-        switch (v.getId()) {
+		Intent intent = null;
+		switch (v.getId()) {
 
-        case R.id.cancel_btn_capture_picture:
-            finish();
-            break;
+		case R.id.cancel_btn_capture_picture:
+			finish();
+			break;
 
-        case R.id.choose_from_library_btn:
+		case R.id.choose_from_library_btn:
 
-            intent = new Intent(CapturePictureActivity.this,
-                    PhotoAlbumActivity.class);
-            mImageEditLayout.setVisibility(View.INVISIBLE);
-            mCropImgSqaureGray.setVisibility(View.GONE);
-            mCropImgSqaureLine.setVisibility(View.GONE);
-            break;
+			intent = new Intent(CapturePictureActivity.this,
+					PhotoAlbumActivity.class);
+			mImageEditLayout.setVisibility(View.INVISIBLE);
+			mCropImgSqaureGray.setVisibility(View.GONE);
+			mCropImgSqaureLine.setVisibility(View.GONE);
+			break;
 
-        case R.id.submit_btn:
+		case R.id.submit_btn:
 
-            break;
+			break;
 
-        case R.id.edit_btn:
+		case R.id.edit_btn:
 
-            mImageEditLayout.setVisibility(View.VISIBLE);
+			// Intent i = new Intent(this, MainActivity.class);
+			// startActivity(i);
+			mImageEditLayout.setVisibility(View.VISIBLE);
 
-            break;
+			break;
 
-        case R.id.crop_image_sqaure:
+		case R.id.crop_image_sqaure:
 
-            break;
+			break;
 
-        case R.id.crop_image_sqaure_white:
+		case R.id.crop_image_sqaure_white:
 
-            break;
+			break;
 
-        case R.id.image_crop_btn:
+		case R.id.image_crop_btn:
 
-            mCropImgSqaureGray.setVisibility(View.VISIBLE);
-            mCropImgSqaureLine.setVisibility(View.VISIBLE);
+			mCropImgSqaureGray.setVisibility(View.VISIBLE);
+			mCropImgSqaureLine.setVisibility(View.VISIBLE);
 
-            break;
+			break;
 
-        case R.id.image_rotate_btn:
-            rotateImage();
-            break;
+		case R.id.image_rotate_btn:
+			rotateImage();
+			break;
 
-        case R.id.image_effect_btn:
+		case R.id.image_effect_btn:
 
-            break;
+			processImage();
+			break;
 
-        case R.id.image_red_eye_btn:
+		case R.id.image_red_eye_btn:
 
-            break;
+			break;
 
-        }
+		}
 
-        if (intent == null) {
-            return;
-        }
-        try {
-            startActivityForResult(intent, 1);
-        } catch (ActivityNotFoundException e) {
-            Log.e(TAG, " Activity not found : " + e.getMessage());
-        }
-    }
+		if (intent == null) {
+			return;
+		}
+		try {
+			startActivityForResult(intent, 1);
+		} catch (ActivityNotFoundException e) {
+			AfterUIlog.e(TAG, " Activity not found : " + e.getMessage());
+		}
+	}
 
-    @Override
-    protected void onDestroy() {
+	private void processImage() {
+		HandlerThread imageEditor = new HandlerThread("image_editor");
+		imageEditor.start();
+		ImageHandler img = new ImageHandler(imageEditor.getLooper());
+		img.sendEmptyMessage(START_EDITING_IMAGE);
 
-        if (urlThread != null && urlThread.isAlive()) {
-            urlThread.quit();
-        }
+	}
 
-        if (mDeamonThread != null && mDeamonThread.isAlive()) {
-            mDeamonThread.quit();
-        }
+	class ImageHandler extends Handler {
 
-        super.onDestroy();
-    }
+		public ImageHandler(Looper loop) {
+			super(loop);
+		}
+
+		public void handleMessage(Message msg) {
+			switch (msg.what) {
+			case START_EDITING_IMAGE:
+				handler.sendEmptyMessage(START_PROCESS_IMAGE);
+				if (mImageUri == null) {
+					Drawable d = mUserImage.getDrawable();
+					Bitmap bitmap = Bitmap.createBitmap(d.getIntrinsicWidth(),
+							d.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+					Canvas canvas = new Canvas(bitmap);
+					d.draw(canvas);
+					editedBitmap = ImageInfoUtils.updateHSV(bitmap);
+				} else {
+					Bitmap bitmap = ImageResizer.decodeSampledBitmapFromFile(
+							mImageUri.getPath(), 400, 400);
+					if (bitmap != null) {
+						editedBitmap = ImageInfoUtils.updateHSV(bitmap);
+						handler.sendEmptyMessage(DONE_GETTING_IMAGE);
+					} else {
+						handler.sendEmptyMessage(ERROR_FILTERING_IMAGE);
+					}
+				}
+
+				break;
+			}
+		}
+	}
+
+	@Override
+	protected void onDestroy() {
+
+		if (urlThread != null && urlThread.isAlive()) {
+			urlThread.quit();
+		}
+
+		if (mDeamonThread != null && mDeamonThread.isAlive()) {
+			mDeamonThread.quit();
+		}
+
+		super.onDestroy();
+	}
 
 }

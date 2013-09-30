@@ -6,17 +6,19 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.lang.ref.WeakReference;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+
+import com.beacon.afterui.log.AfterUIlog;
 
 import android.content.ContentResolver;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.Bitmap.Config;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Matrix;
@@ -31,7 +33,6 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.provider.MediaStore.Images;
 import android.provider.MediaStore.Images.Media;
-import android.util.Log;
 
 public class ImageInfoUtils {
 
@@ -145,7 +146,7 @@ public class ImageInfoUtils {
             in.read(buf);
             return getImageInfo(buf);
         } catch (final IOException e) {
-            Log.e("ImageInfoUtils", "Error in getImageInfo - " + e);
+            AfterUIlog.e("ImageInfoUtils", "Error in getImageInfo - " + e);
         } finally {
             if (urlConnection != null) {
                 urlConnection.disconnect();
@@ -154,7 +155,7 @@ public class ImageInfoUtils {
                 try {
                     in.close();
                 } catch (final IOException e) {
-                    Log.e("ImageInfoUtils", "Error in getImageInfo - " + e);
+                	AfterUIlog.e("ImageInfoUtils", "Error in getImageInfo - " + e);
                 }
             }
         }
@@ -590,7 +591,7 @@ public class ImageInfoUtils {
                     e.printStackTrace();
                 }
             } catch (FileNotFoundException e) {
-                Log.e(TAG, "Unable to write the image to gallery" + e);
+            	AfterUIlog.e(TAG, "Unable to write the image to gallery" + e);
             }
 
             ContentValues values = new ContentValues(3);
@@ -620,5 +621,91 @@ public class ImageInfoUtils {
         canvas.drawBitmap(bitmap, rect, rect, paint);
 
         return result;
+    }
+    
+    //Update HSV according to SeekBar setting
+    public static Bitmap updateHSV(Bitmap src){
+     
+     int progressHue = -94;
+  int progressSat = -68;
+  int progressVal = 2;
+  
+  float settingHue = (float)progressHue * 360 / 256;
+  float settingSat = (float)progressSat / 256;
+  float settingVal = (float)progressVal / 256;
+     
+     Bitmap bitmapDest;
+
+     int w = src.getWidth();
+     int h = src.getHeight();
+     
+     int[] mapSrcColor = new int[w * h];
+     int[] mapDestColor= new int[w * h];
+     
+     int[] mapHue = new int[w * h];
+     int[] mapSat = new int[w * h];
+     int[] mapVal = new int[w * h];
+     
+     float[] pixelHSV = new float[3];
+
+     src.getPixels(mapSrcColor, 0, w, 0, 0, w, h);
+     
+     int index = 0;
+        for(int y = 0; y < h; ++y) {
+            for(int x = 0; x < w; ++x) {    
+                
+                //Convert from Color to HSV
+                Color.colorToHSV(mapSrcColor[index], pixelHSV);
+                
+                //Adjust HSV
+                pixelHSV[0] = pixelHSV[0] + settingHue;
+                if(pixelHSV[0] < 0){
+                 pixelHSV[0] = 0;
+                }else if (pixelHSV[0] > 360){
+                 pixelHSV[0] = 360;
+                }
+                
+                pixelHSV[1] = pixelHSV[1] + settingSat;
+                if(pixelHSV[1] < 0){
+                 pixelHSV[1] = 0;
+                }else if (pixelHSV[1] > 1){
+                 pixelHSV[1] = 1;
+                }
+                
+                pixelHSV[2] = pixelHSV[2] + settingVal;
+                if(pixelHSV[2] < 0){
+                 pixelHSV[2] = 0;
+                }else if (pixelHSV[2] > 1){
+                 pixelHSV[2] = 1;
+                }
+
+                /*
+                 * Represent Hue, Saturation and Value in separated color
+                 * of R, G, B.
+                 */
+                mapHue[index] = Color.rgb((int)(pixelHSV[0] * 255/360), 0, 0);
+                mapSat[index] = Color.rgb(0, (int)(pixelHSV[1] * 255), 0);
+                mapVal[index] = Color.rgb(0, 0, (int)(pixelHSV[2] * 255));
+
+                //Convert back from HSV to Color
+                mapDestColor[index] = Color.HSVToColor(pixelHSV);
+
+                index++;
+            }
+        }
+        
+        Config destConfig = src.getConfig();
+        /*
+         * If the bitmap's internal config is in one of the public formats, return that config, 
+         * otherwise return null.
+         */
+        
+        if (destConfig == null){
+         destConfig = Config.RGB_565;
+        }
+
+        bitmapDest = Bitmap.createBitmap(mapDestColor, w, h, destConfig);
+        
+     return bitmapDest;
     }
 }
