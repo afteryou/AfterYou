@@ -48,7 +48,8 @@
             android:background="@drawable/edit_box"
             android:hint="@string/email_hint"
             android:inputType="textEmailAddress"
-            android:paddingRight="35dp" />
+            android:paddingRight="35dp"
+            android:textCursorDrawable="@null" />
 
         <ImageView
             android:id="@+id/cross_btn_email_login_screen"
@@ -72,7 +73,8 @@
             android:background="@drawable/edit_box"
             android:hint="@string/password_hint"
             android:inputType="textPassword"
-            android:paddingRight="35dp" />
+            android:paddingRight="35dp"
+            android:textCursorDrawable="@null" />
 
         <ImageView
             android:id="@+id/cross_btn_password_login_screen"

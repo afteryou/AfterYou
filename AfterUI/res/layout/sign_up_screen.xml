@@ -28,7 +28,8 @@
             android:background="@drawable/sign_up_btn"
             android:hint="@string/first_name_text_hint"
             android:paddingRight="35dp"
-            android:singleLine="true" />
+            android:singleLine="true"
+            android:textCursorDrawable="@null" />
 
         <ImageView
             android:id="@+id/cross_btn_firstname"
@@ -48,7 +49,8 @@
             android:layout_below="@id/first_name_edit_text"
             android:background="@drawable/sign_up_btn"
             android:hint="@string/last_name_text_hint"
-            android:paddingRight="35dp" />
+            android:paddingRight="35dp"
+            android:textCursorDrawable="@null" />
 
         <ImageView
             android:id="@+id/cross_btn_lastname"
@@ -68,7 +70,8 @@
             android:layout_below="@id/last_name_edit_text"
             android:background="@drawable/sign_up_btn"
             android:hint="@string/email_hint"
-            android:paddingRight="35dp" />
+            android:paddingRight="35dp"
+            android:textCursorDrawable="@null" />
 
         <ImageView
             android:id="@+id/cross_btn_email"
@@ -87,7 +90,8 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/email_edit_text"
             android:background="@drawable/sign_up_btn"
-            android:hint="@string/birth_day_hint_txt" />
+            android:hint="@string/birth_day_hint_txt"
+            android:textCursorDrawable="@null" />
 
         <ImageView
             android:id="@+id/cross_btn_birth_day"
@@ -118,7 +122,8 @@
             android:background="@drawable/sign_up_btn"
             android:hint="@string/password_hint"
             android:inputType="textPassword"
-            android:paddingRight="35dp" />
+            android:paddingRight="35dp"
+            android:textCursorDrawable="@null" />
 
         <ImageView
             android:id="@+id/cross_btn_password"
@@ -158,7 +163,8 @@
             android:background="@drawable/sign_up_btn"
             android:hint="@string/confirm_password_text"
             android:inputType="textPassword"
-            android:paddingRight="35dp" />
+            android:paddingRight="35dp"
+            android:textCursorDrawable="@null" />
 
         <ImageView
             android:id="@+id/cross_btn_confirm_password"

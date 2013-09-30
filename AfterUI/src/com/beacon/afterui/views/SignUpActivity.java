@@ -5,7 +5,6 @@ import java.util.Calendar;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.ActivityNotFoundException;
@@ -84,16 +83,11 @@ public class SignUpActivity extends BaseActivity implements OnClickListener,
 		mCrossConfirmPasswordBtn = (ImageView) findViewById(R.id.cross_btn_confirm_password);
 
 		mFirstnameText = (EditText) findViewById(R.id.first_name_edit_text);
-		mFirstnameText.setOnFocusChangeListener(this);
 		mLastNameText = (EditText) findViewById(R.id.last_name_edit_text);
-		mLastNameText.setOnFocusChangeListener(this);
 		mEmailText = (EditText) findViewById(R.id.email_edit_text);
-		mEmailText.setOnFocusChangeListener(this);
 		mBirthDayText = (EditText) findViewById(R.id.birthday_edit_text);
 		mPasswordText = (EditText) findViewById(R.id.password_edit_text);
-		mPasswordText.setOnFocusChangeListener(this);
 		mConfirmText = (EditText) findViewById(R.id.confirm_edit_text);
-		mConfirmText.setOnFocusChangeListener(this);
 		mBirthDayTextImg = (ImageView) findViewById(R.id.date_of_birth_txt);
 		mPasswordValidationTxt = (ImageView) findViewById(R.id.password_validation_txt);
 
@@ -228,13 +222,14 @@ public class SignUpActivity extends BaseActivity implements OnClickListener,
 			break;
 		}
 
-		if (!validateData()) {
-			return;
-		}
-
 		if (intent == null) {
 			return;
 		}
+		
+		if (!validateData()) {
+            return;
+        }
+		
 		try {
 			startActivity(intent);
 		} catch (ActivityNotFoundException e) {
@@ -243,10 +238,9 @@ public class SignUpActivity extends BaseActivity implements OnClickListener,
 	}
 
 	private boolean validateData() {
-		boolean result = true;
 
 		if (isFromFacebook) {
-			return result;
+			return true;
 		}
 
 		// check first name.
@@ -299,7 +293,7 @@ public class SignUpActivity extends BaseActivity implements OnClickListener,
 			return false;
 		}
 
-		return result;
+		return true;
 	}
 
 	private void showErrorDialog(int stringResId) {
@@ -320,39 +314,39 @@ public class SignUpActivity extends BaseActivity implements OnClickListener,
 
 		switch (v.getId()) {
 
-		case R.id.first_name_edit_text:
-			if (hasFocus) {
-				mFirstnameText.setSelection(0);
-				mFirstnameText.setHint("");
-				mFirstnameText.setCursorVisible(true);
-			}
-			break;
-
-		case R.id.last_name_edit_text:
-			if (hasFocus) {
-				mLastNameText.setSelection(0);
-				mLastNameText.setHint("");
-				mLastNameText.setCursorVisible(true);
-			}
-			break;
-
-		case R.id.email_edit_text:
-			if (hasFocus) {
-				mEmailText.setSelection(0);
-				mEmailText.setHint("");
-				mEmailText.setCursorVisible(true);
-			}
-
-			break;
-
-		case R.id.confirm_edit_text:
-			if (hasFocus) {
-				mConfirmText.setSelection(0);
-				mConfirmText.setHint("");
-				mConfirmText.setCursorVisible(true);
-			}
-
-			break;
+//		case R.id.first_name_edit_text:
+//			if (hasFocus) {
+//				mFirstnameText.setSelection(0);
+//				mFirstnameText.setHint("");
+//				mFirstnameText.setCursorVisible(true);
+//			}
+//			break;
+//
+//		case R.id.last_name_edit_text:
+//			if (hasFocus) {
+//				mLastNameText.setSelection(0);
+//				mLastNameText.setHint("");
+//				mLastNameText.setCursorVisible(true);
+//			}
+//			break;
+//
+//		case R.id.email_edit_text:
+//			if (hasFocus) {
+//				mEmailText.setSelection(0);
+//				mEmailText.setHint("");
+//				mEmailText.setCursorVisible(true);
+//			}
+//
+//			break;
+//
+//		case R.id.confirm_edit_text:
+//			if (hasFocus) {
+//				mConfirmText.setSelection(0);
+//				mConfirmText.setHint("");
+//				mConfirmText.setCursorVisible(true);
+//			}
+//
+//			break;
 
 		case R.id.birthday_edit_text:
 			if (hasFocus) {
@@ -374,11 +368,9 @@ public class SignUpActivity extends BaseActivity implements OnClickListener,
 				if (mPasswordText.length() == 0) {
 					mPasswordValidationTxt.setVisibility(View.VISIBLE);
 				}
-
 			}
 			break;
 		}
-
 	}
 
 	private Dialog getDatePickDialog() {

@@ -42,9 +42,7 @@ public class LoginScreen extends BaseActivity implements OnClickListener,OnFocus
         mCrossEmailBtn = (ImageView) findViewById(R.id.cross_btn_email_login_screen);
         mCrossPasswordBtn = (ImageView) findViewById(R.id.cross_btn_password_login_screen);
         mEmailText = (EditText) findViewById(R.id.email_text);
-        mEmailText.setOnFocusChangeListener(this);
         mPasswordText = (EditText) findViewById(R.id.password_text);
-        mPasswordText.setOnFocusChangeListener(this);
 
         if (isTest) {
             // TODO remove this, it is for testing
@@ -71,9 +69,9 @@ public class LoginScreen extends BaseActivity implements OnClickListener,OnFocus
             break;
 
         case R.id.cross_btn_email_login_screen:
-
             mEmailText.setText("");
             break;
+            
         case R.id.cross_btn_password_login_screen:
             mPasswordText.setText("");
             break;
