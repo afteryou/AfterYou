@@ -69,6 +69,8 @@ public class SignUpActivity extends BaseActivity implements OnClickListener,
 	private SignUpHandler mSplashHandler;
 
 	private boolean isFromFacebook;
+	
+	private static final boolean isTest = false;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -93,6 +95,16 @@ public class SignUpActivity extends BaseActivity implements OnClickListener,
 
 		mLeftImage = (TextView) findViewById(R.id.left_image);
 		mRightImage = (TextView) findViewById(R.id.right_image);
+		
+		if(isTest)
+		{
+			mFirstnameText.setText("abc");
+			mLastNameText.setText("xyz");
+			mEmailText.setText("abc@g.in");	
+			mPasswordText.setText("aaaaaa");
+			mConfirmText.setText("aaaaaa");
+			mBirthDayText.setText("1234");
+		}
 		mLeftImage.setOnClickListener(this);
 		mRightImage.setOnClickListener(this);
 

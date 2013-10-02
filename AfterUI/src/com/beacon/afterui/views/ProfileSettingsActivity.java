@@ -33,25 +33,36 @@ public class ProfileSettingsActivity extends BaseActivity implements
 		OnClickListener {
 
 	private Calendar mCalendar;
-	
+
 	private boolean isFacebook;
 
 	private Context ctx;
 
 	private CharSequence[] religion;
+	private CharSequence[] mMatchReligion;
 	private CharSequence[] relation;
+	private CharSequence[] mMatchRelation;
 	private CharSequence[] hvChld;
+	private CharSequence[] mMatchHvChild;
+	private CharSequence[] mMatchWntChild;
 	private CharSequence[] bodyType;
+	private CharSequence[] mMatchBodyType;
 	private CharSequence[] self_community;
+	private CharSequence[] mMatchCommunity;
 	private CharSequence[] self_smoking;
+	private CharSequence[] mMatchSmoking;
 	private CharSequence[] self_drinking;
+	private CharSequence[] mMatchDrinking;
 	private CharSequence[] self_education;
 	private CharSequence[] self_salary;
 	private CharSequence[] want_age_range;
 	private CharSequence[] self_diet_list;
+	private CharSequence[] mMatchDietList;
 	private String[] language_list;
+	private String[] mMatchLanguageList;
 
 	private String[] height;
+	private String[] mMatchHeight;
 
 	private Dialog mReligion;
 	private int mCurrentRlg = 0;
@@ -68,29 +79,30 @@ public class ProfileSettingsActivity extends BaseActivity implements
 	private Dialog mSlfCommunity;
 	private int mCurrentSlfComm = 0;
 	private int mPreviousSlfComm = 0;
-	
+
 	private Dialog mSlfSmoking;
 	private int mCurrentSlfSmoking = 0;
 	private int mPreviousSlfSmoking = 0;
-	
+
 	private Dialog mSlfDrinking;
 	private int mCurrentSlfDriking = 0;
 	private int mPreviousSlfDrinking = 0;
-	
+
 	private Dialog mSlfEducation;
 	private int mCurrentSlfEducation = 0;
 	private int mPreviousSlfEducation = 0;
-	
+
 	private Dialog mSlfSalary;
 	private int mCurrentSlfSalary = 0;
 	private int mPreviousSlfSalary = 0;
-	
+
 	private Dialog mWantAge;
 	private int mCurrentWntAge = 0;
 	private int mPreviousWntAge = 0;
 
 	private Dialog mSlfLanguages;
 	private boolean[] mCurrentSlfLang;
+	private boolean[] mMatchCurrentLagn;
 
 	private Dialog mSlfDiet;
 	private int mCurrentSlfDiet = 0;
@@ -103,11 +115,12 @@ public class ProfileSettingsActivity extends BaseActivity implements
 	private int mCurrentWntChld = 0;
 
 	private int mCurrentHgt = 0;
-	
+
 	private Typeface tf;
 
 	TextView b_day, rlg, rtln, hvChild, wntChild, hgt_txt, slf_body_type_txt,
-			slf_community_txt, self_diet, slf_lang,slf_smoking,slf_drinking,slf_eduction,slf_salary,wnt_age;
+			slf_community_txt, self_diet, slf_lang, slf_smoking, slf_drinking,
+			slf_eduction, slf_salary, wnt_age;
 
 	private ImageButton mDoneBtn;
 
@@ -115,8 +128,7 @@ public class ProfileSettingsActivity extends BaseActivity implements
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.profile_setup);
-		if(getIntent().hasExtra(AppConstants.FACEBOOK_USER))
-		{
+		if (getIntent().hasExtra(AppConstants.FACEBOOK_USER)) {
 			isFacebook = true;
 		}
 		mDoneBtn = (ImageButton) findViewById(R.id.donebtn);
@@ -144,45 +156,79 @@ public class ProfileSettingsActivity extends BaseActivity implements
 		if (height == null) {
 			height = getResources().getStringArray(R.array.height_choices);
 		}
+		if (mMatchHeight == null) {
+			mMatchHeight = height;
+		}
 		if (bodyType == null) {
 			bodyType = getResources().getStringArray(R.array.body_type_choices);
+		}
+		if (mMatchBodyType == null) {
+			mMatchBodyType = bodyType;
 		}
 		if (self_community == null) {
 			self_community = getResources().getStringArray(
 					R.array.self_community);
 		}
+		if (mMatchCommunity == null) {
+			mMatchCommunity = self_community;
+		}
 		if (self_smoking == null) {
-			self_smoking = getResources().getStringArray(
-					R.array.smoking);
+			self_smoking = getResources().getStringArray(R.array.smoking);
+		}
+		if (mMatchSmoking == null) {
+			mMatchSmoking = self_smoking;
 		}
 		if (self_drinking == null) {
-			self_drinking = getResources().getStringArray(
-					R.array.smoking);
+			self_drinking = getResources().getStringArray(R.array.smoking);
+		}
+		if (mMatchDrinking == null) {
+			mMatchDrinking = self_drinking;
 		}
 		if (self_education == null) {
-			self_education = getResources().getStringArray(
-					R.array.education);
+			self_education = getResources().getStringArray(R.array.education);
 		}
 		if (self_salary == null) {
-			self_salary = getResources().getStringArray(
-					R.array.salary);
+			self_salary = getResources().getStringArray(R.array.salary);
 		}
 		if (want_age_range == null) {
-			want_age_range = getResources().getStringArray(
-					R.array.age_range);
+			want_age_range = getResources().getStringArray(R.array.age_range);
 		}
-		
+
 		if (self_diet_list == null) {
 			self_diet_list = getResources().getStringArray(R.array.diet);
+		}
+		if (mMatchDietList == null) {
+			mMatchDietList = self_diet_list;
 		}
 		if (language_list == null) {
 			language_list = getResources().getStringArray(
 					R.array.languages_list);
 			mCurrentSlfLang = new boolean[language_list.length];
 		}
-		
-		 tf = Typeface.createFromAsset(getAssets(), "fonts/MyriadPro-It.otf");
+		if (mMatchLanguageList == null) {
+			mMatchLanguageList = language_list;
+			mMatchCurrentLagn = new boolean[mMatchLanguageList.length];
+		}
+		if (mMatchReligion == null) {
+			mMatchReligion = getResources().getStringArray(
+					R.array.religion_choices);
+		}
+		if (mMatchRelation == null) {
+			mMatchRelation = getResources().getStringArray(
+					R.array.relation_choices);
+		}
+		if (mMatchHvChild == null) {
+			mMatchHvChild = getResources().getStringArray(
+					R.array.selfhvChld_choices);
+		}
+
+		if (mMatchWntChild == null) {
+			mMatchWntChild = mMatchHvChild;
+		}
+
+		tf = Typeface.createFromAsset(getAssets(), "fonts/MyriadPro-It.otf");
 		initView();
+		matchInitView();
 	}
 
 	private void initView() {
@@ -369,8 +415,9 @@ public class ProfileSettingsActivity extends BaseActivity implements
 			mCurrentSlfLang = PreferenceEngine.getInstance(ctx)
 					.getSelfLangBoolean(language_list);
 		}
-		
-		String self_smok_txt = PreferenceEngine.getInstance(ctx).getSelfSmoking();
+
+		String self_smok_txt = PreferenceEngine.getInstance(ctx)
+				.getSelfSmoking();
 		slf_smoking = (TextView) findViewById(R.id.smoke_edit_text);
 		slf_smoking.setTypeface(tf);
 		slf_smoking.setOnClickListener(new OnClickListener() {
@@ -386,8 +433,9 @@ public class ProfileSettingsActivity extends BaseActivity implements
 			mCurrentSlfSmoking = PreferenceEngine.getInstance(ctx)
 					.getSelfSmokingInt();
 		}
-		
-		String self_drinking_txt = PreferenceEngine.getInstance(ctx).getSelfDrinking();
+
+		String self_drinking_txt = PreferenceEngine.getInstance(ctx)
+				.getSelfDrinking();
 		slf_drinking = (TextView) findViewById(R.id.drink_edit_text);
 		slf_drinking.setTypeface(tf);
 		slf_drinking.setOnClickListener(new OnClickListener() {
@@ -403,9 +451,9 @@ public class ProfileSettingsActivity extends BaseActivity implements
 			mCurrentSlfDriking = PreferenceEngine.getInstance(ctx)
 					.getSelfDrinkInt();
 		}
-		
-		
-		String self_education_txt = PreferenceEngine.getInstance(ctx).getSelfEducation();
+
+		String self_education_txt = PreferenceEngine.getInstance(ctx)
+				.getSelfEducation();
 		slf_eduction = (TextView) findViewById(R.id.education_text);
 		slf_eduction.setTypeface(tf);
 		slf_eduction.setOnClickListener(new OnClickListener() {
@@ -421,9 +469,9 @@ public class ProfileSettingsActivity extends BaseActivity implements
 			mCurrentSlfEducation = PreferenceEngine.getInstance(ctx)
 					.getSelfEducationInt();
 		}
-		
-		
-		String self_salary_txt = PreferenceEngine.getInstance(ctx).getSelfSalary();
+
+		String self_salary_txt = PreferenceEngine.getInstance(ctx)
+				.getSelfSalary();
 		slf_salary = (TextView) findViewById(R.id.salary_edit_text);
 		slf_salary.setTypeface(tf);
 		slf_salary.setOnClickListener(new OnClickListener() {
@@ -439,7 +487,7 @@ public class ProfileSettingsActivity extends BaseActivity implements
 			mCurrentSlfSalary = PreferenceEngine.getInstance(ctx)
 					.getSelfSalaryInt();
 		}
-		
+
 		String wnt_age_txt = PreferenceEngine.getInstance(ctx).getWantAge();
 		wnt_age = (TextView) findViewById(R.id.match_birthday_edit_text);
 		wnt_age.setTypeface(tf);
@@ -453,8 +501,7 @@ public class ProfileSettingsActivity extends BaseActivity implements
 		});
 		if (wnt_age_txt != null) {
 			wnt_age.setText(wnt_age_txt);
-			mCurrentWntAge = PreferenceEngine.getInstance(ctx)
-					.getWantAgeInt();
+			mCurrentWntAge = PreferenceEngine.getInstance(ctx).getWantAgeInt();
 		}
 	}
 
@@ -470,8 +517,7 @@ public class ProfileSettingsActivity extends BaseActivity implements
 									int whichButton) {
 								mCurrentWntAge = whichButton;
 								mPreviousWntAge = mCurrentWntAge;
-								changeWntAge(mPreviousWntAge,
-										mCurrentWntAge);
+								changeWntAge(mPreviousWntAge, mCurrentWntAge);
 							}
 						})
 				.setNegativeButton(this.getString(R.string.IDS_CANCEL),
@@ -497,7 +543,7 @@ public class ProfileSettingsActivity extends BaseActivity implements
 		PreferenceEngine.getInstance(ctx).setWantAge(selectedWntAge);
 		PreferenceEngine.getInstance(ctx).setWantAgeInt(mCurrentWntAge);
 		initView();
-		
+
 	}
 
 	protected Dialog getSelfSalary() {
@@ -540,7 +586,7 @@ public class ProfileSettingsActivity extends BaseActivity implements
 		PreferenceEngine.getInstance(ctx).setSelfSalary(selectedSlfSalary);
 		PreferenceEngine.getInstance(ctx).setSelfSalaryInt(mCurrentSlfSalary);
 		initView();
-		
+
 	}
 
 	protected Dialog getSelfEducation() {
@@ -579,11 +625,14 @@ public class ProfileSettingsActivity extends BaseActivity implements
 
 	protected void changeSelfEducation(int mPreviousSlfEducation2,
 			int mCurrentSlfEducation2) {
-		String selectedSlfEducation = self_education[mCurrentSlfEducation].toString();
-		PreferenceEngine.getInstance(ctx).setSelfEducation(selectedSlfEducation);
-		PreferenceEngine.getInstance(ctx).setSelfEducationInt(mCurrentSlfEducation);
+		String selectedSlfEducation = self_education[mCurrentSlfEducation]
+				.toString();
+		PreferenceEngine.getInstance(ctx)
+				.setSelfEducation(selectedSlfEducation);
+		PreferenceEngine.getInstance(ctx).setSelfEducationInt(
+				mCurrentSlfEducation);
 		initView();
-		
+
 	}
 
 	protected Dialog getSelfSmoking() {
@@ -626,7 +675,17 @@ public class ProfileSettingsActivity extends BaseActivity implements
 		PreferenceEngine.getInstance(ctx).setSelfSmoking(selectedSlfSmoking);
 		PreferenceEngine.getInstance(ctx).setSelfSmokingInt(mCurrentSlfSmoking);
 		initView();
-		
+
+	}
+
+	protected void changeMatchSmoking(int mCurrentSlfSmoking2) {
+		String selectedSlfSmoking = mMatchSmoking[mCurrentSlfSmoking2]
+				.toString();
+		PreferenceEngine.getInstance(ctx).setMatchSmoking(selectedSlfSmoking);
+		PreferenceEngine.getInstance(ctx).setMatchSmokingInt(
+				mCurrentSlfSmoking2);
+		matchInitView();
+
 	}
 
 	protected Dialog getSelfDrinking() {
@@ -665,11 +724,23 @@ public class ProfileSettingsActivity extends BaseActivity implements
 
 	protected void changeSelfDrinking(int mPreviousSlfDrinking2,
 			int mCurrentSlfDriking2) {
-		String selectedSlfDrinking = self_drinking[mCurrentSlfDriking].toString();
+		String selectedSlfDrinking = self_drinking[mCurrentSlfDriking]
+				.toString();
 		PreferenceEngine.getInstance(ctx).setSelfDrinking(selectedSlfDrinking);
-		PreferenceEngine.getInstance(ctx).setSelfDrinkingInt(mCurrentSlfDriking);
+		PreferenceEngine.getInstance(ctx)
+				.setSelfDrinkingInt(mCurrentSlfDriking);
 		initView();
-		
+
+	}
+
+	protected void changeMatchDrinking(int mCurrentSlfDriking2) {
+		String selectedSlfDrinking = mMatchDrinking[mCurrentSlfDriking2]
+				.toString();
+		PreferenceEngine.getInstance(ctx).setMatchDrinking(selectedSlfDrinking);
+		PreferenceEngine.getInstance(ctx).setMatchDrinkingInt(
+				mCurrentSlfDriking2);
+		matchInitView();
+
 	}
 
 	protected Dialog getSelfDiet() {
@@ -760,6 +831,19 @@ public class ProfileSettingsActivity extends BaseActivity implements
 		initView();
 	}
 
+	protected void changeMatchLang() {
+		char separator = ';';
+		StringBuffer toSave = new StringBuffer();
+
+		for (int i = 0; i < mMatchCurrentLagn.length; i++) {
+			if (mMatchCurrentLagn[i]) {
+				toSave.append(mMatchLanguageList[i]).append(separator);
+			}
+		}
+		PreferenceEngine.getInstance(ctx).setMatchLangList(toSave.toString());
+		matchInitView();
+	}
+
 	protected Dialog getSelfCommunity() {
 		CustomDialog.Builder builder = new CustomDialog.Builder(this,
 				new AfterYouDialogImpl.AfterYouBuilderImpl(this));
@@ -837,6 +921,14 @@ public class ProfileSettingsActivity extends BaseActivity implements
 
 	}
 
+	protected void changeMatchBodyType(int mCurrentBdyType2) {
+		String selectedBodyType = mMatchBodyType[mCurrentBdyType2].toString();
+		PreferenceEngine.getInstance(ctx).setMatchBodyType(selectedBodyType);
+		PreferenceEngine.getInstance(ctx).setMatchBodyTypeInt(mCurrentBdyType2);
+		matchInitView();
+
+	}
+
 	protected void changeSelfComm(int mPreviousSlfComm2, int mCurrentBdyType2) {
 		String selectedSlfComm = self_community[mCurrentSlfComm].toString();
 		PreferenceEngine.getInstance(ctx).setSelfCommunity(selectedSlfComm);
@@ -845,11 +937,28 @@ public class ProfileSettingsActivity extends BaseActivity implements
 
 	}
 
+	protected void changeMatchComm(int mCurrentBdyType2) {
+		String selectedSlfComm = mMatchCommunity[mCurrentBdyType2].toString();
+		PreferenceEngine.getInstance(ctx).setMatchCommunity(selectedSlfComm);
+		PreferenceEngine.getInstance(ctx)
+				.setMatchCommunityInt(mCurrentBdyType2);
+		matchInitView();
+
+	}
+
 	protected void changeSelfDiet(int mPreviousSlfDiet2, int mCurrentSlfDiet2) {
 		String selectedSlfDiet = self_diet_list[mCurrentSlfDiet].toString();
 		PreferenceEngine.getInstance(ctx).setSelfDiet(selectedSlfDiet);
 		PreferenceEngine.getInstance(ctx).setSelfDietInt(mCurrentSlfDiet);
 		initView();
+
+	}
+
+	protected void changeMatchDiet(int mCurrentSlfDiet2) {
+		String selectedSlfDiet = mMatchDietList[mCurrentSlfDiet2].toString();
+		PreferenceEngine.getInstance(ctx).setMatchDiet(selectedSlfDiet);
+		PreferenceEngine.getInstance(ctx).setMatchDietInt(mCurrentSlfDiet2);
+		matchInitView();
 
 	}
 
@@ -944,6 +1053,7 @@ public class ProfileSettingsActivity extends BaseActivity implements
 								mCurrentRlg = whichButton;
 								mPreviousRlg = mCurrentRlg;
 								changeSelfReligion(mPreviousRlg, mCurrentRlg);
+
 							}
 						})
 				.setNegativeButton(this.getString(R.string.IDS_CANCEL),
@@ -971,6 +1081,13 @@ public class ProfileSettingsActivity extends BaseActivity implements
 		initView();
 	}
 
+	protected void changeMatchWntChild(int mCurrentHvChld2) {
+		mCurrentWntChld = mCurrentHvChld2;
+		PreferenceEngine.getInstance(ctx).saveMatchWantChildren(
+				mCurrentWntChld == 0);
+		matchInitView();
+	}
+
 	protected void changeSelfReligion(int mPreviousRlg2, int mCurrentRlg2) {
 		String selectedReligion = religion[mCurrentRlg2].toString();
 		PreferenceEngine.getInstance(ctx).setSelfReligion(selectedReligion);
@@ -985,11 +1102,24 @@ public class ProfileSettingsActivity extends BaseActivity implements
 		initView();
 	}
 
+	protected void changeMatchRelation(int mCurrentRtn) {
+		String selectedRelation = mMatchRelation[mCurrentRtn].toString();
+		PreferenceEngine.getInstance(ctx).setMatchRelation(selectedRelation);
+		PreferenceEngine.getInstance(ctx).setMatchRelationInt(mCurrentRtn);
+		matchInitView();
+	}
+
 	protected void changeSelfHaveChild(int mPreviousHvChld2, int mCurrentHvChld2) {
 		PreferenceEngine.getInstance(ctx)
 				.saveHaveChildren(mCurrentHvChld2 == 0);
 		initView();
 
+	}
+
+	protected void changeMatchHaveChild(int mCurrentHvChld2) {
+		PreferenceEngine.getInstance(ctx).saveMatchHaveChildren(
+				mCurrentHvChld2 == 0);
+		matchInitView();
 	}
 
 	private Dialog getDatePickDialog() {
@@ -1029,6 +1159,19 @@ public class ProfileSettingsActivity extends BaseActivity implements
 
 		}
 	};
+	private NumberPicker.OnValueChangeListener mMatchValuelistener = new NumberPicker.OnValueChangeListener() {
+
+		@Override
+		public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+			if (oldVal != newVal) {
+				PreferenceEngine.getInstance(ctx).setMatchHeightInt(newVal);
+				PreferenceEngine.getInstance(ctx).setMatchHeight(
+						mMatchHeight[newVal]);
+			}
+			matchInitView();
+
+		}
+	};
 
 	private void showErrorDialog() {
 		ErrorDialog errDialog = new ErrorDialog(new AfterYouDialogImpl(this),
@@ -1054,8 +1197,7 @@ public class ProfileSettingsActivity extends BaseActivity implements
 					&& rtln.getText() != null && rtln.getText().length() > 0) {
 				intent = new Intent(ProfileSettingsActivity.this,
 						CapturePictureActivity.class);
-				if(isFacebook)
-				{
+				if (isFacebook) {
 					intent.putExtra(AppConstants.FACEBOOK_USER, true);
 				}
 				startActivity(intent);
@@ -1065,5 +1207,426 @@ public class ProfileSettingsActivity extends BaseActivity implements
 			break;
 		}
 
+	}
+
+	protected void changeMatchReligion(int mCurrentRlg2) {
+		String selectedReligion = mMatchReligion[mCurrentRlg2].toString();
+		PreferenceEngine.getInstance(ctx).setMatchReligion(selectedReligion);
+		PreferenceEngine.getInstance(ctx).setMatchReligionInt(mCurrentRlg2);
+		matchInitView();
+	}
+
+	private void matchInitView() {
+
+		String matchReligion_txt = PreferenceEngine.getInstance(this)
+				.getMatchReligion();
+			TextView match_rlg = (TextView) findViewById(R.id.match_religion_edit_text);
+			match_rlg.setTypeface(tf);
+			match_rlg.setOnClickListener(new OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					getMatchReligionDialog().show();
+				}
+			});
+
+		if (matchReligion_txt != null) {
+			match_rlg.setText(matchReligion_txt);
+		}
+
+		String relation_txt = PreferenceEngine.getInstance(this)
+				.getMatchRelation();
+		TextView match_rtln = (TextView) findViewById(R.id.match_relation_edit_text);
+		match_rtln.setTypeface(tf);
+		match_rtln.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				getMatchRelationDialog().show();
+
+			}
+		});
+		if (relation_txt != null) {
+			match_rtln.setText(relation_txt);
+		}
+
+		boolean havechild_txt = PreferenceEngine.getInstance(this)
+				.getMatchHaveChildren();
+		TextView matchHvChlid = (TextView) findViewById(R.id.match_havechild_edit_text);
+		matchHvChlid.setTypeface(tf);
+		matchHvChlid.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				getMatchHaveChildDialog(false).show();
+
+			}
+		});
+		if (havechild_txt) {
+			matchHvChlid.setText(getResources().getString(R.string.IDS_YES));
+			mCurrentHvChld = 0;
+		} else {
+			matchHvChlid.setText(getResources().getString(R.string.IDS_NO));
+		}
+
+		boolean wantchild_txt = PreferenceEngine.getInstance(this)
+				.getMatchWantChildren();
+		TextView matchWntChild = (TextView) findViewById(R.id.match_wantchild_edit_text);
+		matchWntChild.setTypeface(tf);
+		matchWntChild.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				getMatchHaveChildDialog(true).show();
+
+			}
+		});
+		if (havechild_txt) {
+			matchHvChlid.setText(getResources().getString(R.string.IDS_YES));
+		} else {
+			matchHvChlid.setText(getResources().getString(R.string.IDS_NO));
+		}
+		if (wantchild_txt) {
+			matchWntChild.setText(getResources().getString(R.string.IDS_YES));
+		} else {
+			matchWntChild.setText(getResources().getString(R.string.IDS_NO));
+		}
+
+		String height_txt = PreferenceEngine.getInstance(this).getMatchHeight();
+		TextView matchHeightTxt = (TextView) findViewById(R.id.match_height_edit_text);
+		matchHeightTxt.setTypeface(tf);
+		matchHeightTxt.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				getMatchHeightDialog().show();
+
+			}
+		});
+		if (height_txt != null) {
+			matchHeightTxt.setText(height_txt);
+		}
+
+		String body_type_txt = PreferenceEngine.getInstance(ctx)
+				.getMatchBodyType();
+		TextView match_body_type = (TextView) findViewById(R.id.match_bodyType_edit_text);
+		match_body_type.setTypeface(tf);
+		match_body_type.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				getMatchBodyType().show();
+
+			}
+		});
+		if (body_type_txt != null) {
+			match_body_type.setText(body_type_txt);
+		}
+
+		String match_community_txt = PreferenceEngine.getInstance(ctx)
+				.getMatchCommunity();
+		TextView match_community = (TextView) findViewById(R.id.match_comm_edit_text);
+		match_community.setTypeface(tf);
+		match_community.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				getMatchCommunity().show();
+
+			}
+		});
+		if (match_community_txt != null) {
+			match_community.setText(match_community_txt);
+
+		}
+		String match_diet_txt = PreferenceEngine.getInstance(ctx)
+				.getMatchDiet();
+		TextView match_diet = (TextView) findViewById(R.id.match_diet_edit_text);
+		match_diet.setTypeface(tf);
+		match_diet.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				getMatchDiet().show();
+
+			}
+		});
+		if (match_diet_txt != null) {
+			match_diet.setText(match_diet_txt);
+		}
+
+		String match_smok_txt = PreferenceEngine.getInstance(ctx)
+				.getMatchSmoking();
+		TextView match_smoking = (TextView) findViewById(R.id.match_smoke_edit_text);
+		match_smoking.setTypeface(tf);
+		match_smoking.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				getMatchSmoking().show();
+
+			}
+		});
+		if (match_smok_txt != null) {
+			match_smoking.setText(match_smok_txt);
+
+		}
+		String match_drinking_txt = PreferenceEngine.getInstance(ctx)
+				.getMatchDrinking();
+		TextView match_drinking = (TextView) findViewById(R.id.match_drink_edit_text);
+		match_drinking.setTypeface(tf);
+		match_drinking.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				getMatchDrinking().show();
+
+			}
+		});
+		if (match_drinking_txt != null) {
+			match_drinking.setText(match_drinking_txt);
+
+		}
+		String match_lang_txt = PreferenceEngine.getInstance(ctx)
+				.getMatchLangList();
+		TextView match_lang = (TextView) findViewById(R.id.match_languages_edit_text);
+		match_lang.setTypeface(tf);
+		match_lang.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				getMatchLanguage().show();
+
+			}
+		});
+		if (match_lang_txt != null) {
+			match_lang.setText(match_lang_txt);
+
+		}
+
+	}
+
+	protected Dialog getMatchLanguage() {
+		CustomDialog.Builder builder = new CustomDialog.Builder(this,
+				new AfterYouDialogImpl.AfterYouBuilderImpl(this));
+
+		mMatchCurrentLagn = PreferenceEngine.getInstance(ctx)
+				.getMatchLangBoolean(mMatchLanguageList);
+		Dialog match_languages = builder
+				.setTitle(this.getString(R.string.languages_label))
+				.setMultiChoiceItems(mMatchLanguageList, mMatchCurrentLagn,
+						new OnMultiChoiceClickListener() {
+
+							@Override
+							public void onClick(DialogInterface dialog,
+									int which, boolean isChecked) {
+								System.out.println("Which----" + which
+										+ " isChecked ==" + isChecked);
+								mMatchCurrentLagn[which] = isChecked;
+
+							}
+						})
+				.setPositiveButton(this.getString(R.string.IDS_OK),
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog,
+									int whichButton) {
+								changeMatchLang();
+							}
+						})
+				.setNegativeButton(this.getString(R.string.IDS_CANCEL), null)
+				.create();
+
+		return match_languages;
+	}
+
+	protected Dialog getMatchDrinking() {
+		CustomDialog.Builder builder = new CustomDialog.Builder(this,
+				new AfterYouDialogImpl.AfterYouBuilderImpl(this));
+
+		int checkedItem = PreferenceEngine.getInstance(ctx).getMatchDrinkInt();
+		Dialog match_drinking = builder
+				.setTitle(this.getString(R.string.drink_label))
+				.setSingleChoiceItems(mMatchDrinking, checkedItem,
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog,
+									int whichButton) {
+
+								changeMatchDrinking(whichButton);
+							}
+						})
+				.setNegativeButton(this.getString(R.string.IDS_CANCEL), null)
+				.create();
+
+		return match_drinking;
+	}
+
+	protected Dialog getMatchSmoking() {
+		CustomDialog.Builder builder = new CustomDialog.Builder(this,
+				new AfterYouDialogImpl.AfterYouBuilderImpl(this));
+
+		int checkedItem = PreferenceEngine.getInstance(ctx)
+				.getMatchSmokingInt();
+		Dialog match_smoking = builder
+				.setTitle(this.getString(R.string.smoke_label))
+				.setSingleChoiceItems(mMatchSmoking, checkedItem,
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog,
+									int whichButton) {
+
+								changeMatchSmoking(whichButton);
+							}
+						})
+				.setNegativeButton(this.getString(R.string.IDS_CANCEL), null)
+				.create();
+
+		return match_smoking;
+	}
+
+	protected Dialog getMatchDiet() {
+		CustomDialog.Builder builder = new CustomDialog.Builder(this,
+				new AfterYouDialogImpl.AfterYouBuilderImpl(this));
+
+		int checkedItem = PreferenceEngine.getInstance(ctx).getMatchDietInt();
+		Dialog diet = builder
+				.setTitle(this.getString(R.string.diet_label))
+				.setSingleChoiceItems(mMatchDietList, checkedItem,
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog,
+									int whichButton) {
+								changeMatchDiet(whichButton);
+							}
+						})
+				.setNegativeButton(this.getString(R.string.IDS_CANCEL), null)
+				.create();
+
+		return diet;
+	}
+
+	protected Dialog getMatchCommunity() {
+		CustomDialog.Builder builder = new CustomDialog.Builder(this,
+				new AfterYouDialogImpl.AfterYouBuilderImpl(this));
+
+		int checkedItem = PreferenceEngine.getInstance(ctx)
+				.getMatchCommunityInt();
+		Dialog community = builder
+				.setTitle(this.getString(R.string.comm_label))
+				.setSingleChoiceItems(mMatchCommunity, checkedItem,
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog,
+									int whichButton) {
+
+								changeMatchComm(whichButton);
+							}
+						})
+				.setNegativeButton(this.getString(R.string.IDS_CANCEL), null)
+				.create();
+
+		return community;
+	}
+
+	protected Dialog getMatchBodyType() {
+		CustomDialog.Builder builder = new CustomDialog.Builder(this,
+				new AfterYouDialogImpl.AfterYouBuilderImpl(this));
+
+		int checkedItem = PreferenceEngine.getInstance(ctx)
+				.getMatchBodyTypeInt();
+		Dialog body_type = builder
+				.setTitle(this.getString(R.string.bodyType_label))
+				.setSingleChoiceItems(mMatchBodyType, checkedItem,
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog,
+									int whichButton) {
+
+								changeMatchBodyType(whichButton);
+							}
+						})
+				.setNegativeButton(this.getString(R.string.IDS_CANCEL), null)
+				.create();
+
+		return body_type;
+	}
+
+	protected Dialog getMatchHeightDialog() {
+		return new CustomerNumberPickerDialog(new AfterYouDialogImpl(this),
+				this, R.style.Theme_CustomDialog, mMatchValuelistener,
+				mMatchHeight, PreferenceEngine.getInstance(this)
+						.getMatchHeightInt());
+	}
+
+	protected Dialog getMatchHaveChildDialog(final boolean wntChld) {
+		CustomDialog.Builder builder = new CustomDialog.Builder(this,
+				new AfterYouDialogImpl.AfterYouBuilderImpl(this));
+		String label = null;
+		int checkedItem = -1;
+		if (wntChld) {
+			label = this.getString(R.string.wantchild_label);
+			checkedItem = PreferenceEngine.getInstance(ctx)
+					.getMatchWantChildren() ? 0 : 1;
+		} else {
+			label = this.getString(R.string.havechild_label);
+			checkedItem = PreferenceEngine.getInstance(ctx).getHaveChildren() ? 0
+					: 1;
+		}
+
+		Dialog haveChildDialog = builder
+				.setTitle(label)
+				.setSingleChoiceItems(mMatchHvChild, checkedItem,
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog,
+									int whichButton) {
+								if (wntChld) {
+									changeMatchWntChild(whichButton);
+								} else {
+									changeMatchHaveChild(whichButton);
+								}
+							}
+						})
+				.setNegativeButton(this.getString(R.string.IDS_CANCEL), null)
+				.create();
+
+		return haveChildDialog;
+	}
+
+	private Dialog getMatchReligionDialog() {
+
+		CustomDialog.Builder builder = new CustomDialog.Builder(this,
+				new AfterYouDialogImpl.AfterYouBuilderImpl(this));
+
+		int checkedItem = PreferenceEngine.getInstance(ctx)
+				.getMatchReligionInt();
+		Dialog religion = builder
+				.setTitle(this.getString(R.string.religion_label))
+				.setSingleChoiceItems(mMatchReligion, checkedItem,
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog,
+									int whichButton) {
+								changeMatchReligion(whichButton);
+							}
+						})
+				.setNegativeButton(this.getString(R.string.IDS_CANCEL), null)
+				.create();
+
+		return religion;
+	}
+
+	protected Dialog getMatchRelationDialog() {
+		CustomDialog.Builder builder = new CustomDialog.Builder(this,
+				new AfterYouDialogImpl.AfterYouBuilderImpl(this));
+
+		int checkedItem = PreferenceEngine.getInstance(ctx)
+				.getMatchRelationInt();
+		Dialog relation = builder
+				.setTitle(this.getString(R.string.relation_label))
+				.setSingleChoiceItems(mMatchRelation, checkedItem,
+						new DialogInterface.OnClickListener() {
+							public void onClick(DialogInterface dialog,
+									int whichButton) {
+								changeMatchRelation(whichButton);
+							}
+						})
+				.setNegativeButton(this.getString(R.string.IDS_CANCEL), null)
+				.create();
+
+		return relation;
 	}
 }

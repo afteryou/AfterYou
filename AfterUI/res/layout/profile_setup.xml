@@ -232,7 +232,8 @@
                         android:layout_gravity="center_vertical"
                         android:layout_toRightOf="@id/languages_label_txt"
                         android:background="@drawable/sign_up_btn"
-                        android:gravity="center" >
+                        android:gravity="right|center"
+                        android:paddingRight="10dp" >
                     </TextView>
                 </RelativeLayout>
 
@@ -594,7 +595,8 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:background="@drawable/sign_up_btn"
-                        android:gravity="center" >
+                        android:gravity="right|center"
+                        android:paddingRight="10dp" >
                     </TextView>
 
                     <TextView
@@ -631,7 +633,8 @@
                         android:layout_gravity="center_vertical"
                         android:layout_toRightOf="@id/match_languages_label_txt"
                         android:background="@drawable/sign_up_btn"
-                        android:gravity="center" >
+                        android:gravity="right|center"
+                        android:paddingRight="10dp" >
                     </TextView>
                 </RelativeLayout>
 
@@ -648,7 +651,8 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:background="@drawable/sign_up_btn"
-                        android:gravity="center" >
+                        android:gravity="right|center"
+                        android:paddingRight="10dp" >
                     </TextView>
 
                     <TextView
@@ -674,7 +678,8 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:background="@drawable/sign_up_btn"
-                        android:gravity="center" >
+                        android:gravity="right|center"
+                        android:paddingRight="10dp" >
                     </TextView>
 
                     <TextView
@@ -700,7 +705,8 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:background="@drawable/sign_up_btn"
-                        android:gravity="center" >
+                        android:gravity="right|center"
+                        android:paddingRight="10dp" >
                     </TextView>
 
                     <TextView
@@ -726,7 +732,8 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:background="@drawable/sign_up_btn"
-                        android:gravity="center" >
+                        android:gravity="right|center"
+                        android:paddingRight="10dp" >
                     </TextView>
 
                     <TextView
@@ -752,7 +759,8 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:background="@drawable/sign_up_btn"
-                        android:gravity="center" >
+                        android:gravity="right|center"
+                        android:paddingRight="10dp" >
                     </TextView>
 
                     <TextView
@@ -778,7 +786,8 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_vertical"
                         android:background="@drawable/sign_up_btn"
-                        android:gravity="center" >
+                        android:gravity="right|center"
+                        android:paddingRight="10dp" >
                     </TextView>
 
                     <TextView

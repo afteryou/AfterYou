@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 
-import com.beacon.afterui.application.AfterYouApplication;
 import com.beacon.afterui.constants.AppConstants;
 
 public class PreferenceEngine {
@@ -41,9 +40,19 @@ public class PreferenceEngine {
 				AppConstants.SELF_RELIGION, null);
 	}
 
+	public String getMatchReligion() {
+		return getDefaultSharePreference().getString(
+				AppConstants.MATCH_RELIGION, null);
+	}
+
 	public int getSelfReligionInt() {
 		return getDefaultSharePreference().getInt(
 				AppConstants.SELF_RELIGION_INT, 0);
+	}
+
+	public int getMatchReligionInt() {
+		return getDefaultSharePreference().getInt(
+				AppConstants.MATCH_RELIGION_INT, 0);
 	}
 
 	public void setSelfReligion(String rlg) {
@@ -52,9 +61,21 @@ public class PreferenceEngine {
 		editor.commit();
 	}
 
+	public void setMatchReligion(String rlg) {
+		Editor editor = getDefaultSharePreference().edit();
+		editor.putString(AppConstants.MATCH_RELIGION, rlg);
+		editor.commit();
+	}
+
 	public void setSelfReligionInt(int rlg) {
 		Editor editor = getDefaultSharePreference().edit();
 		editor.putInt(AppConstants.SELF_RELIGION_INT, rlg);
+		editor.commit();
+	}
+
+	public void setMatchReligionInt(int rlg) {
+		Editor editor = getDefaultSharePreference().edit();
+		editor.putInt(AppConstants.MATCH_RELIGION_INT, rlg);
 		editor.commit();
 	}
 
@@ -80,6 +101,28 @@ public class PreferenceEngine {
 		editor.commit();
 	}
 
+	public String getMatchRelation() {
+		return getDefaultSharePreference().getString(
+				AppConstants.MATCH_RELATION, null);
+	}
+
+	public int getMatchRelationInt() {
+		return getDefaultSharePreference().getInt(
+				AppConstants.MATCH_RELATION_INT, 0);
+	}
+
+	public void setMatchRelation(String rltn) {
+		Editor editor = getDefaultSharePreference().edit();
+		editor.putString(AppConstants.MATCH_RELATION, rltn);
+		editor.commit();
+	}
+
+	public void setMatchRelationInt(int rltn) {
+		Editor editor = getDefaultSharePreference().edit();
+		editor.putInt(AppConstants.MATCH_RELATION_INT, rltn);
+		editor.commit();
+	}
+
 	public void saveHaveChildren(boolean hvChld) {
 		Editor editor = getDefaultSharePreference().edit();
 		editor.putBoolean(AppConstants.HAVE_CHILDREN, hvChld);
@@ -89,6 +132,17 @@ public class PreferenceEngine {
 	public boolean getHaveChildren() {
 		return getDefaultSharePreference().getBoolean(
 				AppConstants.HAVE_CHILDREN, false);
+	}
+
+	public void saveMatchHaveChildren(boolean hvChld) {
+		Editor editor = getDefaultSharePreference().edit();
+		editor.putBoolean(AppConstants.MATCH_HAVE_CHILDREN, hvChld);
+		editor.commit();
+	}
+
+	public boolean getMatchHaveChildren() {
+		return getDefaultSharePreference().getBoolean(
+				AppConstants.MATCH_HAVE_CHILDREN, false);
 	}
 
 	// public void saveLastLocation(double latitude, double longitude) {
@@ -131,8 +185,24 @@ public class PreferenceEngine {
 				AppConstants.WANT_CHILDREN, false);
 	}
 
+	public void saveMatchWantChildren(boolean wntChld) {
+		Editor editor = getDefaultSharePreference().edit();
+		editor.putBoolean(AppConstants.MATCH_WANT_CHILDREN, wntChld);
+		editor.commit();
+	}
+
+	public boolean getMatchWantChildren() {
+		return getDefaultSharePreference().getBoolean(
+				AppConstants.MATCH_WANT_CHILDREN, false);
+	}
+
 	public String getSelfHeight() {
 		return getDefaultSharePreference().getString(AppConstants.SELF_HEIGHT,
+				null);
+	}
+
+	public String getMatchHeight() {
+		return getDefaultSharePreference().getString(AppConstants.MATCH_HEIGHT,
 				null);
 	}
 
@@ -141,15 +211,32 @@ public class PreferenceEngine {
 				0);
 	}
 
+	public int getMatchHeightInt() {
+		return getDefaultSharePreference().getInt(
+				AppConstants.MATCH_HEIGHT_INT, 0);
+	}
+
 	public void setSelfHeight(String hgt) {
 		Editor editor = getDefaultSharePreference().edit();
 		editor.putString(AppConstants.SELF_HEIGHT, hgt);
 		editor.commit();
 	}
 
+	public void setMatchHeight(String hgt) {
+		Editor editor = getDefaultSharePreference().edit();
+		editor.putString(AppConstants.MATCH_HEIGHT, hgt);
+		editor.commit();
+	}
+
 	public void setSelfHeightInt(int hgt) {
 		Editor editor = getDefaultSharePreference().edit();
 		editor.putInt(AppConstants.SELF_HEIGHT_INT, hgt);
+		editor.commit();
+	}
+
+	public void setMatchHeightInt(int hgt) {
+		Editor editor = getDefaultSharePreference().edit();
+		editor.putInt(AppConstants.MATCH_HEIGHT_INT, hgt);
 		editor.commit();
 	}
 
@@ -175,6 +262,28 @@ public class PreferenceEngine {
 		editor.commit();
 	}
 
+	public String getMatchBodyType() {
+		return getDefaultSharePreference().getString(AppConstants.MATCH_BODY,
+				null);
+	}
+
+	public int getMatchBodyTypeInt() {
+		return getDefaultSharePreference().getInt(AppConstants.MATCH_BODY_INT,
+				0);
+	}
+
+	public void setMatchBodyType(String bdyType) {
+		Editor editor = getDefaultSharePreference().edit();
+		editor.putString(AppConstants.MATCH_BODY, bdyType);
+		editor.commit();
+	}
+
+	public void setMatchBodyTypeInt(int bdyInt) {
+		Editor editor = getDefaultSharePreference().edit();
+		editor.putInt(AppConstants.MATCH_BODY_INT, bdyInt);
+		editor.commit();
+	}
+
 	public String getSelfCommunity() {
 		return getDefaultSharePreference().getString(AppConstants.SELF_COMM,
 				null);
@@ -194,6 +303,28 @@ public class PreferenceEngine {
 	public void setSelfCommunityInt(int bdyInt) {
 		Editor editor = getDefaultSharePreference().edit();
 		editor.putInt(AppConstants.SELF_COMM_INT, bdyInt);
+		editor.commit();
+	}
+
+	public String getMatchCommunity() {
+		return getDefaultSharePreference().getString(AppConstants.MATCH_COMM,
+				null);
+	}
+
+	public int getMatchCommunityInt() {
+		return getDefaultSharePreference().getInt(AppConstants.MATCH_COMM_INT,
+				0);
+	}
+
+	public void setMatchCommunity(String bdyType) {
+		Editor editor = getDefaultSharePreference().edit();
+		editor.putString(AppConstants.MATCH_COMM, bdyType);
+		editor.commit();
+	}
+
+	public void setMatchCommunityInt(int bdyInt) {
+		Editor editor = getDefaultSharePreference().edit();
+		editor.putInt(AppConstants.MATCH_COMM_INT, bdyInt);
 		editor.commit();
 	}
 
@@ -218,13 +349,34 @@ public class PreferenceEngine {
 		editor.putInt(AppConstants.SELF_DIET_INT, bdyInt);
 		editor.commit();
 	}
-	
+
+	public String getMatchDiet() {
+		return getDefaultSharePreference().getString(AppConstants.MATCH_DIET,
+				null);
+	}
+
+	public int getMatchDietInt() {
+		return getDefaultSharePreference().getInt(AppConstants.MATCH_DIET_INT,
+				0);
+	}
+
+	public void setMatchDiet(String bdyType) {
+		Editor editor = getDefaultSharePreference().edit();
+		editor.putString(AppConstants.MATCH_DIET, bdyType);
+		editor.commit();
+	}
+
+	public void setMatchDietInt(int bdyInt) {
+		Editor editor = getDefaultSharePreference().edit();
+		editor.putInt(AppConstants.MATCH_DIET_INT, bdyInt);
+		editor.commit();
+	}
+
 	public void setSelfLangList(String selfLang) {
 		Editor editor = getDefaultSharePreference().edit();
 		editor.putString(AppConstants.SELF_LANG, selfLang);
 		editor.commit();
 	}
-
 
 	public String getSelfLangList() {
 		return getDefaultSharePreference().getString(AppConstants.SELF_LANG,
@@ -239,15 +391,44 @@ public class PreferenceEngine {
 
 			for (int i = 0; i < saveList.length; i++) {
 				for (int j = 0; j < referenceList.length; j++) {
-					 if(referenceList[j].equalsIgnoreCase(saveList[i]))
-					 {
-						 selectedLang[j] = true;
-						 break;
-					 }
+					if (referenceList[j].equalsIgnoreCase(saveList[i])) {
+						selectedLang[j] = true;
+						break;
+					}
 				}
 			}
 		}
-		
+
+		return selectedLang;
+	}
+	
+	public void setMatchLangList(String matchLang) {
+		Editor editor = getDefaultSharePreference().edit();
+		editor.putString(AppConstants.MATCH_LANG, matchLang);
+		editor.commit();
+	}
+
+	public String getMatchLangList() {
+		return getDefaultSharePreference().getString(AppConstants.MATCH_LANG,
+				null);
+	}
+
+	public boolean[] getMatchLangBoolean(String[] referenceList) {
+		boolean[] selectedLang = new boolean[referenceList.length];
+		String[] saveList;
+		if (getMatchLangList() != null) {
+			saveList = getMatchLangList().split(";");
+
+			for (int i = 0; i < saveList.length; i++) {
+				for (int j = 0; j < referenceList.length; j++) {
+					if (referenceList[j].equalsIgnoreCase(saveList[i])) {
+						selectedLang[j] = true;
+						break;
+					}
+				}
+			}
+		}
+
 		return selectedLang;
 	}
 
@@ -255,48 +436,45 @@ public class PreferenceEngine {
 		Editor editor = getDefaultSharePreference().edit();
 		editor.putString(AppConstants.SELF_FIRST_NAME, firstName);
 		editor.commit();
-		
+
 	}
-	
-	public String getFirstName()
-	{
-		return getDefaultSharePreference().getString(AppConstants.SELF_FIRST_NAME,
-				null);
+
+	public String getFirstName() {
+		return getDefaultSharePreference().getString(
+				AppConstants.SELF_FIRST_NAME, null);
 	}
-	
+
 	public void setLastName(String lastName) {
 		Editor editor = getDefaultSharePreference().edit();
 		editor.putString(AppConstants.SELF_LAST_NAME, lastName);
 		editor.commit();
-		
+
 	}
-	
-	public String getLastName()
-	{
-		return getDefaultSharePreference().getString(AppConstants.SELF_LAST_NAME,
-				null);
+
+	public String getLastName() {
+		return getDefaultSharePreference().getString(
+				AppConstants.SELF_LAST_NAME, null);
 	}
 
 	public void saveGender(Object gender) {
 		Editor editor = getDefaultSharePreference().edit();
-		editor.putString(AppConstants.SELF_GENDER,(String)gender);
+		editor.putString(AppConstants.SELF_GENDER, (String) gender);
 		editor.commit();
-		
+
 	}
-	
-	public String getGender()
-	{
+
+	public String getGender() {
 		return getDefaultSharePreference().getString(AppConstants.SELF_GENDER,
 				null);
 	}
 
 	public void saveProfileUserName(String id) {
 		Editor editor = getDefaultSharePreference().edit();
-		editor.putString(AppConstants.SELF_FB_ID,id);
+		editor.putString(AppConstants.SELF_FB_ID, id);
 		editor.commit();
 	}
-	public String getProfileID()
-	{
+
+	public String getProfileID() {
 		return getDefaultSharePreference().getString(AppConstants.SELF_FB_ID,
 				null);
 	}
@@ -305,75 +483,74 @@ public class PreferenceEngine {
 		Editor editor = getDefaultSharePreference().edit();
 		editor.putInt(AppConstants.SELF_DRINKING_INT, mCurrentSlfDriking);
 		editor.commit();
-		
+
 	}
 
 	public void setSelfDrinking(String selectedSlfDrinking) {
 		Editor editor = getDefaultSharePreference().edit();
 		editor.putString(AppConstants.SELF_DRINKING, selectedSlfDrinking);
 		editor.commit();
-		
+
 	}
 
-	public void setSelfSmokingInt(int mCurrentSlfSmoking) {
+	public void setMatchDrinkingInt(int mCurrentSlfDriking) {
 		Editor editor = getDefaultSharePreference().edit();
-		editor.putInt(AppConstants.SELF_SMOKING_INT, mCurrentSlfSmoking);
+		editor.putInt(AppConstants.MATCH_DRINKING_INT, mCurrentSlfDriking);
 		editor.commit();
-		
+
 	}
 
-	public void setSelfSmoking(String selectedSlfSmoking) {
+	public void setMatchDrinking(String selectedSlfDrinking) {
 		Editor editor = getDefaultSharePreference().edit();
-		editor.putString(AppConstants.SELF_SMOKING, selectedSlfSmoking);
+		editor.putString(AppConstants.MATCH_DRINKING, selectedSlfDrinking);
 		editor.commit();
-		
+
 	}
 
 	public void setSelfEducationInt(int mCurrentSlfEducation) {
 		Editor editor = getDefaultSharePreference().edit();
 		editor.putInt(AppConstants.SELF_EDUCATION_INT, mCurrentSlfEducation);
 		editor.commit();
-		
+
 	}
 
 	public void setSelfEducation(String selectedSlfEducation) {
 		Editor editor = getDefaultSharePreference().edit();
 		editor.putString(AppConstants.SELF_EDUCATION, selectedSlfEducation);
 		editor.commit();
-		
+
 	}
 
 	public void setSelfSalaryInt(int mCurrentSlfSalary) {
 		Editor editor = getDefaultSharePreference().edit();
 		editor.putInt(AppConstants.SELF_SALARY_INT, mCurrentSlfSalary);
 		editor.commit();
-		
+
 	}
 
 	public void setSelfSalary(String selectedSlfSalary) {
 		Editor editor = getDefaultSharePreference().edit();
 		editor.putString(AppConstants.SELF_SALARY, selectedSlfSalary);
 		editor.commit();
-		
+
 	}
 
 	public void setWantAgeInt(int mCurrentWntAge) {
 		Editor editor = getDefaultSharePreference().edit();
 		editor.putInt(AppConstants.WANT_AGE_INT, mCurrentWntAge);
 		editor.commit();
-		
+
 	}
 
 	public void setWantAge(String selectedWntAge) {
 		Editor editor = getDefaultSharePreference().edit();
 		editor.putString(AppConstants.WANT_AGE, selectedWntAge);
 		editor.commit();
-		
+
 	}
 
 	public int getWantAgeInt() {
-		return getDefaultSharePreference().getInt(AppConstants.WANT_AGE_INT,
-				0);
+		return getDefaultSharePreference().getInt(AppConstants.WANT_AGE_INT, 0);
 	}
 
 	public String getWantAge() {
@@ -382,8 +559,51 @@ public class PreferenceEngine {
 	}
 
 	public int getSelfSmokingInt() {
-		return getDefaultSharePreference().getInt(AppConstants.SELF_SMOKING_INT,
-				0);
+		return getDefaultSharePreference().getInt(
+				AppConstants.SELF_SMOKING_INT, 0);
+	}
+
+	public String getSelfSmoking() {
+		return getDefaultSharePreference().getString(AppConstants.SELF_SMOKING,
+				null);
+	}
+
+	public void setSelfSmokingInt(int mCurrentSlfSmoking) {
+		Editor editor = getDefaultSharePreference().edit();
+		editor.putInt(AppConstants.SELF_SMOKING_INT, mCurrentSlfSmoking);
+		editor.commit();
+
+	}
+
+	public void setSelfSmoking(String selectedSlfSmoking) {
+		Editor editor = getDefaultSharePreference().edit();
+		editor.putString(AppConstants.SELF_SMOKING, selectedSlfSmoking);
+		editor.commit();
+
+	}
+
+	public int getMatchSmokingInt() {
+		return getDefaultSharePreference().getInt(
+				AppConstants.MATCH_SMOKING_INT, 0);
+	}
+
+	public String getMatchSmoking() {
+		return getDefaultSharePreference().getString(
+				AppConstants.MATCH_SMOKING, null);
+	}
+
+	public void setMatchSmokingInt(int mCurrentSlfSmoking) {
+		Editor editor = getDefaultSharePreference().edit();
+		editor.putInt(AppConstants.MATCH_SMOKING_INT, mCurrentSlfSmoking);
+		editor.commit();
+
+	}
+
+	public void setMatchSmoking(String selectedSlfSmoking) {
+		Editor editor = getDefaultSharePreference().edit();
+		editor.putString(AppConstants.MATCH_SMOKING, selectedSlfSmoking);
+		editor.commit();
+
 	}
 
 	public String getSelfSalary() {
@@ -392,28 +612,33 @@ public class PreferenceEngine {
 	}
 
 	public int getSelfEducationInt() {
-		return getDefaultSharePreference().getInt(AppConstants.SELF_EDUCATION_INT,
-				0);
+		return getDefaultSharePreference().getInt(
+				AppConstants.SELF_EDUCATION_INT, 0);
 	}
 
 	public String getSelfEducation() {
-		return getDefaultSharePreference().getString(AppConstants.SELF_EDUCATION,
-				null);
+		return getDefaultSharePreference().getString(
+				AppConstants.SELF_EDUCATION, null);
 	}
 
 	public int getSelfDrinkInt() {
-		return getDefaultSharePreference().getInt(AppConstants.SELF_DRINKING_INT,
-				0);
+		return getDefaultSharePreference().getInt(
+				AppConstants.SELF_DRINKING_INT, 0);
 	}
 
 	public String getSelfDrinking() {
-		return getDefaultSharePreference().getString(AppConstants.SELF_DRINKING,
-				null);
+		return getDefaultSharePreference().getString(
+				AppConstants.SELF_DRINKING, null);
 	}
 
-	public String getSelfSmoking() {
-		return getDefaultSharePreference().getString(AppConstants.SELF_SMOKING,
-				null);
+	public int getMatchDrinkInt() {
+		return getDefaultSharePreference().getInt(
+				AppConstants.MATCH_DRINKING_INT, 0);
+	}
+
+	public String getMatchDrinking() {
+		return getDefaultSharePreference().getString(
+				AppConstants.MATCH_DRINKING, null);
 	}
 
 	public int getSelfSalaryInt() {
@@ -423,14 +648,14 @@ public class PreferenceEngine {
 
 	public void saveUserEmail(Object email) {
 		Editor editor = getDefaultSharePreference().edit();
-		editor.putString(AppConstants.SELF_EMAIL, (String)email);
+		editor.putString(AppConstants.SELF_EMAIL, (String) email);
 		editor.commit();
-		
+
 	}
 
 	public String getUserEmail() {
 		return getDefaultSharePreference().getString(AppConstants.SELF_EMAIL,
 				null);
 	}
-	
+
 }
