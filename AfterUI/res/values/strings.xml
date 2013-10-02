@@ -160,4 +160,5 @@
     <string name="IDS_APPLYING_FILTER">Applying Filter to the image..</string>
     <string name="IDS_USER_WARN">We will not post anything to your facebook profile</string>
     <string name="IDS_ERROR_FILTER">There was an error applying filter to this image. THis might be aformat/path issue.</string>
+    <string name="copy_right_text">&#169; 2013 AfterYou Inc. Privacy Policy</string>
 </resources>

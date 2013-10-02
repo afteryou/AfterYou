@@ -3,6 +3,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/app_bg" >
+    
+    <TextView android:id="@+id/copy_right_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="20dp"
+        android:textSize="15sp"
+        android:layout_centerHorizontal="true"
+        android:text="@string/copy_right_text"
+        android:textColor="#6caddf"/>
 
     <RelativeLayout
         android:id="@+id/center_layout"
