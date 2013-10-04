@@ -50,7 +50,7 @@ public final class AppConstants {
 	public static final String MATCH_SMOKING_INT = "match_smoking_int";
 
 	public static final String MATCH_RELIGION = "match_religion";
-	public static final String MATCH_RELIGION_INT = "Self_Rlg_Int";
+	public static final String MATCH_RELIGION_INT = "match_rlg_int";
 
 	public static final String MATCH_RELATION = "match_reltn";
 	public static final String MATCH_RELATION_INT = "match_reltn_int";

@@ -2,6 +2,7 @@
 <resources>
 
     <color name="app_theme_color">#ccdef3</color>
+    <color name="font_blue_color">#6caddf</color>
     <color name="login_text_color">#7ab4e2</color>
     <color name="white_color">#ffffff</color>
     <color name="image_bar_dialog">#3bb1de</color>
@@ -64,11 +65,13 @@
     <color name="grey_border">#808080</color>
     <color name="hint_gray">#ff555555</color>
     <color name="brown_background">#653c18</color>
+
     <drawable name="map_background_color">#ffaaaaaa</drawable>
     <drawable name="translucent_background">#e0303030</drawable>
     <drawable name="translucent_white">#99ffffff</drawable>
     <drawable name="transparent_background">#00000000</drawable>
 
     <color name="gray_no_transparency ">#88000000</color>
+    <color name="profile_setup_blue_color">#226bb3</color>
 
 </resources>

@@ -10,6 +10,7 @@ import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -39,8 +40,8 @@ public class SignUpActivity extends BaseActivity implements OnClickListener,
 	private static final String TAG = SignUpActivity.class.getSimpleName();
 
 	private ImageButton mSignInBtn;
-	private ImageView mBirthDayTextImg;
-	private ImageView mPasswordValidationTxt;
+	private TextView mBirthDayTextImg;
+	private TextView mPasswordValidationTxt;
 	private ImageView mCrossFirstNameBtn;
 	private ImageView mCrossLastNameBtn;
 	private ImageView mCrossEmailBtn;
@@ -69,13 +70,18 @@ public class SignUpActivity extends BaseActivity implements OnClickListener,
 	private SignUpHandler mSplashHandler;
 
 	private boolean isFromFacebook;
-	
+
 	private static final boolean isTest = false;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.sign_up_screen);
+		Typeface typeFaceRegular = Typeface.createFromAsset(getAssets(),
+				"fonts/MyriadPro-Regular.otf");
+		Typeface typeFaceItalic = Typeface.createFromAsset(getAssets(),
+				"fonts/MyriadPro-It.otf");
+
 		mSignInBtn = (ImageButton) findViewById(R.id.sign_in_btn_signup_screen);
 		mCrossFirstNameBtn = (ImageView) findViewById(R.id.cross_btn_firstname);
 		mCrossLastNameBtn = (ImageView) findViewById(R.id.cross_btn_lastname);
@@ -85,22 +91,35 @@ public class SignUpActivity extends BaseActivity implements OnClickListener,
 		mCrossConfirmPasswordBtn = (ImageView) findViewById(R.id.cross_btn_confirm_password);
 
 		mFirstnameText = (EditText) findViewById(R.id.first_name_edit_text);
+		mFirstnameText.setTypeface(typeFaceRegular);
 		mLastNameText = (EditText) findViewById(R.id.last_name_edit_text);
+		mLastNameText.setTypeface(typeFaceRegular);
 		mEmailText = (EditText) findViewById(R.id.email_edit_text);
+		mEmailText.setTypeface(typeFaceRegular);
 		mBirthDayText = (EditText) findViewById(R.id.birthday_edit_text);
+		mBirthDayText.setTypeface(typeFaceRegular);
 		mPasswordText = (EditText) findViewById(R.id.password_edit_text);
+		mPasswordText.setTypeface(typeFaceRegular);
 		mConfirmText = (EditText) findViewById(R.id.confirm_edit_text);
-		mBirthDayTextImg = (ImageView) findViewById(R.id.date_of_birth_txt);
-		mPasswordValidationTxt = (ImageView) findViewById(R.id.password_validation_txt);
+		mConfirmText.setTypeface(typeFaceRegular);
+		mBirthDayTextImg = (TextView) findViewById(R.id.date_of_birth_txt);
+		mPasswordValidationTxt = (TextView) findViewById(R.id.password_validation_txt);
+		TextView sign_up_txt = (TextView) findViewById(R.id.sign_up_txt);
+
+		mBirthDayTextImg.setTypeface(typeFaceItalic);
+		mPasswordValidationTxt.setTypeface(typeFaceItalic);
+		sign_up_txt.setTypeface(typeFaceRegular);
 
 		mLeftImage = (TextView) findViewById(R.id.left_image);
 		mRightImage = (TextView) findViewById(R.id.right_image);
-		
-		if(isTest)
-		{
+
+		mLeftImage.setTypeface(typeFaceRegular);
+		mRightImage.setTypeface(typeFaceRegular);
+
+		if (isTest) {
 			mFirstnameText.setText("abc");
 			mLastNameText.setText("xyz");
-			mEmailText.setText("abc@g.in");	
+			mEmailText.setText("abc@g.in");
 			mPasswordText.setText("aaaaaa");
 			mConfirmText.setText("aaaaaa");
 			mBirthDayText.setText("1234");
@@ -237,11 +256,11 @@ public class SignUpActivity extends BaseActivity implements OnClickListener,
 		if (intent == null) {
 			return;
 		}
-		
+
 		if (!validateData()) {
-            return;
-        }
-		
+			return;
+		}
+
 		try {
 			startActivity(intent);
 		} catch (ActivityNotFoundException e) {
@@ -326,39 +345,39 @@ public class SignUpActivity extends BaseActivity implements OnClickListener,
 
 		switch (v.getId()) {
 
-//		case R.id.first_name_edit_text:
-//			if (hasFocus) {
-//				mFirstnameText.setSelection(0);
-//				mFirstnameText.setHint("");
-//				mFirstnameText.setCursorVisible(true);
-//			}
-//			break;
-//
-//		case R.id.last_name_edit_text:
-//			if (hasFocus) {
-//				mLastNameText.setSelection(0);
-//				mLastNameText.setHint("");
-//				mLastNameText.setCursorVisible(true);
-//			}
-//			break;
-//
-//		case R.id.email_edit_text:
-//			if (hasFocus) {
-//				mEmailText.setSelection(0);
-//				mEmailText.setHint("");
-//				mEmailText.setCursorVisible(true);
-//			}
-//
-//			break;
-//
-//		case R.id.confirm_edit_text:
-//			if (hasFocus) {
-//				mConfirmText.setSelection(0);
-//				mConfirmText.setHint("");
-//				mConfirmText.setCursorVisible(true);
-//			}
-//
-//			break;
+		// case R.id.first_name_edit_text:
+		// if (hasFocus) {
+		// mFirstnameText.setSelection(0);
+		// mFirstnameText.setHint("");
+		// mFirstnameText.setCursorVisible(true);
+		// }
+		// break;
+		//
+		// case R.id.last_name_edit_text:
+		// if (hasFocus) {
+		// mLastNameText.setSelection(0);
+		// mLastNameText.setHint("");
+		// mLastNameText.setCursorVisible(true);
+		// }
+		// break;
+		//
+		// case R.id.email_edit_text:
+		// if (hasFocus) {
+		// mEmailText.setSelection(0);
+		// mEmailText.setHint("");
+		// mEmailText.setCursorVisible(true);
+		// }
+		//
+		// break;
+		//
+		// case R.id.confirm_edit_text:
+		// if (hasFocus) {
+		// mConfirmText.setSelection(0);
+		// mConfirmText.setHint("");
+		// mConfirmText.setCursorVisible(true);
+		// }
+		//
+		// break;
 
 		case R.id.birthday_edit_text:
 			if (hasFocus) {

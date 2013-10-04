@@ -33,270 +33,280 @@ import com.facebook.model.GraphUser;
 
 public class LandingActivity extends BaseActivity implements OnClickListener {
 
-    /** TAG */
-    private static final String TAG = LandingActivity.class.getSimpleName();
+	/** TAG */
+	private static final String TAG = LandingActivity.class.getSimpleName();
 
-    private static ImageView sLoginButton;
-    private static ImageView sSignUpButton;
+	private static ImageView sLoginButton;
+	private static ImageView sSignUpButton;
 
-    private static final int SPLASH_END = 1;
-    private static final int START_SPINNER = 2;
-    private static final int STOP_SPINNER = 3;
+	private static final int SPLASH_END = 1;
+	private static final int START_SPINNER = 2;
+	private static final int STOP_SPINNER = 3;
 
-    private static final int SPALSH_VISIBLE_TIME = 3000;
+	private static final int SPALSH_VISIBLE_TIME = 3000;
 
-    private SplashHandler mSplashHandler;
+	private SplashHandler mSplashHandler;
 
-    private static View sFbContainer;
+	private static View sFbContainer;
 
-    private Context ctx;
+	private Context ctx;
 
-    private Session.StatusCallback statusCallback = new SessionStatusCallback();
+	private Session.StatusCallback statusCallback = new SessionStatusCallback();
 
-    private ProgressBar mCustomProgress;
+	private ProgressBar mCustomProgress;
 
-    private TextView progrssText;
+	private TextView progrssText;
 
-    private RelativeLayout user_inter;
+	private RelativeLayout user_inter;
 
-    private TextView userwarn;
+	private TextView userwarn;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.landing_screen);
+		setContentView(R.layout.landing_screen);
 
-        this.ctx = this;
+		this.ctx = this;
 
-        user_inter = (RelativeLayout) findViewById(R.id.user_but_id);
-        sLoginButton = (ImageView) findViewById(R.id.login_btn);
-        sSignUpButton = (ImageView) findViewById(R.id.signup_btn);
-        sFbContainer = findViewById(R.id.fb_container);
-        userwarn = (TextView) findViewById(R.id.user_fb_warn);
+		user_inter = (RelativeLayout) findViewById(R.id.user_but_id);
+		sLoginButton = (ImageView) findViewById(R.id.login_btn);
+		sSignUpButton = (ImageView) findViewById(R.id.signup_btn);
+		sFbContainer = findViewById(R.id.fb_container);
+		userwarn = (TextView) findViewById(R.id.user_fb_warn);
 
-        sLoginButton.setOnClickListener(this);
-        sSignUpButton.setOnClickListener(this);
-        sFbContainer.setOnClickListener(this);
+		sLoginButton.setOnClickListener(this);
+		sSignUpButton.setOnClickListener(this);
+		sFbContainer.setOnClickListener(this);
 
-        TextView copyRightTextView = (TextView) findViewById(R.id.copy_right_text);
-        Typeface typeFace = Typeface.createFromAsset(getAssets(),
-                "fonts/MyriadPro-Regular.otf");
-        copyRightTextView.setTypeface(typeFace);
+		TextView copyRightTextView = (TextView) findViewById(R.id.copy_right_text);
+		TextView loginTxt = (TextView) findViewById(R.id.login_txt);
+		TextView signupTxt = (TextView) findViewById(R.id.signup_txt);
+		TextView signupFbTxt = (TextView) findViewById(R.id.sign_up_using_fb_txt);
+		TextView userFbWarn = (TextView) findViewById(R.id.user_fb_warn);
 
-        Settings.addLoggingBehavior(LoggingBehavior.INCLUDE_ACCESS_TOKENS);
+		Typeface typeFace = Typeface.createFromAsset(getAssets(),
+				"fonts/MyriadPro-Regular.otf");
 
-        Session session = Session.getActiveSession();
-        if (session == null) {
-            if (savedInstanceState != null) {
-                session = Session.restoreSession(this, null, statusCallback,
-                        savedInstanceState);
-            }
-            if (session == null) {
-                session = new Session(this);
-            }
-            Session.setActiveSession(session);
-            if (session.getState().equals(SessionState.CREATED_TOKEN_LOADED)) {
-                session.openForRead(new Session.OpenRequest(this)
-                        .setCallback(statusCallback));
-            }
-        }
+		copyRightTextView.setTypeface(typeFace);
+		loginTxt.setTypeface(typeFace);
+		signupTxt.setTypeface(typeFace);
+		signupFbTxt.setTypeface(typeFace);
+		userFbWarn.setTypeface(typeFace);
 
-        mSplashHandler = new SplashHandler(this);
-        mSplashHandler.sendEmptyMessageDelayed(SPLASH_END, SPALSH_VISIBLE_TIME);
-    }
+		Settings.addLoggingBehavior(LoggingBehavior.INCLUDE_ACCESS_TOKENS);
 
-    private class SplashHandler extends Handler {
+		Session session = Session.getActiveSession();
+		if (session == null) {
+			if (savedInstanceState != null) {
+				session = Session.restoreSession(this, null, statusCallback,
+						savedInstanceState);
+			}
+			if (session == null) {
+				session = new Session(this);
+			}
+			Session.setActiveSession(session);
+			if (session.getState().equals(SessionState.CREATED_TOKEN_LOADED)) {
+				session.openForRead(new Session.OpenRequest(this)
+						.setCallback(statusCallback));
+			}
+		}
 
-        private final WeakReference<LandingActivity> mActivity;
+		mSplashHandler = new SplashHandler(this);
+		mSplashHandler.sendEmptyMessageDelayed(SPLASH_END, SPALSH_VISIBLE_TIME);
+	}
 
-        public SplashHandler(LandingActivity landingActivity) {
-            mActivity = new WeakReference<LandingActivity>(landingActivity);
-        }
+	private class SplashHandler extends Handler {
 
-        @Override
-        public void handleMessage(Message msg) {
+		private final WeakReference<LandingActivity> mActivity;
 
-            switch (msg.what) {
-            case SPLASH_END:
-                updateView();
-                break;
-            case START_SPINNER:
-                startSpinner(true);
-                break;
+		public SplashHandler(LandingActivity landingActivity) {
+			mActivity = new WeakReference<LandingActivity>(landingActivity);
+		}
 
-            case STOP_SPINNER:
-                startSpinner(false);
-                Intent intent = new Intent(ctx, SignUpActivity.class);
-                intent.putExtra(AppConstants.FACEBOOK_USER, true);
-                try {
-                    startActivity(intent);
-                } catch (ActivityNotFoundException e) {
-                    Log.e(TAG, " Activity not found : " + e.getMessage());
-                }
-                break;
-            }
-        }
-    }
+		@Override
+		public void handleMessage(Message msg) {
 
-    @Override
-    public void onClick(View v) {
+			switch (msg.what) {
+			case SPLASH_END:
+				updateView();
+				break;
+			case START_SPINNER:
+				startSpinner(true);
+				break;
 
-        Intent intent = null;
-        switch (v.getId()) {
-        case R.id.login_btn:
-            // ContentValues values = new ContentValues();
-            // values.put("Email", "peacemanav@gmail.com");
-            // values.put("Passwd", "Complex1234");
-            // values.put("source", "Test");
-            //
-            // getContentResolver().insert(AuthTable.CONTENT_URI, values);
-            intent = new Intent(LandingActivity.this, LoginScreen.class);
-            break;
+			case STOP_SPINNER:
+				startSpinner(false);
+				Intent intent = new Intent(ctx, SignUpActivity.class);
+				intent.putExtra(AppConstants.FACEBOOK_USER, true);
+				try {
+					startActivity(intent);
+				} catch (ActivityNotFoundException e) {
+					Log.e(TAG, " Activity not found : " + e.getMessage());
+				}
+				break;
+			}
+		}
+	}
 
-        case R.id.signup_btn:
-            intent = new Intent(LandingActivity.this, SignUpActivity.class);
-            break;
+	@Override
+	public void onClick(View v) {
 
-        case R.id.fb_container:
-            onClickLogin();
-            break;
-        }
+		Intent intent = null;
+		switch (v.getId()) {
+		case R.id.login_btn:
+			// ContentValues values = new ContentValues();
+			// values.put("Email", "peacemanav@gmail.com");
+			// values.put("Passwd", "Complex1234");
+			// values.put("source", "Test");
+			//
+			// getContentResolver().insert(AuthTable.CONTENT_URI, values);
+			intent = new Intent(LandingActivity.this, LoginScreen.class);
+			break;
 
-        if (intent == null) {
-            return;
-        }
+		case R.id.signup_btn:
+			intent = new Intent(LandingActivity.this, SignUpActivity.class);
+			break;
 
-        try {
-            startActivity(intent);
-        } catch (ActivityNotFoundException e) {
-            Log.e(TAG, " Activity not found : " + e.getMessage());
-        }
-    }
+		case R.id.fb_container:
+			onClickLogin();
+			break;
+		}
 
-    public void startSpinner(boolean start) {
-        if (start) {
-            if (mCustomProgress == null) {
-                mCustomProgress = (ProgressBar) findViewById(R.id.progress_bar);
-                mCustomProgress.setIndeterminate(true);
-                mCustomProgress.setIndeterminateDrawable(getResources()
-                        .getDrawable(R.drawable.progress_spinner));
-            }
-            if (progrssText == null) {
-                progrssText = (TextView) findViewById(R.id.progress_text);
-                progrssText.setText(getResources().getString(
-                        R.string.IDS_AUTHENTICATING));
-            }
-            progrssText.setVisibility(View.VISIBLE);
-            mCustomProgress.setVisibility(View.VISIBLE);
-        } else {
-            progrssText.setVisibility(View.GONE);
-            mCustomProgress.setVisibility(View.GONE);
-        }
+		if (intent == null) {
+			return;
+		}
 
-    }
+		try {
+			startActivity(intent);
+		} catch (ActivityNotFoundException e) {
+			Log.e(TAG, " Activity not found : " + e.getMessage());
+		}
+	}
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        Session.getActiveSession().addCallback(statusCallback);
-    }
+	public void startSpinner(boolean start) {
+		if (start) {
+			if (mCustomProgress == null) {
+				mCustomProgress = (ProgressBar) findViewById(R.id.progress_bar);
+				mCustomProgress.setIndeterminate(true);
+				mCustomProgress.setIndeterminateDrawable(getResources()
+						.getDrawable(R.drawable.progress_spinner));
+			}
+			if (progrssText == null) {
+				progrssText = (TextView) findViewById(R.id.progress_text);
+				progrssText.setText(getResources().getString(
+						R.string.IDS_AUTHENTICATING));
+			}
+			progrssText.setVisibility(View.VISIBLE);
+			mCustomProgress.setVisibility(View.VISIBLE);
+		} else {
+			progrssText.setVisibility(View.GONE);
+			mCustomProgress.setVisibility(View.GONE);
+		}
 
-    @Override
-    public void onStop() {
-        super.onStop();
-        Session.getActiveSession().removeCallback(statusCallback);
-    }
+	}
 
-    private void onClickLogin() {
-        Session session = Session.getActiveSession();
-        if (!session.isOpened() && !session.isClosed()) {
-            session.openForRead(new Session.OpenRequest(this)
-                    .setCallback(statusCallback));
-        } else {
-            Session.openActiveSession(this, true, statusCallback);
-        }
-    }
+	@Override
+	public void onStart() {
+		super.onStart();
+		Session.getActiveSession().addCallback(statusCallback);
+	}
 
-    private class SessionStatusCallback implements Session.StatusCallback {
-        @Override
-        public void call(Session session, SessionState state,
-                Exception exception) {
-            if (state == SessionState.OPENED) {
-                ((AfterYouApplication) getApplication())
-                        .setSessionCallBack(session);
-                mSplashHandler.sendEmptyMessageDelayed(SPLASH_END,
-                        SPALSH_VISIBLE_TIME);
-            }
-        }
-    }
+	@Override
+	public void onStop() {
+		super.onStop();
+		Session.getActiveSession().removeCallback(statusCallback);
+	}
 
-    public void updateView() {
-        Session session = Session.getActiveSession();
-        if (session.isOpened()) {
-            setUserInfoChangedCallback(new UserInfoChangedCallback() {
-                @Override
-                public void onUserInfoFetched(GraphUser user) {
-                    ((AfterYouApplication) getApplication()).setUser(user);
-                    if (user != null) {
-                        if (user.getFirstName() != null) {
-                            PreferenceEngine.getInstance(ctx).setFirstName(
-                                    user.getFirstName());
-                        }
-                        if (user.getLastName() != null) {
-                            PreferenceEngine.getInstance(ctx).setLastName(
-                                    user.getLastName());
-                        }
-                        if (user.getBirthday() != null) {
-                            PreferenceEngine.getInstance(ctx).saveBirthday(
-                                    user.getBirthday());
-                        }
-                        PreferenceEngine.getInstance(ctx).saveUserEmail(
-                                user.getProperty("email"));
-                        PreferenceEngine.getInstance(ctx).saveGender(
-                                user.getProperty("gender"));
-                        PreferenceEngine.getInstance(ctx).saveProfileUserName(
-                                user.getUsername());
-                        StringBuffer userInfo = new StringBuffer();
-                        JSONArray languages = (JSONArray) user
-                                .getProperty("languages");
-                        if (languages.length() > 0) {
-                            for (int i = 0; i < languages.length(); i++) {
-                                JSONObject language = languages
-                                        .optJSONObject(i);
-                                // Add the language name to a list. Use JSON
-                                // methods to get access to the name field.
-                                userInfo.append(language.optString("name")
-                                        + ";");
-                            }
-                            // userInfo.append(String.format("Languages: %s\n\n",
-                            // languageNames.toString()));
-                        }
-                        if (userInfo.length() > 0) {
-                            PreferenceEngine.getInstance(ctx).setSelfLangList(
-                                    userInfo.toString());
-                            mSplashHandler.sendEmptyMessageDelayed(
-                                    STOP_SPINNER, SPALSH_VISIBLE_TIME);
-                        }
-                    }
+	private void onClickLogin() {
+		Session session = Session.getActiveSession();
+		if (!session.isOpened() && !session.isClosed()) {
+			session.openForRead(new Session.OpenRequest(this)
+					.setCallback(statusCallback));
+		} else {
+			Session.openActiveSession(this, true, statusCallback);
+		}
+	}
 
-                }
-            });
+	private class SessionStatusCallback implements Session.StatusCallback {
+		@Override
+		public void call(Session session, SessionState state,
+				Exception exception) {
+			if (state == SessionState.OPENED) {
+				((AfterYouApplication) getApplication())
+						.setSessionCallBack(session);
+				mSplashHandler.sendEmptyMessageDelayed(SPLASH_END,
+						SPALSH_VISIBLE_TIME);
+			}
+		}
+	}
 
-            mSplashHandler.sendEmptyMessageDelayed(START_SPINNER,
-                    SPALSH_VISIBLE_TIME);
-            fetchUserInfo();
+	public void updateView() {
+		Session session = Session.getActiveSession();
+		if (session.isOpened()) {
+			setUserInfoChangedCallback(new UserInfoChangedCallback() {
+				@Override
+				public void onUserInfoFetched(GraphUser user) {
+					((AfterYouApplication) getApplication()).setUser(user);
+					if (user != null) {
+						if (user.getFirstName() != null) {
+							PreferenceEngine.getInstance(ctx).setFirstName(
+									user.getFirstName());
+						}
+						if (user.getLastName() != null) {
+							PreferenceEngine.getInstance(ctx).setLastName(
+									user.getLastName());
+						}
+						if (user.getBirthday() != null) {
+							PreferenceEngine.getInstance(ctx).saveBirthday(
+									user.getBirthday());
+						}
+						PreferenceEngine.getInstance(ctx).saveUserEmail(
+								user.getProperty("email"));
+						PreferenceEngine.getInstance(ctx).saveGender(
+								user.getProperty("gender"));
+						PreferenceEngine.getInstance(ctx).saveProfileUserName(
+								user.getUsername());
+						StringBuffer userInfo = new StringBuffer();
+						JSONArray languages = (JSONArray) user
+								.getProperty("languages");
+						if (languages.length() > 0) {
+							for (int i = 0; i < languages.length(); i++) {
+								JSONObject language = languages
+										.optJSONObject(i);
+								// Add the language name to a list. Use JSON
+								// methods to get access to the name field.
+								userInfo.append(language.optString("name")
+										+ ";");
+							}
+							// userInfo.append(String.format("Languages: %s\n\n",
+							// languageNames.toString()));
+						}
+						if (userInfo.length() > 0) {
+							PreferenceEngine.getInstance(ctx).setSelfLangList(
+									userInfo.toString());
+							mSplashHandler.sendEmptyMessageDelayed(
+									STOP_SPINNER, SPALSH_VISIBLE_TIME);
+						}
+					}
 
-        } else {
+				}
+			});
 
-            if (user_inter != null) {
-                user_inter.setVisibility(View.VISIBLE);
-            }
-            if (userwarn != null) {
-                userwarn.setVisibility(View.VISIBLE);
-            }
+			mSplashHandler.sendEmptyMessageDelayed(START_SPINNER,
+					SPALSH_VISIBLE_TIME);
+			fetchUserInfo();
 
-        }
+		} else {
 
-    }
+			if (user_inter != null) {
+				user_inter.setVisibility(View.VISIBLE);
+			}
+			if (userwarn != null) {
+				userwarn.setVisibility(View.VISIBLE);
+			}
+
+		}
+
+	}
 }

@@ -1,12 +1,14 @@
 package com.beacon.afterui.views;
 
 import android.content.Intent;
+import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.beacon.afterui.R;
 import com.beacon.afterui.activity.BaseActivity;
@@ -29,6 +31,16 @@ public class FullImageActivity extends BaseActivity implements OnClickListener {
 		mFullSizeImage = (ImageView) findViewById(R.id.photo_of_user_full_image);
 		mDoneBtn = (ImageButton) findViewById(R.id.done_btn_full_image_activity);
 		mCancelBtn = (ImageButton) findViewById(R.id.cancel_btn_full_image_activity);
+
+		TextView cancelTxt = (TextView) findViewById(R.id.cancel_txt);
+		TextView chooseFromLiTxt = (TextView) findViewById(R.id.choose_from_library_txt);
+		TextView doneTxt = (TextView) findViewById(R.id.done_txt);
+		Typeface typeFaceSemiBold = Typeface.createFromAsset(getAssets(),
+				"fonts/MyriadPro-Semibold.otf");
+		cancelTxt.setTypeface(typeFaceSemiBold);
+		chooseFromLiTxt.setTypeface(typeFaceSemiBold);
+		doneTxt.setTypeface(typeFaceSemiBold);
+
 		mId = getIntent().getLongExtra(ID, -1);
 		mImagePath = ImageInfoUtils.getPhotoPath(FullImageActivity.this,
 				String.valueOf(mId));

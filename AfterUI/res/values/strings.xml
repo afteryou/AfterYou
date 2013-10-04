@@ -3,7 +3,35 @@
 
     <string name="app_name">AfterYou</string>
     <string name="action_settings">Settings</string>
+
+    <!-- Login Screen -->
     <string name="email_hint">Email</string>
+    <string name="login_txt">Login</string>
+    <string name="signup_txt">Signup</string>
+    <string name="sign_up_using_fb">Signup Using Facebook</string>
+    <string name="sign_in">Sign In</string>
+
+    <!-- Capture Screen -->
+    <string name="take_photo_txt">Take Photo</string>
+    <string name="cancelTxt">Cancel</string>
+    <string name="doneTxt">Done</string>
+    <string name="choose_from_facebook">Choose From Facebook</string>
+    <string name="choose_from_library">Choose From Library</string>
+    <string name="edit_txt">Edit</string>
+
+    <!-- Photo Album Screen -->
+    <string name="choose_from_library_txt">Choose From Library</string>
+
+    <!-- Profile Setting Screen -->
+    <string name="profile_setup_txt">Profile Setup</string>
+
+    <!-- Sign Up Screen -->
+    <string name="date_of_birth_txt">Date Of Birth</string>
+    <string name="password_validation_txt">6-8 Characters required</string>
+    <string name="about_txt">About You</string>
+    <string name="required_field">Required Field</string>
+    <string name="your_ideal_txt">Your Ideal Match</string>
+    <string name="submit_txt">Submit</string>
     <string name="password_hint">Password</string>
     <string name="male_text">Male</string>
     <string name="female_text">Female</string>
@@ -126,7 +154,7 @@
     <string name="IDS_MANDATORY_PROFILE">The Mandatory fields needs to be filled in order to proceed</string>
     <string name="smoke_label">Smoking</string>
     <string name="drink_label">Drinking</string>
-        <string name="no_images_txt">No images in gallary!</string>
+    <string name="no_images_txt">No images in gallary!</string>
     <string name="username_password_empty_desc">Username or Password can not be empty!</string>
     <string name="invalid_email">Invalid Email</string>
     <string name="first_name_empty">First Name can not be empty!</string>
@@ -157,8 +185,11 @@
     <string name="IDS_30to40">less than 40</string>
     <string name="IDS_AUTHENTICATING">Authenticating...</string>
     <string name="IDS_GETTING_IMAGE_FROM_FACEBOOK">Getting Your Profile Picture from Facebook..</string>
+    <string name="IDS_GETTING_ALBUM">Loading albums...</string>
+    <string name="IDS_GETTING_PHOTOS_FROM_ALBUM">Loading photos...</string>
     <string name="IDS_APPLYING_FILTER">Applying Filter to the image..</string>
     <string name="IDS_USER_WARN">We will not post anything to your facebook profile</string>
     <string name="IDS_ERROR_FILTER">There was an error applying filter to this image. THis might be aformat/path issue.</string>
     <string name="copy_right_text">&#169; 2013 AfterYou Inc. Privacy Policy</string>
+
 </resources>

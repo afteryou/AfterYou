@@ -13,15 +13,17 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_below="@+id/include1" >
+        android:layout_below="@+id/include1"
+        android:background="@drawable/take_photo_bar" >
 
-        <ImageButton
-            android:id="@+id/sign_up_title"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/profile_setup"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:background="@drawable/take_photo_bar"
-            android:src="@drawable/img_7" />
+            android:layout_centerInParent="true"
+            android:text="@string/profile_setup_txt"
+            android:textColor="@color/white_color"
+            android:textSize="16sp" />
 
         <ImageButton
             android:id="@+id/donebtn"
@@ -29,9 +31,19 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="3dp"
-            android:background="@drawable/done_btn"
-            android:src="@drawable/done_txt" />
+            android:layout_marginRight="10dp"
+            android:background="@drawable/done_btn" />
+
+        <TextView
+            android:id="@+id/done_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
+            android:layout_marginRight="10dp"
+            android:paddingRight="8dp"
+            android:text="@string/doneTxt"
+            android:textColor="@color/white_color" />
     </RelativeLayout>
 
     <ScrollView
@@ -43,32 +55,35 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent" >
 
-            <ImageView
-                android:id="@+id/about_you"
+            <TextView
+                android:id="@+id/about_you_txt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="40dp"
-                android:src="@drawable/img_13" />
+                android:layout_marginTop="30dp"
+                android:text="@string/about_txt"
+                android:textColor="@color/profile_setup_blue_color"
+                android:textSize="18sp" />
 
-            <ImageView
-                android:id="@+id/about_you"
+            <TextView
+                android:id="@+id/required_txt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="10dp"
-                android:layout_marginTop="40dp"
-                android:src="@drawable/img_14" />
+                android:layout_marginTop="30dp"
+                android:text="@string/required_field"
+                android:textColor="@color/profile_setup_blue_color" />
 
             <RelativeLayout
                 android:id="@+id/self_info"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/about_you"
+                android:layout_below="@id/required_txt"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:layout_marginTop="20dp" >
+                android:layout_marginTop="10dp" >
 
                 <FrameLayout
                     android:id="@+id/brith_lay"
@@ -455,15 +470,17 @@
                 </FrameLayout>
             </RelativeLayout>
 
-            <ImageView
+            <TextView
                 android:id="@+id/ideal_match"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
                 android:layout_below="@id/self_info"
                 android:layout_marginLeft="10dp"
-                android:layout_marginTop="40dp"
-                android:src="@drawable/img_24" />
+                android:layout_marginTop="30dp"
+                android:text="@string/your_ideal_txt"
+                android:textColor="@color/profile_setup_blue_color"
+                android:textSize="18sp" />
 
             <RelativeLayout
                 android:layout_width="wrap_content"
@@ -471,7 +488,7 @@
                 android:layout_below="@id/ideal_match"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
-                android:layout_marginTop="20dp" >
+                android:layout_marginTop="10dp" >
 
                 <FrameLayout
                     android:id="@+id/match_brith_lay"
@@ -513,6 +530,7 @@
                         android:layout_gravity="center_vertical"
                         android:background="@drawable/sign_up_btn"
                         android:gravity="right|center"
+                        android:hint="@string/IDS_Mandatory_Field"
                         android:paddingRight="10dp" >
                     </TextView>
 

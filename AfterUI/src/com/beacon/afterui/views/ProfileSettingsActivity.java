@@ -6,7 +6,6 @@ import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnMultiChoiceClickListener;
 import android.content.Intent;
 import android.graphics.Typeface;
@@ -43,6 +42,7 @@ public class ProfileSettingsActivity extends BaseActivity implements
 	private CharSequence[] relation;
 	private CharSequence[] mMatchRelation;
 	private CharSequence[] hvChld;
+	private CharSequence[] wntChild;
 	private CharSequence[] mMatchHvChild;
 	private CharSequence[] mMatchWntChild;
 	private CharSequence[] bodyType;
@@ -64,63 +64,12 @@ public class ProfileSettingsActivity extends BaseActivity implements
 	private String[] height;
 	private String[] mMatchHeight;
 
-	private Dialog mReligion;
-	private int mCurrentRlg = 0;
-	private int mPreviousRlg = 0;
-
-	private Dialog mRelation;
-	private int mCurrentRltn = 0;
-	private int mPreviousRltn = 0;
-
-	private Dialog mBodyType;
-	private int mCurrentBdyType = 0;
-	private int mPreviousBdyType = 0;
-
-	private Dialog mSlfCommunity;
-	private int mCurrentSlfComm = 0;
-	private int mPreviousSlfComm = 0;
-
-	private Dialog mSlfSmoking;
-	private int mCurrentSlfSmoking = 0;
-	private int mPreviousSlfSmoking = 0;
-
-	private Dialog mSlfDrinking;
-	private int mCurrentSlfDriking = 0;
-	private int mPreviousSlfDrinking = 0;
-
-	private Dialog mSlfEducation;
-	private int mCurrentSlfEducation = 0;
-	private int mPreviousSlfEducation = 0;
-
-	private Dialog mSlfSalary;
-	private int mCurrentSlfSalary = 0;
-	private int mPreviousSlfSalary = 0;
-
-	private Dialog mWantAge;
-	private int mCurrentWntAge = 0;
-	private int mPreviousWntAge = 0;
-
-	private Dialog mSlfLanguages;
 	private boolean[] mCurrentSlfLang;
 	private boolean[] mMatchCurrentLagn;
 
-	private Dialog mSlfDiet;
-	private int mCurrentSlfDiet = 0;
-	private int mPreviousSlfDiet = 0;
-
-	private Dialog mHaveChild;
-	private int mCurrentHvChld = 0;
-	private int mPreviousHvChld = 0;
-
-	private int mCurrentWntChld = 0;
-
-	private int mCurrentHgt = 0;
-
 	private Typeface tf;
 
-	TextView b_day, rlg, rtln, hvChild, wntChild, hgt_txt, slf_body_type_txt,
-			slf_community_txt, self_diet, slf_lang, slf_smoking, slf_drinking,
-			slf_eduction, slf_salary, wnt_age;
+	private TextView b_day, rlg, rtln;
 
 	private ImageButton mDoneBtn;
 
@@ -128,6 +77,78 @@ public class ProfileSettingsActivity extends BaseActivity implements
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.profile_setup);
+		Typeface typeFaceRegular = Typeface.createFromAsset(getAssets(),
+				"fonts/MyriadPro-Regular.otf");
+		tf = Typeface.createFromAsset(getAssets(), "fonts/MyriadPro-It.otf");
+		// sets fonts
+		TextView profile_setup = (TextView) findViewById(R.id.profile_setup);
+		TextView done_txt = (TextView) findViewById(R.id.done_txt);
+		TextView about_you_txt = (TextView) findViewById(R.id.about_you_txt);
+		TextView required_txt = (TextView) findViewById(R.id.required_txt);
+		TextView date_of_birth_txt = (TextView) findViewById(R.id.date_of_birth_txt);
+		TextView religion_label_txt = (TextView) findViewById(R.id.religion_label_txt);
+		TextView relation_label_txt = (TextView) findViewById(R.id.relation_label_txt);
+		TextView havechild_label_txt = (TextView) findViewById(R.id.havechild_label_txt);
+		TextView wantchild_label_txt = (TextView) findViewById(R.id.wantchild_label_txt);
+		TextView languages_label_txt = (TextView) findViewById(R.id.languages_label_txt);
+		TextView height_label_txt = (TextView) findViewById(R.id.height_label_txt);
+		TextView bodyType_label_txt = (TextView) findViewById(R.id.bodyType_label_txt);
+		TextView comm_label_txt = (TextView) findViewById(R.id.comm_label_txt);
+		TextView diet_label_txt = (TextView) findViewById(R.id.diet_label_txt);
+		TextView smoke_label_txt = (TextView) findViewById(R.id.smoke_label_txt);
+		TextView drink_label_txt = (TextView) findViewById(R.id.drink_label_txt);
+		TextView education_label_txt = (TextView) findViewById(R.id.education_label_txt);
+		TextView salary_label_txt = (TextView) findViewById(R.id.salary_label_txt);
+
+		profile_setup.setTypeface(typeFaceRegular);
+		done_txt.setTypeface(typeFaceRegular);
+		about_you_txt.setTypeface(typeFaceRegular);
+		required_txt.setTypeface(tf);
+		date_of_birth_txt.setTypeface(typeFaceRegular);
+		religion_label_txt.setTypeface(typeFaceRegular);
+		relation_label_txt.setTypeface(typeFaceRegular);
+		havechild_label_txt.setTypeface(typeFaceRegular);
+		wantchild_label_txt.setTypeface(typeFaceRegular);
+		languages_label_txt.setTypeface(typeFaceRegular);
+		height_label_txt.setTypeface(typeFaceRegular);
+		bodyType_label_txt.setTypeface(typeFaceRegular);
+		comm_label_txt.setTypeface(typeFaceRegular);
+		diet_label_txt.setTypeface(typeFaceRegular);
+		smoke_label_txt.setTypeface(typeFaceRegular);
+		drink_label_txt.setTypeface(typeFaceRegular);
+		education_label_txt.setTypeface(typeFaceRegular);
+		salary_label_txt.setTypeface(typeFaceRegular);
+
+		TextView ideal_match = (TextView) findViewById(R.id.ideal_match);
+		TextView match_date_of_birth_txt = (TextView) findViewById(R.id.match_date_of_birth_txt);
+		TextView match_religion_label_txt = (TextView) findViewById(R.id.match_religion_label_txt);
+		TextView match_relation_label_txt = (TextView) findViewById(R.id.match_relation_label_txt);
+		TextView match_havechild_label_txt = (TextView) findViewById(R.id.match_havechild_label_txt);
+		TextView match_wantchild_label_txt = (TextView) findViewById(R.id.match_wantchild_label_txt);
+		TextView match_languages_label_txt = (TextView) findViewById(R.id.match_languages_label_txt);
+		TextView match_height_label_txt = (TextView) findViewById(R.id.match_height_label_txt);
+		TextView match_bodyType_label_txt = (TextView) findViewById(R.id.match_bodyType_label_txt);
+		TextView match_comm_label_txt = (TextView) findViewById(R.id.match_comm_label_txt);
+		TextView match_diet_label_txt = (TextView) findViewById(R.id.match_diet_label_txt);
+		TextView match_smoke_label_txt = (TextView) findViewById(R.id.match_smoke_label_txt);
+		TextView match_drink_label_txt = (TextView) findViewById(R.id.match_drink_label_txt);
+
+		ideal_match.setTypeface(typeFaceRegular);
+		match_date_of_birth_txt.setTypeface(typeFaceRegular);
+		match_religion_label_txt.setTypeface(typeFaceRegular);
+		match_relation_label_txt.setTypeface(typeFaceRegular);
+		match_havechild_label_txt.setTypeface(typeFaceRegular);
+
+		match_wantchild_label_txt.setTypeface(typeFaceRegular);
+		match_languages_label_txt.setTypeface(typeFaceRegular);
+		match_height_label_txt.setTypeface(typeFaceRegular);
+		match_bodyType_label_txt.setTypeface(typeFaceRegular);
+
+		match_comm_label_txt.setTypeface(typeFaceRegular);
+		match_diet_label_txt.setTypeface(typeFaceRegular);
+		match_smoke_label_txt.setTypeface(typeFaceRegular);
+		match_drink_label_txt.setTypeface(typeFaceRegular);
+
 		if (getIntent().hasExtra(AppConstants.FACEBOOK_USER)) {
 			isFacebook = true;
 		}
@@ -151,7 +172,7 @@ public class ProfileSettingsActivity extends BaseActivity implements
 			hvChld = getResources().getStringArray(R.array.selfhvChld_choices);
 		}
 		if (wntChild == null) {
-			wntChild = hvChild;
+			wntChild = hvChld;
 		}
 		if (height == null) {
 			height = getResources().getStringArray(R.array.height_choices);
@@ -226,13 +247,13 @@ public class ProfileSettingsActivity extends BaseActivity implements
 			mMatchWntChild = mMatchHvChild;
 		}
 
-		tf = Typeface.createFromAsset(getAssets(), "fonts/MyriadPro-It.otf");
 		initView();
 		matchInitView();
 	}
 
 	private void initView() {
 
+		// Birthday date.
 		String birthday = PreferenceEngine.getInstance(this).getBirthday();
 		b_day = (TextView) findViewById(R.id.birthday_edit_text);
 		b_day.setTypeface(tf);
@@ -246,6 +267,8 @@ public class ProfileSettingsActivity extends BaseActivity implements
 		if (birthday != null) {
 			b_day.setText(birthday);
 		}
+
+		// Self Religion.
 		String religion_txt = PreferenceEngine.getInstance(this)
 				.getSelfReligion();
 		rlg = (TextView) findViewById(R.id.religion_edit_text);
@@ -260,9 +283,10 @@ public class ProfileSettingsActivity extends BaseActivity implements
 		});
 		if (religion_txt != null) {
 			rlg.setText(religion_txt);
-			mCurrentRlg = PreferenceEngine.getInstance(this)
-					.getSelfReligionInt();
+
 		}
+
+		// Self Relation.
 
 		String relation_txt = PreferenceEngine.getInstance(this)
 				.getSelfRelation();
@@ -278,13 +302,13 @@ public class ProfileSettingsActivity extends BaseActivity implements
 		});
 		if (relation_txt != null) {
 			rtln.setText(relation_txt);
-			mCurrentRltn = PreferenceEngine.getInstance(this)
-					.getSelfRelationInt();
+
 		}
 
+		// Self have children.
 		boolean havechild_txt = PreferenceEngine.getInstance(this)
 				.getHaveChildren();
-		hvChild = (TextView) findViewById(R.id.havechild_edit_text);
+		TextView hvChild = (TextView) findViewById(R.id.havechild_edit_text);
 		hvChild.setTypeface(tf);
 		hvChild.setOnClickListener(new OnClickListener() {
 
@@ -296,15 +320,14 @@ public class ProfileSettingsActivity extends BaseActivity implements
 		});
 		if (havechild_txt) {
 			hvChild.setText(getResources().getString(R.string.IDS_YES));
-			mCurrentHvChld = 0;
 		} else {
 			hvChild.setText(getResources().getString(R.string.IDS_NO));
-			mCurrentHvChld = 1;
 		}
 
+		// Self want children.
 		boolean wantchild_txt = PreferenceEngine.getInstance(this)
 				.getWantChildren();
-		wntChild = (TextView) findViewById(R.id.wantchild_edit_text);
+		TextView wntChild = (TextView) findViewById(R.id.wantchild_edit_text);
 		wntChild.setTypeface(tf);
 		wntChild.setOnClickListener(new OnClickListener() {
 
@@ -316,38 +339,34 @@ public class ProfileSettingsActivity extends BaseActivity implements
 		});
 		if (havechild_txt) {
 			hvChild.setText(getResources().getString(R.string.IDS_YES));
-			mCurrentHvChld = 0;
 		} else {
 			hvChild.setText(getResources().getString(R.string.IDS_NO));
-			mCurrentHvChld = 1;
 		}
 		if (wantchild_txt) {
 			wntChild.setText(getResources().getString(R.string.IDS_YES));
-			mCurrentWntChld = 0;
 		} else {
 			wntChild.setText(getResources().getString(R.string.IDS_NO));
-			mCurrentWntChld = 1;
 		}
 
+		// Self height
 		String height_txt = PreferenceEngine.getInstance(ctx).getSelfHeight();
-		hgt_txt = (TextView) findViewById(R.id.height_edit_text);
+		TextView hgt_txt = (TextView) findViewById(R.id.height_edit_text);
 		hgt_txt.setTypeface(tf);
 		hgt_txt.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
 				getHeightDialog().show();
-
 			}
 		});
 		if (height_txt != null) {
 			hgt_txt.setText(height_txt);
-			mCurrentHgt = PreferenceEngine.getInstance(ctx).getSelfHeightInt();
 		}
 
+		// Self body type.
 		String body_type_txt = PreferenceEngine.getInstance(ctx)
 				.getSelfBodyType();
-		slf_body_type_txt = (TextView) findViewById(R.id.bodyType_edit_text);
+		TextView slf_body_type_txt = (TextView) findViewById(R.id.bodyType_edit_text);
 		slf_body_type_txt.setTypeface(tf);
 		slf_body_type_txt.setOnClickListener(new OnClickListener() {
 
@@ -359,13 +378,12 @@ public class ProfileSettingsActivity extends BaseActivity implements
 		});
 		if (body_type_txt != null) {
 			slf_body_type_txt.setText(body_type_txt);
-			mCurrentBdyType = PreferenceEngine.getInstance(ctx)
-					.getSelfBodyTypeInt();
 		}
 
+		// Self Community
 		String self_community_txt = PreferenceEngine.getInstance(ctx)
 				.getSelfCommunity();
-		slf_community_txt = (TextView) findViewById(R.id.comm_edit_text);
+		TextView slf_community_txt = (TextView) findViewById(R.id.comm_edit_text);
 		slf_community_txt.setTypeface(tf);
 		slf_community_txt.setOnClickListener(new OnClickListener() {
 
@@ -377,12 +395,11 @@ public class ProfileSettingsActivity extends BaseActivity implements
 		});
 		if (self_community_txt != null) {
 			slf_community_txt.setText(self_community_txt);
-			mCurrentBdyType = PreferenceEngine.getInstance(ctx)
-					.getSelfCommunityInt();
 		}
 
+		// Self diet.
 		String self_diet_txt = PreferenceEngine.getInstance(ctx).getSelfDiet();
-		self_diet = (TextView) findViewById(R.id.diet_edit_text);
+		TextView self_diet = (TextView) findViewById(R.id.diet_edit_text);
 		self_diet.setTypeface(tf);
 		self_diet.setOnClickListener(new OnClickListener() {
 
@@ -394,13 +411,12 @@ public class ProfileSettingsActivity extends BaseActivity implements
 		});
 		if (self_diet_txt != null) {
 			self_diet.setText(self_diet_txt);
-			mCurrentSlfDiet = PreferenceEngine.getInstance(ctx)
-					.getSelfDietInt();
 		}
 
+		// Self language.
 		String self_lang_txt = PreferenceEngine.getInstance(ctx)
 				.getSelfLangList();
-		slf_lang = (TextView) findViewById(R.id.languages_edit_text);
+		TextView slf_lang = (TextView) findViewById(R.id.languages_edit_text);
 		slf_lang.setTypeface(tf);
 		slf_lang.setOnClickListener(new OnClickListener() {
 
@@ -412,13 +428,12 @@ public class ProfileSettingsActivity extends BaseActivity implements
 		});
 		if (self_lang_txt != null) {
 			slf_lang.setText(self_lang_txt);
-			mCurrentSlfLang = PreferenceEngine.getInstance(ctx)
-					.getSelfLangBoolean(language_list);
 		}
 
+		// Self smoking
 		String self_smok_txt = PreferenceEngine.getInstance(ctx)
 				.getSelfSmoking();
-		slf_smoking = (TextView) findViewById(R.id.smoke_edit_text);
+		TextView slf_smoking = (TextView) findViewById(R.id.smoke_edit_text);
 		slf_smoking.setTypeface(tf);
 		slf_smoking.setOnClickListener(new OnClickListener() {
 
@@ -430,13 +445,12 @@ public class ProfileSettingsActivity extends BaseActivity implements
 		});
 		if (self_smok_txt != null) {
 			slf_smoking.setText(self_smok_txt);
-			mCurrentSlfSmoking = PreferenceEngine.getInstance(ctx)
-					.getSelfSmokingInt();
 		}
 
+		// Self drinking.
 		String self_drinking_txt = PreferenceEngine.getInstance(ctx)
 				.getSelfDrinking();
-		slf_drinking = (TextView) findViewById(R.id.drink_edit_text);
+		TextView slf_drinking = (TextView) findViewById(R.id.drink_edit_text);
 		slf_drinking.setTypeface(tf);
 		slf_drinking.setOnClickListener(new OnClickListener() {
 
@@ -448,13 +462,12 @@ public class ProfileSettingsActivity extends BaseActivity implements
 		});
 		if (self_drinking_txt != null) {
 			slf_drinking.setText(self_drinking_txt);
-			mCurrentSlfDriking = PreferenceEngine.getInstance(ctx)
-					.getSelfDrinkInt();
 		}
 
+		// Self education
 		String self_education_txt = PreferenceEngine.getInstance(ctx)
 				.getSelfEducation();
-		slf_eduction = (TextView) findViewById(R.id.education_text);
+		TextView slf_eduction = (TextView) findViewById(R.id.education_text);
 		slf_eduction.setTypeface(tf);
 		slf_eduction.setOnClickListener(new OnClickListener() {
 
@@ -466,13 +479,12 @@ public class ProfileSettingsActivity extends BaseActivity implements
 		});
 		if (self_education_txt != null) {
 			slf_eduction.setText(self_education_txt);
-			mCurrentSlfEducation = PreferenceEngine.getInstance(ctx)
-					.getSelfEducationInt();
 		}
 
+		// Self salary.
 		String self_salary_txt = PreferenceEngine.getInstance(ctx)
 				.getSelfSalary();
-		slf_salary = (TextView) findViewById(R.id.salary_edit_text);
+		TextView slf_salary = (TextView) findViewById(R.id.salary_edit_text);
 		slf_salary.setTypeface(tf);
 		slf_salary.setOnClickListener(new OnClickListener() {
 
@@ -484,12 +496,11 @@ public class ProfileSettingsActivity extends BaseActivity implements
 		});
 		if (self_salary_txt != null) {
 			slf_salary.setText(self_salary_txt);
-			mCurrentSlfSalary = PreferenceEngine.getInstance(ctx)
-					.getSelfSalaryInt();
 		}
 
+		// Want age
 		String wnt_age_txt = PreferenceEngine.getInstance(ctx).getWantAge();
-		wnt_age = (TextView) findViewById(R.id.match_birthday_edit_text);
+		TextView wnt_age = (TextView) findViewById(R.id.match_birthday_edit_text);
 		wnt_age.setTypeface(tf);
 		wnt_age.setOnClickListener(new OnClickListener() {
 
@@ -501,7 +512,6 @@ public class ProfileSettingsActivity extends BaseActivity implements
 		});
 		if (wnt_age_txt != null) {
 			wnt_age.setText(wnt_age_txt);
-			mCurrentWntAge = PreferenceEngine.getInstance(ctx).getWantAgeInt();
 		}
 	}
 
@@ -509,39 +519,26 @@ public class ProfileSettingsActivity extends BaseActivity implements
 		CustomDialog.Builder builder = new CustomDialog.Builder(this,
 				new AfterYouDialogImpl.AfterYouBuilderImpl(this));
 
-		mWantAge = builder
+		int checkedItem = PreferenceEngine.getInstance(ctx).getWantAgeInt();
+		Dialog want_age_dialog = builder
 				.setTitle(this.getString(R.string.IDS_AgeRange_Label))
-				.setSingleChoiceItems(want_age_range, mCurrentWntAge,
+				.setSingleChoiceItems(want_age_range, checkedItem,
 						new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog,
 									int whichButton) {
-								mCurrentWntAge = whichButton;
-								mPreviousWntAge = mCurrentWntAge;
-								changeWntAge(mPreviousWntAge, mCurrentWntAge);
+								changeWntAge(whichButton);
 							}
 						})
-				.setNegativeButton(this.getString(R.string.IDS_CANCEL),
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog,
-									int whichButton) {
-								mCurrentWntAge = mPreviousWntAge;
+				.setNegativeButton(this.getString(R.string.IDS_CANCEL), null)
+				.create();
 
-							}
-						}).create();
-		mWantAge.setOnCancelListener(new OnCancelListener() {
-			@Override
-			public void onCancel(DialogInterface dialog) {
-				mCurrentWntAge = mPreviousWntAge;
-			}
-		});
-
-		return mWantAge;
+		return want_age_dialog;
 	}
 
-	protected void changeWntAge(int mPreviousWntAge2, int mCurrentWntAge2) {
-		String selectedWntAge = want_age_range[mCurrentWntAge].toString();
+	protected void changeWntAge(int mCurrentWntAge2) {
+		String selectedWntAge = want_age_range[mCurrentWntAge2].toString();
 		PreferenceEngine.getInstance(ctx).setWantAge(selectedWntAge);
-		PreferenceEngine.getInstance(ctx).setWantAgeInt(mCurrentWntAge);
+		PreferenceEngine.getInstance(ctx).setWantAgeInt(mCurrentWntAge2);
 		initView();
 
 	}
@@ -550,41 +547,26 @@ public class ProfileSettingsActivity extends BaseActivity implements
 		CustomDialog.Builder builder = new CustomDialog.Builder(this,
 				new AfterYouDialogImpl.AfterYouBuilderImpl(this));
 
-		mSlfSalary = builder
+		int chekedItem = PreferenceEngine.getInstance(ctx).getSelfSalaryInt();
+		Dialog self_salary_dialog = builder
 				.setTitle(this.getString(R.string.IDS_Salary_Label))
-				.setSingleChoiceItems(self_salary, mCurrentSlfSalary,
+				.setSingleChoiceItems(self_salary, chekedItem,
 						new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog,
 									int whichButton) {
-								mCurrentSlfSalary = whichButton;
-								mPreviousSlfSalary = mCurrentSlfSalary;
-								changeSelfSalary(mPreviousSlfSalary,
-										mCurrentSlfSalary);
+								changeSelfSalary(whichButton);
 							}
 						})
-				.setNegativeButton(this.getString(R.string.IDS_CANCEL),
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog,
-									int whichButton) {
-								mCurrentSlfSalary = mPreviousSlfSalary;
+				.setNegativeButton(this.getString(R.string.IDS_CANCEL), null)
+				.create();
 
-							}
-						}).create();
-		mSlfSalary.setOnCancelListener(new OnCancelListener() {
-			@Override
-			public void onCancel(DialogInterface dialog) {
-				mCurrentSlfSalary = mPreviousSlfSalary;
-			}
-		});
-
-		return mSlfSalary;
+		return self_salary_dialog;
 	}
 
-	protected void changeSelfSalary(int mPreviousSlfSalary2,
-			int mCurrentSlfSalary2) {
-		String selectedSlfSalary = self_salary[mCurrentSlfSalary].toString();
+	protected void changeSelfSalary(int mCurrentSlfSalary2) {
+		String selectedSlfSalary = self_salary[mCurrentSlfSalary2].toString();
 		PreferenceEngine.getInstance(ctx).setSelfSalary(selectedSlfSalary);
-		PreferenceEngine.getInstance(ctx).setSelfSalaryInt(mCurrentSlfSalary);
+		PreferenceEngine.getInstance(ctx).setSelfSalaryInt(mCurrentSlfSalary2);
 		initView();
 
 	}
@@ -593,44 +575,30 @@ public class ProfileSettingsActivity extends BaseActivity implements
 		CustomDialog.Builder builder = new CustomDialog.Builder(this,
 				new AfterYouDialogImpl.AfterYouBuilderImpl(this));
 
-		mSlfEducation = builder
+		int checkedItem = PreferenceEngine.getInstance(ctx)
+				.getSelfEducationInt();
+		Dialog self_education_dialog = builder
 				.setTitle(this.getString(R.string.IDS_Education_Label))
-				.setSingleChoiceItems(self_education, mCurrentSlfEducation,
+				.setSingleChoiceItems(self_education, checkedItem,
 						new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog,
 									int whichButton) {
-								mCurrentSlfEducation = whichButton;
-								mPreviousSlfEducation = mCurrentSlfEducation;
-								changeSelfEducation(mPreviousSlfEducation,
-										mCurrentSlfEducation);
+								changeSelfEducation(whichButton);
 							}
 						})
-				.setNegativeButton(this.getString(R.string.IDS_CANCEL),
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog,
-									int whichButton) {
-								mCurrentSlfEducation = mPreviousSlfEducation;
+				.setNegativeButton(this.getString(R.string.IDS_CANCEL), null)
+				.create();
 
-							}
-						}).create();
-		mSlfEducation.setOnCancelListener(new OnCancelListener() {
-			@Override
-			public void onCancel(DialogInterface dialog) {
-				mCurrentSlfEducation = mPreviousSlfEducation;
-			}
-		});
-
-		return mSlfEducation;
+		return self_education_dialog;
 	}
 
-	protected void changeSelfEducation(int mPreviousSlfEducation2,
-			int mCurrentSlfEducation2) {
-		String selectedSlfEducation = self_education[mCurrentSlfEducation]
+	protected void changeSelfEducation(int mCurrentSlfEducation2) {
+		String selectedSlfEducation = self_education[mCurrentSlfEducation2]
 				.toString();
 		PreferenceEngine.getInstance(ctx)
 				.setSelfEducation(selectedSlfEducation);
 		PreferenceEngine.getInstance(ctx).setSelfEducationInt(
-				mCurrentSlfEducation);
+				mCurrentSlfEducation2);
 		initView();
 
 	}
@@ -639,41 +607,28 @@ public class ProfileSettingsActivity extends BaseActivity implements
 		CustomDialog.Builder builder = new CustomDialog.Builder(this,
 				new AfterYouDialogImpl.AfterYouBuilderImpl(this));
 
-		mSlfSmoking = builder
+		int checkedItem = PreferenceEngine.getInstance(ctx).getSelfSmokingInt();
+		Dialog self_smoking_dialog = builder
 				.setTitle(this.getString(R.string.smoke_label))
-				.setSingleChoiceItems(self_smoking, mCurrentSlfSmoking,
+				.setSingleChoiceItems(self_smoking, checkedItem,
 						new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog,
 									int whichButton) {
-								mCurrentSlfSmoking = whichButton;
-								mPreviousSlfSmoking = mCurrentSlfSmoking;
-								changeSelfSmoking(mPreviousSlfSmoking,
-										mCurrentSlfSmoking);
+								changeSelfSmoking(whichButton);
 							}
 						})
-				.setNegativeButton(this.getString(R.string.IDS_CANCEL),
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog,
-									int whichButton) {
-								mCurrentSlfSmoking = mPreviousSlfSmoking;
+				.setNegativeButton(this.getString(R.string.IDS_CANCEL), null)
+				.create();
 
-							}
-						}).create();
-		mSlfSmoking.setOnCancelListener(new OnCancelListener() {
-			@Override
-			public void onCancel(DialogInterface dialog) {
-				mCurrentSlfSmoking = mPreviousSlfSmoking;
-			}
-		});
-
-		return mSlfSmoking;
+		return self_smoking_dialog;
 	}
 
-	protected void changeSelfSmoking(int mPreviousSlfSmoking2,
-			int mCurrentSlfSmoking2) {
-		String selectedSlfSmoking = self_smoking[mCurrentSlfSmoking].toString();
+	protected void changeSelfSmoking(int mCurrentSlfSmoking2) {
+		String selectedSlfSmoking = self_smoking[mCurrentSlfSmoking2]
+				.toString();
 		PreferenceEngine.getInstance(ctx).setSelfSmoking(selectedSlfSmoking);
-		PreferenceEngine.getInstance(ctx).setSelfSmokingInt(mCurrentSlfSmoking);
+		PreferenceEngine.getInstance(ctx)
+				.setSelfSmokingInt(mCurrentSlfSmoking2);
 		initView();
 
 	}
@@ -692,43 +647,28 @@ public class ProfileSettingsActivity extends BaseActivity implements
 		CustomDialog.Builder builder = new CustomDialog.Builder(this,
 				new AfterYouDialogImpl.AfterYouBuilderImpl(this));
 
-		mSlfDrinking = builder
+		int checkedItem = PreferenceEngine.getInstance(ctx).getSelfDrinkInt();
+		Dialog self_drinking_dialog = builder
 				.setTitle(this.getString(R.string.drink_label))
-				.setSingleChoiceItems(self_drinking, mCurrentSlfDriking,
+				.setSingleChoiceItems(self_drinking, checkedItem,
 						new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog,
 									int whichButton) {
-								mCurrentSlfDriking = whichButton;
-								mPreviousSlfDrinking = mCurrentSlfDriking;
-								changeSelfDrinking(mPreviousSlfDrinking,
-										mCurrentSlfDriking);
+								changeSelfDrinking(whichButton);
 							}
 						})
-				.setNegativeButton(this.getString(R.string.IDS_CANCEL),
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog,
-									int whichButton) {
-								mCurrentSlfDriking = mPreviousSlfDrinking;
+				.setNegativeButton(this.getString(R.string.IDS_CANCEL), null)
+				.create();
 
-							}
-						}).create();
-		mSlfDrinking.setOnCancelListener(new OnCancelListener() {
-			@Override
-			public void onCancel(DialogInterface dialog) {
-				mCurrentSlfDriking = mPreviousSlfDrinking;
-			}
-		});
-
-		return mSlfDrinking;
+		return self_drinking_dialog;
 	}
 
-	protected void changeSelfDrinking(int mPreviousSlfDrinking2,
-			int mCurrentSlfDriking2) {
-		String selectedSlfDrinking = self_drinking[mCurrentSlfDriking]
+	protected void changeSelfDrinking(int mCurrentSlfDriking2) {
+		String selectedSlfDrinking = self_drinking[mCurrentSlfDriking2]
 				.toString();
 		PreferenceEngine.getInstance(ctx).setSelfDrinking(selectedSlfDrinking);
-		PreferenceEngine.getInstance(ctx)
-				.setSelfDrinkingInt(mCurrentSlfDriking);
+		PreferenceEngine.getInstance(ctx).setSelfDrinkingInt(
+				mCurrentSlfDriking2);
 		initView();
 
 	}
@@ -747,41 +687,29 @@ public class ProfileSettingsActivity extends BaseActivity implements
 		CustomDialog.Builder builder = new CustomDialog.Builder(this,
 				new AfterYouDialogImpl.AfterYouBuilderImpl(this));
 
-		mSlfDiet = builder
+		int checkedItem = PreferenceEngine.getInstance(ctx).getSelfDietInt();
+		Dialog self_diet_dialog = builder
 				.setTitle(this.getString(R.string.diet_label))
-				.setSingleChoiceItems(self_diet_list, mCurrentSlfDiet,
+				.setSingleChoiceItems(self_diet_list, checkedItem,
 						new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog,
 									int whichButton) {
-								mCurrentSlfDiet = whichButton;
-								mPreviousSlfComm = mCurrentSlfDiet;
-								changeSelfDiet(mPreviousSlfDiet,
-										mCurrentSlfDiet);
+								changeSelfDiet(whichButton);
 							}
 						})
-				.setNegativeButton(this.getString(R.string.IDS_CANCEL),
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog,
-									int whichButton) {
-								mCurrentSlfDiet = mPreviousSlfDiet;
+				.setNegativeButton(this.getString(R.string.IDS_CANCEL), null)
+				.create();
 
-							}
-						}).create();
-		mSlfDiet.setOnCancelListener(new OnCancelListener() {
-			@Override
-			public void onCancel(DialogInterface dialog) {
-				mCurrentSlfDiet = mPreviousSlfDiet;
-			}
-		});
-
-		return mSlfDiet;
+		return self_diet_dialog;
 	}
 
 	protected Dialog getSelfLanguage() {
 		CustomDialog.Builder builder = new CustomDialog.Builder(this,
 				new AfterYouDialogImpl.AfterYouBuilderImpl(this));
 
-		mSlfLanguages = builder
+		mCurrentSlfLang = PreferenceEngine.getInstance(ctx).getSelfLangBoolean(
+				language_list);
+		Dialog self_lang_dialog = builder
 				.setTitle(this.getString(R.string.languages_label))
 				.setMultiChoiceItems(language_list, mCurrentSlfLang,
 						new OnMultiChoiceClickListener() {
@@ -802,20 +730,10 @@ public class ProfileSettingsActivity extends BaseActivity implements
 								changeSelfLang();
 							}
 						})
-				.setNegativeButton(this.getString(R.string.IDS_CANCEL),
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog,
-									int whichButton) {
+				.setNegativeButton(this.getString(R.string.IDS_CANCEL), null)
+				.create();
 
-							}
-						}).create();
-		mSlfLanguages.setOnCancelListener(new OnCancelListener() {
-			@Override
-			public void onCancel(DialogInterface dialog) {
-			}
-		});
-
-		return mSlfLanguages;
+		return self_lang_dialog;
 	}
 
 	protected void changeSelfLang() {
@@ -848,75 +766,48 @@ public class ProfileSettingsActivity extends BaseActivity implements
 		CustomDialog.Builder builder = new CustomDialog.Builder(this,
 				new AfterYouDialogImpl.AfterYouBuilderImpl(this));
 
-		mSlfCommunity = builder
+		int checkedItem = PreferenceEngine.getInstance(ctx)
+				.getSelfCommunityInt();
+		Dialog self_community_dialog = builder
 				.setTitle(this.getString(R.string.comm_label))
-				.setSingleChoiceItems(self_community, mCurrentSlfComm,
+				.setSingleChoiceItems(self_community, checkedItem,
 						new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog,
 									int whichButton) {
-								mCurrentSlfComm = whichButton;
-								mPreviousSlfComm = mCurrentSlfComm;
-								changeSelfComm(mPreviousSlfComm,
-										mCurrentSlfComm);
+								changeSelfComm(whichButton);
 							}
 						})
-				.setNegativeButton(this.getString(R.string.IDS_CANCEL),
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog,
-									int whichButton) {
-								mCurrentSlfComm = mPreviousSlfComm;
+				.setNegativeButton(this.getString(R.string.IDS_CANCEL), null)
+				.create();
 
-							}
-						}).create();
-		mSlfCommunity.setOnCancelListener(new OnCancelListener() {
-			@Override
-			public void onCancel(DialogInterface dialog) {
-				mCurrentSlfComm = mPreviousSlfComm;
-			}
-		});
-
-		return mSlfCommunity;
+		return self_community_dialog;
 	}
 
 	protected Dialog getSelfBodyType() {
 		CustomDialog.Builder builder = new CustomDialog.Builder(this,
 				new AfterYouDialogImpl.AfterYouBuilderImpl(this));
 
-		mBodyType = builder
+		int checkedItem = PreferenceEngine.getInstance(ctx)
+				.getSelfBodyTypeInt();
+		Dialog bodytype_dialog = builder
 				.setTitle(this.getString(R.string.bodyType_label))
-				.setSingleChoiceItems(bodyType, mCurrentBdyType,
+				.setSingleChoiceItems(bodyType, checkedItem,
 						new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog,
 									int whichButton) {
-								mCurrentBdyType = whichButton;
-								mPreviousBdyType = mCurrentBdyType;
-								changeSelfBodyType(mPreviousBdyType,
-										mCurrentBdyType);
+								changeSelfBodyType(whichButton);
 							}
 						})
-				.setNegativeButton(this.getString(R.string.IDS_CANCEL),
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog,
-									int whichButton) {
-								mCurrentBdyType = mPreviousBdyType;
+				.setNegativeButton(this.getString(R.string.IDS_CANCEL), null)
+				.create();
 
-							}
-						}).create();
-		mBodyType.setOnCancelListener(new OnCancelListener() {
-			@Override
-			public void onCancel(DialogInterface dialog) {
-				mCurrentBdyType = mPreviousBdyType;
-			}
-		});
-
-		return mBodyType;
+		return bodytype_dialog;
 	}
 
-	protected void changeSelfBodyType(int mPreviousBdyType2,
-			int mCurrentBdyType2) {
-		String selectedBodyType = bodyType[mCurrentBdyType].toString();
+	protected void changeSelfBodyType(int mCurrentBdyType2) {
+		String selectedBodyType = bodyType[mCurrentBdyType2].toString();
 		PreferenceEngine.getInstance(ctx).setSelfBodyType(selectedBodyType);
-		PreferenceEngine.getInstance(ctx).setSelfBodyTypeInt(mCurrentBdyType);
+		PreferenceEngine.getInstance(ctx).setSelfBodyTypeInt(mCurrentBdyType2);
 		initView();
 
 	}
@@ -929,10 +820,10 @@ public class ProfileSettingsActivity extends BaseActivity implements
 
 	}
 
-	protected void changeSelfComm(int mPreviousSlfComm2, int mCurrentBdyType2) {
-		String selectedSlfComm = self_community[mCurrentSlfComm].toString();
+	protected void changeSelfComm(int mCurrentBdyType2) {
+		String selectedSlfComm = self_community[mCurrentBdyType2].toString();
 		PreferenceEngine.getInstance(ctx).setSelfCommunity(selectedSlfComm);
-		PreferenceEngine.getInstance(ctx).setSelfCommunityInt(mCurrentSlfComm);
+		PreferenceEngine.getInstance(ctx).setSelfCommunityInt(mCurrentBdyType2);
 		initView();
 
 	}
@@ -946,10 +837,10 @@ public class ProfileSettingsActivity extends BaseActivity implements
 
 	}
 
-	protected void changeSelfDiet(int mPreviousSlfDiet2, int mCurrentSlfDiet2) {
-		String selectedSlfDiet = self_diet_list[mCurrentSlfDiet].toString();
+	protected void changeSelfDiet(int mCurrentSlfDiet2) {
+		String selectedSlfDiet = self_diet_list[mCurrentSlfDiet2].toString();
 		PreferenceEngine.getInstance(ctx).setSelfDiet(selectedSlfDiet);
-		PreferenceEngine.getInstance(ctx).setSelfDietInt(mCurrentSlfDiet);
+		PreferenceEngine.getInstance(ctx).setSelfDietInt(mCurrentSlfDiet2);
 		initView();
 
 	}
@@ -965,78 +856,57 @@ public class ProfileSettingsActivity extends BaseActivity implements
 	protected Dialog getHaveChildDialog(final boolean wntChld) {
 		CustomDialog.Builder builder = new CustomDialog.Builder(this,
 				new AfterYouDialogImpl.AfterYouBuilderImpl(this));
-		String label = this.getString(R.string.havechild_label);
+		String label = null;
+		int checkedItem = -1;
 
 		if (wntChld) {
 			label = this.getString(R.string.wantchild_label);
+			checkedItem = PreferenceEngine.getInstance(ctx).getWantChildren() ? 0
+					: 1;
+		} else {
+			label = this.getString(R.string.havechild_label);
+			checkedItem = PreferenceEngine.getInstance(ctx).getHaveChildren() ? 0
+					: 1;
 		}
 
-		mHaveChild = builder
+		Dialog have_child_dialog = builder
 				.setTitle(label)
-				.setSingleChoiceItems(hvChld, mCurrentHvChld,
+				.setSingleChoiceItems(hvChld, checkedItem,
 						new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog,
 									int whichButton) {
-								mCurrentHvChld = whichButton;
-								mPreviousHvChld = mCurrentHvChld;
 								if (wntChld) {
-									changeSelfWntChild(mPreviousHvChld,
-											mCurrentHvChld);
+									changeSelfWntChild(whichButton);
 								} else {
-									changeSelfHaveChild(mPreviousHvChld,
-											mCurrentHvChld);
+									changeSelfHaveChild(whichButton);
 								}
 							}
 						})
-				.setNegativeButton(this.getString(R.string.IDS_CANCEL),
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog,
-									int whichButton) {
-								mCurrentHvChld = mPreviousHvChld;
+				.setNegativeButton(this.getString(R.string.IDS_CANCEL), null)
+				.create();
 
-							}
-						}).create();
-		mHaveChild.setOnCancelListener(new OnCancelListener() {
-			@Override
-			public void onCancel(DialogInterface dialog) {
-				mCurrentHvChld = mPreviousHvChld;
-			}
-		});
-
-		return mHaveChild;
+		return have_child_dialog;
 	}
 
 	protected Dialog getRelationDialog() {
 		CustomDialog.Builder builder = new CustomDialog.Builder(this,
 				new AfterYouDialogImpl.AfterYouBuilderImpl(this));
 
-		mRelation = builder
+		int checkedItem = PreferenceEngine.getInstance(this)
+				.getSelfRelationInt();
+		Dialog relation_dialog = builder
 				.setTitle(this.getString(R.string.relation_label))
-				.setSingleChoiceItems(relation, mCurrentRltn,
+				.setSingleChoiceItems(relation, checkedItem,
 						new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog,
 									int whichButton) {
-								mCurrentRltn = whichButton;
-								mPreviousRltn = mCurrentRltn;
-								changeSelfRelation(mPreviousRltn, mCurrentRltn);
+								changeSelfRelation(whichButton);
 							}
 						})
-				.setNegativeButton(this.getString(R.string.IDS_CANCEL),
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog,
-									int whichButton) {
-								mCurrentRltn = mPreviousRltn;
+				.setNegativeButton(this.getString(R.string.IDS_CANCEL), null)
+				.create();
 
-							}
-						}).create();
-		mRelation.setOnCancelListener(new OnCancelListener() {
-			@Override
-			public void onCancel(DialogInterface dialog) {
-				mCurrentRltn = mPreviousRltn;
-			}
-		});
-
-		return mRelation;
+		return relation_dialog;
 	}
 
 	private Dialog getReligionDialog() {
@@ -1044,58 +914,45 @@ public class ProfileSettingsActivity extends BaseActivity implements
 		CustomDialog.Builder builder = new CustomDialog.Builder(this,
 				new AfterYouDialogImpl.AfterYouBuilderImpl(this));
 
-		mReligion = builder
+		int checkedItem = PreferenceEngine.getInstance(this)
+				.getSelfReligionInt();
+		Dialog religion_dialog = builder
 				.setTitle(this.getString(R.string.religion_label))
-				.setSingleChoiceItems(religion, mCurrentRlg,
+				.setSingleChoiceItems(religion, checkedItem,
 						new DialogInterface.OnClickListener() {
 							public void onClick(DialogInterface dialog,
 									int whichButton) {
-								mCurrentRlg = whichButton;
-								mPreviousRlg = mCurrentRlg;
-								changeSelfReligion(mPreviousRlg, mCurrentRlg);
+
+								changeSelfReligion(whichButton);
 
 							}
 						})
-				.setNegativeButton(this.getString(R.string.IDS_CANCEL),
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog,
-									int whichButton) {
-								mCurrentRlg = mPreviousRlg;
+				.setNegativeButton(this.getString(R.string.IDS_CANCEL), null)
+				.create();
 
-							}
-						}).create();
-		mReligion.setOnCancelListener(new OnCancelListener() {
-			@Override
-			public void onCancel(DialogInterface dialog) {
-				mCurrentRlg = mPreviousRlg;
-			}
-		});
-
-		return mReligion;
+		return religion_dialog;
 	}
 
-	protected void changeSelfWntChild(int mPreviousHvChld2, int mCurrentHvChld2) {
-		mCurrentWntChld = mCurrentHvChld2;
+	protected void changeSelfWntChild(int mCurrentHvChld2) {
 		PreferenceEngine.getInstance(ctx)
-				.saveWantChildren(mCurrentWntChld == 0);
+				.saveWantChildren(mCurrentHvChld2 == 0);
 		initView();
 	}
 
 	protected void changeMatchWntChild(int mCurrentHvChld2) {
-		mCurrentWntChld = mCurrentHvChld2;
 		PreferenceEngine.getInstance(ctx).saveMatchWantChildren(
-				mCurrentWntChld == 0);
+				mCurrentHvChld2 == 0);
 		matchInitView();
 	}
 
-	protected void changeSelfReligion(int mPreviousRlg2, int mCurrentRlg2) {
+	protected void changeSelfReligion(int mCurrentRlg2) {
 		String selectedReligion = religion[mCurrentRlg2].toString();
 		PreferenceEngine.getInstance(ctx).setSelfReligion(selectedReligion);
 		PreferenceEngine.getInstance(ctx).setSelfReligionInt(mCurrentRlg2);
 		initView();
 	}
 
-	protected void changeSelfRelation(int mPreviousRtn, int mCurrentRtn) {
+	protected void changeSelfRelation(int mCurrentRtn) {
 		String selectedRelation = relation[mCurrentRtn].toString();
 		PreferenceEngine.getInstance(ctx).setSelfRelation(selectedRelation);
 		PreferenceEngine.getInstance(ctx).setSelfRelationInt(mCurrentRtn);
@@ -1109,7 +966,7 @@ public class ProfileSettingsActivity extends BaseActivity implements
 		matchInitView();
 	}
 
-	protected void changeSelfHaveChild(int mPreviousHvChld2, int mCurrentHvChld2) {
+	protected void changeSelfHaveChild(int mCurrentHvChld2) {
 		PreferenceEngine.getInstance(ctx)
 				.saveHaveChildren(mCurrentHvChld2 == 0);
 		initView();
@@ -1132,7 +989,7 @@ public class ProfileSettingsActivity extends BaseActivity implements
 	protected Dialog getHeightDialog() {
 		return new CustomerNumberPickerDialog(new AfterYouDialogImpl(this),
 				this, R.style.Theme_CustomDialog, mValuelistener, height,
-				mCurrentHgt);
+				PreferenceEngine.getInstance(ctx).getSelfHeightInt());
 	}
 
 	private DatePickerDialog.OnDateSetListener mDateSetListener = new DatePickerDialog.OnDateSetListener() {
@@ -1153,7 +1010,6 @@ public class ProfileSettingsActivity extends BaseActivity implements
 			if (oldVal != newVal) {
 				PreferenceEngine.getInstance(ctx).setSelfHeightInt(newVal);
 				PreferenceEngine.getInstance(ctx).setSelfHeight(height[newVal]);
-				mCurrentHgt = newVal;
 			}
 			initView();
 
@@ -1220,15 +1076,15 @@ public class ProfileSettingsActivity extends BaseActivity implements
 
 		String matchReligion_txt = PreferenceEngine.getInstance(this)
 				.getMatchReligion();
-			TextView match_rlg = (TextView) findViewById(R.id.match_religion_edit_text);
-			match_rlg.setTypeface(tf);
-			match_rlg.setOnClickListener(new OnClickListener() {
+		TextView match_rlg = (TextView) findViewById(R.id.match_religion_edit_text);
+		match_rlg.setTypeface(tf);
+		match_rlg.setOnClickListener(new OnClickListener() {
 
-				@Override
-				public void onClick(View v) {
-					getMatchReligionDialog().show();
-				}
-			});
+			@Override
+			public void onClick(View v) {
+				getMatchReligionDialog().show();
+			}
+		});
 
 		if (matchReligion_txt != null) {
 			match_rlg.setText(matchReligion_txt);
@@ -1264,7 +1120,6 @@ public class ProfileSettingsActivity extends BaseActivity implements
 		});
 		if (havechild_txt) {
 			matchHvChlid.setText(getResources().getString(R.string.IDS_YES));
-			mCurrentHvChld = 0;
 		} else {
 			matchHvChlid.setText(getResources().getString(R.string.IDS_NO));
 		}
@@ -1420,8 +1275,6 @@ public class ProfileSettingsActivity extends BaseActivity implements
 							@Override
 							public void onClick(DialogInterface dialog,
 									int which, boolean isChecked) {
-								System.out.println("Which----" + which
-										+ " isChecked ==" + isChecked);
 								mMatchCurrentLagn[which] = isChecked;
 
 							}
@@ -1564,8 +1417,8 @@ public class ProfileSettingsActivity extends BaseActivity implements
 					.getMatchWantChildren() ? 0 : 1;
 		} else {
 			label = this.getString(R.string.havechild_label);
-			checkedItem = PreferenceEngine.getInstance(ctx).getHaveChildren() ? 0
-					: 1;
+			checkedItem = PreferenceEngine.getInstance(ctx)
+					.getMatchHaveChildren() ? 0 : 1;
 		}
 
 		Dialog haveChildDialog = builder

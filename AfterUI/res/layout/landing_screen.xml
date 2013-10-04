@@ -3,16 +3,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/app_bg" >
-    
-    <TextView android:id="@+id/copy_right_text"
+
+    <TextView
+        android:id="@+id/copy_right_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="20dp"
-        android:textSize="15sp"
         android:layout_centerHorizontal="true"
+        android:layout_marginBottom="20dp"
         android:text="@string/copy_right_text"
-        android:textColor="#6caddf"/>
+        android:textColor="#6caddf"
+        android:textSize="15sp" />
 
     <RelativeLayout
         android:id="@+id/center_layout"
@@ -51,33 +52,61 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/center_layout"
-        android:layout_marginTop="50dip" 
-        android:visibility="gone">
+        android:layout_marginTop="50dip"
+        android:visibility="gone" >
 
-        <ImageButton
-            android:id="@+id/login_btn"
+        <FrameLayout
+            android:id="@+id/login_lay"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:background="@drawable/login_btn"
-            android:src="@drawable/login_txt" />
+            android:layout_marginRight="5dp" >
 
-        <ImageButton
-            android:id="@+id/signup_btn"
+            <ImageButton
+                android:id="@+id/login_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/login_btn" />
+
+            <TextView
+                android:id="@+id/login_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/login_txt"
+                android:textColor="#6caddf"
+                android:textSize="19sp" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/signup_lay"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/login_btn"
+            android:layout_below="@id/login_lay"
             android:layout_marginLeft="5dp"
-            android:layout_marginRight="5dp"
-            android:background="@drawable/sign_up_btn"
-            android:src="@drawable/sign_up_txt" />
+            android:layout_marginRight="5dp" >
+
+            <ImageButton
+                android:id="@+id/signup_btn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/sign_up_btn" />
+
+            <TextView
+                android:id="@+id/signup_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/signup_txt"
+                android:textColor="#6caddf"
+                android:textSize="19sp" />
+        </FrameLayout>
 
         <FrameLayout
             android:id="@+id/fb_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/signup_btn"
+            android:layout_below="@id/signup_lay"
             android:layout_marginBottom="40dp"
             android:layout_marginLeft="5dp"
             android:layout_marginRight="5dp"
@@ -89,11 +118,14 @@
                 android:layout_height="wrap_content"
                 android:src="@drawable/fb_icon" />
 
-            <ImageView
+            <TextView
+                android:id="@+id/sign_up_using_fb_txt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:src="@drawable/fb_sign_up_text" />
+                android:text="@string/sign_up_using_fb"
+                android:textColor="#ffffff"
+                android:textSize="19sp" />
         </FrameLayout>
     </RelativeLayout>
 
@@ -107,8 +139,8 @@
         android:layout_marginTop="25dip"
         android:gravity="center"
         android:text="@string/IDS_USER_WARN"
-        android:textColor="@color/brown_background" 
-        android:visibility="gone"/>
+        android:textColor="@color/brown_background"
+        android:visibility="gone" />
 
     <RelativeLayout
         android:layout_width="wrap_content"

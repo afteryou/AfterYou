@@ -19,6 +19,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
+import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.ExifInterface;
@@ -34,6 +35,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.beacon.afterui.R;
@@ -105,6 +107,29 @@ public class CapturePictureActivity extends BaseActivity implements
 
 		mCancelBtn = (ImageButton) findViewById(R.id.cancel_btn_capture_picture);
 		mDoneBtn = (ImageButton) findViewById(R.id.done_btn_capture_picture);
+
+		TextView cancelTxt = (TextView) findViewById(R.id.cancel_txt);
+		TextView takePhotoTxt = (TextView) findViewById(R.id.take_photo_txt);
+		TextView doneTxt = (TextView) findViewById(R.id.done_txt);
+		TextView chooseFromFbTxt = (TextView) findViewById(R.id.choose_from_fb_txt);
+		TextView chooseFromLibraryTxt = (TextView) findViewById(R.id.choose_from_library_txt);
+		TextView editTxt = (TextView) findViewById(R.id.edit_txt);
+		TextView submitTxt = (TextView) findViewById(R.id.submit_txt);
+
+		// font myriadPro regular
+		Typeface typeFaceRegular = Typeface.createFromAsset(getAssets(),
+				"fonts/MyriadPro-Regular.otf");
+		chooseFromFbTxt.setTypeface(typeFaceRegular);
+		chooseFromLibraryTxt.setTypeface(typeFaceRegular);
+		editTxt.setTypeface(typeFaceRegular);
+		submitTxt.setTypeface(typeFaceRegular);
+
+		// font myriadPro semibold
+		Typeface typeFaceSemiBold = Typeface.createFromAsset(getAssets(),
+				"fonts/MyriadPro-Semibold.otf");
+		cancelTxt.setTypeface(typeFaceSemiBold);
+		takePhotoTxt.setTypeface(typeFaceSemiBold);
+		doneTxt.setTypeface(typeFaceSemiBold);
 
 		mImageCropBtn = (ImageButton) findViewById(R.id.image_crop_btn);
 		mImageRotateBtn = (ImageButton) findViewById(R.id.image_rotate_btn);
@@ -229,7 +254,7 @@ public class CapturePictureActivity extends BaseActivity implements
 
 		}
 	}
-	
+
 	private void showErrorDialog(int stringResId) {
 		ErrorDialog errDialog = new ErrorDialog(new AfterYouDialogImpl(this),
 				this, R.style.Theme_CustomDialog,
