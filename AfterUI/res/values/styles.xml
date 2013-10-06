@@ -2,14 +2,14 @@
 
     <!--
         Base application theme, dependent on API level. This theme is replaced
-        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
+        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
     -->
-    
+
     <style name="AppBaseTheme" parent="android:Theme.Light">
         <!--
             Theme customizations available in newer API levels can go in
             res/values-vXX/styles.xml, while customizations related to
-            backward-compatibility can go here.
+            backward-compatibility can go here.
         -->
     </style>
 
@@ -18,8 +18,16 @@
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
 
+    <style name="AfterYou.Window" parent="@android:style/Animation.Activity">
+        <item name="android:activityOpenEnterAnimation">@anim/slide_in_left</item>
+        <item name="android:activityOpenExitAnimation">@anim/slide_out_right</item>
+        <item name="android:activityCloseEnterAnimation">@anim/slide_in_right</item>
+        <item name="android:activityCloseExitAnimation">@anim/slide_out_left</item>
+    </style>
+
     <style name="Theme.AfterYou" parent="@android:style/Theme.Holo.NoActionBar">
         <item name="android:windowBackground">@color/app_theme_color</item>
+        <item name="android:windowAnimationStyle">@style/AfterYou.Window</item>
     </style>
 
     <style name="BrownTextPhotoAlbum" parent="@android:style/TextAppearance">
@@ -46,7 +54,7 @@
         <item name="android:paddingLeft">7dp</item>
         <item name="android:textColorHint">#6caddf</item>
     </style>
-    
+
     <style name="ProfilePageEditText" parent="LoginPageEditText">
         <item name="android:textColor">@color/brown_background</item>
     </style>
@@ -122,7 +130,7 @@
     <style name="CustomAlertDialogLinearLayout"></style>
 
     <style name="CustomLinearLayout">
-         <item name="android:background">@color/brown_background</item>
+        <item name="android:background">@color/brown_background</item>
     </style>
 
     <style name="CustomDialogTitle">
@@ -176,14 +184,11 @@
         <item name="android:singleLine">true</item>
         <item name="android:ellipsize">marquee</item>
     </style>
-    
-    <style
-		name="horizontalProgressBar"
-		parent="@android:style/Widget.ProgressBar.Horizontal">
-	</style>
-	
+
+    <style name="horizontalProgressBar" parent="@android:style/Widget.ProgressBar.Horizontal"></style>
+
     <style name="TextViewBasicInfo">
-		 <item name="android:textColor">@color/app_theme_color</item>
-	</style>
+        <item name="android:textColor">@color/app_theme_color</item>
+    </style>
 
 </resources>

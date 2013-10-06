@@ -54,10 +54,10 @@ public class BaseActivity extends Activity {
         this.mIsRootView = isRootView;
     }
 
-    @Override
-    public void overridePendingTransition(int enterAnim, int exitAnim) {
-        super.overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
-    }
+//    @Override
+//    public void overridePendingTransition(int enterAnim, int exitAnim) {
+//        super.overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+//    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -123,13 +123,13 @@ public class BaseActivity extends Activity {
     @Override
     public void startActivity(Intent intent) {
         super.startActivity(intent);
-        overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+//        overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
     }
     
     @Override
     public void startActivityForResult(Intent intent, int requestCode) {
         super.startActivityForResult(intent, requestCode);
-        overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
+//        overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
     }
 
     public int getViewType() {
