@@ -56,9 +56,7 @@ public class MainActivity extends BaseActivity implements OnQueryTextListener, O
 	private View mActionbarListIcon;
 	private SearchRecentSuggestions mSarchSuggestions;
 
-	private boolean mapConfigInitialize = false;
 	private TextView mActionbarTitleView;
-	private boolean isAppInitFinished = false;
 
 
 	@Override
@@ -74,78 +72,6 @@ public class MainActivity extends BaseActivity implements OnQueryTextListener, O
 	}
 
 
-	private class SetupTask extends AsyncTask<Void, Void, Boolean> {
-		private ProgressDialog dialog;
-
-		@Override
-		protected void onPreExecute() {
-			dialog = ProgressDialog.show(MainActivity.this, "", "Initializing... Please wait...", true);
-		}
-
-		@Override
-		protected Boolean doInBackground(Void... params) {
-			// Copy files from Asserts to cache folder
-//			boolean ret = mAssertMAnager.setupAssets();
-
-			// Load Native libraries
-//			ret = !ret ? ret : ControllerManager.staticInitialize(mAssertMAnager.getControllerManagerProperties());
-			return true;
-		}
-
-		@Override
-		protected void onPostExecute(Boolean result) {
-			dialog.dismiss();
-
-			if (result == Boolean.TRUE) {
-				showUI();
-			} else {
-				AlertDialog dialog = new AlertDialog.Builder(MainActivity.this).create();
-				dialog.setTitle("Error");
-				dialog.setMessage("Initialization failed!");
-				dialog.setButton(Dialog.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						dialog.dismiss();
-						MainActivity.this.finish();
-					}
-				});
-				dialog.show();
-			}
-		}
-	}
-
-	private void showUI() {
-		initControllerManager();
-
-//		ControllerManager cm = ControllerManager.getInstance();
-//		cm.getScreenManager().setCurrentContext(this);
-//		cm.showUI();
-		// We don't need Launcher anymore. Let's finish it
-		// finish();
-	}
-
-	private boolean initControllerManager() {
-		if (!mapConfigInitialize) {
-
-//			String workFolder = mAssertMAnager.getAssetFolder();
-//
-//			ControllerManagerConfig config = new ControllerManagerConfig();
-//			config.setTpsfile(workFolder + "/appconfig/tesla.tpl");
-//			config.setLanguage("en");
-//			config.setCountry("US");
-//			config.setUid("80b053fccead422934b9a3140b72983c450f8832");
-//			config.setMapCacheDirectory(workFolder + "/Map");
-//			config.setVoiceCacheDirectory(workFolder + "/Voice");
-//			config.setQalogFilename(workFolder + "/qalog");
-//			config.setCarrierName("Verizon");
-//			config.setWorkFolder(workFolder);
-//			config.setMapkitCachePath(workFolder + "/mapkit");
-//			config.setResourceFolderPath(workFolder);
-//			mapConfigInitialize = true;
-//			return ControllerManager.initialize(config);
-		}
-		return true;
-	}
 
 	private void initActionBar() {
 		ActionBar actionBar = getActionBar();
@@ -267,37 +193,6 @@ public class MainActivity extends BaseActivity implements OnQueryTextListener, O
 		slidingMenu.setFadeDegree(0.9f);
 		slidingMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
 	}
-
-//	@Override
-//	protected void onGPSCheckFinish() {
-//		isAppInitFinished = true;
-//		doInterestSearch(CategoryController.getInstance().getUserCategoriesFromPref());
-//	}
-
-//	private void doInterestSearch(List<Category> categories) {
-//		Fragment fragment = FragmentHelper.getCurruntFragment();
-//		if (fragment != null && fragment instanceof ISearchFunction) {
-//			List<String> brands = new ArrayList<String>();
-//			List<String> interests = new ArrayList<String>();
-//			for (Category c : categories) {
-//				if (c.getType() == Category.TYPE_BRAND) {
-//					brands.add(c.getName());
-//				} else {
-//					interests.add(c.getCode());
-//				}
-//			}
-//			SearchParams params = new SearchParams();
-//			if(!interests.isEmpty()) {
-//				params.categories = new String[]{};
-//				interests.toArray(params.categories);
-//			}
-//			if(!brands.isEmpty()) {
-//				params.brands = new String[]{};
-//				brands.toArray(params.brands);
-//			}
-//			((ISearchFunction) fragment).doSearch(InterestController.REQUEST_TYPE_INIT, params);
-//		}
-//	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
