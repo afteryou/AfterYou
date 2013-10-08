@@ -1,0 +1,47 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/btn_actionbar_dropdown_menu"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/actionbar_btn_selector" >
+
+    <ImageView
+        android:id="@+id/home_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingLeft="10dip"
+        android:paddingRight="10dip" >
+
+        <TextView
+            android:id="@+id/actionbar_title_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentTop="true"
+            android:text="@string/about_txt"
+            android:textColor="@color/actionbar_text_color"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/actionbar_menu_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/actionbar_title_text"
+            android:textColor="@color/actionbar_text_color"
+            android:textSize="15sp" >
+        </TextView>
+
+        <ImageView
+            android:layout_width="15dip"
+            android:layout_height="15dip"
+            android:layout_alignBottom="@id/actionbar_menu_text"
+            android:layout_toRightOf="@id/actionbar_menu_text"
+            android:paddingBottom="5dip"
+            android:src="@drawable/drop_down_menu" />
+    </RelativeLayout>
+
+</RelativeLayout>

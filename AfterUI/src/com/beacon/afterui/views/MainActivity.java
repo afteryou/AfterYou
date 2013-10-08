@@ -1,370 +1,496 @@
 package com.beacon.afterui.views;
 
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.net.URL;
-
-import android.app.Activity;
-import android.graphics.Bitmap;
-import android.graphics.Bitmap.Config;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
+import android.app.ActionBar;
+import android.app.AlertDialog;
+import android.app.Dialog;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
+import android.app.ProgressDialog;
+import android.app.SearchManager;
+import android.app.SearchableInfo;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.SearchRecentSuggestions;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.SeekBar;
-import android.widget.SeekBar.OnSeekBarChangeListener;
+import android.view.ViewGroup;
+import android.view.ViewTreeObserver.OnPreDrawListener;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
+import android.widget.SearchView;
+import android.widget.SearchView.OnQueryTextListener;
+import android.widget.ShareActionProvider;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.beacon.afterui.R;
+import com.beacon.afterui.activity.BaseActivity;
+import com.beacon.afterui.sliding.SlidingMenu;
+import com.beacon.afterui.sliding.SlidingMenu.MenuState;
+import com.beacon.afterui.sliding.SlidingMenu.OnMenuStateListener;
+import com.beacon.afterui.sliding.customViews.ListPopupMenu;
+import com.beacon.afterui.sliding.fragment.ContentFragment;
+import com.beacon.afterui.sliding.fragment.FragmentHelper;
+import com.beacon.afterui.sliding.fragment.ISearchFunction;
+import com.beacon.afterui.sliding.fragment.SlidingMenuFragment;
+import com.beacon.afterui.utils.DebugUtils;
+import com.beacon.afterui.utils.WindowUtils;
 
-public class MainActivity extends Activity {
+public class MainActivity extends BaseActivity implements OnQueryTextListener, OnClickListener {
 
- ImageView imgSource, imgTarget;
- ImageView imgHue, imgSat, imgVal;
- TextView textHue, textSat, textVal;
- SeekBar barHue, barSat, barVal;
- Button buttonProcess, buttonReset;
- 
- Bitmap bitmapSource = null;
+	private static final boolean ACTION_BAR_NAV_MENU_ENABLED = false;
+	private SearchView mSearchView;
+	private ListPopupMenu mActionBarNavMenu;
+	private TextView mActionBarNavMenuText;
+	private Menu mMenu;
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        imgSource = (ImageView)findViewById(R.id.imgsource);
-        imgTarget = (ImageView)findViewById(R.id.imgtarget);
-        imgHue = (ImageView)findViewById(R.id.imghue);
-        imgSat = (ImageView)findViewById(R.id.imgsat);
-        imgVal = (ImageView)findViewById(R.id.imgval);
-        
-        textHue = (TextView)findViewById(R.id.huetext);
-        textSat = (TextView)findViewById(R.id.sattext);
-        textVal = (TextView)findViewById(R.id.valtext);
-     barHue = (SeekBar)findViewById(R.id.huebar);
-     barSat = (SeekBar)findViewById(R.id.satbar);
-     barVal = (SeekBar)findViewById(R.id.valbar);
-     buttonProcess = (Button)findViewById(R.id.process);
-     buttonReset = (Button)findViewById(R.id.reset);
-     
-     barHue.setOnSeekBarChangeListener(seekBarChangeListener);
-     barSat.setOnSeekBarChangeListener(seekBarChangeListener);
-     barVal.setOnSeekBarChangeListener(seekBarChangeListener);
-     
-     buttonProcess.setOnClickListener(buttonProcessOnClickListener);
-     buttonReset.setOnClickListener(buttonResetOnClickListener);
-        
-        //Load bitmap from internet
-        String onLineImgSource = "http://goo.gl/yxNeG";
-        
-        URL urlImgSource;
-        
-  try {
-   urlImgSource = new URL(onLineImgSource);
-   new MyNetworkTask(imgSource, imgTarget, imgHue, imgSat, imgVal)
-    .execute(urlImgSource);
-  } catch (MalformedURLException e) {
-   e.printStackTrace();
-  }
-    }
-    
-    OnClickListener buttonProcessOnClickListener
-    = new OnClickListener(){
+//	private NBAssetManager mAssertMAnager;
 
-  @Override
-  public void onClick(View arg0) {
+	private View mActionbarListIcon;
+	private SearchRecentSuggestions mSarchSuggestions;
 
-   if(bitmapSource != null){
-    buttonProcess.setEnabled(false);
-    GroupBitmap groupBMResult = updateHSV(bitmapSource);
-    
-    imgTarget.setImageBitmap(groupBMResult.bitmapDest);
-    imgHue.setImageBitmap(groupBMResult.bitmapHue);
-    imgSat.setImageBitmap(groupBMResult.bitmapSat);
-    imgVal.setImageBitmap(groupBMResult.bitmapVal);
-    buttonProcess.setEnabled(true);
-   }
-  }};
-  
- OnClickListener buttonResetOnClickListener
- = new OnClickListener(){
+	private boolean mapConfigInitialize = false;
+	private TextView mActionbarTitleView;
+	private boolean isAppInitFinished = false;
 
-  @Override
-  public void onClick(View v) {
-   barHue.setProgress(256);
-      barSat.setProgress(256);
-      barVal.setProgress(256);
-   
-  }
-    
- };
- 
-    OnSeekBarChangeListener seekBarChangeListener
-    = new OnSeekBarChangeListener(){
 
-  @Override
-  public void onProgressChanged(SeekBar arg0, int arg1, boolean arg2) {
-   int progressHue = barHue.getProgress() - 256;
-   int progressSat = barSat.getProgress() - 256;
-   int progressVal = barVal.getProgress() - 256;
-   
-   /*
-    * Hue (0 .. 360)
-    * Saturation (0...1) 
-    * Value (0...1)
-    */
-   
-   float settingHue = (float)progressHue * 360 / 256;
-   float settingSat = (float)progressSat / 256;
-   float settingVal = (float)progressVal / 256;
-   
-   textHue.setText("Hue: " + String.format("%.02f", settingHue));
-   textSat.setText("Sat: " + String.format("%.02f", settingSat));
-   textVal.setText("Val: " + String.format("%.02f", settingVal));
-   
-  }
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		setIsRootView(true);
+		super.onCreate(savedInstanceState);
+		setContentView(R.layout.main_fragment_container);
+		initActionBar();
+		initSlidMenu();
+		FragmentHelper.onActivityCreate(this);
+		FragmentHelper.initFragment(this, new ContentFragment());
 
-  @Override
-  public void onStartTrackingTouch(SeekBar seekBar) {
-   // TODO Auto-generated method stub
-   
-  }
+	}
 
-  @Override
-  public void onStopTrackingTouch(SeekBar seekBar) {
-   // TODO Auto-generated method stub
-   
-  }};
 
-    private class MyNetworkTask extends AsyncTask<URL, Void, Bitmap>{
-     
-     ImageView ivSource, ivTarget;
-     ImageView ivHue, ivSat, ivVal;
-     
-     public MyNetworkTask(ImageView iSource, ImageView iTarget,
-       ImageView iHue, ImageView iSat, ImageView iVal){
-      ivSource = iSource;
-      ivTarget = iTarget;
-      ivHue = iHue;
-      ivSat = iSat;
-      ivVal = iVal;
-     }
+	private class SetupTask extends AsyncTask<Void, Void, Boolean> {
+		private ProgressDialog dialog;
 
-  @Override
-  protected Bitmap doInBackground(URL... urls) {
-   Bitmap networkBitmap = null;
-   
-   URL networkUrl = urls[0]; //Load the first element
-   try {
-    networkBitmap = BitmapFactory.decodeStream(
-      networkUrl.openConnection().getInputStream()); 
-   } catch (IOException e) {
-    e.printStackTrace(); 
-   }
-   
-   //To save space, scale bitmap by 1/2
-   //return networkBitmap;
-   Bitmap shrinkedBitmap =  Bitmap.createScaledBitmap(
-     networkBitmap, 
-     networkBitmap.getWidth()/2, 
-     networkBitmap.getHeight()/2, 
-     false);
-   
-   return shrinkedBitmap;
-      
-  }
+		@Override
+		protected void onPreExecute() {
+			dialog = ProgressDialog.show(MainActivity.this, "", "Initializing... Please wait...", true);
+		}
 
-  @Override
-  protected void onPostExecute(Bitmap result) {
-   
-   bitmapSource = result;
-   
-   ivSource.setImageBitmap(result);
-   
-   GroupBitmap groupBMResult = convertColorHSVColor(result);
-   
-   ivTarget.setImageBitmap(groupBMResult.bitmapDest);
-   ivHue.setImageBitmap(groupBMResult.bitmapHue);
-   ivSat.setImageBitmap(groupBMResult.bitmapSat);
-   ivVal.setImageBitmap(groupBMResult.bitmapVal);
-  }
+		@Override
+		protected Boolean doInBackground(Void... params) {
+			// Copy files from Asserts to cache folder
+//			boolean ret = mAssertMAnager.setupAssets();
 
-    }
-    
-    class GroupBitmap {
-  Bitmap bitmapHue;
-  Bitmap bitmapSat;
-  Bitmap bitmapVal;
-  Bitmap bitmapDest;
- };
-    
-    //Convert Bitmap from Color to HSV, then HSV to Color
-    private GroupBitmap convertColorHSVColor(Bitmap src){
-     
-     GroupBitmap convertedGroupBitmap = new GroupBitmap();
+			// Load Native libraries
+//			ret = !ret ? ret : ControllerManager.staticInitialize(mAssertMAnager.getControllerManagerProperties());
+			return true;
+		}
 
-     int w = src.getWidth();
-     int h = src.getHeight();
-     
-     int[] mapSrcColor = new int[w * h];
-     int[] mapDestColor= new int[w * h];
-     
-     int[] mapHue = new int[w * h];
-     int[] mapSat = new int[w * h];
-     int[] mapVal = new int[w * h];
-     
-     float[] pixelHSV = new float[3];
-     /*
-      * pixelHSV[0] : Hue (0 .. 360) 
-      * pixelHSV[1] : Saturation (0...1) 
-      * pixelHSV[2] : Value (0...1)
-      */
+		@Override
+		protected void onPostExecute(Boolean result) {
+			dialog.dismiss();
 
-     src.getPixels(mapSrcColor, 0, w, 0, 0, w, h);
-     /*
-      * getPixels (int[] pixels, int offset, int stride, int x, int y, int width, int height)
-      * - Returns in pixels[] a copy of the data in the bitmap. Each value is a packed int representing a Color. 
-      * 
-      * pixels: The array to receive the bitmap's colors
-      * offset: The first index to write into pixels[]
-      * stride: The number of entries in pixels[] to skip between rows (must be >= bitmap's width). Can be negative.
-      * x:  The x coordinate of the first pixel to read from the bitmap
-      * y:  The y coordinate of the first pixel to read from the bitmap
-      * width: The number of pixels to read from each row
-      * height: The number of rows to read
-      * 
-      */
-     
-     int index = 0;
-        for(int y = 0; y < h; ++y) {
-            for(int x = 0; x < w; ++x) {    
-                
-                //Convert from Color to HSV
-                Color.colorToHSV(mapSrcColor[index], pixelHSV);
-                
-                /*
-                 * Represent Hue, Saturation and Value in separated color
-                 * of R, G, B.
-                 */
-                mapHue[index] = Color.rgb((int)(pixelHSV[0] * 255/360), 0, 0);
-                mapSat[index] = Color.rgb(0, (int)(pixelHSV[1] * 255), 0);
-                mapVal[index] = Color.rgb(0, 0, (int)(pixelHSV[2] * 255));
+			if (result == Boolean.TRUE) {
+				showUI();
+			} else {
+				AlertDialog dialog = new AlertDialog.Builder(MainActivity.this).create();
+				dialog.setTitle("Error");
+				dialog.setMessage("Initialization failed!");
+				dialog.setButton(Dialog.BUTTON_POSITIVE, "OK", new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						dialog.dismiss();
+						MainActivity.this.finish();
+					}
+				});
+				dialog.show();
+			}
+		}
+	}
 
-                //Convert back from HSV to Color
-                mapDestColor[index] = Color.HSVToColor(pixelHSV);
+	private void showUI() {
+		initControllerManager();
 
-                index++;
-            }
-        }
-        
-        Config destConfig = src.getConfig();
-        /*
-         * If the bitmap's internal config is in one of the public formats, return that config, 
-         * otherwise return null.
-         */
-        
-        if (destConfig == null){
-         destConfig = Config.RGB_565;
-        }
+//		ControllerManager cm = ControllerManager.getInstance();
+//		cm.getScreenManager().setCurrentContext(this);
+//		cm.showUI();
+		// We don't need Launcher anymore. Let's finish it
+		// finish();
+	}
 
-        convertedGroupBitmap.bitmapHue = Bitmap.createBitmap(mapHue, w, h, Config.RGB_565);
-        convertedGroupBitmap.bitmapSat = Bitmap.createBitmap(mapSat, w, h, Config.RGB_565);
-        convertedGroupBitmap.bitmapVal = Bitmap.createBitmap(mapVal, w, h, Config.RGB_565);
-        convertedGroupBitmap.bitmapDest = Bitmap.createBitmap(mapDestColor, w, h, destConfig);
-        
-     return convertedGroupBitmap;
-    }
-    
-    //Update HSV according to SeekBar setting
-    private GroupBitmap updateHSV(Bitmap src){
-     
-     int progressHue = barHue.getProgress() - 256;
-  int progressSat = barSat.getProgress() - 256;
-  int progressVal = barVal.getProgress() - 256;
-  
-  float settingHue = (float)progressHue * 360 / 256;
-  float settingSat = (float)progressSat / 256;
-  float settingVal = (float)progressVal / 256;
-     
-     GroupBitmap convertedGroupBitmap = new GroupBitmap();
+	private boolean initControllerManager() {
+		if (!mapConfigInitialize) {
 
-     int w = src.getWidth();
-     int h = src.getHeight();
-     
-     int[] mapSrcColor = new int[w * h];
-     int[] mapDestColor= new int[w * h];
-     
-     int[] mapHue = new int[w * h];
-     int[] mapSat = new int[w * h];
-     int[] mapVal = new int[w * h];
-     
-     float[] pixelHSV = new float[3];
+//			String workFolder = mAssertMAnager.getAssetFolder();
+//
+//			ControllerManagerConfig config = new ControllerManagerConfig();
+//			config.setTpsfile(workFolder + "/appconfig/tesla.tpl");
+//			config.setLanguage("en");
+//			config.setCountry("US");
+//			config.setUid("80b053fccead422934b9a3140b72983c450f8832");
+//			config.setMapCacheDirectory(workFolder + "/Map");
+//			config.setVoiceCacheDirectory(workFolder + "/Voice");
+//			config.setQalogFilename(workFolder + "/qalog");
+//			config.setCarrierName("Verizon");
+//			config.setWorkFolder(workFolder);
+//			config.setMapkitCachePath(workFolder + "/mapkit");
+//			config.setResourceFolderPath(workFolder);
+//			mapConfigInitialize = true;
+//			return ControllerManager.initialize(config);
+		}
+		return true;
+	}
 
-     src.getPixels(mapSrcColor, 0, w, 0, 0, w, h);
-     
-     int index = 0;
-        for(int y = 0; y < h; ++y) {
-            for(int x = 0; x < w; ++x) {    
-                
-                //Convert from Color to HSV
-                Color.colorToHSV(mapSrcColor[index], pixelHSV);
-                
-                //Adjust HSV
-                pixelHSV[0] = pixelHSV[0] + settingHue;
-                if(pixelHSV[0] < 0){
-                 pixelHSV[0] = 0;
-                }else if (pixelHSV[0] > 360){
-                 pixelHSV[0] = 360;
-                }
-                
-                pixelHSV[1] = pixelHSV[1] + settingSat;
-                if(pixelHSV[1] < 0){
-                 pixelHSV[1] = 0;
-                }else if (pixelHSV[1] > 1){
-                 pixelHSV[1] = 1;
-                }
-                
-                pixelHSV[2] = pixelHSV[2] + settingVal;
-                if(pixelHSV[2] < 0){
-                 pixelHSV[2] = 0;
-                }else if (pixelHSV[2] > 1){
-                 pixelHSV[2] = 1;
-                }
+	private void initActionBar() {
+		ActionBar actionBar = getActionBar();
+		actionBar.setIcon(R.drawable.list_icon);
+		actionBar.setDisplayHomeAsUpEnabled(true);
 
-                /*
-                 * Represent Hue, Saturation and Value in separated color
-                 * of R, G, B.
-                 */
-                mapHue[index] = Color.rgb((int)(pixelHSV[0] * 255/360), 0, 0);
-                mapSat[index] = Color.rgb(0, (int)(pixelHSV[1] * 255), 0);
-                mapVal[index] = Color.rgb(0, 0, (int)(pixelHSV[2] * 255));
+		if (ACTION_BAR_NAV_MENU_ENABLED) {
+			actionBar.setCustomView(R.layout.actionbar_custom_view);
+			actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_SHOW_CUSTOM);
+			ViewGroup customView = (ViewGroup) actionBar.getCustomView();
+			customView.findViewById(R.id.btn_actionbar_dropdown_menu).setOnClickListener(this);
+			mActionBarNavMenuText = (TextView) customView.findViewById(R.id.actionbar_menu_text);
+//			mActionBarNavMenuText.setText(this.getResources().getStringArray(R.array.actionbar_nav_items)[0]);
+		} else {
+			actionBar.setCustomView(R.layout.main_activity_actionbar);
+			View customView = actionBar.getCustomView();
+			mActionbarListIcon = customView.findViewById(R.id.icon_list);
+			customView.findViewById(R.id.btn_home).setOnClickListener(new OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					toggle();
+				}
+			});
+			this.getSlidingMenu().setOnMenuStateListener(new OnMenuStateListener() {
 
-                //Convert back from HSV to Color
-                mapDestColor[index] = Color.HSVToColor(pixelHSV);
+				@Override
+				public void onMenuStateChanged(MenuState state) {
+					switch (state) {
+					case OPEN:
+						mActionbarListIcon.animate().translationX(-20.0f);
+						break;
+					case CLOSE:
+						mActionbarListIcon.animate().translationX(0.0f);
+						break;
+					}
+				}
+			});
+			mActionbarTitleView = (TextView)customView.findViewById(R.id.actionbar_title_text);
+			actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+			actionBar.setTitle(getString(R.string.app_name));
+		}
+	}
 
-                index++;
-            }
-        }
-        
-        Config destConfig = src.getConfig();
-        /*
-         * If the bitmap's internal config is in one of the public formats, return that config, 
-         * otherwise return null.
-         */
-        
-        if (destConfig == null){
-         destConfig = Config.RGB_565;
-        }
+	@Override
+	public void onClick(View v) {
+		int id = v.getId();
+		switch (id) {
+		case R.id.btn_actionbar_dropdown_menu:
+			ListPopupMenu popup = getActionBarNavMenu();
+			if (!popup.isShowing()) {
+				popup.showAsDropDown(v);
+			}
+			break;
+		}
+	}
 
-        convertedGroupBitmap.bitmapHue = Bitmap.createBitmap(mapHue, w, h, Config.RGB_565);
-        convertedGroupBitmap.bitmapSat = Bitmap.createBitmap(mapSat, w, h, Config.RGB_565);
-        convertedGroupBitmap.bitmapVal = Bitmap.createBitmap(mapVal, w, h, Config.RGB_565);
-        convertedGroupBitmap.bitmapDest = Bitmap.createBitmap(mapDestColor, w, h, destConfig);
-        
-     return convertedGroupBitmap;
-    }
+	private ListPopupMenu getActionBarNavMenu() {
+		if (mActionBarNavMenu == null) {
+			mActionBarNavMenu = new ListPopupMenu(getApplicationContext(), R.layout.actionbar_menu_item,
+					R.id.item_text, getResources().getStringArray(R.array.body_type_choices)); //TODO
+			mActionBarNavMenu.getListView().setSelector(R.drawable.actionbar_btn_bg_selected);
+
+			mActionBarNavMenu.getListView().setOnItemClickListener(new OnItemClickListener() {
+				public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+					String text = mActionBarNavMenu.getAdapter().getItem(position).getText();
+					Toast.makeText(parent.getContext(), text + " Clicked", Toast.LENGTH_SHORT).show();
+					mActionBarNavMenuText.setText(text);
+					mActionBarNavMenu.dismiss();
+				}
+			});
+		}
+		return mActionBarNavMenu;
+	}
+
+	private void initSlidMenu() {
+		setBehindContentView(R.layout.sliding_menu_container);
+		setSlidingActionBarEnabled(false);
+		FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+		SlidingMenuFragment menuFragment = new SlidingMenuFragment();
+//		menuFragment.setOnMenuClickListener(new OnMenuClickListener() {
+//
+//			@Override
+//			public void onMutilMenuClick(List<Category> categories) {
+//				if(!isAppInitFinished){
+//					return;
+//				}
+//				setActionbarTitle("All My Interests");
+//				doInterestSearch(categories);
+//			}
+//
+//			@Override
+//			public void onMenuClick(Category category) {
+//				if(!isAppInitFinished){
+//					return;
+//				}
+//				setActionbarTitle(category.getName());
+//				Fragment fragment = FragmentHelper.getCurruntFragment();
+//				if (fragment != null && fragment instanceof ISearchFunction) {
+//					int searchType = category.getType() == Category.TYPE_BRAND ? InterestController.REQUEST_TYPE_BRAND
+//							: InterestController.REQUEST_TYPE_CATEGORY;
+//					SearchParams params = new SearchParams();
+//					if (searchType == InterestController.REQUEST_TYPE_BRAND) {
+//						params.brands = new String[] {category.getName()};
+//					} else {
+//						params.categories = new String[] {category.getCode()};
+//					}
+//					((ISearchFunction) fragment).doSearch(searchType, params);
+//				}
+//			}
+//		});
+		fragmentTransaction.replace(R.id.sliding_menu_container, menuFragment, SlidingMenuFragment.TAG);
+		// fragmentTransaction.replace(R.id.content_detail, new
+		// DetailFragment(), DetailFragment.class.toString());
+		fragmentTransaction.commit();
+		SlidingMenu slidingMenu = getSlidingMenu();
+		slidingMenu.setShadowDrawable(R.drawable.shadow);
+		slidingMenu.setShadowWidth(30);
+		setSlidingMenuOffset();
+		slidingMenu.setFadeDegree(0.9f);
+		slidingMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+	}
+
+//	@Override
+//	protected void onGPSCheckFinish() {
+//		isAppInitFinished = true;
+//		doInterestSearch(CategoryController.getInstance().getUserCategoriesFromPref());
+//	}
+
+//	private void doInterestSearch(List<Category> categories) {
+//		Fragment fragment = FragmentHelper.getCurruntFragment();
+//		if (fragment != null && fragment instanceof ISearchFunction) {
+//			List<String> brands = new ArrayList<String>();
+//			List<String> interests = new ArrayList<String>();
+//			for (Category c : categories) {
+//				if (c.getType() == Category.TYPE_BRAND) {
+//					brands.add(c.getName());
+//				} else {
+//					interests.add(c.getCode());
+//				}
+//			}
+//			SearchParams params = new SearchParams();
+//			if(!interests.isEmpty()) {
+//				params.categories = new String[]{};
+//				interests.toArray(params.categories);
+//			}
+//			if(!brands.isEmpty()) {
+//				params.brands = new String[]{};
+//				brands.toArray(params.brands);
+//			}
+//			((ISearchFunction) fragment).doSearch(InterestController.REQUEST_TYPE_INIT, params);
+//		}
+//	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		super.onCreateOptionsMenu(menu);
+		updateToMainScreenActionBar(menu);
+		return true;
+	}
+
+	public void updateToMainScreenActionBar() {
+		if (mMenu != null) {
+			clearActionBar();
+			updateToMainScreenActionBar(mMenu);
+		}
+	}
+
+	private void updateToMainScreenActionBar(Menu menu) {
+		mMenu = menu;
+		initActionBar();
+		getMenuInflater().inflate(R.menu.actionbar, menu);
+//		mSearchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+//		mSearchView.setOnSearchClickListener(new OnClickListener() {
+//			public void onClick(View v) {
+//				showAbove();
+//			}
+//		});
+//		mSearchView.setOnQueryTextListener(this);
+//		// Enable voice search.
+//		SearchManager searchManager = (SearchManager) this.getSystemService(Context.SEARCH_SERVICE);
+//		SearchableInfo searchableInfo = searchManager.getSearchableInfo(getComponentName());
+//		mSearchView.setSearchableInfo(searchableInfo);
+//		mSearchView.setFocusable(false);
+//		mSearchView.setFocusableInTouchMode(false);
+
+		getActionBar().setIcon(R.drawable.list_icon);
+		getSlidingMenu().setSlidingEnabled(true);
+	}
+
+	public void updateToDetailsScreenActionBar(String title) {
+		clearActionBar();
+		createShareAction();
+		// getActionBar().setTitle(title);
+		getActionBar().setDisplayOptions(
+				ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_SHOW_TITLE | ActionBar.DISPLAY_HOME_AS_UP);
+		getActionBar().setIcon(R.drawable.actionbar_icon);
+		getActionBar().setTitle(title);
+		getSlidingMenu().setSlidingEnabled(false);
+	}
+
+	private void clearActionBar() {
+		mMenu.clear();
+		DebugUtils.addDebugMenuItems(mMenu);
+		getActionBar().setCustomView(null);
+	}
+
+	private void createShareAction() {
+		Menu menu = mMenu;
+		// Inflate your menu.
+		getMenuInflater().inflate(R.menu.actionbar_details_view, menu);
+
+		// Set file with share history to the provider and set the share intent.
+		MenuItem actionItem = menu.findItem(R.id.menu_item_share_action_provider_action_bar);
+		ShareActionProvider actionProvider = (ShareActionProvider) actionItem.getActionProvider();
+		actionProvider.setShareHistoryFileName(ShareActionProvider.DEFAULT_SHARE_HISTORY_FILE_NAME);
+		// Note that you can set/change the intent any time,
+		// say when the user has selected an image.
+		actionProvider.setShareIntent(createShareIntent());
+
+//		// Set file with share history to the provider and set the share intent.
+//		MenuItem overflowItem = menu.findItem(R.id.menu_item_share_action_provider_overflow);
+//		ShareActionProvider overflowProvider = (ShareActionProvider) overflowItem.getActionProvider();
+//		overflowProvider.setShareHistoryFileName(ShareActionProvider.DEFAULT_SHARE_HISTORY_FILE_NAME);
+//		// Note that you can set/change the intent any time,
+//		// say when the user has selected an image.
+//		overflowProvider.setShareIntent(createShareIntent());
+	}
+
+	/**
+	 * Creates a sharing {@link Intent}.
+	 * 
+	 * @return The sharing intent.
+	 */
+	private Intent createShareIntent() {
+		Intent shareIntent = new Intent(Intent.ACTION_SEND);
+		shareIntent.setType("text/plain");
+		shareIntent.putExtra(Intent.EXTRA_TEXT, "TEST TEXT");
+		// shareIntent.setType("image/*");
+		// Uri uri = Uri.fromFile(getFileStreamPath("shared.png"));
+		// shareIntent.putExtra(Intent.EXTRA_STREAM, uri);
+		return shareIntent;
+	}
+
+	public void onBackPressed() {
+		SlidingMenu slidingMenu = getSlidingMenu();
+		if (slidingMenu.isActivated()) {
+			super.onBackPressed();
+		} else {
+			if (!FragmentHelper.onBack(this)) {
+				SlidingMenuFragment slidingMenuFragment = (SlidingMenuFragment) getFragmentManager().findFragmentByTag(
+						SlidingMenuFragment.TAG);
+				if (slidingMenuFragment.onBack()) {
+					return;
+				}
+				super.onBackPressed();
+			}
+		}
+	}
+
+	private void setSlidingMenuOffset() {
+		int orientation = this.getResources().getConfiguration().orientation;
+		int offset = orientation == Configuration.ORIENTATION_LANDSCAPE ? 2 : 3;
+		getSlidingMenu().setBehindOffset(WindowUtils.getDisplayMetrics(this).widthPixels / offset - 10);
+	}
+
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		fixSlidingMenuBugOnScreenRotation();
+		super.onConfigurationChanged(newConfig);
+	}
+
+	private void fixSlidingMenuBugOnScreenRotation() {
+		final SlidingMenu slidingMenu = this.getSlidingMenu();
+		slidingMenu.getViewTreeObserver().addOnPreDrawListener(new OnPreDrawListener() {
+			private int flag = 1;
+			public boolean onPreDraw() {
+				if(flag == 8){
+					slidingMenu.getViewTreeObserver().removeOnPreDrawListener(this);
+				}
+				flag ++;
+				slidingMenu.showAbove(false, true);
+				return false;
+			}
+		});
+		setSlidingMenuOffset();
+	}
+
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case android.R.id.home:
+			if (getSlidingMenu().isSlidingEnabled()) {
+				toggle();
+			} else {
+				onBackPressed();
+			}
+			return true;
+		case R.id.action_search:
+			toast("Search");
+			return true;
+		case R.id.action_settings:
+			toast("Settings");
+			return true;
+		case R.id.action_account_manager:
+			toast("Account Manager");
+			return true;
+		case R.id.action_about:
+			toast("About");
+			return true;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+
+	private void toast(String msg) {
+		Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+	}
+
+	@Override
+	public boolean onQueryTextSubmit(String query) {
+		InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+		imm.hideSoftInputFromWindow(mSearchView.getWindowToken(), 0);
+		showAbove();
+		Fragment fragment = FragmentHelper.getCurruntFragment();
+		if (fragment != null && fragment instanceof ISearchFunction) {
+		}
+		mSarchSuggestions.saveRecentQuery(query, null);
+		return true;
+	}
+	
+	private void setActionbarTitle(String title){
+		mActionbarTitleView.setText(title);
+	}
+
+	@Override
+	public boolean onQueryTextChange(String newText) {
+		showAbove();
+		//SingleSearchController.search(newText, null, new SingleSearchCallBack(), -1);
+		return true;
+	}
+
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+		overridePendingTransition(R.anim.slid_in_from_top, R.anim.slid_out_from_bottom);
+		super.onActivityResult(requestCode, resultCode, data);
+		getFragmentManager().findFragmentByTag(SlidingMenuFragment.TAG).onActivityResult(requestCode, resultCode, data);
+	}
 
 }

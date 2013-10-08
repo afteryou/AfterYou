@@ -19,7 +19,6 @@ import com.app.afteryou.preference.PreferenceEngine;
 import com.app.afteryou.slidingmenu.SlidingActivity;
 import com.app.afteryou.utils.AppUtils;
 import com.app.afteryou.utils.DebugUtils;
-import com.beacon.afterui.activity.ControllerManager;
 
 public class BaseActivity extends SlidingActivity {
 

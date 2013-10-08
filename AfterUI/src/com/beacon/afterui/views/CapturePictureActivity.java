@@ -144,7 +144,7 @@ public class CapturePictureActivity extends BaseActivity implements
 				R.drawable.capture_photo_bg));
 		mUserImage.setRotation(0);
 
-		mEditBtn.setEnabled(false);
+		mEditBtn.setEnabled(true);
 		mEditBtn.setOnClickListener(this);
 		mChooseFromLiabraryBtn.setOnClickListener(this);
 		mSubmitBtn.setOnClickListener(this);
@@ -416,9 +416,9 @@ public class CapturePictureActivity extends BaseActivity implements
 
 		case R.id.edit_btn:
 
-			// Intent i = new Intent(this, MainActivity.class);
-			// startActivity(i);
-			mImageEditLayout.setVisibility(View.VISIBLE);
+			 Intent i = new Intent(this, MainActivity.class);
+			 startActivity(i);
+//			mImageEditLayout.setVisibility(View.VISIBLE);
 
 			break;
 

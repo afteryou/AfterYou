@@ -25,7 +25,7 @@
         <item name="android:activityCloseExitAnimation">@anim/slide_out_left</item>
     </style>
 
-    <style name="Theme.AfterYou" parent="@android:style/Theme.Holo.NoActionBar">
+    <style name="Theme.AfterYou" parent="AppBaseTheme">
         <item name="android:windowBackground">@color/app_theme_color</item>
         <item name="android:windowAnimationStyle">@style/AfterYou.Window</item>
     </style>

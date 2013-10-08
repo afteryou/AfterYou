@@ -1,18 +1,16 @@
 package com.beacon.afterui.activity;
 
-import android.app.Activity;
 import android.app.ActivityManager;
 import android.app.Dialog;
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 
-import com.beacon.afterui.R;
 import com.beacon.afterui.application.AfterYouApplication;
 import com.beacon.afterui.log.AfterUIlog;
+import com.beacon.afterui.sliding.SlidingActivity;
 import com.beacon.afterui.utils.DebugUtils;
 import com.beacon.afterui.utils.FacebookGraphUserInfo;
 import com.beacon.afterui.views.LandingActivity;
@@ -21,7 +19,7 @@ import com.facebook.Response;
 import com.facebook.Session;
 import com.facebook.model.GraphUser;
 
-public class BaseActivity extends Activity {
+public class BaseActivity extends SlidingActivity {
 
     protected static final String TAG = "BaseActivity";
 

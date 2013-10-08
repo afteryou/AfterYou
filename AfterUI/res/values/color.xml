@@ -70,7 +70,8 @@
     <drawable name="translucent_background">#e0303030</drawable>
     <drawable name="translucent_white">#99ffffff</drawable>
     <drawable name="transparent_background">#00000000</drawable>
-
+    <color name="main_view_bg">#ffffff</color>
+    <color name="middle_gray">#ff9f9f9f</color>
     <color name="gray_no_transparency ">#88000000</color>
     <color name="profile_setup_blue_color">#226bb3</color>
 
