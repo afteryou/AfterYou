@@ -411,14 +411,15 @@ public class CapturePictureActivity extends BaseActivity implements
 			break;
 
 		case R.id.submit_btn:
-
+			Intent i = new Intent(this, MainActivity.class);
+			 startActivity(i);
 			break;
 
 		case R.id.edit_btn:
 
-			 Intent i = new Intent(this, MainActivity.class);
-			 startActivity(i);
-//			mImageEditLayout.setVisibility(View.VISIBLE);
+//			 Intent i = new Intent(this, MainActivity.class);
+//			 startActivity(i);
+			mImageEditLayout.setVisibility(View.VISIBLE);
 
 			break;
 
