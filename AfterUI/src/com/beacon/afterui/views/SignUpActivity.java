@@ -16,6 +16,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.widget.DatePicker;
@@ -76,6 +77,7 @@ public class SignUpActivity extends BaseActivity implements OnClickListener,
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.sign_up_screen);
 		Typeface typeFaceRegular = Typeface.createFromAsset(getAssets(),
 				"fonts/MyriadPro-Regular.otf");

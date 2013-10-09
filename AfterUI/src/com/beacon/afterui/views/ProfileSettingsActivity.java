@@ -11,6 +11,7 @@ import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.DatePicker;
 import android.widget.ImageButton;
@@ -76,6 +77,7 @@ public class ProfileSettingsActivity extends BaseActivity implements
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.profile_setup);
 		Typeface typeFaceRegular = Typeface.createFromAsset(getAssets(),
 				"fonts/MyriadPro-Regular.otf");

@@ -30,6 +30,7 @@ import android.os.HandlerThread;
 import android.os.Looper;
 import android.os.Message;
 import android.view.View;
+import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -99,6 +100,7 @@ public class CapturePictureActivity extends BaseActivity implements
 	public void onCreate(Bundle savedInstanceState) {
 		setIsRootView(true);
 		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.capture_picture);
 		this.ctx = this;
 		mSubmitBtn = (ImageButton) findViewById(R.id.submit_btn);

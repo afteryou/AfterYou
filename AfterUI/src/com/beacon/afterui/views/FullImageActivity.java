@@ -5,6 +5,7 @@ import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.view.Window;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -27,6 +28,7 @@ public class FullImageActivity extends BaseActivity implements OnClickListener {
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.full_image_activity);
 		mFullSizeImage = (ImageView) findViewById(R.id.photo_of_user_full_image);
 		mDoneBtn = (ImageButton) findViewById(R.id.done_btn_full_image_activity);

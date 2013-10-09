@@ -7,6 +7,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.widget.EditText;
@@ -40,6 +41,7 @@ public class LoginScreen extends BaseActivity implements OnClickListener,
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.login_screen);
 		mLoginButton = (ImageButton) findViewById(R.id.sign_in_btn_login_screen);
 		mCrossEmailBtn = (ImageView) findViewById(R.id.cross_btn_email_login_screen);

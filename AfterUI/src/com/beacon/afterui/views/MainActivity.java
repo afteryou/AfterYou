@@ -194,46 +194,17 @@ public class MainActivity extends BaseActivity implements OnQueryTextListener, O
 		slidingMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
 	}
 
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		super.onCreateOptionsMenu(menu);
-		updateToMainScreenActionBar(menu);
-		return true;
-	}
 
 	public void updateToMainScreenActionBar() {
 		if (mMenu != null) {
 			clearActionBar();
-			updateToMainScreenActionBar(mMenu);
 		}
 	}
 
-	private void updateToMainScreenActionBar(Menu menu) {
-		mMenu = menu;
-		initActionBar();
-		getMenuInflater().inflate(R.menu.actionbar, menu);
-//		mSearchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
-//		mSearchView.setOnSearchClickListener(new OnClickListener() {
-//			public void onClick(View v) {
-//				showAbove();
-//			}
-//		});
-//		mSearchView.setOnQueryTextListener(this);
-//		// Enable voice search.
-//		SearchManager searchManager = (SearchManager) this.getSystemService(Context.SEARCH_SERVICE);
-//		SearchableInfo searchableInfo = searchManager.getSearchableInfo(getComponentName());
-//		mSearchView.setSearchableInfo(searchableInfo);
-//		mSearchView.setFocusable(false);
-//		mSearchView.setFocusableInTouchMode(false);
-
-		getActionBar().setIcon(R.drawable.list_icon);
-		getSlidingMenu().setSlidingEnabled(true);
-	}
 
 	public void updateToDetailsScreenActionBar(String title) {
 		clearActionBar();
 		createShareAction();
-		// getActionBar().setTitle(title);
 		getActionBar().setDisplayOptions(
 				ActionBar.DISPLAY_SHOW_HOME | ActionBar.DISPLAY_SHOW_TITLE | ActionBar.DISPLAY_HOME_AS_UP);
 		getActionBar().setIcon(R.drawable.actionbar_icon);
