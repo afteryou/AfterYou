@@ -1,18 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/menu_frame"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/main_view_bg">
+    android:background="@color/main_view_bg" >
+
+    <RelativeLayout
+        android:id="@+id/profilebar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/take_photo_bar" >
+
+        <TextView
+            android:id="@+id/profile_setup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:text="@string/IDS_SEARCH"
+            android:textColor="@color/white_color"
+            android:textSize="16sp" />
+
+    </RelativeLayout>
 
     <com.beacon.afterui.sliding.customViews.CustomGridView
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="vertical"
-        android:fastScrollEnabled="true" 
+        android:layout_below="@id/profilebar"
+        android:fastScrollEnabled="true"
         android:paddingLeft="@dimen/feed_list_padding"
         android:paddingRight="@dimen/feed_list_padding"
+        android:scrollbars="vertical"
         app:columnNumber="2" />
-</FrameLayout>
+
+</RelativeLayout>

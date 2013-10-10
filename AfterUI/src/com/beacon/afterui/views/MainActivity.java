@@ -1,19 +1,13 @@
 package com.beacon.afterui.views;
 
 import android.app.ActionBar;
-import android.app.AlertDialog;
-import android.app.Dialog;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
-import android.app.ProgressDialog;
-import android.app.SearchManager;
-import android.app.SearchableInfo;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.SearchRecentSuggestions;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -42,6 +36,7 @@ import com.beacon.afterui.sliding.fragment.ISearchFunction;
 import com.beacon.afterui.sliding.fragment.SlidingMenuFragment;
 import com.beacon.afterui.utils.DebugUtils;
 import com.beacon.afterui.utils.WindowUtils;
+import com.beacon.afterui.views.data.InterestController;
 
 public class MainActivity extends BaseActivity implements OnQueryTextListener, OnClickListener {
 
@@ -68,11 +63,10 @@ public class MainActivity extends BaseActivity implements OnQueryTextListener, O
 		initSlidMenu();
 		FragmentHelper.onActivityCreate(this);
 		FragmentHelper.initFragment(this, new ContentFragment());
-
+		doInterestSearch();
 	}
-
-
-
+	
+	
 	private void initActionBar() {
 		ActionBar actionBar = getActionBar();
 		actionBar.setIcon(R.drawable.list_icon);
@@ -192,6 +186,22 @@ public class MainActivity extends BaseActivity implements OnQueryTextListener, O
 		setSlidingMenuOffset();
 		slidingMenu.setFadeDegree(0.9f);
 		slidingMenu.setTouchModeAbove(SlidingMenu.TOUCHMODE_FULLSCREEN);
+	}
+	
+
+	private void doInterestSearch() {
+		Handler uiHandler = new Handler(getMainLooper());
+		uiHandler.post(new Runnable() {
+			@Override
+			public void run() {
+				Fragment fragment = FragmentHelper.getCurruntFragment();
+				if (fragment != null && fragment instanceof ISearchFunction) {
+					((ISearchFunction) fragment).doSearch(InterestController.REQUEST_TYPE_INIT, null);
+				}
+				
+			}
+		});
+		
 	}
 
 

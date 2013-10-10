@@ -189,5 +189,11 @@
     <string name="IDS_USER_WARN">We will not post anything to your facebook profile</string>
     <string name="IDS_ERROR_FILTER">There was an error applying filter to this image. THis might be aformat/path issue.</string>
     <string name="copy_right_text">&#169; 2013 AfterYou Inc. Privacy Policy</string>
-
+	<string name="IDS_SEARCH">Search</string>
+	<string name="IDS_AGE">Age : </string>
+	<string name="IDS_LIKES"> likes</string>
+	<string name="IDS_COMMENTS"> comments</string>
+	<string name="IDS_OPEN_BRACE">(</string>
+	<string name="IDS_CLOSE_BRACE">)</string>
+	<string name="IDS_DETAILS">Details</string>
 </resources>

@@ -14,26 +14,14 @@
         <ImageView
             android:id="@+id/icon_list"
             android:layout_width="40dip"
-            android:layout_marginLeft="10dip"
-            android:layout_marginRight="10dip"
             android:layout_height="match_parent"
             android:layout_centerVertical="true"
+            android:layout_marginLeft="10dip"
+            android:layout_marginRight="10dip"
             android:src="@drawable/list_icon" />
     </RelativeLayout>
 
-   <!--  <TextView
-        android:id="@+id/actionbar_title_text"
-        android:layout_width="fill_parent"
-        android:layout_height="match_parent"
-        android:layout_centerVertical="true"
-        android:layout_toRightOf="@id/btn_home"
-        android:gravity="center"
-        android:text="@string/main_activity_actionbar_title"
-        android:textAlignment="center"
-        android:textColor="@color/actionbar_text_color"
-        android:textSize="20sp" /> -->
-        
-            <ImageView
+    <ImageView
         android:layout_width="120dp"
         android:layout_height="30dp"
         android:layout_centerInParent="true"
@@ -44,8 +32,8 @@
         android:layout_height="match_parent"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
-        android:layout_marginBottom="9dip"
-        android:layout_marginTop="7dip"
+        android:paddingLeft="10dip"
+        android:paddingRight="10dip"
         android:src="@drawable/actionbar_icon" />
 
 </RelativeLayout>

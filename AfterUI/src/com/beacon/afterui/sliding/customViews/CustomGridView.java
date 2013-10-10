@@ -3,11 +3,12 @@ package com.beacon.afterui.sliding.customViews;
 import android.content.Context;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+import android.widget.GridView;
 
 /**
  * Support pulling up to load more.
  */
-public class CustomGridView extends StaggeredGridView {
+public class CustomGridView extends GridView {
 
 	private float mLastY = -1; 
 
