@@ -36,7 +36,7 @@ public class LoginScreen extends BaseActivity implements OnClickListener,
 	private EditText mEmailText;
 	private EditText mPasswordText;
 
-	private static final boolean isTest = false;
+	private static final boolean isTest = true;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {

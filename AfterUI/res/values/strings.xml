@@ -196,4 +196,5 @@
 	<string name="IDS_OPEN_BRACE">(</string>
 	<string name="IDS_CLOSE_BRACE">)</string>
 	<string name="IDS_DETAILS">Details</string>
+	<string name="saving_photo_update">Saving photo updates...</string>
 </resources>

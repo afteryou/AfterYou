@@ -55,7 +55,7 @@ public class PhotoAlbumActivity extends BaseActivity implements
 
 	public static final String ID = "id";
 	public static final String NAME = "name";
-	private CustomProgressDialog wait_progress;
+	private CustomProgressDialog mWaitProgress;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -89,18 +89,18 @@ public class PhotoAlbumActivity extends BaseActivity implements
 			switch (msg.what) {
 			case LOADING_ALBUMS:
 				mAlbumHandler.post(mLoadAlbums);
-				wait_progress = DialogHelper.createProgessDialog(
+				mWaitProgress = DialogHelper.createProgessDialog(
 						PhotoAlbumActivity.this, null);
-				wait_progress.setMessage(PhotoAlbumActivity.this
+				mWaitProgress.setMessage(PhotoAlbumActivity.this
 						.getString(R.string.IDS_GETTING_ALBUM));
-				wait_progress
+				mWaitProgress
 						.setOnCancelListener(new DialogInterface.OnCancelListener() {
 							@Override
 							public void onCancel(DialogInterface dialog) {
 								removeDialog();
 							}
 						});
-				wait_progress.show();
+				mWaitProgress.show();
 				break;
 
 			case LOADING_ALBUMS_COMPLETED:
@@ -118,10 +118,10 @@ public class PhotoAlbumActivity extends BaseActivity implements
 
 	protected void removeDialog() {
 
-		if (null != PhotoAlbumActivity.this && null != wait_progress
-				&& wait_progress.isShowing()) {
+		if (null != PhotoAlbumActivity.this && null != mWaitProgress
+				&& mWaitProgress.isShowing()) {
 
-			wait_progress.dismiss();
+			mWaitProgress.dismiss();
 
 		}
 
@@ -145,7 +145,6 @@ public class PhotoAlbumActivity extends BaseActivity implements
 			mHandlerThread.quit();
 		}
 
-		Log.d("test", "OnDestory of PhotoAlbumActivity");
 		super.onDestroy();
 	}
 

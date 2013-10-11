@@ -2,7 +2,6 @@ package com.beacon.afterui.sliding.fragment;
 
 import android.content.Context;
 
-import com.beacon.afterui.R;
 import com.beacon.afterui.sliding.customViews.ListItem;
 
 public class Category extends ListItem {
@@ -29,7 +28,7 @@ public class Category extends ListItem {
 
 	public Category(Context ctx, String text) {
 		super(ctx);
-		this.setText(R.id.slid_menu_item_text, text);
+//		this.setText(R.id.slid_menu_item_text, text);
 	}
 
 	public Category(Context ctx) {

@@ -1,40 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content" >
+    android:layout_height="wrap_content" 
+    android:background="#ffffff">
 
-    <RelativeLayout
-        android:id="@+id/sliding_menu_item"
-        android:layout_width="match_parent"
+    <ImageView
+        android:id="@+id/dashboard_img"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="10dip"
-        android:layout_marginRight="25dip"
-        android:background="@drawable/sliding_menu_item_selector"
-        android:duplicateParentState="true" >
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="30dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="30dp" />
 
-        <TextView
-            android:id="@+id/slid_menu_item_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_margin="@dimen/sliding_menu_item_text_margin"
-            android:duplicateParentState="true"
-            android:ellipsize="end"
-            android:singleLine="true"
-            android:textColor="@color/sliding_menu_text"
-            android:textColorHighlight="@color/sliding_menu_highlight_text"
-            android:textIsSelectable="false"
-            android:textSize="18sp" />
+    <TextView
+        android:id="@+id/dashboard_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="30dp"
+        android:layout_marginLeft="5dp"
+        android:layout_marginTop="30dp"
+        android:layout_toRightOf="@id/dashboard_img"
+        android:paddingLeft="10dp"
+        android:textColor="@color/font_listview_blue"
+        android:textSize="18sp" />
 
-        <View
-            android:id="@+id/btn_delete_slid_menu_item"
-            android:layout_width="35dip"
-            android:layout_height="35dip"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="5dip"
-            android:background="@drawable/delete_category_selector"
-            android:visibility="gone" />
-    </RelativeLayout>
-
-</FrameLayout>
+</RelativeLayout>
