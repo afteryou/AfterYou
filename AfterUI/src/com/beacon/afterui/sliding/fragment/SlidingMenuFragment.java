@@ -114,6 +114,7 @@ public class SlidingMenuFragment extends Fragment implements
                 .findViewById(R.id.dashboard_txt);
         EditText searchEditText = (EditText) view.findViewById(R.id.search_txt);
         searchEditText.setTypeface(typeFaceRegular);
+        
 
         TextView userNameTxt = (TextView) view.findViewById(R.id.user_name);
         userNameTxt.setTypeface(typeFaceSemiBold);

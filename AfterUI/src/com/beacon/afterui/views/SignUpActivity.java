@@ -17,6 +17,7 @@ import android.os.Message;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.view.View.OnClickListener;
 import android.view.View.OnFocusChangeListener;
 import android.widget.DatePicker;
@@ -154,7 +155,8 @@ public class SignUpActivity extends BaseActivity implements OnClickListener,
                 mLeftImage.setBackgroundResource(R.drawable.switch_btn_pressed);
                 mRightImage.setBackgroundDrawable(null);
             } else {
-                mRightImage.setBackgroundResource(R.drawable.switch_btn_pressed);
+                mRightImage
+                        .setBackgroundResource(R.drawable.switch_btn_pressed);
                 mLeftImage.setBackgroundDrawable(null);
             }
             mEmailText.setVisibility(View.GONE);
@@ -169,7 +171,8 @@ public class SignUpActivity extends BaseActivity implements OnClickListener,
             mSplashHandler.sendEmptyMessageDelayed(AUTO_SIGN_UP_END,
                     AUTO_SIGN_UP_VISIBLE_TIME);
         }
-
+        this.getWindow().setSoftInputMode(
+                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
 
     private class SignUpHandler extends Handler {
@@ -274,7 +277,7 @@ public class SignUpActivity extends BaseActivity implements OnClickListener,
     private void saveData() {
         PreferenceEngine prefEngine = PreferenceEngine
                 .getInstance(SignUpActivity.this);
-        
+
         prefEngine.setFirstName(mFirstnameText.getText().toString());
         prefEngine.setLastName(mLastNameText.getText().toString());
     }
@@ -428,20 +431,20 @@ public class SignUpActivity extends BaseActivity implements OnClickListener,
         public void onDateSet(DatePicker view, int year, int monthOfYear,
                 int dayOfMonth) {
             int currentYear = Calendar.getInstance().get(Calendar.YEAR);
-			int userAge = currentYear - year;
-			if (userAge > 16) {
-				mDateOfBirthTxt = dayOfMonth + "/" + monthOfYear + "/" + year;
-				mBirthDayText.setText(mDateOfBirthTxt);
-				mBirthDayText.clearFocus();
-				mCalendar.set(year, monthOfYear, dayOfMonth);
-				String date = Utilities.getDateByCalendar(mCalendar);
-				PreferenceEngine.getInstance(getApplicationContext())
-						.saveBirthday(date);
+            int userAge = currentYear - year;
+            if (userAge > 16) {
+                mDateOfBirthTxt = dayOfMonth + "/" + monthOfYear + "/" + year;
+                mBirthDayText.setText(mDateOfBirthTxt);
+                mBirthDayText.clearFocus();
+                mCalendar.set(year, monthOfYear, dayOfMonth);
+                String date = Utilities.getDateByCalendar(mCalendar);
+                PreferenceEngine.getInstance(getApplicationContext())
+                        .saveBirthday(date);
 
-			} else {
-				showErrorDialog(R.string.date_of_less_than_sixteen);
-				mBirthDayText.clearFocus();
-			}
+            } else {
+                showErrorDialog(R.string.date_of_less_than_sixteen);
+                mBirthDayText.clearFocus();
+            }
         }
     };
 }
