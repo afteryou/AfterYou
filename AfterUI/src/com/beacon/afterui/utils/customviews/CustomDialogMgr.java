@@ -8,6 +8,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.TypedArray;
 import android.database.Cursor;
+import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.os.Message;
@@ -38,16 +39,15 @@ import android.widget.TextView;
 import com.beacon.afterui.R;
 import com.beacon.afterui.utils.Utilities;
 
-
 public class CustomDialogMgr {
 
     private final Context mContext;
     private DialogInterface mDialogInterface;
     private Window mWindow;
-    public  final static int BIT_BUTTON_POSITIVE = 1;
+    public final static int BIT_BUTTON_POSITIVE = 1;
     public final static int BIT_BUTTON_NEGATIVE = 2;
     public final static int BIT_BUTTON_NEUTRAL = 4;
-    
+
     private CharSequence mTitle;
 
     private CharSequence mMessage;
@@ -97,7 +97,7 @@ public class CustomDialogMgr {
     private TextView mTitleView;
 
     private TextView mMessageView;
-    
+
     private int mMessageGravity = -1;
 
     private View mCustomTitleView;
@@ -110,12 +110,12 @@ public class CustomDialogMgr {
 
     private Handler mHandler;
 
-    private boolean mIsLowerCaseTitle=false;
+    private boolean mIsLowerCaseTitle = false;
 
-    private boolean mIsCustomPadding=false;
-    
-    private boolean mIsCancelable=true;
-    
+    private boolean mIsCustomPadding = false;
+
+    private boolean mIsCancelable = true;
+
     private int autoDismissStrategy = CustomDialog.AUTO_DIMISS_WHEN_BUTTON_CLICK;
 
     View.OnClickListener mButtonHandler = new View.OnClickListener() {
@@ -123,13 +123,16 @@ public class CustomDialogMgr {
             Message m = null;
             int needDismiss = 0;
             if (v == mButtonPositive && mButtonPositiveMessage != null) {
-            	needDismiss = CustomDialog.NOT_DIMISS_WHEN_POSITIVE_BUTTON_CLICK & autoDismissStrategy;
+                needDismiss = CustomDialog.NOT_DIMISS_WHEN_POSITIVE_BUTTON_CLICK
+                        & autoDismissStrategy;
                 m = Message.obtain(mButtonPositiveMessage);
             } else if (v == mButtonNegative && mButtonNegativeMessage != null) {
-            	needDismiss = CustomDialog.NOT_DIMISS_WHEN_NEGATIVE_BUTTON_CLICK & autoDismissStrategy;
+                needDismiss = CustomDialog.NOT_DIMISS_WHEN_NEGATIVE_BUTTON_CLICK
+                        & autoDismissStrategy;
                 m = Message.obtain(mButtonNegativeMessage);
             } else if (v == mButtonNeutral && mButtonNeutralMessage != null) {
-            	needDismiss = CustomDialog.NOT_DIMISS_WHEN_NEUTRAL_BUTTON_CLICK & autoDismissStrategy;
+                needDismiss = CustomDialog.NOT_DIMISS_WHEN_NEUTRAL_BUTTON_CLICK
+                        & autoDismissStrategy;
                 m = Message.obtain(mButtonNeutralMessage);
             }
             if (m != null) {
@@ -137,23 +140,24 @@ public class CustomDialogMgr {
             }
             // Post a message so we dismiss after the above handlers are
             // executed
-            
-            //add a flag, if you don't want dialog auto dismiss after you select positive button, you can make this flag "false"
-            if(isNeedDismiss(needDismiss)){
-            	mHandler.obtainMessage(ButtonHandler.MSG_DISMISS_DIALOG,
+
+            // add a flag, if you don't want dialog auto dismiss after you
+            // select positive button, you can make this flag "false"
+            if (isNeedDismiss(needDismiss)) {
+                mHandler.obtainMessage(ButtonHandler.MSG_DISMISS_DIALOG,
                         mDialogInterface).sendToTarget();
             }
         }
     };
-    
-    private boolean isNeedDismiss(int needDismiss){
-    	if(autoDismissStrategy == CustomDialog.AUTO_DIMISS_WHEN_BUTTON_CLICK){
-    		return true;
-    	}
-    	if(needDismiss == 0){
-    		return true;
-    	}
-    	return false;
+
+    private boolean isNeedDismiss(int needDismiss) {
+        if (autoDismissStrategy == CustomDialog.AUTO_DIMISS_WHEN_BUTTON_CLICK) {
+            return true;
+        }
+        if (needDismiss == 0) {
+            return true;
+        }
+        return false;
     }
 
     private static final class ButtonHandler extends Handler {
@@ -173,8 +177,8 @@ public class CustomDialogMgr {
             case DialogInterface.BUTTON_POSITIVE:
             case DialogInterface.BUTTON_NEGATIVE:
             case DialogInterface.BUTTON_NEUTRAL:
-                ((DialogInterface.OnClickListener) msg.obj).onClick(mDialog
-                        .get(), msg.what);
+                ((DialogInterface.OnClickListener) msg.obj).onClick(
+                        mDialog.get(), msg.what);
                 break;
 
             case MSG_DISMISS_DIALOG:
@@ -191,11 +195,11 @@ public class CustomDialogMgr {
         mDialogInterface = di;
         mHandler = new ButtonHandler(di);
     }
-    
+
     public void setWindow(Window window) {
         mWindow = window;
     }
-    
+
     public CustomDialogMgr(Context context, DialogInterface di, Window window) {
         mContext = context;
         mWindow = window;
@@ -231,21 +235,37 @@ public class CustomDialogMgr {
             mWindow.setFlags(WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM,
                     WindowManager.LayoutParams.FLAG_ALT_FOCUSABLE_IM);
         }
-        
+
         View v = View.inflate(mContext, R.layout.custom_alert_dialog, null);
         int widht = mWindow.getWindowManager().getDefaultDisplay().getWidth();
         int height = mWindow.getWindowManager().getDefaultDisplay().getHeight();
         int dialog_width = widht > height ? widht : height;
-        v.setMinimumWidth(dialog_width
-                - Utilities.dipToPix(mContext, 24));
+        v.setMinimumWidth(dialog_width - Utilities.dipToPix(mContext, 24));
         mWindow.setContentView(v);
-        //mWindow.getDecorView()
-        //mWindow.setContentView(R.layout.custom_alert_dialog);
+        // mWindow.getDecorView()
+        // mWindow.setContentView(R.layout.custom_alert_dialog);pef
+
+        // Set font for button.
+        Typeface typeFaceRegular = Typeface.createFromAsset(
+                mContext.getAssets(), "fonts/MyriadPro-Regular.otf");
+
+        Button button1 = (Button) v.findViewById(R.id.button1);
+        Button button2 = (Button) v.findViewById(R.id.button2);
+        Button button3 = (Button) v.findViewById(R.id.button3);
+        button1.setTypeface(typeFaceRegular);
+        button2.setTypeface(typeFaceRegular);
+        button3.setTypeface(typeFaceRegular);
+
+        CustomDialogTitle alertTitle = (CustomDialogTitle) v
+                .findViewById(R.id.alertTitle);
+        alertTitle.setTypeface(typeFaceRegular);
+
         setupView();
     }
 
     public void setTitle(CharSequence title) {
-    	if(!mIsLowerCaseTitle) title=title.toString().toUpperCase();
+        if (!mIsLowerCaseTitle)
+            title = title.toString().toUpperCase();
         mTitle = title;
         if (mTitleView != null) {
             mTitleView.setText(title);
@@ -264,12 +284,12 @@ public class CustomDialogMgr {
     }
 
     public void setMessageGravity(int gravity) {
-    	mMessageGravity = gravity;
-    	if (mMessageView != null) {
+        mMessageGravity = gravity;
+        if (mMessageView != null) {
             mMessageView.setGravity(gravity);
         }
     }
-    
+
     public void setView(View view) {
         mView = view;
         mViewSpacingSpecified = false;
@@ -339,7 +359,7 @@ public class CustomDialogMgr {
     public ListView getListView() {
         return mListView;
     }
-    
+
     public boolean getCancelable() {
         return mIsCancelable;
     }
@@ -358,34 +378,34 @@ public class CustomDialogMgr {
     }
 
     public int getButtonNumber() {
-    	return whichButtons;
+        return whichButtons;
     }
 
     public View.OnClickListener getButtonHandler() {
-    	return mButtonHandler;
+        return mButtonHandler;
     }
 
-    @SuppressWarnings( { "UnusedDeclaration" })
+    @SuppressWarnings({ "UnusedDeclaration" })
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         return mScrollView != null && mScrollView.executeKeyEvent(event);
     }
 
-    @SuppressWarnings( { "UnusedDeclaration" })
+    @SuppressWarnings({ "UnusedDeclaration" })
     public boolean onKeyUp(int keyCode, KeyEvent event) {
         return mScrollView != null && mScrollView.executeKeyEvent(event);
     }
-    
-/*    private void setMinimumWidth(View v) {
-        v.setMinimumWidth(mWindow.getWindowManager()
-                .getDefaultDisplay().getWidth()
-                - Utilities.dipToPix(mContext, 24));
-    }*/
+
+    /*
+     * private void setMinimumWidth(View v) {
+     * v.setMinimumWidth(mWindow.getWindowManager()
+     * .getDefaultDisplay().getWidth() - Utilities.dipToPix(mContext, 24)); }
+     */
 
     private void setupView() {
         LinearLayout contentPanel = (LinearLayout) mWindow
                 .findViewById(R.id.contentPanel);
         setupContent(contentPanel);
-        
+
         boolean hasButtons = setupButtons();
 
         LinearLayout topPanel = (LinearLayout) mWindow
@@ -418,7 +438,7 @@ public class CustomDialogMgr {
             if (mListView != null) {
                 ((LinearLayout.LayoutParams) customPanel.getLayoutParams()).weight = 0;
             }
-            /*setMinimumWidth(customPanel);*/
+            /* setMinimumWidth(customPanel); */
         } else {
             mWindow.findViewById(R.id.customPanel).setVisibility(View.GONE);
         }
@@ -449,14 +469,14 @@ public class CustomDialogMgr {
             if (hasTextTitle) {
                 /* Display the title if a title is supplied, else hide it */
                 mTitleView = (TextView) mWindow.findViewById(R.id.alertTitle);
-                if (mIsLowerCaseTitle){
+                if (mIsLowerCaseTitle) {
                     /* New style for the title of the dialog. */
                     mTitleView.setGravity(Gravity.LEFT);
                     View divider = mWindow.findViewById(R.id.titleDivider);
                     divider.setVisibility(View.VISIBLE);
                 } else {
                     mTitleView.setGravity(Gravity.CENTER);
-                    mTitle=mTitle.toString().toUpperCase();
+                    mTitle = mTitle.toString().toUpperCase();
                 }
                 mTitleView.setText(mTitle);
 
@@ -475,15 +495,16 @@ public class CustomDialogMgr {
                      * Apply the padding from the icon to ensure the title is
                      * aligned correctly.
                      */
-                    mTitleView.setPadding(mIconView.getPaddingLeft(), mIconView
-                            .getPaddingTop(), mIconView.getPaddingRight(),
+                    mTitleView.setPadding(mIconView.getPaddingLeft(),
+                            mIconView.getPaddingTop(),
+                            mIconView.getPaddingRight(),
                             mIconView.getPaddingBottom());
                     mIconView.setVisibility(View.GONE);
                 }
-				if (mIsLowerCaseTitle){
-					((LinearLayout) mTitleView.getParent())
-						.setBackgroundResource(R.color.brown_background);
-				}
+                if (mIsLowerCaseTitle) {
+                    ((LinearLayout) mTitleView.getParent())
+                            .setBackgroundResource(R.color.brown_background);
+                }
             } else {
 
                 // Hide the title template
@@ -508,12 +529,14 @@ public class CustomDialogMgr {
 
         if (mMessage != null) {
             mMessageView.setText(mMessage);
-            if (mIsCustomPadding){
-                LinearLayout mes=((LinearLayout)mWindow.findViewById(R.id.linearLayout4));
-                mes.setPadding(mes.getPaddingLeft(), 0, mes.getPaddingRight(), mes.getPaddingBottom());
+            if (mIsCustomPadding) {
+                LinearLayout mes = ((LinearLayout) mWindow
+                        .findViewById(R.id.linearLayout4));
+                mes.setPadding(mes.getPaddingLeft(), 0, mes.getPaddingRight(),
+                        mes.getPaddingBottom());
             }
-            if(mMessageGravity != -1) {
-            	mMessageView.setGravity(mMessageGravity);
+            if (mMessageGravity != -1) {
+                mMessageView.setGravity(mMessageGravity);
             }
         } else {
             mMessageView.setVisibility(View.GONE);
@@ -694,10 +717,9 @@ public class CustomDialogMgr {
                  * ListViews will use the Bright background but buttons use the
                  * Medium background.
                  */
-                lastView
-                        .setBackgroundResource(lastLight ? (hasButtons ? bottomMedium
-                                : bottomBright)
-                                : bottomDark);
+                lastView.setBackgroundResource(lastLight ? (hasButtons ? bottomMedium
+                        : bottomBright)
+                        : bottomDark);
             } else {
                 lastView.setBackgroundResource(lastLight ? fullBright
                         : fullDark);
@@ -754,8 +776,8 @@ public class CustomDialogMgr {
         public AdapterView.OnItemSelectedListener mOnItemSelectedListener;
         public OnPrepareListViewListener mOnPrepareListViewListener;
         public boolean mRecycleOnMeasure = true;
-        public boolean mIsLowerCaseTitle=false;
-        public boolean mIsCustomPadding=false;
+        public boolean mIsLowerCaseTitle = false;
+        public boolean mIsCustomPadding = false;
         public int autoDismissStrategy = CustomDialog.AUTO_DIMISS_WHEN_BUTTON_CLICK;
         public Runnable autoDismissRunnable;
 
@@ -775,10 +797,10 @@ public class CustomDialogMgr {
             // adapter or a cursor
             if ((mItems != null) || (mCursor != null) || (mAdapter != null)) {
                 createListView(dialog);
-                this.mIsLowerCaseTitle=true;
+                this.mIsLowerCaseTitle = true;
             }
-            if(mIsLowerCaseTitle){
-                dialog.mIsLowerCaseTitle=true;
+            if (mIsLowerCaseTitle) {
+                dialog.mIsLowerCaseTitle = true;
             }
             if (mCustomTitleView != null) {
                 dialog.setCustomTitle(mCustomTitleView);
@@ -797,7 +819,7 @@ public class CustomDialogMgr {
                 dialog.setMessage(mMessage);
             }
             if (mMessageGravity != -1) {
-            	dialog.setMessageGravity(mMessageGravity);
+                dialog.setMessageGravity(mMessageGravity);
             }
             if (mPositiveButtonText != null) {
                 dialog.setButton(DialogInterface.BUTTON_POSITIVE,
@@ -822,32 +844,33 @@ public class CustomDialogMgr {
                     dialog.setView(mView);
                 }
             }
-            if(mIsCustomPadding){
-                dialog.mIsCustomPadding=true;
+            if (mIsCustomPadding) {
+                dialog.mIsCustomPadding = true;
             }
-            
-            dialog.mIsCancelable=mCancelable;
+
+            dialog.mIsCancelable = mCancelable;
             dialog.autoDismissStrategy = autoDismissStrategy;
         }
 
         public DialogInterface.OnClickListener getOnButtonClickListener() {
-        	if (mPositiveButtonListener != null && (mNegativeButtonListener == null &&
-        			mNeutralButtonListener == null)) {
-        		return mPositiveButtonListener;
-        	} else if (mNegativeButtonListener != null && (mPositiveButtonListener == null &&
-        			mNeutralButtonListener == null)) {
-        		return mNegativeButtonListener;
-        	} else if (mNeutralButtonListener != null && (mPositiveButtonListener == null &&
-        			mNegativeButtonListener == null)) {
-        		return mNeutralButtonListener;
-        	}
-			return null;
+            if (mPositiveButtonListener != null
+                    && (mNegativeButtonListener == null && mNeutralButtonListener == null)) {
+                return mPositiveButtonListener;
+            } else if (mNegativeButtonListener != null
+                    && (mPositiveButtonListener == null && mNeutralButtonListener == null)) {
+                return mNegativeButtonListener;
+            } else if (mNeutralButtonListener != null
+                    && (mPositiveButtonListener == null && mNegativeButtonListener == null)) {
+                return mNeutralButtonListener;
+            }
+            return null;
         }
 
         private void createListView(final CustomDialogMgr dialog) {
             final ListView listView = (ListView) mInflater.inflate(
                     R.layout.custom_alert_dialog_custom_list_view, null);
-            listView.setDivider(mContext.getResources().getDrawable(R.drawable.divider_horizontal_dim_dark));
+            listView.setDivider(mContext.getResources().getDrawable(
+                    R.drawable.divider_horizontal_dim_dark));
             listView.setDividerHeight(2);
 
             ListAdapter adapter;
@@ -947,8 +970,8 @@ public class CustomDialogMgr {
                                     .isItemChecked(position);
                         }
                         mOnCheckboxClickListener.onClick(
-                                dialog.mDialogInterface, position, listView
-                                        .isItemChecked(position));
+                                dialog.mDialogInterface, position,
+                                listView.isItemChecked(position));
                     }
                 });
             }

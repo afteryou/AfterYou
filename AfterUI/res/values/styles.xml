@@ -164,7 +164,7 @@
     </style>
 
     <style name="custom_list_view_item">
-        <item name="android:textColor">@drawable/text_selector</item>
+        <item name="android:textColor">@color/brown_background</item>
         <item name="android:ellipsize">marquee</item>
         <item name="android:textAppearance">?android:attr/textAppearanceMedium</item>
         <item name="android:minHeight">?android:attr/listPreferredItemHeight</item>

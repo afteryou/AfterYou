@@ -5,7 +5,7 @@
     <dimen name="dialog_list_content_margin">16dip</dimen>
     <dimen name="dialog_message_margin">5dip</dimen>
     <dimen name="font_size_content_fnt">20dip</dimen>
-    <dimen name="font_size_content_fnt_bold">20dip</dimen>
+    <dimen name="font_size_content_fnt_bold">18dip</dimen>
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="feed_list_padding">5dip</dimen>

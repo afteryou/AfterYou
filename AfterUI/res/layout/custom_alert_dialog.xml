@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <LinearLayout
-	android:gravity="center_vertical|center_horizontal|center"
+	android:gravity="center"
 	android:id="@+id/parentPanel"
 	android:layout_height="wrap_content"
 	android:layout_width="fill_parent"
@@ -118,7 +118,7 @@
 				android:layout_width="fill_parent"
 				android:padding="16dp"
 				android:textSize="@dimen/font_size_content_fnt_bold"
-				android:textStyle="bold"
+				android:textStyle="normal"
 				android:textColor="@color/blue_sky"
 				android:background="@drawable/button_menu" />
 			<ImageView
@@ -133,7 +133,7 @@
 				android:layout_width="fill_parent"
 				android:padding="16dp"
 				android:textSize="@dimen/font_size_content_fnt_bold"
-				android:textStyle="bold"
+				android:textStyle="normal"
 				android:textColor="@color/blue_sky"
 				android:background="@drawable/button_menu" />
 			<ImageView
@@ -148,7 +148,7 @@
 				android:layout_width="fill_parent"
 				android:padding="16dp"
 				android:textSize="@dimen/font_size_content_fnt_bold"
-				android:textStyle="bold"
+				android:textStyle="normal"
 				android:textColor="@color/blue_sky"
 				android:background="@drawable/button_menu" />
 			<LinearLayout
