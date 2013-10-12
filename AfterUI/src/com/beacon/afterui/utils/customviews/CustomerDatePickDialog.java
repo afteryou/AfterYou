@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.DatePicker;
@@ -28,6 +29,8 @@ public class CustomerDatePickDialog extends CustomDialog implements
     private int mInitialMonth;
     private int mInitialDay;
     private Calendar titleCalendar;
+    
+    private static final int MIN_YEAR = 16;
 
     private void init(Context context,
             OnDateSetListener callBack, int year, int monthOfYear,
@@ -48,11 +51,13 @@ public class CustomerDatePickDialog extends CustomDialog implements
         mDatePicker.init(mInitialYear, mInitialMonth, mInitialDay, this);
         mDatePicker.setCalendarViewShown(false);
         titleCalendar = Calendar.getInstance();
+        
+        year = year - MIN_YEAR;
         titleCalendar.set(Calendar.YEAR, year);
         titleCalendar.set(Calendar.MONTH, monthOfYear);
         titleCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
         setTitle(Utilities.formatDate(titleCalendar.getTime()));
-    	
+        mDatePicker.setMaxDate(titleCalendar.getTimeInMillis());
     }
 
     public CustomerDatePickDialog(IDialogImpl dlg, Context context, int theme,
