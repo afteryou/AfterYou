@@ -198,7 +198,7 @@ public class PhotoAlbumActivity extends BaseActivity implements
 				if (position == 0) {
 					Bitmap bitmap = ImageInfoUtils
 							.roundCornered(album.thumb, 4);
-					album.thumb.recycle();
+					album.thumb = null;
 					album.thumb = bitmap;
 				}
 			}
