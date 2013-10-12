@@ -94,7 +94,7 @@ public class SlidingMenuFragment extends Fragment implements
                 "Report & Problem", "Help Center", "Terms & Policies", null,
                 null };
         int[] mImages = { R.drawable.setting_img, R.drawable.popularity_img,
-                R.drawable.import_img, R.drawable.import_freinds,
+                R.drawable.import_img, R.drawable.import_friends,
                 R.drawable.report_problem, R.drawable.help_center,
                 R.drawable.terms_policy, 0, 0 };
         List<HashMap<String, String>> mList = new ArrayList<HashMap<String, String>>();
