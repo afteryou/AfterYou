@@ -65,8 +65,8 @@ public class MainActivity extends BaseActivity implements OnQueryTextListener,
         FragmentHelper.onActivityCreate(this);
         FragmentHelper.initFragment(this, new ContentFragment());
         doInterestSearch();
-        this.getWindow().setSoftInputMode(
-                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+//        this.getWindow().setSoftInputMode(
+//                WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
     }
 
     private void initActionBar() {
@@ -291,7 +291,7 @@ public class MainActivity extends BaseActivity implements OnQueryTextListener,
 
     public void onBackPressed() {
         SlidingMenu slidingMenu = getSlidingMenu();
-        if (slidingMenu.isActivated()) {
+        if (!slidingMenu.isActivated()) {
             super.onBackPressed();
         } else {
             if (!FragmentHelper.onBack(this)) {

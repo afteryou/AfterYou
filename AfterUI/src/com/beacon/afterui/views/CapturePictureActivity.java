@@ -47,7 +47,6 @@ import com.beacon.afterui.constants.AppConstants;
 import com.beacon.afterui.imageUtils.ImageCache;
 import com.beacon.afterui.imageUtils.ImageResizer;
 import com.beacon.afterui.log.AfterUIlog;
-import com.beacon.afterui.provider.PreferenceEngine;
 import com.beacon.afterui.utils.ImageInfoUtils;
 import com.beacon.afterui.utils.ImageUtils;
 import com.beacon.afterui.utils.customviews.AfterYouDialogImpl;
@@ -272,6 +271,7 @@ public class CapturePictureActivity extends BaseActivity implements
                         .getString(R.string.saving_photo_update));
                 waitProgress.show();
                 mDeamonHandler.post(mSaveImage);
+                handler.sendEmptyMessage(SAVE_IMAGE_DONE);
                 break;
 
             case SAVE_IMAGE_DONE:
@@ -411,7 +411,6 @@ public class CapturePictureActivity extends BaseActivity implements
             Bitmap thumb = ThumbnailUtils.extractThumbnail(bitmap, 50, 50);
             mProfileThumbImageCache.addBitmapToCache(PROFILE_PIC_THUMB, thumb);
 
-            handler.sendEmptyMessage(SAVE_IMAGE_DONE);
         }
     };
 
