@@ -179,13 +179,13 @@
         <item name="android:minHeight">?android:attr/listPreferredItemHeight</item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:checkMark">@drawable/btn_check</item>
-        <item name="android:textColor">@drawable/text_selector</item>
+        <item name="android:textColor">@@color/brown_background</item>
         <item name="android:ellipsize">marquee</item>
     </style>
 
     <style name="SingleChoiceCheckedTextView">
         <item name="android:checkMark">@drawable/radio_btn</item>
-        <item name="android:textColor">@drawable/text_selector</item>
+        <item name="android:textColor">@color/brown_background</item>
         <item name="android:layout_height">?android:attr/listPreferredItemHeight</item>
         <item name="android:singleLine">true</item>
         <item name="android:ellipsize">marquee</item>
