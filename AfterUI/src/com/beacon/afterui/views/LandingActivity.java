@@ -68,7 +68,8 @@ public class LandingActivity extends BaseActivity implements OnClickListener {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.landing_screen);
-
+		setBehindLeftContentView(R.layout.landing_screen);
+		setBehindRightContentView(R.layout.landing_screen);
 		this.ctx = this;
 
 		user_inter = (RelativeLayout) findViewById(R.id.user_but_id);

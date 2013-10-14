@@ -30,6 +30,8 @@ public class FullImageActivity extends BaseActivity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.full_image_activity);
+		setBehindLeftContentView(R.layout.full_image_activity);
+		setBehindRightContentView(R.layout.full_image_activity);
 		mFullSizeImage = (ImageView) findViewById(R.id.photo_of_user_full_image);
 		mDoneBtn = (ImageButton) findViewById(R.id.done_btn_full_image_activity);
 		mCancelBtn = (ImageButton) findViewById(R.id.cancel_btn_full_image_activity);

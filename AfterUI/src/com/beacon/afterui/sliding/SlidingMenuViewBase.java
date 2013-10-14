@@ -34,8 +34,8 @@ import android.view.animation.Interpolator;
 import android.widget.LinearLayout;
 import android.widget.Scroller;
 
-import com.beacon.afterui.sliding.SlidingMenu.MenuState;
-import com.beacon.afterui.sliding.SlidingMenu.OnMenuStateListener;
+//import com.beacon.afterui.sliding.SlidingMenu.MenuState;
+//import com.beacon.afterui.sliding.SlidingMenu.OnMenuStateListener;
 
 public class SlidingMenuViewBase extends ViewGroup {
 	private static final String TAG = "CustomViewAbove";
@@ -328,13 +328,13 @@ public class SlidingMenuViewBase extends ViewGroup {
 				item = getCount() - 1;
 			}
 			
-			if(mOnMenuStateListener != null){
-				if(item == 0){
-					mOnMenuStateListener.onMenuStateChanged(MenuState.OPEN);
-				}else{
-					mOnMenuStateListener.onMenuStateChanged(MenuState.CLOSE);
-				}
-			}
+//			if(mOnMenuStateListener != null){
+//				if(item == 0){
+//					mOnMenuStateListener.onMenuStateChanged(MenuState.OPEN);
+//				}else{
+//					mOnMenuStateListener.onMenuStateChanged(MenuState.CLOSE);
+//				}
+//			}
 			
 			if (item > 0 && item < getCount()) {
 				// We are doing a jump by more than one page.  To avoid
@@ -1716,9 +1716,9 @@ public class SlidingMenuViewBase extends ViewGroup {
 			}
 		}
 		
-		private OnMenuStateListener mOnMenuStateListener;
-		
-		public void setOnMenuStateListener(OnMenuStateListener l){
-			mOnMenuStateListener = l;
-		}
+//		private OnMenuStateListener mOnMenuStateListener;
+//		
+//		public void setOnMenuStateListener(OnMenuStateListener l){
+//			mOnMenuStateListener = l;
+//		}
 }

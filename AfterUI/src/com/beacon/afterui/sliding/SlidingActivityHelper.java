@@ -17,11 +17,13 @@ public class SlidingActivityHelper {
 
 	private SlidingMenu mSlidingMenu;
 	private View mViewAbove;
-	private View mViewBehind;
+	private View mViewBehindLeft;
+	private View mViewBehindRight;
 	private boolean mBroadcasting = false;
 
 	private boolean mOnPostCreateCalled = false;
 	private boolean mEnableSlide = true;
+	private boolean mUseCustomUp = false;
 
 	public SlidingActivityHelper(Activity activity) {
 		mActivity = activity;
@@ -29,28 +31,36 @@ public class SlidingActivityHelper {
 
 	public void onCreate(Bundle savedInstanceState) {
 		mSlidingMenu = (SlidingMenu) LayoutInflater.from(mActivity).inflate(R.layout.slidingmenumain, null);
+//		mActivity.getTheme().applyStyle(R.style.CustomUp, true);
 	}
 
 	public void onPostCreate(Bundle savedInstanceState) {
+		if ((mViewBehindLeft == null && mViewBehindRight == null) || mViewAbove == null) {
+			throw new IllegalStateException("Both setBehind[Left|Right]ContentView must be called " +
+					"in onCreate in addition to setContentView.");
+		}
+		if (mViewBehindLeft == null)
+			mSlidingMenu.setViewBehind(null, SlidingMenu.LEFT);
+		if (mViewBehindRight == null)
+			mSlidingMenu.setViewBehind(null, SlidingMenu.RIGHT);
 
 		mOnPostCreateCalled = true;
-
+		
 		// get the window background
 		TypedArray a = mActivity.getTheme().obtainStyledAttributes(new int[] {android.R.attr.windowBackground});
 		int background = a.getResourceId(0, 0);
 
 		if (mEnableSlide) {
-			mSlidingMenu.setFitsSystemWindows(true);
 			// move everything into the SlidingMenu
 			ViewGroup decor = (ViewGroup) mActivity.getWindow().getDecorView();
 			ViewGroup decorChild = (ViewGroup) decor.getChildAt(0);
 			// save ActionBar themes that have transparent assets
 			decorChild.setBackgroundResource(background);
 			decor.removeView(decorChild);
-			mSlidingMenu.setViewAbove(decorChild);
+			mSlidingMenu.setContent(decorChild);
 			decor.addView(mSlidingMenu);
 		} else {
-			// take the above view out of 
+			// take the above view out of
 			ViewGroup parent = (ViewGroup) mViewAbove.getParent();
 			if (parent != null) {
 				parent.removeView(mViewAbove);
@@ -59,8 +69,8 @@ public class SlidingActivityHelper {
 			if (mViewAbove.getBackground() == null) {
 				mViewAbove.setBackgroundResource(background);
 			}
-			mSlidingMenu.setViewAbove(mViewAbove);
-			parent.addView(mSlidingMenu, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT));
+			mSlidingMenu.setContent(mViewAbove);
+			parent.addView(mSlidingMenu, new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT));
 		}
 	}
 
@@ -70,11 +80,17 @@ public class SlidingActivityHelper {
 		mEnableSlide = b;
 	}
 
+	public void useCustomUpIndicator() {
+		if (mOnPostCreateCalled)
+			throw new IllegalStateException("useCustomUpIndicator must be called in onCreate.");
+		mUseCustomUp = true;
+	}
+
 	public View findViewById(int id) {
 		View v;
 		if (mSlidingMenu != null) {
 			v = mSlidingMenu.findViewById(id);
-			if (v != null) 
+			if (v != null)
 				return v;
 		}
 		return null;
@@ -90,20 +106,25 @@ public class SlidingActivityHelper {
 		mActivity.setContentView(v);
 	}
 
-	public void setBehindContentView(View v, LayoutParams params) {
-		mViewBehind = v;
-		mSlidingMenu.setViewBehind(mViewBehind);
+	public void setBehindLeftContentView(View v) {
+		mViewBehindLeft = v;
+		mSlidingMenu.setViewBehind(mViewBehindLeft, SlidingMenu.LEFT);
+	}
+	
+	public void setBehindRightContentView(View v) {
+		mViewBehindRight = v;
+		mSlidingMenu.setViewBehind(mViewBehindRight, SlidingMenu.RIGHT);
 	}
 
 	public SlidingMenu getSlidingMenu() {
 		return mSlidingMenu;
 	}
 
-	public void toggle() {
+	public void toggle(int side) {
 		if (mSlidingMenu.isBehindShowing()) {
 			showAbove();
 		} else {
-			showBehind();
+			showBehind(side);
 		}
 	}
 
@@ -111,11 +132,11 @@ public class SlidingActivityHelper {
 		mSlidingMenu.showAbove();
 	}
 
-	public void showBehind() {
-		mSlidingMenu.showBehind();
+	public void showBehind(int side) {
+		mSlidingMenu.showBehind(side);
 	}
 
-	public boolean onKeyDown(int keyCode, KeyEvent event) {
+	public boolean onKeyUp(int keyCode, KeyEvent event) {
 		if (keyCode == KeyEvent.KEYCODE_BACK && mSlidingMenu.isBehindShowing()) {
 			showAbove();
 			return true;

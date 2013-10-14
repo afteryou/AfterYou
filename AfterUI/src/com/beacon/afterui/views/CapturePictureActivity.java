@@ -114,6 +114,8 @@ public class CapturePictureActivity extends BaseActivity implements
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.capture_picture);
+		setBehindLeftContentView(R.layout.capture_picture);
+		setBehindRightContentView(R.layout.capture_picture);
         this.ctx = this;
         mSubmitBtn = (ImageButton) findViewById(R.id.submit_btn);
         mEditBtn = (ImageButton) findViewById(R.id.edit_btn);

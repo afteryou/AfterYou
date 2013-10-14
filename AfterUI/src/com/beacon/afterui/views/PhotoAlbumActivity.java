@@ -62,6 +62,8 @@ public class PhotoAlbumActivity extends BaseActivity implements
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.photo_album);
+        setBehindLeftContentView(R.layout.photo_album);
+        setBehindRightContentView(R.layout.photo_album);
 		mCancelBtn = (ImageView) findViewById(R.id.cancel_btn_photo_album);
 		mListView = (ListView) findViewById(R.id.album_list);
 		mListView.setOnItemClickListener(this);

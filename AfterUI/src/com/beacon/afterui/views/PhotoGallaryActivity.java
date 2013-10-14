@@ -52,7 +52,8 @@ public class PhotoGallaryActivity extends BaseActivity implements
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.photo_gallary);
-
+        setBehindLeftContentView(R.layout.photo_gallary);
+        setBehindRightContentView(R.layout.photo_gallary);
 		mId = getIntent().getStringExtra(PhotoAlbumActivity.ID);
 		mName = getIntent().getStringExtra(PhotoAlbumActivity.NAME);
 		TextView cancelTxt = (TextView) findViewById(R.id.cancel_txt);

@@ -79,6 +79,8 @@ public class ProfileSettingsActivity extends BaseActivity implements
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.profile_setup);
+        setBehindLeftContentView(R.layout.profile_setup);
+        setBehindRightContentView(R.layout.profile_setup);
 		Typeface typeFaceRegular = Typeface.createFromAsset(getAssets(),
 				"fonts/MyriadPro-Regular.otf");
 		tf = Typeface.createFromAsset(getAssets(), "fonts/MyriadPro-It.otf");

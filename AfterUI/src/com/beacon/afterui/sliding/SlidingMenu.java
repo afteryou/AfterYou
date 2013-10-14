@@ -1,29 +1,100 @@
 package com.beacon.afterui.sliding;
 
-import android.annotation.SuppressLint;
+import java.lang.reflect.Method;
+
+import android.app.Activity;
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.os.Build;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.graphics.Point;
+import android.graphics.Rect;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.support.v4.os.ParcelableCompat;
 import android.support.v4.os.ParcelableCompatCreatorCallbacks;
 import android.util.AttributeSet;
-import android.util.DisplayMetrics;
+import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
 import android.view.WindowManager;
 import android.widget.RelativeLayout;
 
 import com.beacon.afterui.R;
+import com.beacon.afterui.sliding.customViews.CustomViewAbove;
+import com.beacon.afterui.sliding.customViews.CustomViewAbove.OnPageChangeListener;
+import com.beacon.afterui.sliding.customViews.CustomViewBehind;
 
 public class SlidingMenu extends RelativeLayout {
+
+	public static final String TAG = "SlidingMenu";
 
 	public static final int TOUCHMODE_MARGIN = 0;
 	public static final int TOUCHMODE_FULLSCREEN = 1;
 
-	private SlidingMenuMainContentView mViewAbove;
-	private SlidingMenuView mViewBehind;
+	public static final int LEFT = 0x0100;
+	public static final int RIGHT = 0x1000;
+	public static final int BOTH = LEFT | RIGHT;
+
+	private CustomViewAbove mViewAbove;
+	private CustomViewBehind mViewBehindLeft;
+	private CustomViewBehind mViewBehindRight;
+	private OnOpenListener mOpenListener;
+	private OnCloseListener mCloseListener;
+
+	private boolean mSlidingEnabled;
+    private int mMode;
+
+	public static void attachSlidingMenu(Activity activity, SlidingMenu sm, boolean slidingTitle) {
+		if (sm.getParent() != null)
+			throw new IllegalArgumentException("SlidingMenu cannot be attached to another view when" +
+					" calling the static method attachSlidingMenu");
+
+		if (slidingTitle) {
+			// get the window background
+			TypedArray a = activity.getTheme().obtainStyledAttributes(new int[] {android.R.attr.windowBackground});
+			int background = a.getResourceId(0, 0);
+			// move everything into the SlidingMenu
+			ViewGroup decor = (ViewGroup) activity.getWindow().getDecorView();
+			ViewGroup decorChild = (ViewGroup) decor.getChildAt(0);
+			decor.removeAllViews();
+			// save ActionBar themes that have transparent assets
+			decorChild.setBackgroundResource(background);
+			sm.setContent(decorChild);
+			decor.addView(sm);
+		} else {
+			// take the above view out of
+			ViewGroup content = (ViewGroup) activity.findViewById(Window.ID_ANDROID_CONTENT);
+			View above = content.getChildAt(0);
+			content.removeAllViews();
+			sm.setContent(above);
+			content.addView(sm, LayoutParams.FILL_PARENT, LayoutParams.FILL_PARENT);
+		}
+	}
+
+	public interface OnOpenListener {
+		public void onOpen();
+	}
+
+	public interface OnOpenedListener {
+		public void onOpened(int side);
+	}
+
+	public interface OnCloseListener {
+		public void onClose();
+	}
+
+	public interface OnClosedListener {
+		public void onClosed();
+	}
+
+	public interface CanvasTransformer {
+		public void transformCanvas(Canvas canvas, float percentOpen);
+	}
 
 	public SlidingMenu(Context context) {
 		this(context, null);
@@ -35,69 +106,166 @@ public class SlidingMenu extends RelativeLayout {
 
 	public SlidingMenu(Context context, AttributeSet attrs, int defStyle) {
 		super(context, attrs, defStyle);
-
-		LayoutParams behindParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-		mViewBehind = new SlidingMenuView(context);
-		addView(mViewBehind, behindParams);
+		// above view
 		LayoutParams aboveParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
-		mViewAbove = new SlidingMenuMainContentView(context);
+		mViewAbove = new CustomViewAbove(context);
 		addView(mViewAbove, aboveParams);
-		// register the CustomViewBehind2 with the CustomViewAbove
-		mViewAbove.setCustomViewBehind2(mViewBehind);
+		mViewAbove.setOnPageChangeListener(new OnPageChangeListener() {
+			public static final int POSITION_LEFT_OPEN = 0;
+			public static final int POSITION_CLOSE = 1;
+            public static final int POSITION_RIGHT_OPEN = 2;
+
+			public void onPageScrolled(int position, float positionOffset,
+					int positionOffsetPixels) { }
+
+			public void onPageSelected(int position) {
+				if ((position == POSITION_LEFT_OPEN || position == POSITION_RIGHT_OPEN) && mOpenListener != null) {
+					mOpenListener.onOpen();
+				} else if (position == POSITION_CLOSE && mCloseListener != null) {
+					mCloseListener.onClose();
+				}
+			}
+		});
 
 		// now style everything!
 		TypedArray ta = context.obtainStyledAttributes(attrs, R.styleable.SlidingMenu);
 		// set the above and behind views if defined in xml
 		int viewAbove = ta.getResourceId(R.styleable.SlidingMenu_viewAbove, -1);
 		if (viewAbove != -1) {
-			View v = LayoutInflater.from(context).inflate(viewAbove, null);
-			setViewAbove(v);
+			setContent(viewAbove);
 		}
-		int viewBehind = ta.getResourceId(R.styleable.SlidingMenu_viewBehind, -1);
-		if (viewBehind != -1) {
-			View v = LayoutInflater.from(context).inflate(viewBehind, null);
-			setViewBehind(v);
+		int viewBehindLeft = ta.getResourceId(R.styleable.SlidingMenu_viewBehindLeft, -1);
+		if (viewBehindLeft != -1) {
+			mMode |= LEFT;
+			setViewBehind(viewBehindLeft, LEFT);
 		}
-		int touchModeAbove = ta.getInt(R.styleable.SlidingMenu_aboveTouchMode, TOUCHMODE_MARGIN);
+		int viewBehindRight = ta.getResourceId(R.styleable.SlidingMenu_viewBehindRight, -1);
+		if (viewBehindRight != -1) {
+			mMode |= RIGHT;
+			setViewBehind(viewBehindRight, RIGHT);
+		}
+		int touchModeAbove = ta.getInt(R.styleable.SlidingMenu_touchModeAbove, TOUCHMODE_MARGIN);
 		setTouchModeAbove(touchModeAbove);
-		int touchModeBehind = ta.getInt(R.styleable.SlidingMenu_behindTouchMode, TOUCHMODE_MARGIN);
+		int touchModeBehind = ta.getInt(R.styleable.SlidingMenu_touchModeBehind, TOUCHMODE_MARGIN);
 		setTouchModeBehind(touchModeBehind);
-		int offsetBehind = (int) ta.getDimension(R.styleable.SlidingMenu_behindOffset, 0);
-		setBehindOffset(offsetBehind);
-		float scrollOffsetBehind = ta.getFloat(R.styleable.SlidingMenu_behindScrollScale, 0.25f);
-		setBehindScrollScale(scrollOffsetBehind);
+		int offsetBehind = (int) ta.getDimension(R.styleable.SlidingMenu_behindOffset, -1);
+		int widthBehind = (int) ta.getDimension(R.styleable.SlidingMenu_behindWidth, -1);
+		if (offsetBehind != -1 && widthBehind != -1) {
+			throw new IllegalStateException("Cannot set both behindOffset and behindWidth for a SlidingMenu");
+		} else if (offsetBehind != -1) {
+			setBehindOffset(offsetBehind, mMode);
+		} else if (widthBehind != -1) {
+			setBehindWidth(widthBehind, mMode);
+		}
+		float scrollOffsetBehind = ta.getFloat(R.styleable.SlidingMenu_behindScrollScale, 0.33f);
+		setBehindScrollScale(scrollOffsetBehind, mMode);
 		int shadowRes = ta.getResourceId(R.styleable.SlidingMenu_shadowDrawable, -1);
 		if (shadowRes != -1) {
-			setShadowDrawable(shadowRes);
+			setShadowDrawable(shadowRes, mMode);
 		}
 		int shadowWidth = (int) ta.getDimension(R.styleable.SlidingMenu_shadowWidth, 0);
 		setShadowWidth(shadowWidth);
 		boolean fadeEnabled = ta.getBoolean(R.styleable.SlidingMenu_behindFadeEnabled, true);
 		setFadeEnabled(fadeEnabled);
-		float fadeDeg = ta.getFloat(R.styleable.SlidingMenu_behindFadeDegree, 0.5f);
+		float fadeDeg = ta.getFloat(R.styleable.SlidingMenu_behindFadeDegree, 0.66f);
 		setFadeDegree(fadeDeg);
-		//		showAbove();
+		boolean selectorEnabled = ta.getBoolean(R.styleable.SlidingMenu_selectorEnabled, false);
+		setSelectorEnabled(selectorEnabled);
+		int selectorRes = ta.getResourceId(R.styleable.SlidingMenu_selectorDrawable, -1);
+		if (selectorRes != -1)
+			setSelectorDrawable(selectorRes);
 	}
 
-	public void setViewAbove(int res) {
-		setViewAbove(LayoutInflater.from(getContext()).inflate(res, null));
+	private void initializeLeft() {
+		if (mViewBehindLeft == null) {
+			LayoutParams behindParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+			mViewBehindLeft = new CustomViewBehind(getContext(), CustomViewBehind.LEFT);
+			addView(mViewBehindLeft, 0, behindParams);
+			mViewAbove.setViewBehindLeft(mViewBehindLeft);
+			mViewBehindLeft.setCustomViewAbove(mViewAbove);
+		}
 	}
 
-	public void setViewAbove(View v) {
+	private void initializeRight() {
+		if (mViewBehindRight == null) {
+			LayoutParams behindParams = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.MATCH_PARENT);
+			mViewBehindRight = new CustomViewBehind(getContext(), CustomViewBehind.RIGHT);
+			addView(mViewBehindRight, 0, behindParams);
+			mViewAbove.setViewBehindRight(mViewBehindRight);
+			mViewBehindRight.setCustomViewAbove(mViewAbove);
+		}
+	}
+
+	public void removeViewBehind(int side) {
+		if (isLeft(side)) {
+			mViewAbove.setViewBehindLeft(null);
+			removeView(mViewBehindLeft);
+			mViewBehindLeft = null;
+		} else if (isRight(side)) {
+			mViewAbove.setViewBehindRight(null);
+			removeView(mViewBehindRight);
+			mViewBehindRight = null;
+		}
+	}
+
+	public void setContent(int res) {
+		setContent(LayoutInflater.from(getContext()).inflate(res, null));
+	}
+
+	public void setContent(View v) {
 		mViewAbove.setContent(v);
 		mViewAbove.invalidate();
-		mViewAbove.dataSetChanged();
 		showAbove();
 	}
 
-	public void setViewBehind(int res) {
-		setViewBehind(LayoutInflater.from(getContext()).inflate(res, null));
+	public void setViewBehind(int res, int side) {
+		setViewBehind(LayoutInflater.from(getContext()).inflate(res, null), side);
 	}
 
-	public void setViewBehind(View v) {
-		mViewBehind.setContent(v);
-		mViewBehind.invalidate();
-		mViewBehind.dataSetChanged();
+	public void setViewBehind(View v, int side) {
+		checkSide(side);
+		if (side == LEFT) {
+			initializeLeft();
+			if (v == null) {
+				removeViewBehind(LEFT);
+			} else {
+				initializeLeft();
+				mViewBehindLeft.setContent(v);
+				mViewBehindLeft.invalidate();
+			}
+		} else {
+			initializeRight();
+			if (v == null) {
+				removeViewBehind(RIGHT);
+			} else {
+				initializeRight();
+				mViewBehindRight.setContent(v);
+				mViewBehindRight.invalidate();
+			}
+		}
+	}
+
+	private void checkSide(int side) {
+		if (!isLeft(side) && !isRight(side))
+			throw new IllegalArgumentException("Side must be SlidingMenu.LEFT or SlidingMenu.RIGHT");
+	}
+
+	private void checkSideStrict(int side) {
+		checkSide(side);
+		if (isLeft(side) && mViewBehindLeft == null)
+			throw new IllegalArgumentException("You have to add a behind left " +
+					"view before you can reference it");
+		if (isRight(side) && mViewBehindRight == null)
+			throw new IllegalArgumentException("You have to add a behind right " +
+					"view before you can reference it");
+	}
+
+	private boolean isLeft(int side) {
+		return (side & LEFT) == LEFT;
+	}
+
+	private boolean isRight(int side) {
+		return (side & RIGHT) == RIGHT;
 	}
 
 	public void setSlidingEnabled(boolean b) {
@@ -109,35 +277,21 @@ public class SlidingMenu extends RelativeLayout {
 	}
 
 	/**
-	 * 
-	 * @param b Whether or not the SlidingMenu is in a static mode 
-	 * (i.e. nothing is moving and everything is showing)
+	 * Shows the behind view
 	 */
-	public void setStatic(boolean b) {
-		if (b) {
-			setSlidingEnabled(false);
-			mViewAbove.setCustomViewBehind2(null);
-			mViewAbove.setCurrentItem(1);
-			mViewBehind.setCurrentItem(0);	
-		} else {
-			mViewAbove.setCurrentItem(1);
-			mViewBehind.setCurrentItem(1);
-			mViewAbove.setCustomViewBehind2(mViewBehind);
-			setSlidingEnabled(true);
+	public void showBehind(int side) {
+		checkSideStrict(side);
+
+		if (isLeft(side) && isRight(side))
+			throw new IllegalArgumentException("Can't show both left and right");
+
+		if (isLeft(side)) {
+			mViewAbove.setCurrentItem(0);
+		} else if (isRight(side)) {
+			mViewAbove.setCurrentItem(2);
 		}
 	}
 
-	/**
-	 * Shows the behind view
-	 */
-	public void showBehind() {
-		mViewAbove.setCurrentItem(0);
-	}
-
-	public void showBehind(boolean smoothScroll, boolean always){
-		mViewAbove.setCurrentItemInternal(0, smoothScroll, always);
-	}
-	
 	/**
 	 * Shows the above view
 	 */
@@ -145,73 +299,118 @@ public class SlidingMenu extends RelativeLayout {
 		mViewAbove.setCurrentItem(1);
 	}
 
-	public void showAbove(boolean smoothScroll, boolean always){
-		mViewAbove.setCurrentItemInternal(1, smoothScroll, always);
-	}
 	/**
-	 * 
+	 *
 	 * @return Whether or not the behind view is showing
 	 */
 	public boolean isBehindShowing() {
-		return mViewAbove.getCurrentItem() == 0;
+		return mViewAbove.getCurrentItem() == 0 || mViewAbove.getCurrentItem() == 2;
 	}
 
 	/**
-	 * 
+	 *
 	 * @return The margin on the right of the screen that the behind view scrolls to
 	 */
-	public int getBehindOffset() {
-		return ((RelativeLayout.LayoutParams)mViewBehind.getLayoutParams()).rightMargin;
+	public int getBehindOffset(int side) {
+		checkSideStrict(side);
+		if (isLeft(side)) {
+			return ((RelativeLayout.LayoutParams)mViewBehindLeft.getLayoutParams()).rightMargin;
+		} else {
+			return ((RelativeLayout.LayoutParams)mViewBehindRight.getLayoutParams()).leftMargin;
+		}
 	}
 
 	/**
-	 * 
+	 *
 	 * @param i The margin on the right of the screen that the behind view scrolls to
 	 */
-	public void setBehindOffset(int i) {
-		RelativeLayout.LayoutParams params = ((RelativeLayout.LayoutParams)mViewBehind.getLayoutParams());
-		int bottom = params.bottomMargin;
-		int top = params.topMargin;
-		int left = params.leftMargin;
-		params.setMargins(left, top, i, bottom);
+	public void setBehindOffset(int i, int side) {
+		checkSideStrict(side);
+		if (isLeft(side)) {
+			// behind left
+			RelativeLayout.LayoutParams params = ((RelativeLayout.LayoutParams)mViewBehindLeft.getLayoutParams());
+			int bottom = params.bottomMargin;
+			int top = params.topMargin;
+			int left = params.leftMargin;
+			params.setMargins(left, top, i, bottom);
+		}
+		if (isRight(side)) {
+			// behind right
+			RelativeLayout.LayoutParams params = ((RelativeLayout.LayoutParams)mViewBehindRight.getLayoutParams());
+			int bottom = params.bottomMargin;
+			int top = params.topMargin;
+			int right = params.rightMargin;
+			Log.v(TAG, "left margin" + i);
+			params.setMargins(i, top, right, bottom);
+		}
+		requestLayout();
+		showAbove();
 	}
 
 	/**
-	 * 
+	 *
 	 * @param res The dimension resource to be set as the behind offset
 	 */
-	public void setBehindOffsetRes(int res) {
+	public void setBehindOffsetRes(int res, int side) {
 		int i = (int) getContext().getResources().getDimension(res);
-		setBehindOffset(i);
+		setBehindOffset(i, side);
+	}
+
+	@SuppressWarnings("deprecation")
+	public void setBehindWidth(int i, int side) {
+		int width;
+		Display display = ((WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE))
+				.getDefaultDisplay();
+		try {
+			Class<?> cls = Display.class;
+			Class<?>[] parameterTypes = {Point.class};
+			Point parameter = new Point();
+			Method method = cls.getMethod("getSize", parameterTypes);
+			method.invoke(display, parameter);
+			width = parameter.x;
+		} catch (Exception e) {
+			width = display.getWidth();
+		}
+		setBehindOffset(width-i, side);
 	}
 
 	/**
-	 * 
+	 *
 	 * @return The scale of the parallax scroll
 	 */
-	public float getBehindScrollScale() {
-		return mViewAbove.getScrollScale();
+	public float getBehindScrollScale(int side) {
+		return mViewAbove.getScrollScale(side);
 	}
 
 	/**
-	 * 
+	 *
 	 * @param f The scale of the parallax scroll (i.e. 1.0f scrolls 1 pixel for every
 	 * 1 pixel that the above view scrolls and 0.0f scrolls 0 pixels)
 	 */
-	public void setBehindScrollScale(float f) {
-		mViewAbove.setScrollScale(f);
+	public void setBehindScrollScale(float f, int side) {
+		mViewAbove.setScrollScale(f, side);
+	}
+
+	public void setBehindCanvasTransformer(CanvasTransformer t, int side) {
+		checkSideStrict(side);
+		if (isLeft(side)) {
+			mViewBehindLeft.setCanvasTransformer(t);
+		}
+		if (isRight(side)) {
+			mViewBehindRight.setCanvasTransformer(t);
+		}
 	}
 
 	public int getTouchModeAbove() {
-		return mViewAbove.getTouchModeAbove();
+		return mViewAbove.getTouchMode();
 	}
 
 	public void setTouchModeAbove(int i) {
 		if (i != TOUCHMODE_FULLSCREEN && i != TOUCHMODE_MARGIN) {
-			throw new IllegalStateException("TouchMode must be set to either" +
+			throw new IllegalArgumentException("TouchMode must be set to either" +
 					"TOUCHMODE_FULLSCREEN or TOUCHMODE_MARGIN.");
 		}
-		mViewAbove.setTouchModeAbove(i);
+		mViewAbove.setTouchMode(i);
 	}
 
 	public int getTouchModeBehind() {
@@ -220,14 +419,14 @@ public class SlidingMenu extends RelativeLayout {
 
 	public void setTouchModeBehind(int i) {
 		if (i != TOUCHMODE_FULLSCREEN && i != TOUCHMODE_MARGIN) {
-			throw new IllegalStateException("TouchMode must be set to either" +
+			throw new IllegalArgumentException("TouchMode must be set to either " +
 					"TOUCHMODE_FULLSCREEN or TOUCHMODE_MARGIN.");
 		}
 		mViewAbove.setTouchModeBehind(i);
 	}
 
-	public void setShadowDrawable(int resId) {
-		mViewAbove.setShadowDrawable(resId);
+	public void setShadowDrawable(int resId, int side) {
+		mViewAbove.setShadowDrawable(resId, side);
 	}
 
 	public void setShadowWidthRes(int resId) {
@@ -246,8 +445,43 @@ public class SlidingMenu extends RelativeLayout {
 		mViewAbove.setBehindFadeDegree(f);
 	}
 
-	public static class SavedState extends BaseSavedState {
+	public void setSelectorEnabled(boolean b) {
+		mViewAbove.setSelectorEnabled(true);
+	}
+
+	public void setSelectedView(View v) {
+		mViewAbove.setSelectedView(v);
+	}
+
+	public void setSelectorDrawable(int res) {
+		mViewAbove.setSelectorDrawable(BitmapFactory.decodeResource(getResources(), res));
+	}
+
+	public void setSelectorDrawable(Bitmap b) {
+		mViewAbove.setSelectorDrawable(b);
+	}
+
+	public void setOnOpenListener(OnOpenListener listener) {
+		mViewAbove.setOnOpenListener(listener);
+		mOpenListener = listener;
+	}
+
+	public void setOnCloseListener(OnCloseListener listener) {
+		mViewAbove.setOnCloseListener(listener);
+		mCloseListener = listener;
+	}
+
+	public void setOnOpenedListener(OnOpenedListener listener) {
+		mViewAbove.setOnOpenedListener(listener);
+	}
+
+	public void setOnClosedListener(OnClosedListener listener) {
+		mViewAbove.setOnClosedListener(listener);
+	}
+
+	private static class SavedState extends BaseSavedState {
 		boolean mBehindShowing;
+        int mMode;
 
 		public SavedState(Parcelable superState) {
 			super(superState);
@@ -255,7 +489,8 @@ public class SlidingMenu extends RelativeLayout {
 
 		public void writeToParcel(Parcel out, int flags) {
 			super.writeToParcel(out, flags);
-			out.writeBooleanArray(new boolean[]{mBehindShowing});
+			out.writeValue(mBehindShowing);
+            out.writeInt(mMode);
 		}
 
 		public static final Parcelable.Creator<SavedState> CREATOR
@@ -272,22 +507,22 @@ public class SlidingMenu extends RelativeLayout {
 
 		SavedState(Parcel in) {
 			super(in);
-			boolean[] showing = new boolean[1];
-			in.readBooleanArray(showing);
-			mBehindShowing = showing[0];
+			mBehindShowing = (Boolean) in.readValue(null);
+            mMode = in.readInt();
 		}
 	}
 
-
-	public Parcelable onSaveInstanceState() {
+	@Override
+	protected Parcelable onSaveInstanceState() {
 		Parcelable superState = super.onSaveInstanceState();
 		SavedState ss = new SavedState(superState);
 		ss.mBehindShowing = isBehindShowing();
+        ss.mMode = mMode;
 		return ss;
 	}
 
-
-	public void onRestoreInstanceState(Parcelable state) {
+	@Override
+	protected void onRestoreInstanceState(Parcelable state) {
 		if (!(state instanceof SavedState)) {
 			super.onRestoreInstanceState(state);
 			return;
@@ -297,67 +532,37 @@ public class SlidingMenu extends RelativeLayout {
 		super.onRestoreInstanceState(ss.getSuperState());
 
 		if (ss.mBehindShowing) {
-			showBehind();
+			showBehind(ss.mMode);
 		} else {
 			showAbove();
 		}
 	}
 
-	private static final int LOW_DPI_STATUS_BAR_HEIGHT = 19;
-
-	private static final int MEDIUM_DPI_STATUS_BAR_HEIGHT = 25;
-
-	private static final int HIGH_DPI_STATUS_BAR_HEIGHT = 38;
-
-	@SuppressLint("NewApi")
 	@Override
-	public void setFitsSystemWindows(boolean b) {
-		if (Build.VERSION.SDK_INT >= 14) {
-			super.setFitsSystemWindows(b);
-		} else {
-			int topMargin = 0;
-			if (b) {
-				topMargin = getStatusBarHeight();
-			}
-			RelativeLayout.LayoutParams params = ((RelativeLayout.LayoutParams)mViewBehind.getLayoutParams());
-			int bottom = params.bottomMargin;
-			int left = params.leftMargin;
-			int right = params.rightMargin;
-			params.setMargins(left, topMargin, right, bottom);
-		}
-	}
+	protected boolean fitSystemWindows(Rect insets) {
 
-	private int getStatusBarHeight() {
-		DisplayMetrics displayMetrics = new DisplayMetrics();
-		((WindowManager) getContext().getSystemService(Context.WINDOW_SERVICE)).getDefaultDisplay().getMetrics(displayMetrics);
-		int statusBarHeight = 0;
-		switch (displayMetrics.densityDpi) {
-		case DisplayMetrics.DENSITY_HIGH:
-			statusBarHeight = HIGH_DPI_STATUS_BAR_HEIGHT;
-			break;
-		case DisplayMetrics.DENSITY_MEDIUM:
-			statusBarHeight = MEDIUM_DPI_STATUS_BAR_HEIGHT;
-			break;
-		case DisplayMetrics.DENSITY_LOW:
-			statusBarHeight = LOW_DPI_STATUS_BAR_HEIGHT;
-			break;
-		default:
-			statusBarHeight = MEDIUM_DPI_STATUS_BAR_HEIGHT;
-		}
-		return statusBarHeight;
-	}
+		int leftPadding = getPaddingLeft() + insets.left;
+		int rightPadding = getPaddingRight() + insets.right;
+		int topPadding = insets.top;
+		int bottomPadding = insets.bottom;
+		this.setPadding(leftPadding, topPadding, rightPadding, bottomPadding);
 
-	public void setOnMenuStateListener(OnMenuStateListener l){
-		mViewAbove.setOnMenuStateListener(l);
-		mViewBehind.setOnMenuStateListener(l);
+		// return false to propagate the fit to our child views
+		return false;
 	}
 	
-	public static enum MenuState{
-		OPEN,
-		CLOSE
+	public void setOnMenuStateOpenListener(OnOpenListener l){
+		mViewAbove.setOnOpenListener(l);
+//		mViewBehindLeft.setOnOpenListener(l);
+//		mViewBehindRight.setOnOpenListener(l);
+		
 	}
 	
-	public static interface OnMenuStateListener{
-		public void onMenuStateChanged(MenuState state);
+	public void setOnMenuStateCloseListener(OnCloseListener l){
+		mViewAbove.setOnCloseListener(l);
+//		mViewBehindLeft.setOnCloseListener(l);
+//		mViewBehindRight.setOnCloseListener(l);
+		
 	}
+	
 }

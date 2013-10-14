@@ -43,6 +43,8 @@ public class LoginScreen extends BaseActivity implements OnClickListener,
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.login_screen);
+		setBehindLeftContentView(R.layout.login_screen);
+		setBehindRightContentView(R.layout.login_screen);
 		mLoginButton = (ImageButton) findViewById(R.id.sign_in_btn_login_screen);
 		mCrossEmailBtn = (ImageView) findViewById(R.id.cross_btn_email_login_screen);
 		mCrossPasswordBtn = (ImageView) findViewById(R.id.cross_btn_password_login_screen);

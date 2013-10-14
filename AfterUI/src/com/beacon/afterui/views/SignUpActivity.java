@@ -80,6 +80,8 @@ public class SignUpActivity extends BaseActivity implements OnClickListener,
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.sign_up_screen);
+        setBehindLeftContentView(R.layout.sign_up_screen);
+        setBehindRightContentView(R.layout.sign_up_screen);
         Typeface typeFaceRegular = Typeface.createFromAsset(getAssets(),
                 "fonts/MyriadPro-Regular.otf");
         Typeface typeFaceItalic = Typeface.createFromAsset(getAssets(),
