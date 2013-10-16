@@ -74,6 +74,30 @@ public class ProfileSettingsActivity extends BaseActivity implements
 
 	private ImageButton mDoneBtn;
 
+	private TextView hvChild;
+
+	private TextView wantChild;
+
+	private TextView hgt_txt;
+
+	private TextView slf_body_type_txt;
+
+	private TextView slf_community_txt;
+
+	private TextView self_diet;
+
+	private TextView slf_lang;
+
+	private TextView slf_smoking;
+
+	private TextView slf_drinking;
+
+	private TextView slf_eduction;
+
+	private TextView slf_salary;
+
+	private TextView wnt_age;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -85,7 +109,7 @@ public class ProfileSettingsActivity extends BaseActivity implements
 				"fonts/MyriadPro-Regular.otf");
 		tf = Typeface.createFromAsset(getAssets(), "fonts/MyriadPro-It.otf");
 		// sets fonts
-		TextView profile_setup = (TextView) findViewById(R.id.profile_setup);
+		TextView profile_setup = (TextView) findViewById(R.id.profile_setup_text);
 		TextView done_txt = (TextView) findViewById(R.id.done_txt);
 		TextView about_you_txt = (TextView) findViewById(R.id.about_you_txt);
 		TextView required_txt = (TextView) findViewById(R.id.required_txt);
@@ -159,7 +183,10 @@ public class ProfileSettingsActivity extends BaseActivity implements
 		mDoneBtn = (ImageButton) findViewById(R.id.donebtn);
 		mDoneBtn.setOnClickListener(this);
 		ctx = this;
+		setListeners();
 	}
+
+
 
 	@Override
 	protected void onResume() {
@@ -255,10 +282,8 @@ public class ProfileSettingsActivity extends BaseActivity implements
 		matchInitView();
 	}
 
-	private void initView() {
-
-		// Birthday date.
-		String birthday = PreferenceEngine.getInstance(this).getBirthday();
+	
+	private void setListeners() {
 		b_day = (TextView) findViewById(R.id.birthday_edit_text);
 		b_day.setTypeface(tf);
 		b_day.setOnClickListener(new OnClickListener() {
@@ -268,13 +293,7 @@ public class ProfileSettingsActivity extends BaseActivity implements
 				getDatePickDialog().show();
 			}
 		});
-		if (birthday != null) {
-			b_day.setText(birthday);
-		}
-
-		// Self Religion.
-		String religion_txt = PreferenceEngine.getInstance(this)
-				.getSelfReligion();
+		
 		rlg = (TextView) findViewById(R.id.religion_edit_text);
 		rlg.setTypeface(tf);
 		rlg.setOnClickListener(new OnClickListener() {
@@ -285,15 +304,7 @@ public class ProfileSettingsActivity extends BaseActivity implements
 
 			}
 		});
-		if (religion_txt != null) {
-			rlg.setText(religion_txt);
-
-		}
-
-		// Self Relation.
-
-		String relation_txt = PreferenceEngine.getInstance(this)
-				.getSelfRelation();
+		
 		rtln = (TextView) findViewById(R.id.relation_edit_text);
 		rtln.setTypeface(tf);
 		rtln.setOnClickListener(new OnClickListener() {
@@ -304,15 +315,8 @@ public class ProfileSettingsActivity extends BaseActivity implements
 
 			}
 		});
-		if (relation_txt != null) {
-			rtln.setText(relation_txt);
-
-		}
-
-		// Self have children.
-		boolean havechild_txt = PreferenceEngine.getInstance(this)
-				.getHaveChildren();
-		TextView hvChild = (TextView) findViewById(R.id.havechild_edit_text);
+		
+		hvChild = (TextView) findViewById(R.id.havechild_edit_text);
 		hvChild.setTypeface(tf);
 		hvChild.setOnClickListener(new OnClickListener() {
 
@@ -322,18 +326,10 @@ public class ProfileSettingsActivity extends BaseActivity implements
 
 			}
 		});
-		if (havechild_txt) {
-			hvChild.setText(getResources().getString(R.string.IDS_YES));
-		} else {
-			hvChild.setText(getResources().getString(R.string.IDS_NO));
-		}
-
-		// Self want children.
-		boolean wantchild_txt = PreferenceEngine.getInstance(this)
-				.getWantChildren();
-		TextView wntChild = (TextView) findViewById(R.id.wantchild_edit_text);
-		wntChild.setTypeface(tf);
-		wntChild.setOnClickListener(new OnClickListener() {
+		
+		wantChild = (TextView) findViewById(R.id.wantchild_edit_text);
+		wantChild.setTypeface(tf);
+		wantChild.setOnClickListener(new OnClickListener() {
 
 			@Override
 			public void onClick(View v) {
@@ -341,20 +337,8 @@ public class ProfileSettingsActivity extends BaseActivity implements
 
 			}
 		});
-		if (havechild_txt) {
-			hvChild.setText(getResources().getString(R.string.IDS_YES));
-		} else {
-			hvChild.setText(getResources().getString(R.string.IDS_NO));
-		}
-		if (wantchild_txt) {
-			wntChild.setText(getResources().getString(R.string.IDS_YES));
-		} else {
-			wntChild.setText(getResources().getString(R.string.IDS_NO));
-		}
-
-		// Self height
-		String height_txt = PreferenceEngine.getInstance(ctx).getSelfHeight();
-		TextView hgt_txt = (TextView) findViewById(R.id.height_edit_text);
+		
+		hgt_txt = (TextView) findViewById(R.id.height_edit_text);
 		hgt_txt.setTypeface(tf);
 		hgt_txt.setOnClickListener(new OnClickListener() {
 
@@ -363,14 +347,8 @@ public class ProfileSettingsActivity extends BaseActivity implements
 				getHeightDialog().show();
 			}
 		});
-		if (height_txt != null) {
-			hgt_txt.setText(height_txt);
-		}
-
-		// Self body type.
-		String body_type_txt = PreferenceEngine.getInstance(ctx)
-				.getSelfBodyType();
-		TextView slf_body_type_txt = (TextView) findViewById(R.id.bodyType_edit_text);
+		
+		slf_body_type_txt = (TextView) findViewById(R.id.bodyType_edit_text);
 		slf_body_type_txt.setTypeface(tf);
 		slf_body_type_txt.setOnClickListener(new OnClickListener() {
 
@@ -380,14 +358,8 @@ public class ProfileSettingsActivity extends BaseActivity implements
 
 			}
 		});
-		if (body_type_txt != null) {
-			slf_body_type_txt.setText(body_type_txt);
-		}
-
-		// Self Community
-		String self_community_txt = PreferenceEngine.getInstance(ctx)
-				.getSelfCommunity();
-		TextView slf_community_txt = (TextView) findViewById(R.id.comm_edit_text);
+		
+		slf_community_txt = (TextView) findViewById(R.id.comm_edit_text);
 		slf_community_txt.setTypeface(tf);
 		slf_community_txt.setOnClickListener(new OnClickListener() {
 
@@ -397,13 +369,8 @@ public class ProfileSettingsActivity extends BaseActivity implements
 
 			}
 		});
-		if (self_community_txt != null) {
-			slf_community_txt.setText(self_community_txt);
-		}
-
-		// Self diet.
-		String self_diet_txt = PreferenceEngine.getInstance(ctx).getSelfDiet();
-		TextView self_diet = (TextView) findViewById(R.id.diet_edit_text);
+		
+		self_diet = (TextView) findViewById(R.id.diet_edit_text);
 		self_diet.setTypeface(tf);
 		self_diet.setOnClickListener(new OnClickListener() {
 
@@ -413,14 +380,8 @@ public class ProfileSettingsActivity extends BaseActivity implements
 
 			}
 		});
-		if (self_diet_txt != null) {
-			self_diet.setText(self_diet_txt);
-		}
-
-		// Self language.
-		String self_lang_txt = PreferenceEngine.getInstance(ctx)
-				.getSelfLangList();
-		TextView slf_lang = (TextView) findViewById(R.id.languages_edit_text);
+		
+		slf_lang = (TextView) findViewById(R.id.languages_edit_text);
 		slf_lang.setTypeface(tf);
 		slf_lang.setOnClickListener(new OnClickListener() {
 
@@ -430,14 +391,8 @@ public class ProfileSettingsActivity extends BaseActivity implements
 
 			}
 		});
-		if (self_lang_txt != null) {
-			slf_lang.setText(self_lang_txt);
-		}
-
-		// Self smoking
-		String self_smok_txt = PreferenceEngine.getInstance(ctx)
-				.getSelfSmoking();
-		TextView slf_smoking = (TextView) findViewById(R.id.smoke_edit_text);
+		
+		slf_smoking = (TextView) findViewById(R.id.smoke_edit_text);
 		slf_smoking.setTypeface(tf);
 		slf_smoking.setOnClickListener(new OnClickListener() {
 
@@ -447,14 +402,8 @@ public class ProfileSettingsActivity extends BaseActivity implements
 
 			}
 		});
-		if (self_smok_txt != null) {
-			slf_smoking.setText(self_smok_txt);
-		}
-
-		// Self drinking.
-		String self_drinking_txt = PreferenceEngine.getInstance(ctx)
-				.getSelfDrinking();
-		TextView slf_drinking = (TextView) findViewById(R.id.drink_edit_text);
+		
+		slf_drinking = (TextView) findViewById(R.id.drink_edit_text);
 		slf_drinking.setTypeface(tf);
 		slf_drinking.setOnClickListener(new OnClickListener() {
 
@@ -464,14 +413,8 @@ public class ProfileSettingsActivity extends BaseActivity implements
 
 			}
 		});
-		if (self_drinking_txt != null) {
-			slf_drinking.setText(self_drinking_txt);
-		}
-
-		// Self education
-		String self_education_txt = PreferenceEngine.getInstance(ctx)
-				.getSelfEducation();
-		TextView slf_eduction = (TextView) findViewById(R.id.education_text);
+		
+		slf_eduction = (TextView) findViewById(R.id.education_text);
 		slf_eduction.setTypeface(tf);
 		slf_eduction.setOnClickListener(new OnClickListener() {
 
@@ -481,14 +424,8 @@ public class ProfileSettingsActivity extends BaseActivity implements
 
 			}
 		});
-		if (self_education_txt != null) {
-			slf_eduction.setText(self_education_txt);
-		}
-
-		// Self salary.
-		String self_salary_txt = PreferenceEngine.getInstance(ctx)
-				.getSelfSalary();
-		TextView slf_salary = (TextView) findViewById(R.id.salary_edit_text);
+		
+		slf_salary = (TextView) findViewById(R.id.salary_edit_text);
 		slf_salary.setTypeface(tf);
 		slf_salary.setOnClickListener(new OnClickListener() {
 
@@ -498,13 +435,8 @@ public class ProfileSettingsActivity extends BaseActivity implements
 
 			}
 		});
-		if (self_salary_txt != null) {
-			slf_salary.setText(self_salary_txt);
-		}
-
-		// Want age
-		String wnt_age_txt = PreferenceEngine.getInstance(ctx).getWantAge();
-		TextView wnt_age = (TextView) findViewById(R.id.match_birthday_edit_text);
+		
+		wnt_age = (TextView) findViewById(R.id.match_birthday_edit_text);
 		wnt_age.setTypeface(tf);
 		wnt_age.setOnClickListener(new OnClickListener() {
 
@@ -514,6 +446,123 @@ public class ProfileSettingsActivity extends BaseActivity implements
 
 			}
 		});
+		
+	}
+	
+	
+	private void initView() {
+
+		// Birthday date.
+		String birthday = PreferenceEngine.getInstance(this).getBirthday();
+		if (birthday != null) {
+			b_day.setText(birthday);
+		}
+
+		// Self Religion.
+		String religion_txt = PreferenceEngine.getInstance(this)
+				.getSelfReligion();
+
+		if (religion_txt != null) {
+			rlg.setText(religion_txt);
+
+		}
+
+		// Self Relation.
+
+		String relation_txt = PreferenceEngine.getInstance(this)
+				.getSelfRelation();
+		
+		if (relation_txt != null) {
+			rtln.setText(relation_txt);
+
+		}
+
+		// Self have children.
+		boolean havechild_txt = PreferenceEngine.getInstance(this)
+				.getHaveChildren();
+		if (havechild_txt) {
+			hvChild.setText(getResources().getString(R.string.IDS_YES));
+		} else {
+			hvChild.setText(getResources().getString(R.string.IDS_NO));
+		}
+
+		// Self want children.
+		boolean wantchild_txt = PreferenceEngine.getInstance(this)
+				.getWantChildren();
+		if (havechild_txt) {
+			hvChild.setText(getResources().getString(R.string.IDS_YES));
+		} else {
+			hvChild.setText(getResources().getString(R.string.IDS_NO));
+		}
+		if (wantchild_txt) {
+			wantChild.setText(getResources().getString(R.string.IDS_YES));
+		} else {
+			wantChild.setText(getResources().getString(R.string.IDS_NO));
+		}
+
+		// Self height
+		String height_txt = PreferenceEngine.getInstance(ctx).getSelfHeight();
+		if (height_txt != null) {
+			hgt_txt.setText(height_txt);
+		}
+
+		// Self body type.
+		String body_type_txt = PreferenceEngine.getInstance(ctx)
+				.getSelfBodyType();
+		if (body_type_txt != null) {
+			slf_body_type_txt.setText(body_type_txt);
+		}
+
+		// Self Community
+		String self_community_txt = PreferenceEngine.getInstance(ctx)
+				.getSelfCommunity();
+		if (self_community_txt != null) {
+			slf_community_txt.setText(self_community_txt);
+		}
+
+		// Self diet.
+		String self_diet_txt = PreferenceEngine.getInstance(ctx).getSelfDiet();
+		if (self_diet_txt != null) {
+			self_diet.setText(self_diet_txt);
+		}
+
+		// Self language.
+		String self_lang_txt = PreferenceEngine.getInstance(ctx)
+				.getSelfLangList();
+		if (self_lang_txt != null) {
+			slf_lang.setText(self_lang_txt);
+		}
+
+		// Self smoking
+		String self_smok_txt = PreferenceEngine.getInstance(ctx)
+				.getSelfSmoking();
+		if (self_smok_txt != null) {
+			slf_smoking.setText(self_smok_txt);
+		}
+
+		// Self drinking.
+		String self_drinking_txt = PreferenceEngine.getInstance(ctx)
+				.getSelfDrinking();
+		if (self_drinking_txt != null) {
+			slf_drinking.setText(self_drinking_txt);
+		}
+
+		// Self education
+		String self_education_txt = PreferenceEngine.getInstance(ctx)
+				.getSelfEducation();
+		if (self_education_txt != null) {
+			slf_eduction.setText(self_education_txt);
+		}
+
+		// Self salary.
+		String self_salary_txt = PreferenceEngine.getInstance(ctx)
+				.getSelfSalary();
+		if (self_salary_txt != null) {
+			slf_salary.setText(self_salary_txt);
+		}
+
+		// Want age
+		String wnt_age_txt = PreferenceEngine.getInstance(ctx).getWantAge();
 		if (wnt_age_txt != null) {
 			wnt_age.setText(wnt_age_txt);
 		}

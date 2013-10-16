@@ -17,7 +17,7 @@
         android:background="@drawable/take_photo_bar" >
 
         <TextView
-            android:id="@+id/profile_setup"
+            android:id="@+id/profile_setup_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
