@@ -3,6 +3,16 @@
 
     <string name="app_name">AfterYou</string>
     <string name="action_settings">Settings</string>
+    
+    <!-- Left Drawer -->
+    <string name="setting_txt">Setting</string>
+    <string name="popularity_txt">Popularity</string>
+    <string name="import_frnd_txt">Import</string>
+    <string name="import_txt">Import</string>
+    <string name="report_problem_txt">Report &amp; Problem</string>
+    <string name="help_center_txt">Help Center</string>
+    <string name="terms_policies_txt">Terms &amp; Policies</string>
+    <string name="null_txt"></string>
 
     <!-- Login Screen -->
     <string name="email_hint">Email</string>
@@ -199,4 +209,5 @@
 	<string name="saving_photo_update">Saving photo updates...</string>
 	<string name="date_of_less_than_sixteen">You should be above 16 to use this application!</string>
 	<string name="IDS_ADD_REQUEST">Send Request</string>
+	<string name="create_group_chat">Create Group Chat...</string>
 </resources>
