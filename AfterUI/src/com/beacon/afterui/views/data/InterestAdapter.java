@@ -103,6 +103,9 @@ public class InterestAdapter extends BaseAdapter {
 		TextView commentCountView = (TextView) result
 				.findViewById(R.id.news_comment_count);
 		commentCountView.setTypeface(typeFaceRegular);
+		
+		TextView add_req_text =(TextView)result.findViewById(R.id.news_add_req_text);
+		add_req_text.setTypeface(typeFaceRegular);
 
 		View divider = (View) result.findViewById(R.id.news_divider);
 		// if (sp.getDescription() == null || sp.getDescription() == "") {
@@ -159,6 +162,8 @@ public class InterestAdapter extends BaseAdapter {
 			holder.commentCountView = (TextView) convertView
 					.findViewById(R.id.news_comment_count);
 			holder.commentCountView.setTypeface(typeFaceRegular);
+			holder.add_req_text =(TextView)convertView.findViewById(R.id.news_add_req_text);
+			holder.add_req_text.setTypeface(typeFaceRegular);
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
@@ -208,6 +213,7 @@ public class InterestAdapter extends BaseAdapter {
 	}
 
 	public class ViewHolder {
+		TextView add_req_text;
 		ScaleImageView imageView;
 		TextView nameView;
 		TextView ageView;
