@@ -14,8 +14,8 @@
         android:gravity="center"
         android:paddingLeft="10dip"
         android:paddingTop="10dip"
-        android:textSize="24sp"
-        android:textColor="@color/brown_background" />
+        android:textColor="@color/brown_background"
+        android:textSize="24sp" />
 
     <TextView
         android:id="@+id/news_age"
@@ -116,40 +116,40 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:paddingTop="2dip"
             android:gravity="center"
+            android:paddingTop="2dip"
             android:src="@drawable/like_art" />
 
         <TextView
             android:id="@+id/news_like_text"
+            style="@style/LoginPageEditText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_toRightOf="@id/news_like_art"
             android:gravity="center"
-            android:paddingLeft="5dip"
-            style="@style/LoginPageEditText" />
+            android:paddingLeft="5dip" />
 
         <ImageView
             android:id="@+id/news_comment_art"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:paddingTop="2dip"
             android:layout_toRightOf="@id/news_like_text"
             android:gravity="center"
             android:paddingLeft="10dip"
+            android:paddingTop="2dip"
             android:src="@drawable/comment_bubble" />
 
         <TextView
             android:id="@+id/news_comment_count"
+            style="@style/LoginPageEditText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_toRightOf="@id/news_comment_art"
             android:gravity="center"
-            android:paddingLeft="5dip"
-            style="@style/LoginPageEditText" />
+            android:paddingLeft="5dip" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -169,9 +169,51 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/news_comunicate"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/news_divider_lay"
+        android:paddingLeft="10dip"
+        android:paddingTop="5dip" >
+
+        <ImageView
+            android:id="@+id/news_gift_lay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:gravity="center"
+            android:paddingTop="2dip"
+            android:src="@drawable/gift" />
+
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:paddingRight="5dip" >
+
+            <ImageView
+                android:id="@+id/news_add_req"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingRight="5dip"
+                android:paddingTop="2dip"
+                android:src="@drawable/add_req" />
+
+            <TextView
+                android:id="@+id/news_add_req_text"
+                style="@style/LoginPageEditText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/news_add_req"
+                android:paddingTop="2dip"
+                android:text="@string/IDS_ADD_REQUEST" />
+        </RelativeLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/news_comunicate"
         android:layout_centerInParent="true"
         android:paddingBottom="10dip"
         android:paddingTop="20dip" >
