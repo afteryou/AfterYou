@@ -34,7 +34,7 @@
             android:layout_alignParentLeft="true"
             android:layout_centerInParent="true"
             android:layout_marginLeft="10dp"
-            android:background="@drawable/cancel_btn" />
+            android:background="@drawable/cancel_bg" />
 
         <TextView
             android:id="@+id/cancel_txt"
@@ -54,7 +54,7 @@
             android:layout_alignParentRight="true"
             android:layout_centerInParent="true"
             android:layout_marginRight="10dp"
-            android:background="@drawable/done_btn" />
+            android:background="@drawable/done_bg" />
 
         <TextView
             android:id="@+id/done_txt"

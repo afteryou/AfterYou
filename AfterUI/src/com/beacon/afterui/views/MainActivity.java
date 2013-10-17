@@ -31,6 +31,7 @@ import android.widget.Toast;
 import com.beacon.afterui.R;
 import com.beacon.afterui.activity.BaseActivity;
 import com.beacon.afterui.chat.ChatManager;
+import com.beacon.afterui.chat.ChatManager.ChatManagerImpl;
 import com.beacon.afterui.sliding.SlidingMenu;
 import com.beacon.afterui.sliding.customViews.ListPopupMenu;
 import com.beacon.afterui.sliding.fragment.ChatMenuFragment;
@@ -72,13 +73,6 @@ public class MainActivity extends BaseActivity implements OnQueryTextListener,
         // this.getWindow().setSoftInputMode(
         // WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
-        bindService();
-    }
-
-    private void bindService() {
-        // Bind to LocalService
-        Intent intent = new Intent(this, ChatManager.class);
-        bindService(intent, mServicConnection, Context.BIND_AUTO_CREATE);
     }
 
     private void initActionBar() {
@@ -415,25 +409,6 @@ public class MainActivity extends BaseActivity implements OnQueryTextListener,
         super.onActivityResult(requestCode, resultCode, data);
         getFragmentManager().findFragmentByTag(SlidingMenuFragment.TAG)
                 .onActivityResult(requestCode, resultCode, data);
-    }
-
-    private ServiceConnection mServicConnection = new ServiceConnection() {
-
-        @Override
-        public void onServiceConnected(ComponentName name, IBinder service) {
-
-        }
-
-        @Override
-        public void onServiceDisconnected(ComponentName name) {
-
-        }
-
-    };
-
-    @Override
-    protected void onDestroy() {
-        unbindService(mServicConnection);
     }
 
 }

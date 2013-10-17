@@ -12,6 +12,7 @@ import android.provider.BaseColumns;
 public class AfterYouMetadata {
 
     public static final String AUTHORITY = "com.beacon.afterui";
+    
 
     /** Auth queries can be directed to this table. */
     public static final class AuthTable implements BaseColumns {
