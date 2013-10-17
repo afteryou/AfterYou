@@ -90,6 +90,9 @@
             android:authorities="com.beacon.afterui"
             android:enabled="true" >
         </provider>
+
+        <service android:name=".chat.ChatManager" >
+        </service>
     </application>
 
 </manifest>

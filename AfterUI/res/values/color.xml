@@ -2,10 +2,12 @@
 <resources>
 
     <color name="font_listview_blue">#005d96</color>
+    <color name="time_color">#8c8e90</color>
     <color name="app_theme_color">#ccdef3</color>
     <color name="font_blue_color">#6caddf</color>
     <color name="login_text_color">#7ab4e2</color>
     <color name="white_color">#ffffff</color>
+    <color name="search_txt_color">#ccdef0</color>
     <color name="image_bar_dialog">#3bb1de</color>
     <color name="blue_sky">#537BB1</color>
     <color name="light_blue_background">#bfcee2</color>

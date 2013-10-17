@@ -2,18 +2,12 @@ package com.beacon.afterui.sliding.fragment;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
-import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Fragment;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
@@ -43,12 +37,8 @@ import android.widget.TextView;
 
 import com.beacon.afterui.R;
 import com.beacon.afterui.activity.BaseActivity;
-import com.beacon.afterui.imageUtils.ImageCache;
-import com.beacon.afterui.provider.PreferenceEngine;
 import com.beacon.afterui.sliding.SlidingActivity;
-import com.beacon.afterui.sliding.customViews.ListItem;
 import com.beacon.afterui.sliding.customViews.ListViewAdapter;
-import com.beacon.afterui.views.CapturePictureActivity;
 
 /**
  * For showing left sliding menu behind main view.
@@ -56,10 +46,9 @@ import com.beacon.afterui.views.CapturePictureActivity;
  * @author spoddar
  * 
  */
-public class SlidingMenuFragment extends Fragment implements
-		OnItemClickListener, OnItemLongClickListener, OnClickListener,
-		OnLongClickListener {
-	public static final String TAG = SlidingMenuFragment.class.toString();
+public class ChatMenuFragment extends Fragment implements OnItemClickListener,
+		OnItemLongClickListener, OnClickListener, OnLongClickListener {
+	public static final String TAG = ChatMenuFragment.class.toString();
 	private static final int ANIMATION_DURATION = 300;
 	private static final float ANIMATION_X_TRANSLATION = 70.0f;
 	private static final int TRANSLATION_X_RIGHT = 0x00000001;
@@ -67,7 +56,7 @@ public class SlidingMenuFragment extends Fragment implements
 	private static final int TRANSLATION_Y_TOP = 0x00000004;
 	private static final int ANIMATION_DELETE = 0x00000008;
 
-	private ListView mListView;
+	private ListView mFavoriteMatchesList;
 	private ListViewAdapter mListAdapter;
 	private boolean mIsDeleteMode = false;
 	private CloseSlidingMenuAdapter mCloseSlidingMenuAdapter = new CloseSlidingMenuAdapter();
@@ -77,6 +66,11 @@ public class SlidingMenuFragment extends Fragment implements
 	private Typeface typeFaceSemiBold;
 
 	private Bitmap mUserThumbBitmap;
+	private TextView mChatUserName;
+	private ImageView mChatUserStatus;
+	private ImageView mChatUserImg;
+	private TextView mChatUserTime;
+	private EditText mSearchEditText;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -88,15 +82,12 @@ public class SlidingMenuFragment extends Fragment implements
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		// TODO Sachin - This string text should be taken from the Strings.xml
-		String[] mDashBoardTxt = getResources().getStringArray(
-				R.array.dash_board_txt);
-		int[] mImages = { R.drawable.setting_img, R.drawable.popularity_img,
-				R.drawable.import_img, R.drawable.import_friends,
-				R.drawable.report_problem, R.drawable.help_center,
-				R.drawable.terms_policy, 0, 0 };
+		// String[] chatUserList = getResources().getStringArray(
+		// R.array.dash_board_txt);
+		String[] chatUserList = { "Sushil Kadu", "Sarnab Poddar",
+				"Pranav Dalal", "Ronak Patel", "Sachin Mane",
+				"Sachin Tendulkar", "Rahul Dravid", "Saurav Gangully" };
 		List<HashMap<String, String>> mList = new ArrayList<HashMap<String, String>>();
-		// mRootView = (ViewGroup) inflater.inflate(R.layout.sliding_menu,
-		// null);
 
 		// font myriadPro semibold
 		typeFaceSemiBold = Typeface.createFromAsset(getActivity().getAssets(),
@@ -104,58 +95,59 @@ public class SlidingMenuFragment extends Fragment implements
 		// font myriadPro regular
 		Typeface typeFaceRegular = Typeface.createFromAsset(getActivity()
 				.getAssets(), "fonts/MyriadPro-Regular.otf");
-		View view = inflater.inflate(R.layout.sliding_menu, null);
-		View viewText = inflater.inflate(R.layout.sliding_menu_item, null);
-		mListView = (ListView) view.findViewById(R.id.sliding_menu_list);
-		TextView dashText = (TextView) viewText
-				.findViewById(R.id.dashboard_txt);
-		EditText searchEditText = (EditText) view.findViewById(R.id.search_txt);
-		searchEditText.setTypeface(typeFaceRegular);
 
-		TextView userNameTxt = (TextView) view.findViewById(R.id.user_name);
-		userNameTxt.setTypeface(typeFaceSemiBold);
-		String name = PreferenceEngine.getInstance(getActivity())
-				.getFirstName()
-				+ " "
-				+ PreferenceEngine.getInstance(getActivity()).getLastName();
-		userNameTxt.setText(name);
+		View view = inflater.inflate(R.layout.chat_view, null);
 
-		TextView dashBoardTitle = (TextView) view.findViewById(R.id.dash_board);
-		dashBoardTitle.setTypeface(typeFaceSemiBold);
+		mFavoriteMatchesList = (ListView) view
+				.findViewById(R.id.favorite_match_list);
+		mSearchEditText = (EditText) view.findViewById(R.id.search_txt_right);
+		TextView create_group_chat_txt = (TextView) view
+				.findViewById(R.id.create_group_chat_txt);
+		TextView edit_txt = (TextView) view.findViewById(R.id.edit_txt);
+		TextView favorite_txt = (TextView) view.findViewById(R.id.favorite_txt);
+		TextView group_chat_txt = (TextView) view
+				.findViewById(R.id.group_chat_txt);
+
+		group_chat_txt.setTypeface(typeFaceSemiBold);
+		create_group_chat_txt.setTypeface(typeFaceSemiBold);
+		favorite_txt.setTypeface(typeFaceSemiBold);
+		edit_txt.setTypeface(typeFaceSemiBold);
+		mSearchEditText.setTypeface(typeFaceRegular);
+
+		View viewItem = inflater.inflate(R.layout.chat_view_item, null);
+
+		mChatUserName = (TextView) viewItem.findViewById(R.id.chat_user_name);
+		mChatUserStatus = (ImageView) viewItem.findViewById(R.id.user_status);
+		mChatUserImg = (ImageView) viewItem.findViewById(R.id.user_img);
+		mChatUserTime = (TextView) viewItem.findViewById(R.id.user_chat_time);
+
+		mChatUserName.setTypeface(typeFaceSemiBold);
+		mChatUserTime.setTypeface(typeFaceRegular);
 
 		// ImageView dashImage = (ImageView)
 		// view.findViewById(R.id.dashboard_img);
 
-		ImageView userImage = (ImageView) view.findViewById(R.id.user_image);
-		ImageCache mProfileThumb = new ImageCache(getActivity(),
-				CapturePictureActivity.PROFILE_PIC_THUMB);
-		mUserThumbBitmap = mProfileThumb
-				.getBitmapFromDiskCache(CapturePictureActivity.PROFILE_PIC_THUMB);
-		if (mUserThumbBitmap != null) {
-			userImage.setImageBitmap(mUserThumbBitmap);
-		}
+		String[] from = { TEXT };
+		int[] to = { R.id.chat_user_name };
+		mChatUserName.setTypeface(typeFaceSemiBold);
+		Log.d(TAG, "Size Array : " + chatUserList.length);
 
-		String[] from = { IMAGE, TEXT };
-		int[] to = { R.id.dashboard_img, R.id.dashboard_txt };
-		dashText.setTypeface(typeFaceSemiBold);
-		Log.d(TAG, "Size Array : " + mDashBoardTxt.length);
-
-		for (int i = 0; i < mDashBoardTxt.length; i++) {
+		for (int i = 0; i < chatUserList.length; i++) {
 			HashMap<String, String> map = new HashMap<String, String>();
-			map.put(IMAGE, String.valueOf(mImages[i]));
-			map.put(TEXT, mDashBoardTxt[i]);
+			// map.put(IMAGE, String.valueOf(mImages[i]));
+			map.put(TEXT, chatUserList[i]);
 			mList.add(map);
 			Log.d(TAG, "Size i : " + i);
 		}
-		SimpleAdapter addapter = new SimpleAdapter(getActivity(), mList,
-				R.layout.sliding_menu_item, from, to) {
+		SimpleAdapter adapter = new SimpleAdapter(getActivity(), mList,
+				R.layout.chat_view_item, from, to) {
 			@Override
 			public void setViewText(TextView v, String text) {
 				v.setTypeface(typeFaceSemiBold);
 				v.setText(text);
 			}
 		};
-		mListView.setAdapter(addapter);
+		mFavoriteMatchesList.setAdapter(adapter);
 		return view;
 	}
 
@@ -229,8 +221,8 @@ public class SlidingMenuFragment extends Fragment implements
 		Runnable runnable = new Runnable() {
 			@Override
 			public void run() {
-				mListView.invalidateViews();
-				final ViewTreeObserver observer = mListView
+				mFavoriteMatchesList.invalidateViews();
+				final ViewTreeObserver observer = mFavoriteMatchesList
 						.getViewTreeObserver();
 				for (View v : views) {
 					setHasTransientState(v, true);
@@ -250,7 +242,6 @@ public class SlidingMenuFragment extends Fragment implements
 		};
 		getActivity().runOnUiThread(runnable);
 	}
-
 
 	private void translationItem(int type, View target,
 			final AnimatorListenerAdapter adapter) {
@@ -307,7 +298,7 @@ public class SlidingMenuFragment extends Fragment implements
 			Rect targetRect = new Rect();
 			v.getGlobalVisibleRect(targetRect);
 			Rect listRect = new Rect();
-			mListView.getGlobalVisibleRect(listRect);
+			mFavoriteMatchesList.getGlobalVisibleRect(listRect);
 			if (!listRect.contains(targetRect)) {
 				end();
 			} else {

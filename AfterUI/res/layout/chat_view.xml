@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <RelativeLayout
+        android:id="@+id/search_lay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/search_bg" >
+
+        <ImageButton
+            android:id="@+id/news_details"
+            android:layout_width="30dp"
+            android:layout_height="25dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="8dp"
+            android:background="@drawable/setting_btn_bg"
+            android:src="@drawable/setting_logo" />
+
+        <EditText
+            android:id="@+id/search_txt_right"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="8dp"
+            android:layout_marginRight="15dp"
+            android:layout_toLeftOf="@id/news_details"
+            android:background="@drawable/search_txt_bg"
+            android:hint="Search"
+            android:paddingLeft="24dp"
+            android:paddingRight="8dp"
+            android:singleLine="true"
+            android:textColor="@color/search_txt_color"
+            android:textCursorDrawable="@null" />
+
+        <Button
+            android:id="@+id/search_btn"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="12dp"
+            android:background="@drawable/search_logo" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/group_chat_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_below="@id/search_lay"
+        android:gravity="center_vertical"
+        android:paddingLeft="8dp"
+        android:text="GROUP CHAT"
+        android:textColor="@color/font_listview_blue" />
+
+    <Button
+        android:id="@+id/add_btn"
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/search_lay"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/plus_btn" />
+
+    <RelativeLayout
+        android:id="@+id/create_group_chat_lay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/group_chat_txt"
+        android:background="@color/white_color" >
+
+        <ImageButton
+            android:id="@+id/create_group_chat_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:background="@drawable/group_chat_bg"
+            android:src="@drawable/group_chat_logo" />
+
+        <TextView
+            android:id="@+id/create_group_chat_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/create_group_chat_btn"
+            android:text="@string/create_group_chat"
+            android:textColor="@color/font_listview_blue" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/create_group_chat_lay" >
+
+        <TextView
+            android:id="@+id/favorite_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:gravity="center_vertical"
+            android:paddingLeft="8dp"
+            android:text="FAVORITE MATCHES"
+            android:textColor="@color/font_listview_blue" />
+
+        <TextView
+            android:id="@+id/edit_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:gravity="center_vertical"
+            android:paddingRight="8dp"
+            android:text="EDIT"
+            android:textColor="@color/font_listview_blue" />
+
+        <ListView
+            android:id="@+id/favorite_match_list"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/favorite_txt"
+            android:background="@color/white_color"
+            android:divider="@drawable/divider_horizontal_dim_dark"
+            android:dividerHeight="1px" >
+        </ListView>
+    </RelativeLayout>
+
+</RelativeLayout>
