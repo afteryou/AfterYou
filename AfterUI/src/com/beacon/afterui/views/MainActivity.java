@@ -62,7 +62,7 @@ public class MainActivity extends BaseActivity implements OnQueryTextListener,
 		initLeftSlidMenu();
 		initRightSlidMenu();
 		FragmentHelper.onActivityCreate(this);
-		FragmentHelper.initFragment(this, new ContentFragment());
+		FragmentHelper.initFragment(this, new ContentFragment(this));
 		doInterestSearch();
 		// this.getWindow().setSoftInputMode(
 		// WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);

@@ -199,4 +199,8 @@
 	<string name="saving_photo_update">Saving photo updates...</string>
 	<string name="date_of_less_than_sixteen">You should be above 16 to use this application!</string>
 	<string name="IDS_ADD_REQUEST">Send Request</string>
+	<string name="IDS_CHAT">Chat</string>
+	<string name="IDS_CLOSE">Close</string>
+	<string name="IDS_MY_STORY">My Story</string>
+	<string name="IDS_MY_MATCH">My Ideal Match</string>
 </resources>

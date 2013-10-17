@@ -4,6 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="@drawable/content_background_holo_light"
+    android:focusable="false"
+    android:focusableInTouchMode="false"
     android:orientation="vertical" >
 
     <TextView
@@ -215,6 +217,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/news_comunicate"
         android:layout_centerInParent="true"
+        android.focusable="false"
         android:paddingBottom="10dip"
         android:paddingTop="20dip" >
 
@@ -222,6 +225,7 @@
             android:id="@+id/news_details"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android.focusable="false"
             android:background="@drawable/details_button"
             android:gravity="center"
             android:text="@string/IDS_DETAILS"
