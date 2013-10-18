@@ -870,7 +870,7 @@ public class CustomDialogMgr {
             final ListView listView = (ListView) mInflater.inflate(
                     R.layout.custom_alert_dialog_custom_list_view, null);
             listView.setDivider(mContext.getResources().getDrawable(
-                    R.drawable.divider_horizontal_dim_dark));
+                    R.drawable.divider_listview));
             listView.setDividerHeight(2);
 
             ListAdapter adapter;
