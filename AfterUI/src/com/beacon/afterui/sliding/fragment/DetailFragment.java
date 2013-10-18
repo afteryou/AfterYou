@@ -1,5 +1,8 @@
 package com.beacon.afterui.sliding.fragment;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.res.Configuration;
@@ -15,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.beacon.afterui.R;
+import com.beacon.afterui.constants.CommonConstants;
 import com.beacon.afterui.provider.CacheManager;
 import com.beacon.afterui.sliding.customViews.CustomGridView;
 import com.beacon.afterui.utils.ImageUtils;
@@ -63,6 +67,10 @@ public class DetailFragment extends Fragment implements FragmentLifecycle{
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.detail_box, null);
 		mDetailView = (ViewGroup)view.findViewById(R.id.detail_content);
+		if(getArguments() != null) {
+			mCacheKey = getArguments().getInt(CommonConstants.BundleKey.CACHE_KEY);
+			mSelectedPostion = getArguments().getInt(CommonConstants.BundleKey.SELECTED_POSITION);
+		}
 		return view;
 	}
 
@@ -85,7 +93,7 @@ public class DetailFragment extends Fragment implements FragmentLifecycle{
 		TextView nameView = (TextView) mDetailView
 				.findViewById(R.id.detail_name);
 		nameView.setTypeface(typeFaceBold);
-		TextView ageView = (TextView) mDetailView.findViewById(R.id.news_age);
+		TextView ageView = (TextView) mDetailView.findViewById(R.id.detail_age);
 		ageView.setTypeface(typeFaceRegular);
 		TextView albumCount = (TextView) mDetailView
 				.findViewById(R.id.detail_album_count);
@@ -166,8 +174,23 @@ public class DetailFragment extends Fragment implements FragmentLifecycle{
 		if(!isBacking) {
 			isBacking = true;
 			((MainActivity)getActivity()).updateToMainScreenActionBar();
+			applyBackAnimation();
 		}
 		return true;
+	}
+	
+	private void applyBackAnimation() {
+        AnimatorSet fideOutMap = new AnimatorSet();
+        fideOutMap.setDuration(250);
+        fideOutMap.addListener(new AnimatorListenerAdapter() {
+        	@Override
+            public void onAnimationEnd(Animator anim) {
+        		FragmentHelper.popFragment(getActivity());
+        		isBacking = false;
+        	}
+        });
+
+        fideOutMap.start(); 
 	}
 
 	@Override
@@ -179,8 +202,6 @@ public class DetailFragment extends Fragment implements FragmentLifecycle{
 	private void fixDetailViewY(Configuration config) {
 		mDetailView.setVisibility(View.VISIBLE);
 		MarginLayoutParams lp = (MarginLayoutParams) mDetailView.getLayoutParams();
-		lp.topMargin = (int) (getWindowHeight(config) * getResources().getInteger(R.integer.detail_view_rateY) / 100);
-		lp.height = (int)(getWindowHeight(config) * getResources().getInteger(R.integer.detail_box_rateHeight) / 100);
 	}
 	
 	private int getWindowWidth(Configuration config) {

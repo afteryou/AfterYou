@@ -28,6 +28,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.beacon.afterui.R;
 import com.beacon.afterui.constants.CommonConstants;
@@ -41,8 +42,9 @@ import com.beacon.afterui.views.data.Interest;
 import com.beacon.afterui.views.data.InterestAdapter;
 import com.beacon.afterui.views.data.InterestController;
 import com.beacon.afterui.views.data.InterestController.InterestCallBack;
+import com.beacon.afterui.views.data.InterestController.InterestClickListener;
 
-public class ContentFragment extends Fragment implements FragmentLifecycle,
+public class ContentFragment extends Fragment implements FragmentLifecycle,OnItemClickListener,
 		ISearchFunction {
 
 	private CustomGridView mAdapterView = null;
@@ -106,6 +108,9 @@ public class ContentFragment extends Fragment implements FragmentLifecycle,
 
 	private AnimState mAnimState = new AnimState();
 	private int mCacheKey = -1;
+	protected int sel_position;
+	protected long sel_id;
+	private InterestClickListener mClickListener;
 
 	public ContentFragment(Context mContext) {
 		this.mContext = mContext;
@@ -152,13 +157,33 @@ public class ContentFragment extends Fragment implements FragmentLifecycle,
 						.getInstance(getActivity()).getCacheManager()
 						.readCache(mCacheKey).getResultData();
 				Interest data = (Interest) datas.get(position);
+				sel_position = position;
+				sel_id = id;
 				// ((MainActivity)getActivity()).updateToDetailsScreenActionBar(data.getPlaceName());
-				applyAnimation();
+				applyAnimation(position,id);
 				inDetail = true;
 			}
 		});
-		mAdapter = new InterestAdapter(getActivity());
+		mClickListener = new InterestClickListener(){
+
+			@Override
+			public void onItemClick(int position) {
+				SparseArray datas = InterestController
+						.getInstance(getActivity()).getCacheManager()
+						.readCache(mCacheKey).getResultData();
+				Interest data = (Interest) datas.get(position);
+				sel_position = position;
+				sel_id = mAdapterView.getItemIdAtPosition(position);
+				// ((MainActivity)getActivity()).updateToDetailsScreenActionBar(data.getPlaceName());
+				applyAnimation(position,sel_id);
+				inDetail = true;
+				
+			}};
+		mAdapter = new InterestAdapter(mContext,mClickListener);
 		mAdapterView.setAdapter(mAdapter);
+		
+			
+		
 		mCallBack = new InterestCallBack() {
 
 			@Override
@@ -198,8 +223,8 @@ public class ContentFragment extends Fragment implements FragmentLifecycle,
 	private void applyBackAnimation() {
 		final CustomGridView list = mAdapterView;
 		InterestAdapter adapter = mAdapter;
-		final View selected = list.getSelectedView();
-		int position = list.getSelectedItemPosition();
+		final View selected = list.getChildAt(sel_position);
+		int position = sel_position;
 		if (selected == null) {
 			list.setAlpha(1f);
 			list.setVisibility(View.VISIBLE);
@@ -299,11 +324,10 @@ public class ContentFragment extends Fragment implements FragmentLifecycle,
 		set.start();
 	}
 
-	private void applyAnimation() {
+	private void applyAnimation(final int position, long id) {
 		final CustomGridView list = mAdapterView;
 		final InterestAdapter adapter = mAdapter;
-		final View sView = list.getSelectedView();
-		final int position = list.getSelectedItemPosition();
+		final View sView = list.getChildAt(position);
 		final View temp = adapter.cloneView(position,
 				(InterestAdapter.ViewHolder) sView.getTag());
 		temp.setVisibility(View.GONE);
@@ -448,7 +472,7 @@ public class ContentFragment extends Fragment implements FragmentLifecycle,
 		TextView nameView = (TextView) mDetailBox
 				.findViewById(R.id.detail_name);
 		nameView.setTypeface(typeFaceBold);
-		TextView ageView = (TextView) mDetailBox.findViewById(R.id.news_age);
+		TextView ageView = (TextView) mDetailBox.findViewById(R.id.detail_age);
 		ageView.setTypeface(typeFaceRegular);
 		TextView albumCount = (TextView) mDetailBox
 				.findViewById(R.id.detail_album_count);
@@ -487,18 +511,6 @@ public class ContentFragment extends Fragment implements FragmentLifecycle,
 					R.layout.detail_box, null);
 			((ViewGroup) getView()).addView(mDetailBox);
 		}
-		Rect window = WindowUtils.getRootViewVisibleDisplayFrame(getActivity());
-		int windowH = window.height();
-		int height = (int) (windowH
-				* getResources().getInteger(R.integer.detail_box_rateHeight) / 100);
-		int width = window.width() - WindowUtils.dip2px(getActivity(), 10);
-		int marginTop = (int) (windowH
-				* getResources().getInteger(R.integer.detail_view_rateY) / 100);
-		int marginLeft = WindowUtils.dip2px(getActivity(), 5);
-		((MarginLayoutParams) mDetailBox.getLayoutParams()).topMargin = marginTop;
-		((MarginLayoutParams) mDetailBox.getLayoutParams()).leftMargin = marginLeft;
-		mDetailBox.getLayoutParams().height = height;
-		mDetailBox.getLayoutParams().width = width;
 		mDetailBox.setVisibility(View.GONE);
 	}
 
@@ -576,6 +588,12 @@ public class ContentFragment extends Fragment implements FragmentLifecycle,
 	public void onConfigurationChanged(Configuration newConfig) {
 		super.onConfigurationChanged(newConfig);
 		initDetailBox();
+	}
+
+	@Override
+	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+		// TODO Auto-generated method stub
+		Toast.makeText(mContext, "On Item Click", Toast.LENGTH_LONG).show();
 	}
 
 }

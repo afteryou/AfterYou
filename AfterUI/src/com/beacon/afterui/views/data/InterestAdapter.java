@@ -9,43 +9,52 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.beacon.afterui.R;
 import com.beacon.afterui.imageUtils.ScaleImageView;
 import com.beacon.afterui.imageUtils.ScaleImageView.ImageChangedListener;
 import com.beacon.afterui.sliding.customViews.StaggeredGridView;
 import com.beacon.afterui.utils.ImageUtils;
+import com.beacon.afterui.views.data.InterestController.InterestClickListener;
 
 public class InterestAdapter extends BaseAdapter {
 
 	private Context mContext;
 	private LinkedList<Interest> mInterests;
-	
+
+	private InterestClickListener clickListner;
+
 	Typeface typeFaceRegular;
 	Typeface typeFaceBold;
 	Typeface typefaceBlack;
 	Typeface typefaceItalic;
 
-	public InterestAdapter(Context context) {
+	public InterestAdapter(Context context, InterestClickListener clickListner) {
 		this(context, new LinkedList<Interest>());
+		this.clickListner = clickListner;
 	}
 
 	public InterestAdapter(Context ctx, LinkedList<? extends Interest> datas) {
 		mContext = ctx;
 		mInterests = new LinkedList<Interest>(datas);
 		typeFaceRegular = Typeface.createFromAsset(mContext.getAssets(),
-					"fonts/MyriadPro-Regular.otf");
-		typeFaceBold = Typeface.createFromAsset(mContext.getAssets(), "fonts/MyriadPro-Semibold.otf");
-		typefaceBlack = Typeface.createFromAsset(mContext.getAssets(), "fonts/MyriadPro-Light.otf");
-		typefaceItalic = Typeface.createFromAsset(mContext.getAssets(), "fonts/MyriadPro-It.otf");
+				"fonts/MyriadPro-Regular.otf");
+		typeFaceBold = Typeface.createFromAsset(mContext.getAssets(),
+				"fonts/MyriadPro-Semibold.otf");
+		typefaceBlack = Typeface.createFromAsset(mContext.getAssets(),
+				"fonts/MyriadPro-Light.otf");
+		typefaceItalic = Typeface.createFromAsset(mContext.getAssets(),
+				"fonts/MyriadPro-It.otf");
 		// mImageFetcher.setExitTasksEarly(false);
 	}
 
 	@Override
 	public View getView(int position, View convertView, ViewGroup parent) {
 		Interest sp = mInterests.get(position);
-		convertView = convertDataToView(sp, convertView, parent);
+		convertView = convertDataToView(sp, position, convertView, parent);
 		return convertView;
 	}
 
@@ -103,8 +112,9 @@ public class InterestAdapter extends BaseAdapter {
 		TextView commentCountView = (TextView) result
 				.findViewById(R.id.news_comment_count);
 		commentCountView.setTypeface(typeFaceRegular);
-		
-		TextView add_req_text =(TextView)result.findViewById(R.id.news_add_req_text);
+
+		TextView add_req_text = (TextView) result
+				.findViewById(R.id.news_add_req_text);
 		add_req_text.setTypeface(typeFaceRegular);
 
 		View divider = (View) result.findViewById(R.id.news_divider);
@@ -120,17 +130,23 @@ public class InterestAdapter extends BaseAdapter {
 			imageView.setImageDrawable(holder.imageView.getDrawable());
 		}
 		nameView.setText(sp.getName());
-		ageView.setText(mContext.getResources().getString(R.string.IDS_AGE) + sp.getAge());
-		albumCount.setText(mContext.getResources().getString(R.string.IDS_OPEN_BRACE) + sp.getAlbum_photo_count() + mContext.getResources().getString(R.string.IDS_CLOSE_BRACE));
+		ageView.setText(mContext.getResources().getString(R.string.IDS_AGE)
+				+ sp.getAge());
+		albumCount.setText(mContext.getResources().getString(
+				R.string.IDS_OPEN_BRACE)
+				+ sp.getAlbum_photo_count()
+				+ mContext.getResources().getString(R.string.IDS_CLOSE_BRACE));
 		statusView.setText(sp.getStatus());
 		lastLoginView.setText(sp.getLast_online());
 		lastLoginTime.setText(sp.getLast_online_time());
-		likeCountView.setText(sp.getProfile_likes() + mContext.getResources().getString(R.string.IDS_LIKES));
-		commentCountView.setText(sp.getProfile_comments_count() +  mContext.getResources().getString(R.string.IDS_COMMENTS));
+		likeCountView.setText(sp.getProfile_likes()
+				+ mContext.getResources().getString(R.string.IDS_LIKES));
+		commentCountView.setText(sp.getProfile_comments_count()
+				+ mContext.getResources().getString(R.string.IDS_COMMENTS));
 		return result;
 	}
 
-	private View convertDataToView(Interest sp, View convertView,
+	private View convertDataToView(Interest sp, int position, View convertView,
 			final ViewGroup parent) {
 		ViewHolder holder = null;
 		if (convertView == null) {
@@ -162,8 +178,18 @@ public class InterestAdapter extends BaseAdapter {
 			holder.commentCountView = (TextView) convertView
 					.findViewById(R.id.news_comment_count);
 			holder.commentCountView.setTypeface(typeFaceRegular);
-			holder.add_req_text =(TextView)convertView.findViewById(R.id.news_add_req_text);
+			holder.add_req_text = (TextView) convertView
+					.findViewById(R.id.news_add_req_text);
 			holder.add_req_text.setTypeface(typeFaceRegular);
+			holder.checkDetails =(Button)convertView.findViewById(R.id.news_details);
+			holder.checkDetails.setOnClickListener(new View.OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					Toast.makeText(mContext, "Clicked Button = "+((Integer)v.getTag()), Toast.LENGTH_LONG).show();
+					clickListner.onItemClick((Integer)v.getTag());
+				}
+			});
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
@@ -185,6 +211,7 @@ public class InterestAdapter extends BaseAdapter {
 		holder.likeCountView.setText(sp.getProfile_likes() + " likes");
 		holder.commentCountView.setText(sp.getProfile_comments_count()
 				+ " comments");
+		holder.checkDetails.setTag(new Integer(position));
 		convertView.setTag(holder);
 		if (sp.getDataSrc() != null) {
 			if (sp.getDataSrc() instanceof Integer) {
@@ -223,6 +250,7 @@ public class InterestAdapter extends BaseAdapter {
 		TextView lastLoginTime;
 		TextView likeCountView;
 		TextView commentCountView;
+		Button checkDetails;
 		Object dataSrc;
 	}
 }

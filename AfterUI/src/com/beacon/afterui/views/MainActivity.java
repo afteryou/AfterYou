@@ -3,6 +3,8 @@ package com.beacon.afterui.views;
 import android.app.ActionBar;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+import android.app.SearchManager;
+import android.app.SearchableInfo;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
@@ -236,8 +238,31 @@ public class MainActivity extends BaseActivity implements OnQueryTextListener,
     public void updateToMainScreenActionBar() {
         if (mMenu != null) {
             clearActionBar();
+            updateToMainScreenActionBar(mMenu);
         }
     }
+    
+	private void updateToMainScreenActionBar(Menu menu) {
+		mMenu = menu;
+		initActionBar();
+		getMenuInflater().inflate(R.menu.actionbar, menu);
+		mSearchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+		mSearchView.setOnSearchClickListener(new OnClickListener() {
+			public void onClick(View v) {
+				showAbove();
+			}
+		});
+		mSearchView.setOnQueryTextListener(this);
+		// Enable voice search.
+		SearchManager searchManager = (SearchManager) this.getSystemService(Context.SEARCH_SERVICE);
+		SearchableInfo searchableInfo = searchManager.getSearchableInfo(getComponentName());
+		mSearchView.setSearchableInfo(searchableInfo);
+		mSearchView.setFocusable(false);
+		mSearchView.setFocusableInTouchMode(false);
+
+		getActionBar().setIcon(R.drawable.list_icon);
+		getSlidingMenu().setSlidingEnabled(true);
+	}
 
     public void updateToDetailsScreenActionBar(String title) {
         clearActionBar();
@@ -301,7 +326,7 @@ public class MainActivity extends BaseActivity implements OnQueryTextListener,
 
     public void onBackPressed() {
         SlidingMenu slidingMenu = getSlidingMenu();
-        if (!slidingMenu.isActivated()) {
+        if (slidingMenu.isActivated()) {
             super.onBackPressed();
         } else {
             if (!FragmentHelper.onBack(this)) {

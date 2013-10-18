@@ -154,4 +154,8 @@ public class InterestController {
 		public void onResult(int type, Object result);
 	}
 	
+	public interface InterestClickListener {
+		public void onItemClick(int position);
+	}
+	
 }
