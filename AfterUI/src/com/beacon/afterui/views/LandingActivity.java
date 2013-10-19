@@ -273,7 +273,7 @@ public class LandingActivity extends BaseActivity implements OnClickListener {
 						StringBuffer userInfo = new StringBuffer();
 						JSONArray languages = (JSONArray) user
 								.getProperty("languages");
-						if (languages.length() > 0) {
+						if (languages!= null && languages.length() > 0) {
 							for (int i = 0; i < languages.length(); i++) {
 								JSONObject language = languages
 										.optJSONObject(i);
@@ -285,12 +285,12 @@ public class LandingActivity extends BaseActivity implements OnClickListener {
 							// userInfo.append(String.format("Languages: %s\n\n",
 							// languageNames.toString()));
 						}
-						if (userInfo.length() > 0) {
+//						if (userInfo.length() > 0) {
 							PreferenceEngine.getInstance(ctx).setSelfLangList(
 									userInfo.toString());
 							mSplashHandler.sendEmptyMessageDelayed(
 									STOP_SPINNER, SPALSH_VISIBLE_TIME);
-						}
+//						}
 					}
 
 				}
