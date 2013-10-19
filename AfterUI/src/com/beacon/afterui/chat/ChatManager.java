@@ -124,6 +124,12 @@ public class ChatManager extends Service {
                     return;
                 }
 
+                if (xmppConnection.isAuthenticated()) {
+                    reportLoginStatus(loginListener, handler,
+                            ChatConstants.LOGIN_SUCCESS);
+                    return;
+                }
+
                 if (xmppConnection.isConnected()) {
                     Log.i(TAG, "Login done!");
                     try {
@@ -258,11 +264,11 @@ public class ChatManager extends Service {
 
         final String selection = RosterTable.USER_NAME + "=?";
         final String[] selectionArgs = { user };
-        final String[] projection = null/*{ RosterTable._ID }*/;
+        final String[] projection = null/* { RosterTable._ID } */;
 
         final ContentResolver resolver = getContentResolver();
-        final Cursor cursor = resolver.query(RosterTable.CONTENT_URI, projection,
-                selection, selectionArgs, null);
+        final Cursor cursor = resolver.query(RosterTable.CONTENT_URI,
+                projection, selection, selectionArgs, null);
 
         if (cursor != null && cursor.moveToFirst()) {
             cursor.close();
