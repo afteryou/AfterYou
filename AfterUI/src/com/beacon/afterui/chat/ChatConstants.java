@@ -17,4 +17,16 @@ public interface ChatConstants {
     
     public static final int LOGIN_FAILED            = 1005;
     
+    public static final String AVAILABLE            = "available";
+    
+    public static final String AWAY                 = "away";
+    
+    public static final String EXTENDED_AWAY       = "xa";
+    
+    public static final String UN_AVAILABLE         = "unavailable";
+    
+    public static final String CHAT                 = "chat";
+    
+    public static final String DO_NOT_DISTURB       = "dnd";
+    
 }

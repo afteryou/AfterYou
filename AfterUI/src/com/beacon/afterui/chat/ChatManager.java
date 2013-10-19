@@ -22,20 +22,23 @@ import android.os.Binder;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.IBinder;
+import android.os.Looper;
+import android.os.Message;
 import android.util.Log;
 
 /**
  * @author sushil
  * 
  */
-public class ChatManager extends Service {
+public class ChatManager extends Service implements
+        org.jivesoftware.smack.RosterListener {
 
     /** TAG */
     private static final String TAG = ChatManager.class.getSimpleName();
 
     private HandlerThread mDeamonThread;
 
-    private Handler mHandler;
+    private DeamonHandler mHandler;
 
     private final Binder mBinder = new ChatManagerImpl();
 
@@ -46,6 +49,8 @@ public class ChatManager extends Service {
     private static final String HOST = "76.74.223.195";
 
     private static final int PORT = 5222;
+
+    private static final int UPDATE_STATUS = 1;
 
     @Override
     public void onCreate() {
@@ -58,7 +63,7 @@ public class ChatManager extends Service {
         mDeamonThread = new HandlerThread("chat_thread",
                 android.os.Process.THREAD_PRIORITY_BACKGROUND);
         mDeamonThread.start();
-        mHandler = new Handler(mDeamonThread.getLooper());
+        mHandler = new DeamonHandler(mDeamonThread.getLooper());
     }
 
     @Override
@@ -213,14 +218,31 @@ public class ChatManager extends Service {
 
                     Presence presence = roster.getPresence(user);
 
-                    if (DEBUG) {
+                    if (DEBUG || true) {
+                        Log.d(TAG, "USer : " + user);
                         Log.d(TAG, "Status : " + presence.getStatus());
                         Log.d(TAG, "Type   : " + presence.getType().toString());
+                        if (presence.getMode() != null) {
+                            Log.d(TAG, "Mode : "
+                                    + presence.getMode().toString());
+                        } else {
+                            Log.d(TAG, "Mode IS NULL!");
+                        }
                     }
 
                     if (presence.getType() != null) {
-                        values.put(RosterTable.STATUS, presence.getType()
-                                .toString());
+
+                        if (presence.getType().toString()
+                                .equalsIgnoreCase(ChatConstants.AVAILABLE)) {
+
+                            if (presence.getMode() == null) {
+                                values.put(RosterTable.STATUS, presence
+                                        .getType().toString());
+                            } else {
+                                values.put(RosterTable.STATUS, presence
+                                        .getMode().toString());
+                            }
+                        }
                     }
                     values.put(RosterTable.STATUS_TEXT, presence.getStatus());
 
@@ -256,6 +278,8 @@ public class ChatManager extends Service {
                         e.printStackTrace();
                     }
                 }
+
+                roster.addRosterListener(ChatManager.this);
             }
         }).start();
     }
@@ -302,6 +326,86 @@ public class ChatManager extends Service {
         }
         Log.d(TAG, "ChatManager service is getting destroyed!");
         super.onDestroy();
+    }
+
+    @Override
+    public void entriesAdded(Collection<String> addresses) {
+        Log.d(TAG, "entriesAdded()");
+    }
+
+    @Override
+    public void entriesUpdated(Collection<String> addresses) {
+        Log.d(TAG, "entriesUpdated()");
+    }
+
+    @Override
+    public void entriesDeleted(Collection<String> addresses) {
+        Log.d(TAG, "entriesDeleted()");
+    }
+
+    @Override
+    public void presenceChanged(Presence presence) {
+        Message msg = mHandler.obtainMessage();
+        msg.obj = presence;
+        msg.what = UPDATE_STATUS;
+        mHandler.sendMessage(msg);
+    }
+
+    private class DeamonHandler extends Handler {
+        public DeamonHandler(Looper looper) {
+            super(looper);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+
+            switch (msg.what) {
+            case UPDATE_STATUS:
+                Presence presence = (Presence) msg.obj;
+                updatePresence(presence);
+                break;
+
+            default:
+                Log.d(TAG, "Not a valid ID!");
+            }
+        }
+    }
+
+    private void updatePresence(final Presence presence) {
+        if (presence == null) {
+            return;
+        }
+
+        String from = presence.getFrom();
+        int index = from.indexOf("/");
+
+        if (index > 0) {
+            from = from.substring(0, index);
+        }
+        final ContentValues values = new ContentValues();
+
+        if (presence.getType() != null) {
+
+            if (presence.getType().toString()
+                    .equalsIgnoreCase(ChatConstants.AVAILABLE)) {
+
+                if (presence.getMode() == null) {
+                    values.put(RosterTable.STATUS, presence.getType()
+                            .toString());
+                } else {
+                    values.put(RosterTable.STATUS, presence.getMode()
+                            .toString());
+                }
+            }
+        }
+        values.put(RosterTable.STATUS_TEXT, presence.getStatus());
+
+        final ContentResolver resolver = getContentResolver();
+        final String selection = RosterTable.USER_NAME + "=?";
+        final String[] selectionArgs = { from };
+
+        int rowsUpdated = resolver.update(RosterTable.CONTENT_URI, values,
+                selection, selectionArgs);
     }
 
 }
