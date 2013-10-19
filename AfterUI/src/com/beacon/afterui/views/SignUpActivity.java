@@ -248,12 +248,12 @@ public class SignUpActivity extends BaseActivity implements OnClickListener,
 
         case R.id.left_image:
             mLeftImage.setBackgroundResource(R.drawable.switch_btn_pressed);
-            mRightImage.setBackground(null);
+            mRightImage.setBackgroundDrawable(null);
             break;
 
         case R.id.right_image:
             mRightImage.setBackgroundResource(R.drawable.switch_btn_pressed);
-            mLeftImage.setBackground(null);
+            mLeftImage.setBackgroundDrawable(null);
             break;
 
         case R.id.birthday_edit_text:

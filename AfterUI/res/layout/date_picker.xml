@@ -8,7 +8,8 @@
     <DatePicker
         android:id="@+id/dob_picker"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:background="@android:color/white" />
 
     <ImageView
         android:id="@+id/image_bar_dialog"

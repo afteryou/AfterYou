@@ -28,8 +28,6 @@ public class AfterYouContentProvider extends ContentProvider {
 
     private DatabaseHelper mDatabaseHelper;
 
-    private SQLiteDatabase mDb;
-
     private static final boolean DEBUG = true;
 
     private static UriMatcher sUriMatcher;

@@ -48,7 +48,6 @@ public class CustomerNumberPickerDialog extends CustomDialog implements
         	mNumberPicker.setDescendantFocusability(NumberPicker.FOCUS_BLOCK_DESCENDANTS);
         }
         setTitle(context.getString(R.string.height_label));
-    	
     }
 
     public CustomerNumberPickerDialog(IDialogImpl dlg, Context context, int theme,
