@@ -3,5 +3,5 @@
     <integer name="staggered_grid_cols">2</integer>
     <integer name="detail_pin_rateY">5</integer>
     <integer name="detail_view_rateY">20</integer>
-    <integer name="detail_box_rateHeight">60</integer>
+    <integer name="detail_box_rateHeight">120</integer>
 </resources>
