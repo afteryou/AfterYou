@@ -447,4 +447,9 @@ public class ChatMenuFragment extends Fragment implements OnItemClickListener,
     public void onRosterFailed() {
         Log.e(TAG, "Roster list not received from server!");
     }
+
+    @Override
+    public void onRosterDownloaded() {
+        Log.i(TAG, "Roster is loaded!");
+    }
 }

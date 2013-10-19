@@ -6,5 +6,6 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/FacebookSDK"/>
+	<classpathentry kind="src" path="/qsmack"/>
 	<classpathentry kind="output" path="bin/classes"/>
 </classpath>

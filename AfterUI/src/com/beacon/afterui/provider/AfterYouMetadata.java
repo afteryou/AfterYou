@@ -12,7 +12,35 @@ import android.provider.BaseColumns;
 public class AfterYouMetadata {
 
     public static final String AUTHORITY = "com.beacon.afterui";
-    
+
+    public static final class RosterTable implements BaseColumns {
+
+        private RosterTable() {
+
+        }
+
+        public static final String TABLE_NAME = "roster_table";
+
+        public static final Uri CONTENT_URI = Uri.parse("content://"
+                + AUTHORITY + "/" + TABLE_NAME);
+
+        public static final String CONTENT_TYPE = "vnd.android.cursor.dir/vnd.afteryou.roster";
+
+        public static final String CONTENT_ITEM_TYPE = "vnd.android.cursor.dir/vnd.afteryou.roster.item";
+
+        public static final String NAME                 = "name";
+
+        public static final String USER_NAME            = "user_name";
+        
+        public static final String SUBSCRIPTION_TYPE    = "sub_type";
+
+        public static final String STATUS               = "status";
+
+        public static final String STATUS_TEXT          = "status_text";
+
+        public static final String AVATAR               = "avatar";
+
+    }
 
     /** Auth queries can be directed to this table. */
     public static final class AuthTable implements BaseColumns {
