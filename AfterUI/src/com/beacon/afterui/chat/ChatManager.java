@@ -1,6 +1,5 @@
 package com.beacon.afterui.chat;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 import org.jivesoftware.smack.ConnectionConfiguration;
@@ -8,10 +7,17 @@ import org.jivesoftware.smack.Roster;
 import org.jivesoftware.smack.RosterEntry;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
+import org.jivesoftware.smack.packet.Presence;
 import org.jivesoftware.smack.proxy.ProxyInfo;
+import org.jivesoftware.smackx.packet.VCard;
+
+import com.beacon.afterui.provider.AfterYouMetadata.RosterTable;
 
 import android.app.Service;
+import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Binder;
 import android.os.Handler;
 import android.os.HandlerThread;
@@ -32,9 +38,6 @@ public class ChatManager extends Service {
     private Handler mHandler;
 
     private final Binder mBinder = new ChatManagerImpl();
-
-    /** Login listener. */
-    private LoginListener mLoginListener;
 
     private static ConnectionConfiguration sConnectionConfigurationn;
 
@@ -121,6 +124,12 @@ public class ChatManager extends Service {
                     return;
                 }
 
+                if (xmppConnection.isAuthenticated()) {
+                    reportLoginStatus(loginListener, handler,
+                            ChatConstants.LOGIN_SUCCESS);
+                    return;
+                }
+
                 if (xmppConnection.isConnected()) {
                     Log.i(TAG, "Login done!");
                     try {
@@ -162,7 +171,6 @@ public class ChatManager extends Service {
 
     synchronized public void updateRosterInDb(
             final RosterListener rosterListener, final Handler handler) {
-
         new Thread(new Runnable() {
 
             @Override
@@ -185,13 +193,89 @@ public class ChatManager extends Service {
                 }
 
                 Collection<RosterEntry> rosterList = roster.getEntries();
+
+                final boolean DEBUG = false;
+
                 for (RosterEntry rosterObject : rosterList) {
-                    Log.d(TAG, "Name : " + rosterObject.getName() + " "
-                            + rosterObject.getUser());
-                    
+
+                    final ContentValues values = new ContentValues();
+
+                    if (DEBUG) {
+                        Log.d(TAG, "Name   : " + rosterObject.getName());
+                        Log.d(TAG, "Jid    : " + rosterObject.getUser());
+                        Log.d(TAG, "Type   : " + rosterObject.getType());
+                    }
+                    values.put(RosterTable.NAME, rosterObject.getName());
+                    values.put(RosterTable.USER_NAME, rosterObject.getUser());
+                    values.put(RosterTable.SUBSCRIPTION_TYPE, rosterObject
+                            .getType().toString());
+                    String user = rosterObject.getUser();
+
+                    Presence presence = roster.getPresence(user);
+
+                    if (DEBUG) {
+                        Log.d(TAG, "Status : " + presence.getStatus());
+                        Log.d(TAG, "Type   : " + presence.getType().toString());
+                    }
+
+                    if (presence.getType() != null) {
+                        values.put(RosterTable.STATUS, presence.getType()
+                                .toString());
+                    }
+                    values.put(RosterTable.STATUS_TEXT, presence.getStatus());
+
+                    VCard vcard = new VCard();
+
+                    try {
+                        vcard.load(sXmppConnection, user);
+                        byte[] photo = vcard.getAvatar();
+
+                        if (photo != null && photo.length > 0) {
+                            boolean saved = ChatUtils.savePhoto(
+                                    getApplicationContext(), user, photo);
+                            if (saved) {
+                                values.put(RosterTable.AVATAR, user);
+                            }
+                        }
+
+                        ContentResolver resolver = getContentResolver();
+                        if (isUserPresent(user)) {
+                            // Update
+                            final String selection = RosterTable.USER_NAME
+                                    + "=?";
+                            final String[] selectionArgs = { user };
+
+                            resolver.update(RosterTable.CONTENT_URI, values,
+                                    selection, selectionArgs);
+
+                        } else {
+                            // Insert
+                            resolver.insert(RosterTable.CONTENT_URI, values);
+                        }
+                    } catch (XMPPException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
         }).start();
+    }
+
+    private boolean isUserPresent(final String user) {
+
+        final String selection = RosterTable.USER_NAME + "=?";
+        final String[] selectionArgs = { user };
+        final String[] projection = null/* { RosterTable._ID } */;
+
+        final ContentResolver resolver = getContentResolver();
+        final Cursor cursor = resolver.query(RosterTable.CONTENT_URI,
+                projection, selection, selectionArgs, null);
+
+        if (cursor != null && cursor.moveToFirst()) {
+            cursor.close();
+            return true;
+        }
+
+        return false;
     }
 
     private void reportRosterStatus(final RosterListener rosterListener,

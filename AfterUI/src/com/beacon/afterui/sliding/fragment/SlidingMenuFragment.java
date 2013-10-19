@@ -49,6 +49,7 @@ import com.beacon.afterui.sliding.SlidingActivity;
 import com.beacon.afterui.sliding.customViews.ListItem;
 import com.beacon.afterui.sliding.customViews.ListViewAdapter;
 import com.beacon.afterui.views.CapturePictureActivity;
+import com.beacon.afterui.views.ProfileSettingsActivity;
 
 /**
  * For showing left sliding menu behind main view.
@@ -77,6 +78,14 @@ public class SlidingMenuFragment extends Fragment implements
 	private Typeface typeFaceSemiBold;
 
 	private Bitmap mUserThumbBitmap;
+
+	private static final int SETTING = 0;
+	private static final int POPULARITY = 1;
+	private static final int IMPORT = 2;
+	private static final int IMPORT_FREIND = 3;
+	private static final int REPORT_PROBLEM = 4;
+	private static final int HELP_CENTER = 5;
+	private static final int TERMS_POLICY = 6;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -156,8 +165,47 @@ public class SlidingMenuFragment extends Fragment implements
 			}
 		};
 		mListView.setAdapter(addapter);
+		mListView.setOnItemClickListener(leftDrawerListner);
 		return view;
 	}
+
+	private OnItemClickListener leftDrawerListner = new OnItemClickListener() {
+
+		@Override
+		public void onItemClick(AdapterView<?> parent, View view, int position,
+				long id) {
+
+			Intent intent = null;
+			switch (position) {
+			case SETTING:
+
+				intent = new Intent(getActivity(),
+						ProfileSettingsActivity.class);
+				startActivity(intent);
+				break;
+			case POPULARITY:
+
+				break;
+			case IMPORT:
+
+				break;
+			case IMPORT_FREIND:
+
+				break;
+			case REPORT_PROBLEM:
+
+				break;
+			case HELP_CENTER:
+
+				break;
+			case TERMS_POLICY:
+
+				break;
+
+			}
+
+		}
+	};
 
 	private boolean isRuntimePostJellyBean() {
 		return android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN;
