@@ -1,7 +1,5 @@
 package com.beacon.afterui.sliding.fragment;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 import android.animation.Animator;
@@ -10,6 +8,7 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.ComponentName;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Intent;
@@ -40,21 +39,21 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.CursorAdapter;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.beacon.afterui.R;
 import com.beacon.afterui.activity.BaseActivity;
 import com.beacon.afterui.chat.ChatManager;
-import com.beacon.afterui.chat.LoginListener;
 import com.beacon.afterui.chat.ChatManager.ChatManagerImpl;
+import com.beacon.afterui.chat.LoginListener;
 import com.beacon.afterui.chat.RosterListAdapter;
 import com.beacon.afterui.chat.RosterListener;
+import com.beacon.afterui.provider.PreferenceEngine;
 import com.beacon.afterui.provider.AfterYouMetadata.RosterTable;
 import com.beacon.afterui.sliding.SlidingActivity;
 import com.beacon.afterui.sliding.customViews.ListViewAdapter;
+import com.beacon.afterui.views.LoginScreen;
 
 /**
  * For showing left sliding menu behind main view.
@@ -103,7 +102,7 @@ public class ChatMenuFragment extends Fragment implements OnItemClickListener,
 
         getLoaderManager().initLoader(0, null, this);
     }
-    
+
     protected void onRestoreInstanceState(Bundle savedInstanceState) {
         getLoaderManager().restartLoader(0, null, this);
     }
@@ -147,7 +146,7 @@ public class ChatMenuFragment extends Fragment implements OnItemClickListener,
         mAdapter = new RosterListAdapter(getActivity(), null,
                 CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
         mFavoriteMatchesList.setAdapter(mAdapter);
-        
+
         return view;
     }
 
@@ -399,7 +398,27 @@ public class ChatMenuFragment extends Fragment implements OnItemClickListener,
             mChatManager = impl.getService();
 
             Log.d(TAG, "Service connected, login started!");
-            mChatManager.login("peace_manav", "peace", ChatMenuFragment.this,
+            PreferenceEngine prefEngine = PreferenceEngine
+                    .getInstance(getActivity());
+
+            // Get username and password.
+            String userName = prefEngine.getUserName();
+            final String password = prefEngine.getPassword();
+
+            final String lastLoggedIn = prefEngine.getLastLoggedIn();
+
+            if (!userName.equals(lastLoggedIn)) {
+                // Clean DB.
+                ContentResolver resolver = getActivity().getContentResolver();
+                resolver.delete(RosterTable.CONTENT_URI, null, null);
+                
+                prefEngine.setLastLoggedIn(userName);
+            }
+
+            int index = userName.indexOf("@");
+            userName = userName.substring(0, index);
+
+            mChatManager.login(userName, password, ChatMenuFragment.this,
                     mHandler);
         }
 

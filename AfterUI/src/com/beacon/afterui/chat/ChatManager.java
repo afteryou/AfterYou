@@ -8,6 +8,8 @@ import org.jivesoftware.smack.RosterEntry;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.packet.Presence;
+import org.jivesoftware.smack.packet.Presence.Mode;
+import org.jivesoftware.smack.packet.Presence.Type;
 import org.jivesoftware.smack.proxy.ProxyInfo;
 import org.jivesoftware.smackx.packet.VCard;
 
@@ -218,7 +220,7 @@ public class ChatManager extends Service implements
 
                     Presence presence = roster.getPresence(user);
 
-                    if (DEBUG || true) {
+                    if (DEBUG) {
                         Log.d(TAG, "USer : " + user);
                         Log.d(TAG, "Status : " + presence.getStatus());
                         Log.d(TAG, "Type   : " + presence.getType().toString());
@@ -256,6 +258,8 @@ public class ChatManager extends Service implements
                             boolean saved = ChatUtils.savePhoto(
                                     getApplicationContext(), user, photo);
                             if (saved) {
+                                RosterPhotoManager.getPhotoManager()
+                                        .resetPhotoFor(user);
                                 values.put(RosterTable.AVATAR, user);
                             }
                         }
@@ -278,7 +282,7 @@ public class ChatManager extends Service implements
                         e.printStackTrace();
                     }
                 }
-
+                Log.d(TAG, "Roster updated to DB!");
                 roster.addRosterListener(ChatManager.this);
             }
         }).start();
@@ -345,6 +349,7 @@ public class ChatManager extends Service implements
 
     @Override
     public void presenceChanged(Presence presence) {
+        Log.d(TAG, "presenceChanged()");
         Message msg = mHandler.obtainMessage();
         msg.obj = presence;
         msg.what = UPDATE_STATUS;
@@ -396,16 +401,34 @@ public class ChatManager extends Service implements
                     values.put(RosterTable.STATUS, presence.getMode()
                             .toString());
                 }
+            } else if (presence.getType().toString()
+                    .equalsIgnoreCase(ChatConstants.UN_AVAILABLE)) {
+                values.put(RosterTable.STATUS, presence.getType().toString());
             }
         }
         values.put(RosterTable.STATUS_TEXT, presence.getStatus());
+
+        // Update photo.
+        VCard vcard = new VCard();
+
+        try {
+            vcard.load(sXmppConnection, from);
+        } catch (XMPPException e) {
+            e.printStackTrace();
+        }
+        byte[] photo = vcard.getAvatar();
+
+        if (photo != null && photo.length > 0) {
+            ChatUtils.savePhoto(getApplicationContext(), from, photo);
+            RosterPhotoManager.getPhotoManager().resetPhotoFor(from);
+        }
 
         final ContentResolver resolver = getContentResolver();
         final String selection = RosterTable.USER_NAME + "=?";
         final String[] selectionArgs = { from };
 
-        int rowsUpdated = resolver.update(RosterTable.CONTENT_URI, values,
-                selection, selectionArgs);
+        resolver.update(RosterTable.CONTENT_URI, values, selection,
+                selectionArgs);
     }
 
 }

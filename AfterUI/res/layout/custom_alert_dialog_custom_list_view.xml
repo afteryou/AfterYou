@@ -6,4 +6,5 @@
 	android:layout_width="fill_parent"
 	android:listViewStyle="@style/ContextListView"
 	style="@style/CustomAlertDialogListView"
+    android:background="@drawable/listview_gradient"
 	xmlns:android="http://schemas.android.com/apk/res/android"/>

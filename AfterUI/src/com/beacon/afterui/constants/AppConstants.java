@@ -66,6 +66,11 @@ public final class AppConstants {
 
 	public static final String SELF_GENDER = "self_gender";
 	public static final String SELF_FB_ID = "SELF_FB_ID";
+	
+	public static final String USER_NAME = "user_name";
+	public static final String PASSWORD  = "password";
+	public static final String LAST_LOGGED_IN = "last_logged_in";
+	
 
 	public static boolean isDebugMode() {
 		return DEBUGMODE.trim().equals("true");

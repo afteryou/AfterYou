@@ -154,7 +154,6 @@ public class SlidingMenuFragment extends Fragment implements
 			map.put(IMAGE, String.valueOf(mImages[i]));
 			map.put(TEXT, mDashBoardTxt[i]);
 			mList.add(map);
-			Log.d(TAG, "Size i : " + i);
 		}
 		SimpleAdapter addapter = new SimpleAdapter(getActivity(), mList,
 				R.layout.sliding_menu_item, from, to) {

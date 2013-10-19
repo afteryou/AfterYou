@@ -5,6 +5,7 @@ import com.beacon.afterui.provider.AfterYouMetadata.RosterTable;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,9 +21,12 @@ public class RosterListAdapter extends CursorAdapter {
 
     private LayoutInflater mLayoutInflator;
 
+    private RosterPhotoManager mRosterPhotoManager;
+
     public RosterListAdapter(Context context, Cursor cursor, int flags) {
         super(context, cursor, flags);
         mLayoutInflator = LayoutInflater.from(context);
+        mRosterPhotoManager = RosterPhotoManager.getPhotoManager();
     }
 
     @Override
@@ -40,7 +44,8 @@ public class RosterListAdapter extends CursorAdapter {
         final String userStatus = cursor.getString(cursor
                 .getColumnIndex(RosterTable.STATUS));
 
-        if (ChatConstants.UN_AVAILABLE.equalsIgnoreCase(userStatus)) {
+        if (ChatConstants.UN_AVAILABLE.equalsIgnoreCase(userStatus)
+                || userStatus == null) {
             userStatusImageView.setImageResource(R.drawable.un_available);
         } else if (ChatConstants.AVAILABLE.equalsIgnoreCase(userStatus)
                 || ChatConstants.CHAT.equalsIgnoreCase(userStatus)) {
@@ -50,6 +55,19 @@ public class RosterListAdapter extends CursorAdapter {
             userStatusImageView.setImageResource(R.drawable.away);
         } else if (ChatConstants.DO_NOT_DISTURB.equalsIgnoreCase(userStatus)) {
             userStatusImageView.setImageResource(R.drawable.do_not_disturb);
+        }
+
+        // Update photo.
+        final ImageView userImageView = (ImageView) view
+                .findViewById(R.id.user_img);
+        final String JID = cursor.getString(cursor
+                .getColumnIndex(RosterTable.USER_NAME));
+        final Bitmap bitmap = mRosterPhotoManager.getPhoto(context, JID);
+
+        if (bitmap != null) {
+            userImageView.setImageBitmap(bitmap);
+        } else {
+            userImageView.setImageResource(R.drawable.chat_person_placeholder);
         }
     }
 

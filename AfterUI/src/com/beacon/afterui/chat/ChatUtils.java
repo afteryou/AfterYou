@@ -1,6 +1,5 @@
 package com.beacon.afterui.chat;
 
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
@@ -16,9 +15,10 @@ public class ChatUtils {
             final byte[] data) {
 
         FileOutputStream outputStream = null;
-
+        
         try {
             outputStream = context.openFileOutput(user, Context.MODE_PRIVATE);
+            outputStream.write(data);
             outputStream.flush();
             outputStream.close();
             outputStream = null;

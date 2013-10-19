@@ -448,9 +448,41 @@ public class PreferenceEngine {
 		Editor editor = getDefaultSharePreference().edit();
 		editor.putString(AppConstants.SELF_LAST_NAME, lastName);
 		editor.commit();
-
 	}
-
+	
+	public void setUsername( final String userName ) {
+	    Editor editor = getDefaultSharePreference().edit();
+        editor.putString(AppConstants.USER_NAME, userName);
+        editor.commit();
+	}
+	
+	public void setPassword( final String password ) {
+	    Editor editor = getDefaultSharePreference().edit();
+        editor.putString(AppConstants.PASSWORD, password);
+        editor.commit();
+    }
+	
+	public String getUserName() {
+	    return getDefaultSharePreference().getString(
+                AppConstants.USER_NAME, null);
+	}
+	
+	public String getPassword() {
+	    return getDefaultSharePreference().getString(
+                AppConstants.PASSWORD, null);
+	}
+	
+	public void setLastLoggedIn( final String lastLoggedIn ) {
+        Editor editor = getDefaultSharePreference().edit();
+        editor.putString(AppConstants.LAST_LOGGED_IN, lastLoggedIn);
+        editor.commit();
+    }
+    
+    public String getLastLoggedIn() {
+        return getDefaultSharePreference().getString(
+                AppConstants.LAST_LOGGED_IN, null);
+    }
+	
 	public String getLastName() {
 		return getDefaultSharePreference().getString(
 				AppConstants.SELF_LAST_NAME, null);

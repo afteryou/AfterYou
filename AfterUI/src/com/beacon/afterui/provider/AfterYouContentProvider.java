@@ -48,7 +48,31 @@ public class AfterYouContentProvider extends ContentProvider {
 
     @Override
     public int delete(Uri uri, String selection, String[] selectionArgs) {
-        return 0;
+
+        String tableName = null;
+        switch (sUriMatcher.match(uri)) {
+        case ROSTER:
+        case ROSTER_ID:
+            tableName = RosterTable.TABLE_NAME;
+            break;
+
+        default:
+            throw new IllegalArgumentException("URL not known!");
+        }
+
+        if (TextUtils.isEmpty(tableName)) {
+            throw new IllegalArgumentException(
+                    "Write op not supported for this URI!");
+        }
+
+        SQLiteDatabase db = mDatabaseHelper.getWritableDatabase();
+        int rowsAffected = db.delete(tableName, selection, selectionArgs);
+
+        if (rowsAffected > 0) {
+            getContext().getContentResolver().notifyChange(uri, null);
+        }
+
+        return rowsAffected;
     }
 
     @Override

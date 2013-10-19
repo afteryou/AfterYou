@@ -124,9 +124,9 @@ public class SignUpActivity extends BaseActivity implements OnClickListener,
         if (isTest) {
             mFirstnameText.setText("abc");
             mLastNameText.setText("xyz");
-            mEmailText.setText("abc@g.in");
-            mPasswordText.setText("aaaaaa");
-            mConfirmText.setText("aaaaaa");
+            mEmailText.setText("peace_manav@gmail.in");
+            mPasswordText.setText("peace");
+            mConfirmText.setText("peace");
             mBirthDayText.setText("1234");
         }
         mLeftImage.setOnClickListener(this);
@@ -248,12 +248,12 @@ public class SignUpActivity extends BaseActivity implements OnClickListener,
 
         case R.id.left_image:
             mLeftImage.setBackgroundResource(R.drawable.switch_btn_pressed);
-            mRightImage.setBackgroundDrawable(null);
+            mRightImage.setBackground(null);
             break;
 
         case R.id.right_image:
             mRightImage.setBackgroundResource(R.drawable.switch_btn_pressed);
-            mLeftImage.setBackgroundDrawable(null);
+            mLeftImage.setBackground(null);
             break;
 
         case R.id.birthday_edit_text:
@@ -282,6 +282,9 @@ public class SignUpActivity extends BaseActivity implements OnClickListener,
 
         prefEngine.setFirstName(mFirstnameText.getText().toString());
         prefEngine.setLastName(mLastNameText.getText().toString());
+        
+        prefEngine.setUsername(mEmailText.getText().toString());
+        prefEngine.setPassword(mPasswordText.getText().toString());
     }
 
     private boolean validateData() {
