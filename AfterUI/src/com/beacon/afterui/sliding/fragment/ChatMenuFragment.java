@@ -8,10 +8,14 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
 import android.app.Fragment;
+import android.app.LoaderManager.LoaderCallbacks;
 import android.content.ComponentName;
 import android.content.Context;
+import android.content.CursorLoader;
 import android.content.Intent;
+import android.content.Loader;
 import android.content.ServiceConnection;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.graphics.Typeface;
@@ -34,6 +38,7 @@ import android.view.animation.Transformation;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
+import android.widget.CursorAdapter;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -45,7 +50,9 @@ import com.beacon.afterui.activity.BaseActivity;
 import com.beacon.afterui.chat.ChatManager;
 import com.beacon.afterui.chat.LoginListener;
 import com.beacon.afterui.chat.ChatManager.ChatManagerImpl;
+import com.beacon.afterui.chat.RosterListAdapter;
 import com.beacon.afterui.chat.RosterListener;
+import com.beacon.afterui.provider.AfterYouMetadata.RosterTable;
 import com.beacon.afterui.sliding.SlidingActivity;
 import com.beacon.afterui.sliding.customViews.ListViewAdapter;
 
@@ -57,7 +64,7 @@ import com.beacon.afterui.sliding.customViews.ListViewAdapter;
  */
 public class ChatMenuFragment extends Fragment implements OnItemClickListener,
         OnItemLongClickListener, OnClickListener, OnLongClickListener,
-        LoginListener, RosterListener {
+        LoginListener, RosterListener, LoaderCallbacks<Cursor> {
     public static final String TAG = ChatMenuFragment.class.toString();
     private static final int ANIMATION_DURATION = 300;
     private static final float ANIMATION_X_TRANSLATION = 70.0f;
@@ -71,25 +78,34 @@ public class ChatMenuFragment extends Fragment implements OnItemClickListener,
     private boolean mIsDeleteMode = false;
     private CloseSlidingMenuAdapter mCloseSlidingMenuAdapter = new CloseSlidingMenuAdapter();
 
-    private static final String IMAGE = "icon";
-    private static final String TEXT = "text";
     private Typeface typeFaceSemiBold;
 
     private Bitmap mUserThumbBitmap;
-    private TextView mChatUserName;
-    private ImageView mChatUserStatus;
-    private ImageView mChatUserImg;
-    private TextView mChatUserTime;
     private EditText mSearchEditText;
     private ChatManager mChatManager;
 
     private Handler mHandler;
 
+    private RosterListAdapter mAdapter;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mHandler = new Handler();
+
+    }
+
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+
         bindService();
+
+        getLoaderManager().initLoader(0, null, this);
+    }
+    
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        getLoaderManager().restartLoader(0, null, this);
     }
 
     private void bindService() {
@@ -102,13 +118,6 @@ public class ChatMenuFragment extends Fragment implements OnItemClickListener,
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
-        // TODO Sachin - This string text should be taken from the Strings.xml
-        // String[] chatUserList = getResources().getStringArray(
-        // R.array.dash_board_txt);
-        String[] chatUserList = { "Sushil Kadu", "Sarnab Poddar",
-                "Pranav Dalal", "Ronak Patel", "Sachin Mane",
-                "Sachin Tendulkar", "Rahul Dravid", "Saurav Gangully" };
-        List<HashMap<String, String>> mList = new ArrayList<HashMap<String, String>>();
 
         // font myriadPro semibold
         typeFaceSemiBold = Typeface.createFromAsset(getActivity().getAssets(),
@@ -135,40 +144,10 @@ public class ChatMenuFragment extends Fragment implements OnItemClickListener,
         edit_txt.setTypeface(typeFaceSemiBold);
         mSearchEditText.setTypeface(typeFaceRegular);
 
-        View viewItem = inflater.inflate(R.layout.chat_view_item, null);
-
-        mChatUserName = (TextView) viewItem.findViewById(R.id.chat_user_name);
-        mChatUserStatus = (ImageView) viewItem.findViewById(R.id.user_status);
-        mChatUserImg = (ImageView) viewItem.findViewById(R.id.user_img);
-        mChatUserTime = (TextView) viewItem.findViewById(R.id.user_chat_time);
-
-        mChatUserName.setTypeface(typeFaceSemiBold);
-        mChatUserTime.setTypeface(typeFaceRegular);
-
-        // ImageView dashImage = (ImageView)
-        // view.findViewById(R.id.dashboard_img);
-
-        String[] from = { TEXT };
-        int[] to = { R.id.chat_user_name };
-        mChatUserName.setTypeface(typeFaceSemiBold);
-        Log.d(TAG, "Size Array : " + chatUserList.length);
-
-        for (int i = 0; i < chatUserList.length; i++) {
-            HashMap<String, String> map = new HashMap<String, String>();
-            // map.put(IMAGE, String.valueOf(mImages[i]));
-            map.put(TEXT, chatUserList[i]);
-            mList.add(map);
-            Log.d(TAG, "Size i : " + i);
-        }
-        SimpleAdapter adapter = new SimpleAdapter(getActivity(), mList,
-                R.layout.chat_view_item, from, to) {
-            @Override
-            public void setViewText(TextView v, String text) {
-                v.setTypeface(typeFaceSemiBold);
-                v.setText(text);
-            }
-        };
-        mFavoriteMatchesList.setAdapter(adapter);
+        mAdapter = new RosterListAdapter(getActivity(), null,
+                CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
+        mFavoriteMatchesList.setAdapter(mAdapter);
+        
         return view;
     }
 
@@ -451,5 +430,27 @@ public class ChatMenuFragment extends Fragment implements OnItemClickListener,
     @Override
     public void onRosterDownloaded() {
         Log.i(TAG, "Roster is loaded!");
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        Log.d(TAG, "onCreateLoader()");
+        return new CursorLoader(getActivity(), RosterTable.CONTENT_URI, null,
+                null, null, RosterTable.NAME + " ASC");
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+        Log.d(TAG, "onLoadFinished : "
+                + (cursor == null ? "Cursor is NULL : " : cursor.getCount()));
+        mAdapter.swapCursor(cursor);
+        mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        Log.d(TAG, "onLoaderReset()");
+        mAdapter.swapCursor(null);
+        mAdapter.notifyDataSetChanged();
     }
 }

@@ -126,8 +126,11 @@ public class AfterYouContentProvider extends ContentProvider {
 
         SQLiteDatabase db = mDatabaseHelper.getReadableDatabase();
 
-        return db.query(tableName, projection, selection, selectionArgs, null,
-                null, sortOrder);
+        Cursor cursor = db.query(tableName, projection, selection,
+                selectionArgs, null, null, sortOrder);
+        cursor.setNotificationUri(getContext().getContentResolver(), uri);
+
+        return cursor;
     }
 
     @Override
