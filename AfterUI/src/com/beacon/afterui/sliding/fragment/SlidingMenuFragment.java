@@ -341,7 +341,7 @@ public class SlidingMenuFragment extends Fragment implements
 
 	public boolean onBack() {
 		// attachAllCategories();
-		return true;
+		return false;
 	}
 
 	private class ListItemAnimation extends Animation {
