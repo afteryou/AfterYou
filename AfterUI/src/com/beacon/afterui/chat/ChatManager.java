@@ -2,18 +2,17 @@ package com.beacon.afterui.chat;
 
 import java.util.Collection;
 
+import org.jivesoftware.smack.Chat;
+import org.jivesoftware.smack.ChatManagerListener;
 import org.jivesoftware.smack.ConnectionConfiguration;
+import org.jivesoftware.smack.MessageListener;
 import org.jivesoftware.smack.Roster;
 import org.jivesoftware.smack.RosterEntry;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
 import org.jivesoftware.smack.packet.Presence;
-import org.jivesoftware.smack.packet.Presence.Mode;
-import org.jivesoftware.smack.packet.Presence.Type;
 import org.jivesoftware.smack.proxy.ProxyInfo;
 import org.jivesoftware.smackx.packet.VCard;
-
-import com.beacon.afterui.provider.AfterYouMetadata.RosterTable;
 
 import android.app.Service;
 import android.content.ContentResolver;
@@ -28,12 +27,16 @@ import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 
+import com.beacon.afterui.provider.AfterYouMetadata.MessageTable;
+import com.beacon.afterui.provider.AfterYouMetadata.RosterTable;
+
 /**
  * @author sushil
  * 
  */
 public class ChatManager extends Service implements
-        org.jivesoftware.smack.RosterListener {
+        org.jivesoftware.smack.RosterListener, ChatManagerListener,
+        MessageListener {
 
     /** TAG */
     private static final String TAG = ChatManager.class.getSimpleName();
@@ -53,6 +56,8 @@ public class ChatManager extends Service implements
     private static final int PORT = 5222;
 
     private static final int UPDATE_STATUS = 1;
+
+    private static final int PROCESS_MESSAGE = 2;
 
     @Override
     public void onCreate() {
@@ -169,6 +174,10 @@ public class ChatManager extends Service implements
             public void run() {
                 if (ChatConstants.LOGIN_SUCCESS == statusCode) {
                     loginListener.onLoginSuccess();
+
+                    // Also init chat manager.
+                    sXmppConnection.getChatManager().addChatListener(
+                            ChatManager.this);
                 } else {
                     loginListener.onLoginFailed(statusCode);
                 }
@@ -366,8 +375,17 @@ public class ChatManager extends Service implements
 
             switch (msg.what) {
             case UPDATE_STATUS:
-                Presence presence = (Presence) msg.obj;
-                updatePresence(presence);
+                if (msg.obj != null) {
+                    Presence presence = (Presence) msg.obj;
+                    updatePresence(presence);
+                }
+                break;
+
+            case PROCESS_MESSAGE:
+                if (msg.obj != null) {
+                    org.jivesoftware.smack.packet.Message message = (org.jivesoftware.smack.packet.Message) msg.obj;
+                    processIncomingMessages(message);
+                }
                 break;
 
             default:
@@ -376,17 +394,23 @@ public class ChatManager extends Service implements
         }
     }
 
-    private void updatePresence(final Presence presence) {
-        if (presence == null) {
-            return;
-        }
-
-        String from = presence.getFrom();
+    private String getUserName(final String userName) {
+        String from = userName;
         int index = from.indexOf("/");
 
         if (index > 0) {
             from = from.substring(0, index);
         }
+
+        return from;
+    }
+
+    private void updatePresence(final Presence presence) {
+        if (presence == null) {
+            return;
+        }
+
+        String from = getUserName(presence.getFrom());
         final ContentValues values = new ContentValues();
 
         if (presence.getType() != null) {
@@ -431,4 +455,44 @@ public class ChatManager extends Service implements
                 selectionArgs);
     }
 
+    private void processIncomingMessages(
+            final org.jivesoftware.smack.packet.Message message) {
+        if (message == null) {
+            return;
+        }
+
+        final ContentValues values = new ContentValues();
+
+        values.put(MessageTable.MESSAGE, message.getBody());
+
+        final String from = getUserName(message.getFrom());
+        values.put(MessageTable.SENDER, from);
+        final String to = getUserName(message.getTo());
+        values.put(MessageTable.RECEIVER, to);
+        values.put(MessageTable.READ_STATUS, MessageTable.MESSAGE_UNREAD);
+        values.put(MessageTable.STATUS, MessageTable.MESSAGE_SUCCESS);
+
+        final ContentResolver resolver = getContentResolver();
+        resolver.insert(MessageTable.CONTENT_URI, values);
+    }
+
+    @Override
+    public void chatCreated(Chat chat, boolean createdLocally) {
+        Log.d(TAG, "chatCreated() : " + createdLocally);
+        if (!createdLocally) {
+            chat.addMessageListener(ChatManager.this);
+        }
+    }
+
+    @Override
+    public void processMessage(Chat chat,
+            org.jivesoftware.smack.packet.Message message) {
+        Log.d(TAG, "From : " + message.getFrom());
+        Log.d(TAG, "To : " + message.getTo());
+        Log.d(TAG, "body    : " + message.getBody());
+        Message msg = mHandler.obtainMessage();
+        msg.obj = message;
+        msg.what = PROCESS_MESSAGE;
+        mHandler.sendMessage(msg);
+    }
 }

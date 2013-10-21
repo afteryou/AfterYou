@@ -28,18 +28,55 @@ public class AfterYouMetadata {
 
         public static final String CONTENT_ITEM_TYPE = "vnd.android.cursor.dir/vnd.afteryou.roster.item";
 
-        public static final String NAME                 = "name";
+        public static final String NAME = "name";
 
-        public static final String USER_NAME            = "user_name";
+        public static final String USER_NAME = "user_name";
+
+        public static final String SUBSCRIPTION_TYPE = "sub_type";
+
+        public static final String STATUS = "status";
+
+        public static final String STATUS_TEXT = "status_text";
+
+        public static final String AVATAR = "avatar";
+
+    }
+
+    public static final class MessageTable implements BaseColumns {
+
+        private MessageTable() {
+
+        }
+
+        public static final String TABLE_NAME = "message_table";
+
+        public static final Uri CONTENT_URI = Uri.parse("content://"
+                + AUTHORITY + "/" + TABLE_NAME);
+
+        public static final String CONTENT_TYPE = "vnd.android.cursor.dir/vnd.afteryou.messages";
+
+        public static final String CONTENT_ITEM_TYPE = "vnd.android.cursor.dir/vnd.afteryou.message.item";
+
+        public static final String MESSAGE          = "message";
+
+        public static final String SENDER           = "sender";
         
-        public static final String SUBSCRIPTION_TYPE    = "sub_type";
+        public static final String RECEIVER         = "receiver";
 
-        public static final String STATUS               = "status";
+        /** Should be an integer, 1 is un-read, 0 is read. */
+        public static final String READ_STATUS      = "read";
+        
+        public static final int MESSAGE_READ        = 1;
+        public static final int MESSAGE_UNREAD      = 0;
 
-        public static final String STATUS_TEXT          = "status_text";
-
-        public static final String AVATAR               = "avatar";
-
+        /**
+         * sending=0, sent=1, failed=2.
+         * */
+        public static final String STATUS           = "status";
+        
+        public static final int MESSAGE_SENDING     = 0;
+        public static final int MESSAGE_SUCCESS     = 1;
+        public static final int MESSAGE_FAILED      = 2;
     }
 
     /** Auth queries can be directed to this table. */
