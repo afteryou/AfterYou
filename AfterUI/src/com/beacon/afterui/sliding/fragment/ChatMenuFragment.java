@@ -49,11 +49,10 @@ import com.beacon.afterui.chat.ChatManager.ChatManagerImpl;
 import com.beacon.afterui.chat.LoginListener;
 import com.beacon.afterui.chat.RosterListAdapter;
 import com.beacon.afterui.chat.RosterListener;
-import com.beacon.afterui.provider.PreferenceEngine;
 import com.beacon.afterui.provider.AfterYouMetadata.RosterTable;
+import com.beacon.afterui.provider.PreferenceEngine;
 import com.beacon.afterui.sliding.SlidingActivity;
 import com.beacon.afterui.sliding.customViews.ListViewAdapter;
-import com.beacon.afterui.views.LoginScreen;
 
 /**
  * For showing left sliding menu behind main view.
@@ -129,6 +128,7 @@ public class ChatMenuFragment extends Fragment implements OnItemClickListener,
 
         mFavoriteMatchesList = (ListView) view
                 .findViewById(R.id.favorite_match_list);
+        mFavoriteMatchesList.setOnItemClickListener(this);
         mSearchEditText = (EditText) view.findViewById(R.id.search_txt_right);
         TextView create_group_chat_txt = (TextView) view
                 .findViewById(R.id.create_group_chat_txt);
@@ -157,13 +157,19 @@ public class ChatMenuFragment extends Fragment implements OnItemClickListener,
     @Override
     public void onItemClick(AdapterView<?> parent, final View view,
             final int position, long id) {
-        if (position >= mListAdapter.getCount()) {
+        if (position >= mAdapter.getCount()) {
             return;
         }
 
-        List<View> views = mListAdapter.getAllViews();
-        views.remove(position);
-        animateListItems(TRANSLATION_X_LEFT, views);
+        Log.d(TAG, "onItemClick() : " + position + " id : " + id);
+        // Let's start the chat by sending the ID.
+
+        Intent chatIntent = new Intent(getActivity(), ChatScreenFragment.class);
+        startActivity(chatIntent);
+
+        // List<View> views = mListAdapter.getAllViews();
+        // views.remove(position);
+        // animateListItems(TRANSLATION_X_LEFT, views);
     }
 
     private void setHasTransientState(View view, boolean b) {
@@ -411,7 +417,7 @@ public class ChatMenuFragment extends Fragment implements OnItemClickListener,
                 // Clean DB.
                 ContentResolver resolver = getActivity().getContentResolver();
                 resolver.delete(RosterTable.CONTENT_URI, null, null);
-                
+
                 prefEngine.setLastLoggedIn(userName);
             }
 

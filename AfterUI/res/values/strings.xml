@@ -214,4 +214,7 @@
 	<string name="IDS_CLOSE">Close</string>
 	<string name="IDS_MY_STORY">My Story</string>
 	<string name="IDS_MY_MATCH">My Ideal Match</string>
+    <string name="IDS_MESSAGE">Message</string>
+    <string name="write_msg_txt">Write a message...</string>
+    <string name="post_txt">Post</string>
 </resources>

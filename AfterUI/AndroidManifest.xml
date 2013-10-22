@@ -84,6 +84,10 @@
             android:name="com.beacon.afterui.views.ProfileSettingsActivity"
             android:screenOrientation="portrait" >
         </activity>
+        <activity
+            android:name="com.beacon.afterui.sliding.fragment.ChatScreenFragment"
+            android:screenOrientation="portrait" >
+        </activity>
 
         <provider
             android:name=".provider.AfterYouContentProvider"
