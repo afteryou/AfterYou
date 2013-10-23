@@ -274,6 +274,7 @@ public class AfterYouContentProvider extends ContentProvider {
         query.append(MessageTable.MESSAGE + " TEXT, ");
         query.append(MessageTable.SENDER + " TEXT, ");
         query.append(MessageTable.RECEIVER + " TEXT, ");
+        query.append(MessageTable.TIME + " LONG, ");
         query.append(MessageTable.READ_STATUS + " INTEGER, ");
         query.append(MessageTable.STATUS + " INTEGER);");
 

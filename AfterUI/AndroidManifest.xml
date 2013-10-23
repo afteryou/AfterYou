@@ -95,7 +95,7 @@
             android:enabled="true" >
         </provider>
 
-        <service android:name=".chat.ChatManager" >
+        <service android:name=".chat.ChatManagerService" >
         </service>
     </application>
 

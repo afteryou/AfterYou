@@ -53,21 +53,23 @@ public class AfterYouMetadata {
         public static final Uri CONTENT_URI = Uri.parse("content://"
                 + AUTHORITY + "/" + TABLE_NAME);
 
-        public static final String CONTENT_TYPE = "vnd.android.cursor.dir/vnd.afteryou.messages";
+        public static final String CONTENT_TYPE         = "vnd.android.cursor.dir/vnd.afteryou.messages";
 
-        public static final String CONTENT_ITEM_TYPE = "vnd.android.cursor.dir/vnd.afteryou.message.item";
+        public static final String CONTENT_ITEM_TYPE    = "vnd.android.cursor.dir/vnd.afteryou.message.item";
 
-        public static final String MESSAGE          = "message";
+        public static final String MESSAGE              = "message";
 
-        public static final String SENDER           = "sender";
+        public static final String SENDER               = "sender";
         
-        public static final String RECEIVER         = "receiver";
+        public static final String RECEIVER             = "receiver";
 
         /** Should be an integer, 1 is un-read, 0 is read. */
-        public static final String READ_STATUS      = "read";
+        public static final String READ_STATUS          = "read";
         
-        public static final int MESSAGE_READ        = 1;
-        public static final int MESSAGE_UNREAD      = 0;
+        public static final String TIME                 = "time";
+        
+        public static final int MESSAGE_READ            = 1;
+        public static final int MESSAGE_UNREAD          = 0;
 
         /**
          * sending=0, sent=1, failed=2.

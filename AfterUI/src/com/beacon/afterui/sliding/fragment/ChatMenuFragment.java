@@ -44,11 +44,12 @@ import android.widget.TextView;
 
 import com.beacon.afterui.R;
 import com.beacon.afterui.activity.BaseActivity;
-import com.beacon.afterui.chat.ChatManager;
-import com.beacon.afterui.chat.ChatManager.ChatManagerImpl;
+import com.beacon.afterui.chat.ChatManagerService;
+import com.beacon.afterui.chat.ChatManagerService.ChatManagerImpl;
 import com.beacon.afterui.chat.LoginListener;
 import com.beacon.afterui.chat.RosterListAdapter;
 import com.beacon.afterui.chat.RosterListener;
+import com.beacon.afterui.constants.AppConstants;
 import com.beacon.afterui.provider.AfterYouMetadata.RosterTable;
 import com.beacon.afterui.provider.PreferenceEngine;
 import com.beacon.afterui.sliding.SlidingActivity;
@@ -80,7 +81,7 @@ public class ChatMenuFragment extends Fragment implements OnItemClickListener,
 
     private Bitmap mUserThumbBitmap;
     private EditText mSearchEditText;
-    private ChatManager mChatManager;
+    private ChatManagerService mChatManager;
 
     private Handler mHandler;
 
@@ -108,7 +109,7 @@ public class ChatMenuFragment extends Fragment implements OnItemClickListener,
 
     private void bindService() {
         // Bind to LocalService
-        Intent intent = new Intent(getActivity(), ChatManager.class);
+        Intent intent = new Intent(getActivity(), ChatManagerService.class);
         getActivity().bindService(intent, mServicConnection,
                 Context.BIND_AUTO_CREATE);
     }
@@ -165,6 +166,7 @@ public class ChatMenuFragment extends Fragment implements OnItemClickListener,
         // Let's start the chat by sending the ID.
 
         Intent chatIntent = new Intent(getActivity(), ChatScreenFragment.class);
+        chatIntent.putExtra(AppConstants.ROSTER_ID, id);
         startActivity(chatIntent);
 
         // List<View> views = mListAdapter.getAllViews();

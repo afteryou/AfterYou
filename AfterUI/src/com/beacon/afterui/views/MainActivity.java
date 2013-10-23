@@ -32,8 +32,8 @@ import android.widget.Toast;
 
 import com.beacon.afterui.R;
 import com.beacon.afterui.activity.BaseActivity;
-import com.beacon.afterui.chat.ChatManager;
-import com.beacon.afterui.chat.ChatManager.ChatManagerImpl;
+import com.beacon.afterui.chat.ChatManagerService;
+import com.beacon.afterui.chat.ChatManagerService.ChatManagerImpl;
 import com.beacon.afterui.sliding.SlidingMenu;
 import com.beacon.afterui.sliding.customViews.ListPopupMenu;
 import com.beacon.afterui.sliding.fragment.ChatMenuFragment;

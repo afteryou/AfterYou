@@ -3,6 +3,7 @@ package com.beacon.afterui.chat;
 import java.util.Collection;
 
 import org.jivesoftware.smack.Chat;
+import org.jivesoftware.smack.ChatManager;
 import org.jivesoftware.smack.ChatManagerListener;
 import org.jivesoftware.smack.ConnectionConfiguration;
 import org.jivesoftware.smack.MessageListener;
@@ -29,21 +30,26 @@ import android.util.Log;
 
 import com.beacon.afterui.provider.AfterYouMetadata.MessageTable;
 import com.beacon.afterui.provider.AfterYouMetadata.RosterTable;
+import com.beacon.afterui.provider.PreferenceEngine;
 
 /**
  * @author sushil
  * 
  */
-public class ChatManager extends Service implements
+public class ChatManagerService extends Service implements
         org.jivesoftware.smack.RosterListener, ChatManagerListener,
         MessageListener {
 
     /** TAG */
-    private static final String TAG = ChatManager.class.getSimpleName();
+    private static final String TAG = ChatManagerService.class.getSimpleName();
 
     private HandlerThread mDeamonThread;
 
+    private HandlerThread mSendMessageThread;
+
     private DeamonHandler mHandler;
+
+    private SendMessagehandler mSendMessageHandler;
 
     private final Binder mBinder = new ChatManagerImpl();
 
@@ -57,7 +63,11 @@ public class ChatManager extends Service implements
 
     private static final int UPDATE_STATUS = 1;
 
-    private static final int PROCESS_MESSAGE = 2;
+    private static final int PROCESS_INCOMING_MESSAGE = 2;
+
+    private static final int PROCESS_OUTGOING_MESSAGE = 3;
+
+    private ChatManager mChatManager;
 
     @Override
     public void onCreate() {
@@ -71,6 +81,12 @@ public class ChatManager extends Service implements
                 android.os.Process.THREAD_PRIORITY_BACKGROUND);
         mDeamonThread.start();
         mHandler = new DeamonHandler(mDeamonThread.getLooper());
+
+        mSendMessageThread = new HandlerThread("send_message",
+                android.os.Process.THREAD_PRIORITY_BACKGROUND);
+        mSendMessageThread.start();
+        mSendMessageHandler = new SendMessagehandler(
+                mSendMessageThread.getLooper());
     }
 
     @Override
@@ -80,8 +96,8 @@ public class ChatManager extends Service implements
 
     public class ChatManagerImpl extends Binder {
 
-        public ChatManager getService() {
-            return ChatManager.this;
+        public ChatManagerService getService() {
+            return ChatManagerService.this;
         }
     }
 
@@ -139,6 +155,8 @@ public class ChatManager extends Service implements
                 if (xmppConnection.isAuthenticated()) {
                     reportLoginStatus(loginListener, handler,
                             ChatConstants.LOGIN_SUCCESS);
+                    PreferenceEngine.getInstance(getApplicationContext())
+                            .setChatUserName(userName);
                     return;
                 }
 
@@ -153,6 +171,8 @@ public class ChatManager extends Service implements
                     }
                     reportLoginStatus(loginListener, handler,
                             ChatConstants.LOGIN_SUCCESS);
+                    PreferenceEngine.getInstance(getApplicationContext())
+                            .setChatUserName(userName);
                 } else {
                     Log.e(TAG, "XMPP is not connected!");
                     reportLoginStatus(loginListener, handler,
@@ -176,8 +196,9 @@ public class ChatManager extends Service implements
                     loginListener.onLoginSuccess();
 
                     // Also init chat manager.
-                    sXmppConnection.getChatManager().addChatListener(
-                            ChatManager.this);
+                    mChatManager = sXmppConnection.getChatManager();
+                    mChatManager.addChatListener(ChatManagerService.this);
+
                 } else {
                     loginListener.onLoginFailed(statusCode);
                 }
@@ -292,7 +313,7 @@ public class ChatManager extends Service implements
                     }
                 }
                 Log.d(TAG, "Roster updated to DB!");
-                roster.addRosterListener(ChatManager.this);
+                roster.addRosterListener(ChatManagerService.this);
             }
         }).start();
     }
@@ -337,6 +358,11 @@ public class ChatManager extends Service implements
         if (mDeamonThread != null) {
             mDeamonThread.quit();
         }
+
+        if (mSendMessageThread != null) {
+            mSendMessageThread.quit();
+        }
+
         Log.d(TAG, "ChatManager service is getting destroyed!");
         super.onDestroy();
     }
@@ -381,16 +407,92 @@ public class ChatManager extends Service implements
                 }
                 break;
 
-            case PROCESS_MESSAGE:
+            case PROCESS_INCOMING_MESSAGE:
                 if (msg.obj != null) {
                     org.jivesoftware.smack.packet.Message message = (org.jivesoftware.smack.packet.Message) msg.obj;
                     processIncomingMessages(message);
                 }
                 break;
 
+            case PROCESS_OUTGOING_MESSAGE:
+                if (msg.obj != null) {
+                    OutgoingMessage message = (OutgoingMessage) msg.obj;
+                    processOutGoingMessage(message);
+                }
+                break;
+
             default:
                 Log.d(TAG, "Not a valid ID!");
             }
+        }
+    }
+
+    private class SendMessagehandler extends Handler {
+        public SendMessagehandler(Looper looper) {
+            super(looper);
+        }
+
+        @Override
+        public void handleMessage(Message msg) {
+            // Get the latest unsent, oldest message from DB and send it across.
+
+            ContentResolver resolver = getContentResolver();
+            final String selection = MessageTable.STATUS + "="
+                    + MessageTable.MESSAGE_SENDING + " OR "
+                    + MessageTable.STATUS + "=" + MessageTable.MESSAGE_FAILED;
+            final String[] selectionArgs = null;
+            final String[] projection = { MessageTable._ID,
+                    MessageTable.RECEIVER, MessageTable.MESSAGE };
+
+            final Cursor cursor = resolver.query(MessageTable.CONTENT_URI,
+                    projection, selection, selectionArgs, MessageTable.TIME
+                            + " ASC");
+
+            if (cursor == null || !cursor.moveToFirst()) {
+                return;
+            }
+
+            Chat chat = null;
+            String oldReceiver = "";
+            do {
+
+                final int messageId = cursor.getInt(cursor
+                        .getColumnIndex(MessageTable._ID));
+                final String receiver = cursor.getString(cursor
+                        .getColumnIndex(MessageTable.RECEIVER));
+                final String message = cursor.getString(cursor
+                        .getColumnIndex(MessageTable.MESSAGE));
+
+                if (chat == null) {
+                    chat = mChatManager.createChat(receiver, null);
+                } else if (!receiver.equals(oldReceiver)) {
+                    chat = mChatManager.createChat(receiver, null);
+                }
+                oldReceiver = receiver;
+
+                int messageStatus;
+                try {
+                    chat.sendMessage(message);
+                    messageStatus = MessageTable.MESSAGE_SUCCESS;
+                } catch (XMPPException e) {
+                    Log.e(TAG,
+                            "Error while sending the message : "
+                                    + e.getMessage());
+                    messageStatus = MessageTable.MESSAGE_FAILED;
+                }
+
+                final ContentValues values = new ContentValues();
+                values.put(MessageTable.STATUS, String.valueOf(messageStatus));
+                final String where = MessageTable._ID + "=?";
+                final String[] selectionArguments = { String.valueOf(messageId) };
+
+                // Update the status in DB.
+                resolver.update(MessageTable.CONTENT_URI, values, where,
+                        selectionArguments);
+
+            } while (cursor.moveToNext());
+
+            cursor.close();
         }
     }
 
@@ -469,6 +571,7 @@ public class ChatManager extends Service implements
         values.put(MessageTable.SENDER, from);
         final String to = getUserName(message.getTo());
         values.put(MessageTable.RECEIVER, to);
+        values.put(MessageTable.TIME, System.currentTimeMillis());
         values.put(MessageTable.READ_STATUS, MessageTable.MESSAGE_UNREAD);
         values.put(MessageTable.STATUS, MessageTable.MESSAGE_SUCCESS);
 
@@ -476,23 +579,66 @@ public class ChatManager extends Service implements
         resolver.insert(MessageTable.CONTENT_URI, values);
     }
 
+    private void processOutGoingMessage(final OutgoingMessage outgoingMessage) {
+
+        if (outgoingMessage == null) {
+            return;
+        }
+
+        final ContentValues values = new ContentValues();
+
+        values.put(MessageTable.MESSAGE, outgoingMessage.message);
+
+        values.put(MessageTable.SENDER,
+                PreferenceEngine.getInstance(getApplicationContext())
+                        .getChatUserName());
+        values.put(MessageTable.RECEIVER, outgoingMessage.to);
+        values.put(MessageTable.TIME, System.currentTimeMillis());
+        values.put(MessageTable.READ_STATUS, MessageTable.MESSAGE_READ);
+        values.put(MessageTable.STATUS, MessageTable.MESSAGE_SENDING);
+
+        final ContentResolver resolver = getContentResolver();
+        resolver.insert(MessageTable.CONTENT_URI, values);
+
+        mSendMessageHandler.sendEmptyMessage(1);
+    }
+
     @Override
     public void chatCreated(Chat chat, boolean createdLocally) {
         Log.d(TAG, "chatCreated() : " + createdLocally);
         if (!createdLocally) {
-            chat.addMessageListener(ChatManager.this);
+            chat.addMessageListener(ChatManagerService.this);
         }
     }
 
     @Override
     public void processMessage(Chat chat,
             org.jivesoftware.smack.packet.Message message) {
-        Log.d(TAG, "From : " + message.getFrom());
-        Log.d(TAG, "To : " + message.getTo());
-        Log.d(TAG, "body    : " + message.getBody());
+        if (false) {
+            Log.d(TAG, "From : " + message.getFrom());
+            Log.d(TAG, "To : " + message.getTo());
+            Log.d(TAG, "body    : " + message.getBody());
+        }
         Message msg = mHandler.obtainMessage();
         msg.obj = message;
-        msg.what = PROCESS_MESSAGE;
+        msg.what = PROCESS_INCOMING_MESSAGE;
+        mHandler.sendMessage(msg);
+    }
+
+    private class OutgoingMessage {
+        public String message;
+        public String to;
+    }
+
+    public void sendMessage(final String message, final String to) {
+
+        OutgoingMessage outgoingMessage = new OutgoingMessage();
+        outgoingMessage.message = message;
+        outgoingMessage.to = to;
+
+        Message msg = mHandler.obtainMessage();
+        msg.what = PROCESS_OUTGOING_MESSAGE;
+        msg.obj = outgoingMessage;
         mHandler.sendMessage(msg);
     }
 }
