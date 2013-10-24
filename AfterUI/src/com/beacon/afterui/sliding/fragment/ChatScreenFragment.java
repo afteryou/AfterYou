@@ -2,10 +2,13 @@ package com.beacon.afterui.sliding.fragment;
 
 import java.util.ArrayList;
 
+import android.app.LoaderManager.LoaderCallbacks;
 import android.content.ComponentName;
 import android.content.ContentResolver;
 import android.content.Context;
+import android.content.CursorLoader;
 import android.content.Intent;
+import android.content.Loader;
 import android.content.ServiceConnection;
 import android.database.Cursor;
 import android.os.Bundle;
@@ -16,6 +19,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.CursorAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -23,17 +27,22 @@ import android.widget.TextView;
 import com.beacon.afterui.R;
 import com.beacon.afterui.activity.BaseActivity;
 import com.beacon.afterui.chat.ChatManagerService;
+import com.beacon.afterui.chat.MessageListAdapter;
 import com.beacon.afterui.chat.ChatManagerService.ChatManagerImpl;
 import com.beacon.afterui.constants.AppConstants;
+import com.beacon.afterui.provider.PreferenceEngine;
+import com.beacon.afterui.provider.AfterYouMetadata.MessageTable;
 import com.beacon.afterui.provider.AfterYouMetadata.RosterTable;
 
-public class ChatScreenFragment extends BaseActivity implements OnClickListener {
+public class ChatScreenFragment extends BaseActivity implements
+        OnClickListener, LoaderCallbacks<Cursor> {
 
     private static final String TAG = ChatScreenFragment.class.getSimpleName();
     private Button mPostBtn;
     private EditText mMessageEditText;
     private ListView mMessageList;
-    private ChatMessageAdapter mChatMessageAdpter;
+    // private ChatMessageAdapter mChatMessageAdpter;
+    private MessageListAdapter mMessageAdapter;
     private String[] mUserMsg;
 
     private ChatManagerService mChatManager;
@@ -54,21 +63,23 @@ public class ChatScreenFragment extends BaseActivity implements OnClickListener 
         mPostBtn = (Button) findViewById(R.id.post_btn);
         mMessageEditText = (EditText) findViewById(R.id.write_msg_txt);
         mMessageList = (ListView) findViewById(R.id.chat_msg_list);
-        mChatMessageAdpter = new ChatMessageAdapter();
-        // for (int i = 1; i <= 50; i++) {
-        // mChatMessageAdpter.addLeftMsgText("Friend Message");
-        //
-        // if (i % 2 == 0) {
-        // mChatMessageAdpter.addRightMsgText("User Message");
-        // }
-        //
-        // }
-        mMessageList.setAdapter(mChatMessageAdpter);
+        mMessageList.setTranscriptMode(ListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
+        mMessageList.setStackFromBottom(true);
+        
+        mMessageAdapter = new MessageListAdapter(this, null,
+                CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
+        mMessageList.setAdapter(mMessageAdapter);
 
         mPostBtn.setOnClickListener(this);
 
         bindService();
         initData();
+
+        getLoaderManager().initLoader(0, null, this);
+    }
+
+    protected void onRestoreInstanceState(Bundle savedInstanceState) {
+        getLoaderManager().restartLoader(0, null, this);
     }
 
     private void initData() {
@@ -102,7 +113,7 @@ public class ChatScreenFragment extends BaseActivity implements OnClickListener 
         public void onServiceConnected(ComponentName name, IBinder service) {
             ChatManagerImpl impl = (ChatManagerImpl) service;
             mChatManager = impl.getService();
-
+            mChatManager.openChatSession();
         }
 
         @Override
@@ -188,7 +199,6 @@ public class ChatScreenFragment extends BaseActivity implements OnClickListener 
         @Override
         public View getView(int position, View view, ViewGroup arg2) {
             ViewHolder viewholder = null;
-            Log.d(TAG, "View :" + view);
             int layoutType = getItemViewType(position);
             if (view == null) {
                 viewholder = new ViewHolder();
@@ -218,7 +228,6 @@ public class ChatScreenFragment extends BaseActivity implements OnClickListener 
             }
 
             viewholder.text.setText(leftText.get(position));
-
             return view;
         }
     }
@@ -227,4 +236,40 @@ public class ChatScreenFragment extends BaseActivity implements OnClickListener 
         TextView text;
     }
 
+    @Override
+    public void onDestroy() {
+        mChatManager.closeChatSession();
+        unbindService(mServicConnection);
+        super.onDestroy();
+    }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        Log.d(TAG, "onCreateLoader()");
+        final String selection = "(" + MessageTable.SENDER + "=? OR "
+                + MessageTable.SENDER + "=?) AND (" + MessageTable.RECEIVER
+                + "=? OR " + MessageTable.RECEIVER + "=?)";
+        final String sender = PreferenceEngine.getInstance(
+                getApplicationContext()).getChatUserName();
+        Log.d(TAG, "Sender : " + sender + " Receiver : " + mReceiver);
+        final String[] selectionArgs = { sender, mReceiver, mReceiver, sender };
+        return new CursorLoader(this, MessageTable.CONTENT_URI, null,
+                selection, selectionArgs, MessageTable.TIME + " ASC");
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+        Log.d(TAG, "onLoadFinished() : "
+                + (cursor == null ? "Cursor is NULL" : "Cursor Length : "
+                        + cursor.getCount()));
+        mMessageAdapter.swapCursor(cursor);
+        mMessageAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) {
+        Log.d(TAG, "onLoaderReset()");
+        mMessageAdapter.swapCursor(null);
+        mMessageAdapter.notifyDataSetChanged();
+    }
 }

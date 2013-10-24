@@ -69,6 +69,8 @@ public class ChatManagerService extends Service implements
 
     private ChatManager mChatManager;
 
+    private boolean isChatSessioOpen = false;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -156,7 +158,7 @@ public class ChatManagerService extends Service implements
                     reportLoginStatus(loginListener, handler,
                             ChatConstants.LOGIN_SUCCESS);
                     PreferenceEngine.getInstance(getApplicationContext())
-                            .setChatUserName(userName);
+                            .setChatUserName(userName+"@"+HOST);
                     return;
                 }
 
@@ -172,7 +174,7 @@ public class ChatManagerService extends Service implements
                     reportLoginStatus(loginListener, handler,
                             ChatConstants.LOGIN_SUCCESS);
                     PreferenceEngine.getInstance(getApplicationContext())
-                            .setChatUserName(userName);
+                            .setChatUserName(userName+"@"+HOST);
                 } else {
                     Log.e(TAG, "XMPP is not connected!");
                     reportLoginStatus(loginListener, handler,
@@ -198,7 +200,6 @@ public class ChatManagerService extends Service implements
                     // Also init chat manager.
                     mChatManager = sXmppConnection.getChatManager();
                     mChatManager.addChatListener(ChatManagerService.this);
-
                 } else {
                     loginListener.onLoginFailed(statusCode);
                 }
@@ -410,7 +411,7 @@ public class ChatManagerService extends Service implements
             case PROCESS_INCOMING_MESSAGE:
                 if (msg.obj != null) {
                     org.jivesoftware.smack.packet.Message message = (org.jivesoftware.smack.packet.Message) msg.obj;
-                    processIncomingMessages(message);
+                    processIncomingMessages(message, msg.arg1);
                 }
                 break;
 
@@ -464,9 +465,9 @@ public class ChatManagerService extends Service implements
                         .getColumnIndex(MessageTable.MESSAGE));
 
                 if (chat == null) {
-                    chat = mChatManager.createChat(receiver, null);
+                    chat = mChatManager.createChat(receiver, mMessageListener);
                 } else if (!receiver.equals(oldReceiver)) {
-                    chat = mChatManager.createChat(receiver, null);
+                    chat = mChatManager.createChat(receiver, mMessageListener);
                 }
                 oldReceiver = receiver;
 
@@ -494,6 +495,36 @@ public class ChatManagerService extends Service implements
 
             cursor.close();
         }
+    }
+
+    private MessageListener mMessageListener = new MessageListener() {
+
+        @Override
+        public void processMessage(Chat chat,
+                org.jivesoftware.smack.packet.Message message) {
+            if (true) {
+                Log.d(TAG, "--From : " + message.getFrom());
+                Log.d(TAG, "--To : " + message.getTo());
+                Log.d(TAG, "--body    : " + message.getBody());
+            }
+            Message msg = mHandler.obtainMessage();
+            msg.obj = message;
+            msg.what = PROCESS_INCOMING_MESSAGE;
+            if (isChatSessioOpen) {
+                msg.arg1 = MessageTable.MESSAGE_READ;
+            } else {
+                msg.arg1 = MessageTable.MESSAGE_UNREAD;
+            }
+            mHandler.sendMessage(msg);
+        }
+    };
+
+    public void openChatSession() {
+        isChatSessioOpen = true;
+    }
+
+    public void closeChatSession() {
+        isChatSessioOpen = false;
     }
 
     private String getUserName(final String userName) {
@@ -558,7 +589,8 @@ public class ChatManagerService extends Service implements
     }
 
     private void processIncomingMessages(
-            final org.jivesoftware.smack.packet.Message message) {
+            final org.jivesoftware.smack.packet.Message message,
+            final int readStatus) {
         if (message == null) {
             return;
         }
@@ -572,7 +604,7 @@ public class ChatManagerService extends Service implements
         final String to = getUserName(message.getTo());
         values.put(MessageTable.RECEIVER, to);
         values.put(MessageTable.TIME, System.currentTimeMillis());
-        values.put(MessageTable.READ_STATUS, MessageTable.MESSAGE_UNREAD);
+        values.put(MessageTable.READ_STATUS, readStatus);
         values.put(MessageTable.STATUS, MessageTable.MESSAGE_SUCCESS);
 
         final ContentResolver resolver = getContentResolver();
@@ -614,7 +646,7 @@ public class ChatManagerService extends Service implements
     @Override
     public void processMessage(Chat chat,
             org.jivesoftware.smack.packet.Message message) {
-        if (false) {
+        if (true) {
             Log.d(TAG, "From : " + message.getFrom());
             Log.d(TAG, "To : " + message.getTo());
             Log.d(TAG, "body    : " + message.getBody());
@@ -622,6 +654,7 @@ public class ChatManagerService extends Service implements
         Message msg = mHandler.obtainMessage();
         msg.obj = message;
         msg.what = PROCESS_INCOMING_MESSAGE;
+        msg.arg1 = MessageTable.MESSAGE_UNREAD;
         mHandler.sendMessage(msg);
     }
 
