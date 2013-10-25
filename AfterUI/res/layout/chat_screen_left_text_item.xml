@@ -1,26 +1,26 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_marginTop="5dp"
-    android:layout_marginBottom="5dp" >
+    android:layout_height="wrap_content" >
 
     <ImageView
         android:id="@+id/friend_img"
         android:layout_width="50dp"
         android:layout_height="50dp"
+        android:layout_alignParentLeft="true"
         android:layout_marginLeft="10dp"
         android:background="@drawable/user_image" />
-
+    
     <TextView
         android:id="@+id/friend_msg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="left"
-        android:layout_marginRight="10dp"
-        android:background="@drawable/friend_msg_txt"
-        android:gravity="center"
-        android:text="Friend Message"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="20dp"
+        android:layout_marginLeft="5dp"
+        android:layout_toRightOf="@id/friend_img"
+        android:background="@drawable/left_image"
+        android:padding="5dp"
         android:textColor="@color/brown_background" />
 
-</LinearLayout>
+</RelativeLayout>

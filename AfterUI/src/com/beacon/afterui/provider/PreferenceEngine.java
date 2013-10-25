@@ -713,16 +713,4 @@ public class PreferenceEngine {
                 AppConstants.IS_FTT, true);
 		
     }
-
-    public void setChatUserName(final String userName) {
-        Editor editor = getDefaultSharePreference().edit();
-        editor.putString(AppConstants.CHAT_USER_NAME, userName);
-        editor.commit();
-    }
-
-    public String getChatUserName() {
-        return getDefaultSharePreference().getString(
-                AppConstants.CHAT_USER_NAME, null);
-    }
-
 }

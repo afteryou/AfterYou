@@ -51,7 +51,7 @@ public class MessageListAdapter extends CursorAdapter {
         final String message = cursor.getString(cursor
                 .getColumnIndex(MessageTable.MESSAGE));
 
-        messageTextView.setText(message);
+        messageTextView.setText(message.trim());
     }
 
     @Override
