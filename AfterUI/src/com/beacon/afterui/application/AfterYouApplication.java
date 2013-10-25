@@ -1,5 +1,8 @@
 package com.beacon.afterui.application;
 
+import java.util.Collection;
+import java.util.List;
+
 import com.facebook.Session;
 import com.facebook.model.GraphUser;
 
@@ -10,7 +13,7 @@ public class AfterYouApplication extends Application {
 	private static Application instance;
 	private Session session;
     private GraphUser user = null;
-
+    private Collection<GraphUser> selectedUsers;
 
 	@Override
 	public void onCreate() {
@@ -47,6 +50,16 @@ public class AfterYouApplication extends Application {
 
 	public void setUser(GraphUser user) {
 		this.user = user;
+	}
+
+	public void setSelectedUsers(List<GraphUser> selection) {
+		this.selectedUsers = selection;
+		
+	}
+
+	public Collection<GraphUser> getSelectedUsers() {
+		// TODO Auto-generated method stub
+		return selectedUsers;
 	}
 
 }

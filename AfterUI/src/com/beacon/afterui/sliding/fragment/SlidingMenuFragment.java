@@ -1,25 +1,21 @@
 package com.beacon.afterui.sliding.fragment;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
-import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Fragment;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.view.ViewCompat;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,13 +39,17 @@ import android.widget.TextView;
 
 import com.beacon.afterui.R;
 import com.beacon.afterui.activity.BaseActivity;
+import com.beacon.afterui.application.AfterYouApplication;
 import com.beacon.afterui.imageUtils.ImageCache;
+import com.beacon.afterui.log.AfterUIlog;
 import com.beacon.afterui.provider.PreferenceEngine;
 import com.beacon.afterui.sliding.SlidingActivity;
-import com.beacon.afterui.sliding.customViews.ListItem;
 import com.beacon.afterui.sliding.customViews.ListViewAdapter;
 import com.beacon.afterui.views.CapturePictureActivity;
+import com.beacon.afterui.views.MainActivity;
+import com.beacon.afterui.views.PickFriendsActivity;
 import com.beacon.afterui.views.ProfileSettingsActivity;
+import com.facebook.model.GraphUser;
 
 /**
  * For showing left sliding menu behind main view.
@@ -72,7 +72,7 @@ public class SlidingMenuFragment extends Fragment implements
 	private ListViewAdapter mListAdapter;
 	private boolean mIsDeleteMode = false;
 	private CloseSlidingMenuAdapter mCloseSlidingMenuAdapter = new CloseSlidingMenuAdapter();
-
+	
 	private static final String IMAGE = "icon";
 	private static final String TEXT = "text";
 	private Typeface typeFaceSemiBold;
@@ -189,7 +189,7 @@ public class SlidingMenuFragment extends Fragment implements
 
 				break;
 			case IMPORT_FREIND:
-
+				onClickPickFriends();
 				break;
 			case REPORT_PROBLEM:
 
@@ -205,6 +205,24 @@ public class SlidingMenuFragment extends Fragment implements
 
 		}
 	};
+	
+	
+    private void onClickPickFriends() {
+        startPickFriendsActivity();
+    }
+
+    private void startPickFriendsActivity() {
+    	AfterYouApplication application = (AfterYouApplication) getActivity().getApplication();
+        if (application.getOpenSession() != null) {
+            application.setSelectedUsers(null);
+
+            Intent intent = new Intent(getActivity(), PickFriendsActivity.class);
+            PickFriendsActivity.populateParameters(intent, null, true, true);
+            startActivityForResult(intent, MainActivity.PICK_FRIENDS_ACTIVITY);
+        } else {
+            AfterUIlog.e(TAG, "Facebook not activated");
+        }
+    }
 
 	private boolean isRuntimePostJellyBean() {
 		return android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN;

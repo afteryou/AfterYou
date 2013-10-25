@@ -84,6 +84,11 @@
             android:name="com.beacon.afterui.views.ProfileSettingsActivity"
             android:screenOrientation="portrait" >
         </activity>
+        <activity
+            android:name="com.beacon.afterui.views.PickFriendsActivity"
+            android:theme="@style/Theme.BaseDialog"
+            android:screenOrientation="portrait" >
+        </activity>
 
         <provider
             android:name=".provider.AfterYouContentProvider"

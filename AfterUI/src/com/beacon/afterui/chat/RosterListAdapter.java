@@ -70,7 +70,7 @@ public class RosterListAdapter extends CursorAdapter {
             userImageView.setImageResource(R.drawable.chat_person_placeholder);
         }
     }
-
+    
     @Override
     public View newView(Context context, Cursor cursor, ViewGroup parent) {
         View view = mLayoutInflator.inflate(R.layout.chat_view_item, null,

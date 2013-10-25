@@ -541,7 +541,7 @@ public class CapturePictureActivity extends BaseActivity implements
                     Canvas canvas = new Canvas(bitmap);
                     d.draw(canvas);
                     mEditedBitmap = ImageInfoUtils.updateHSV(bitmap);
-                    handler.sendEmptyMessage(ERROR_FILTERING_IMAGE);
+                    handler.sendEmptyMessage(DONE_GETTING_IMAGE);
                 } else {
                     Bitmap bitmap = ImageResizer.decodeSampledBitmapFromFile(
                             mImageUri.getPath(), 400, 400);

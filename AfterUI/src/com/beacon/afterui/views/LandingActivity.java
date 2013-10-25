@@ -140,7 +140,7 @@ public class LandingActivity extends BaseActivity implements OnClickListener {
 
 			case STOP_SPINNER:
 				startSpinner(false);
-				Intent intent = new Intent(ctx, SignUpActivity.class);
+				Intent intent = new Intent(ctx, ProfileSettingsActivity.class);
 				intent.putExtra(AppConstants.FACEBOOK_USER, true);
 				try {
 					startActivity(intent);
@@ -172,7 +172,12 @@ public class LandingActivity extends BaseActivity implements OnClickListener {
 			break;
 
 		case R.id.fb_container:
-			onClickLogin();
+			if(PreferenceEngine.getInstance(ctx).isFTT())
+			{
+				onClickLogin();
+			}
+			PreferenceEngine.getInstance(ctx).setFTT(false);
+			
 			break;
 		}
 

@@ -14,6 +14,7 @@ import android.net.Uri;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.beacon.afterui.provider.AfterYouMetadata.MessageTable;
 import com.beacon.afterui.provider.AfterYouMetadata.RosterTable;
 
 public class AfterYouContentProvider extends ContentProvider {
@@ -34,6 +35,9 @@ public class AfterYouContentProvider extends ContentProvider {
 
     private static final int ROSTER = 0;
     private static final int ROSTER_ID = 1;
+    
+    private static final int MESSAGE = 2;
+    private static final int MESSAGE_ID = 3;
 
     static {
         sUriMatcher = new UriMatcher(UriMatcher.NO_MATCH);
@@ -42,6 +46,11 @@ public class AfterYouContentProvider extends ContentProvider {
                 ROSTER);
         sUriMatcher.addURI(AfterYouMetadata.AUTHORITY, RosterTable.TABLE_NAME
                 + "/#", ROSTER_ID);
+        
+        sUriMatcher.addURI(AfterYouMetadata.AUTHORITY, MessageTable.TABLE_NAME,
+                MESSAGE);
+        sUriMatcher.addURI(AfterYouMetadata.AUTHORITY, MessageTable.TABLE_NAME
+                + "/#", MESSAGE_ID);
     }
 
     @Override
@@ -52,6 +61,11 @@ public class AfterYouContentProvider extends ContentProvider {
         case ROSTER:
         case ROSTER_ID:
             tableName = RosterTable.TABLE_NAME;
+            break;
+            
+        case MESSAGE:
+        case MESSAGE_ID:
+            tableName = MessageTable.TABLE_NAME;
             break;
 
         default:
@@ -81,9 +95,15 @@ public class AfterYouContentProvider extends ContentProvider {
 
         case ROSTER_ID:
             return RosterTable.CONTENT_ITEM_TYPE;
+            
+        case MESSAGE:
+            return MessageTable.CONTENT_TYPE;
+
+        case MESSAGE_ID:
+            return MessageTable.CONTENT_ITEM_TYPE;
 
         default:
-            throw new IllegalArgumentException("Unknown URI");
+            throw new IllegalArgumentException("Unknown URI!");
         }
     }
 
@@ -95,6 +115,11 @@ public class AfterYouContentProvider extends ContentProvider {
         case ROSTER:
         case ROSTER_ID:
             tableName = RosterTable.TABLE_NAME;
+            break;
+            
+        case MESSAGE:
+        case MESSAGE_ID:
+            tableName = MessageTable.TABLE_NAME;
             break;
 
         default:
@@ -136,6 +161,11 @@ public class AfterYouContentProvider extends ContentProvider {
         case ROSTER_ID:
             tableName = RosterTable.TABLE_NAME;
             break;
+            
+        case MESSAGE:
+        case MESSAGE_ID:
+            tableName = MessageTable.TABLE_NAME;
+            break;
 
         default:
             throw new IllegalArgumentException("URL not known!");
@@ -164,6 +194,11 @@ public class AfterYouContentProvider extends ContentProvider {
         case ROSTER:
         case ROSTER_ID:
             tableName = RosterTable.TABLE_NAME;
+            break;
+            
+        case MESSAGE:
+        case MESSAGE_ID:
+            tableName = MessageTable.TABLE_NAME;
             break;
 
         default:
@@ -198,6 +233,7 @@ public class AfterYouContentProvider extends ContentProvider {
         public void onCreate(SQLiteDatabase db) {
             try {
                 db.execSQL(getQueryForRosterTable());
+                db.execSQL(getQueryForMessageTable());
             } catch (SQLiteException e) {
                 Log.e(TAG, "DatabaseHelper:onCreate: " + e.getMessage());
             }
@@ -224,6 +260,26 @@ public class AfterYouContentProvider extends ContentProvider {
 
         if (DEBUG) {
             Log.d(TAG, "getQueryForRosterTable() : " + query);
+        }
+
+        return query.toString();
+    }
+    
+    private static String getQueryForMessageTable() {
+        StringBuilder query = new StringBuilder();
+
+        query.append("CREATE TABLE IF NOT EXISTS " + MessageTable.TABLE_NAME
+                + " (");
+        query.append(MessageTable._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, ");
+        query.append(MessageTable.MESSAGE + " TEXT, ");
+        query.append(MessageTable.SENDER + " TEXT, ");
+        query.append(MessageTable.RECEIVER + " TEXT, ");
+        query.append(MessageTable.TIME + " LONG, ");
+        query.append(MessageTable.READ_STATUS + " INTEGER, ");
+        query.append(MessageTable.STATUS + " INTEGER);");
+
+        if (DEBUG) {
+            Log.d(TAG, "getQueryForMessageTable() : " + query);
         }
 
         return query.toString();

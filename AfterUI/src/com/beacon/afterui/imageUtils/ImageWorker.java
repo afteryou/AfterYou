@@ -344,11 +344,12 @@ public abstract class ImageWorker {
 			// bitmap
 			final TransitionDrawable td = new TransitionDrawable(new Drawable[] { new ColorDrawable(android.R.color.transparent),
 					new BitmapDrawable(mContext.getResources(), bitmap) });
+			final BitmapDrawable bd = new BitmapDrawable(mContext.getResources(), bitmap);
 			// Set background to loading bitmap
 			imageView.setBackgroundDrawable(new BitmapDrawable(mContext.getResources(), mLoadingBitmap));
 
-			imageView.setImageDrawable(td);
-			td.startTransition(FADE_IN_TIME);
+			imageView.setImageDrawable(bd);
+//			bd.startTransition(FADE_IN_TIME);
 		} else {
 			imageView.setImageBitmap(bitmap);
 		}

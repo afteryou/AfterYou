@@ -97,6 +97,8 @@ public class ProfileSettingsActivity extends BaseActivity implements
 	private TextView slf_salary;
 
 	private TextView wnt_age;
+	
+	private static final boolean isTest = true;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -1107,6 +1109,12 @@ public class ProfileSettingsActivity extends BaseActivity implements
 				intent = new Intent(ProfileSettingsActivity.this,
 						CapturePictureActivity.class);
 				if (isFacebook) {
+					if(isTest)
+					{
+						PreferenceEngine.getInstance(ctx).setUsername("peace_manav@def.com");
+						PreferenceEngine.getInstance(ctx).setPassword("peace");
+					}
+//TODO Set Facebook Username
 					intent.putExtra(AppConstants.FACEBOOK_USER, true);
 				}
 				startActivity(intent);
