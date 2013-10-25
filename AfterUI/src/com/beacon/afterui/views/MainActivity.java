@@ -39,6 +39,7 @@ import com.beacon.afterui.activity.BaseActivity;
 import com.beacon.afterui.application.AfterYouApplication;
 import com.beacon.afterui.chat.ChatManagerService;
 import com.beacon.afterui.chat.ChatManagerService.ChatManagerImpl;
+import com.beacon.afterui.chat.ChatManagerService.ChatManagerImpl;
 import com.beacon.afterui.sliding.SlidingMenu;
 import com.beacon.afterui.sliding.customViews.ListPopupMenu;
 import com.beacon.afterui.sliding.fragment.ChatMenuFragment;

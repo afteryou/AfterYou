@@ -89,6 +89,11 @@
             android:theme="@style/Theme.BaseDialog"
             android:screenOrientation="portrait" >
         </activity>
+        
+        <activity
+            android:name="com.beacon.afterui.sliding.fragment.ChatScreenFragment"
+            android:screenOrientation="portrait" >
+        </activity>
 
         <provider
             android:name=".provider.AfterYouContentProvider"
@@ -96,7 +101,7 @@
             android:enabled="true" >
         </provider>
 
-        <service android:name=".chat.ChatManager" >
+        <service android:name=".chat.ChatManagerService" >
         </service>
     </application>
 
