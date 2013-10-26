@@ -6,10 +6,12 @@ import com.beacon.afterui.provider.AfterYouMetadata.MessageTable;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Bitmap;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CursorAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class MessageListAdapter extends CursorAdapter {
@@ -29,8 +31,11 @@ public class MessageListAdapter extends CursorAdapter {
 
     private String mLoggedInUser;
 
+    private Context mContext;
+
     public MessageListAdapter(Context context, Cursor cursor, int flags) {
         super(context, cursor, flags);
+        mContext = context;
         mLayoutInflator = LayoutInflater.from(context);
         mRosterPhotoManager = RosterPhotoManager.getPhotoManager();
         mLoggedInUser = PreferenceEngine.getInstance(context).getChatUserName();
@@ -67,6 +72,15 @@ public class MessageListAdapter extends CursorAdapter {
         } else {
             view = mLayoutInflator.inflate(R.layout.chat_screen_left_text_item,
                     null);
+            ImageView imageView = (ImageView) view
+                    .findViewById(R.id.friend_img);
+            Bitmap bitmap = RosterPhotoManager.getPhotoManager().getPhoto(
+                    mContext, user);
+            if (bitmap != null) {
+                imageView.setImageBitmap(bitmap);
+            } else {
+                imageView.setImageResource(R.drawable.chat_person_placeholder);
+            }
         }
 
         return view;

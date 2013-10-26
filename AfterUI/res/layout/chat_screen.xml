@@ -20,16 +20,18 @@
             android:textSize="16sp" />
 
         <TextView
-            android:id="@+id/cancel_txt"
+            android:id="@+id/cancel_btn_chat_screen"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
             android:layout_marginLeft="10dp"
             android:background="@drawable/cancel_bg"
+            android:clickable="true"
+            android:focusable="true"
             android:gravity="center"
             android:text="@string/cancelTxt"
-            android:textColor="@color/white_color" />
+            android:textColor="@android:color/white" />
     </RelativeLayout>
 
     <LinearLayout
@@ -75,9 +77,9 @@
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dp"
         android:background="@android:color/white"
-        android:dividerHeight="10dp"
-        android:divider="@android:color/transparent"
         android:cacheColorHint="@android:color/transparent"
+        android:divider="@android:color/transparent"
+        android:dividerHeight="10dp"
         android:listSelector="@android:color/transparent" >
     </ListView>
 

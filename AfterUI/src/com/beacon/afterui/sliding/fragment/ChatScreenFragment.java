@@ -1,7 +1,5 @@
 package com.beacon.afterui.sliding.fragment;
 
-import java.util.ArrayList;
-
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.ComponentName;
 import android.content.ContentResolver;
@@ -16,23 +14,20 @@ import android.os.IBinder;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.CursorAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.beacon.afterui.R;
 import com.beacon.afterui.activity.BaseActivity;
 import com.beacon.afterui.chat.ChatManagerService;
-import com.beacon.afterui.chat.MessageListAdapter;
 import com.beacon.afterui.chat.ChatManagerService.ChatManagerImpl;
+import com.beacon.afterui.chat.MessageListAdapter;
 import com.beacon.afterui.constants.AppConstants;
-import com.beacon.afterui.provider.PreferenceEngine;
 import com.beacon.afterui.provider.AfterYouMetadata.MessageTable;
 import com.beacon.afterui.provider.AfterYouMetadata.RosterTable;
+import com.beacon.afterui.provider.PreferenceEngine;
 
 public class ChatScreenFragment extends BaseActivity implements
         OnClickListener, LoaderCallbacks<Cursor> {
@@ -51,6 +46,8 @@ public class ChatScreenFragment extends BaseActivity implements
 
     private long mRosterId;
 
+    private View mCancelButton;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,7 +62,10 @@ public class ChatScreenFragment extends BaseActivity implements
         mMessageList = (ListView) findViewById(R.id.chat_msg_list);
         mMessageList.setTranscriptMode(ListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
         mMessageList.setStackFromBottom(true);
-        
+
+        mCancelButton = findViewById(R.id.cancel_btn_chat_screen);
+        mCancelButton.setOnClickListener(this);
+
         mMessageAdapter = new MessageListAdapter(this, null,
                 CursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
         mMessageList.setAdapter(mMessageAdapter);
@@ -132,9 +132,12 @@ public class ChatScreenFragment extends BaseActivity implements
             mMessageEditText.setText("");
             break;
 
+        case R.id.cancel_btn_chat_screen:
+            finish();
+            break;
         }
-
     }
+
     @Override
     public void onDestroy() {
         mChatManager.closeChatSession();
