@@ -127,9 +127,11 @@ public class ChatScreenFragment extends BaseActivity implements
 
         switch (v.getId()) {
         case R.id.post_btn:
-            final String text = mMessageEditText.getText().toString();
-            mChatManager.sendMessage(text, mReceiver);
-            mMessageEditText.setText("");
+            final String text = mMessageEditText.getText().toString().trim();
+            if (text.length() > 0) {
+                mChatManager.sendMessage(text, mReceiver);
+                mMessageEditText.setText("");
+            }
             break;
 
         case R.id.cancel_btn_chat_screen:

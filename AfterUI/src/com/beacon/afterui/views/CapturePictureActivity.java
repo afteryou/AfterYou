@@ -61,7 +61,6 @@ public class CapturePictureActivity extends BaseActivity implements
     private ImageButton mEditBtn;
     private ImageButton mCancelBtn;
     private ImageButton mDoneBtn;
-    private ImageButton mCropBarBtn;
     private ImageButton mChooseFromLiabraryBtn;
     private ImageView mCropImgSqaureGray;
     private ImageView mCropImgSqaureLine;
@@ -70,11 +69,9 @@ public class CapturePictureActivity extends BaseActivity implements
     private ImageButton mImageEffectBtn;
     private ImageButton mImageRedEyeBtn;
     private static final String PATH = "path";
-    private static final String ID = "id";
     private ImageView mUserImage;
     private JSONObject profileURL = null;
     private Context ctx;
-    private Bitmap mEditedBitmap;
 
     private RelativeLayout mImageEditLayout;
     private static final String FLAG = "ok";
@@ -97,7 +94,7 @@ public class CapturePictureActivity extends BaseActivity implements
     private static final int SAVE_IMAGE_DONE = 9;
 
     private HandlerThread mDeamonThread;
-    private Handler mDeamonHandler;
+    private DeamonHandler mDeamonHandler;
 
     /** Stores profile image. */
     private ImageCache mProfileImageCache;
@@ -108,14 +105,18 @@ public class CapturePictureActivity extends BaseActivity implements
     public static final String PROFILE_PIC = "profile_pic";
     public static final String PROFILE_PIC_THUMB = "profile_pic_thumb";
 
+    private static final int SAVE_AFTER_ROTATE = 1001;
+
+    private static final int SAVE_FOR_FINISH = 1002;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         setIsRootView(true);
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.capture_picture);
-		setBehindLeftContentView(R.layout.capture_picture);
-		setBehindRightContentView(R.layout.capture_picture);
+        setBehindLeftContentView(R.layout.capture_picture);
+        setBehindRightContentView(R.layout.capture_picture);
         this.ctx = this;
         mSubmitBtn = (ImageButton) findViewById(R.id.submit_btn);
         mEditBtn = (ImageButton) findViewById(R.id.edit_btn);
@@ -156,8 +157,8 @@ public class CapturePictureActivity extends BaseActivity implements
         mCropImgSqaureGray = (ImageView) findViewById(R.id.crop_image_sqaure);
         mCropImgSqaureLine = (ImageView) findViewById(R.id.crop_image_sqaure_white);
         mUserImage = (ImageView) findViewById(R.id.user_image);
-        mUserImage.setImageDrawable(getResources().getDrawable(
-                R.drawable.capture_photo_bg));
+        // mUserImage.setImageDrawable(getResources().getDrawable(
+        // R.drawable.capture_photo_bg));
         mUserImage.setRotation(0);
 
         mEditBtn.setEnabled(true);
@@ -174,9 +175,10 @@ public class CapturePictureActivity extends BaseActivity implements
 
         mProfileImageCache = new ImageCache(this, PROFILE_PIC);
 
-        mEditedBitmap = mProfileImageCache.getBitmapFromDiskCache(PROFILE_PIC);
-        if (mEditedBitmap != null) {
-            mUserImage.setImageBitmap(mEditedBitmap);
+        Bitmap editedBitmap = mProfileImageCache
+                .getBitmapFromDiskCache(PROFILE_PIC);
+        if (editedBitmap != null) {
+            mUserImage.setImageBitmap(editedBitmap);
         }
 
         mProfileThumbImageCache = new ImageCache(this, PROFILE_PIC_THUMB);
@@ -210,7 +212,7 @@ public class CapturePictureActivity extends BaseActivity implements
         mDeamonThread = new HandlerThread("deamon");
         mDeamonThread.start();
 
-        mDeamonHandler = new Handler(mDeamonThread.getLooper());
+        mDeamonHandler = new DeamonHandler(mDeamonThread.getLooper());
     }
 
     class UIHandler extends Handler {
@@ -256,10 +258,7 @@ public class CapturePictureActivity extends BaseActivity implements
 
             case DONE_GETTING_IMAGE:
                 removeDialog();
-                if (mEditedBitmap != null) {
-                    mUserImage.setImageBitmap(mEditedBitmap);
-                    mDeamonHandler.post(mSaveImage);
-                }
+                mDeamonHandler.sendEmptyMessage(SAVE_AFTER_ROTATE);
                 break;
 
             case UPDATE_IMAGE:
@@ -272,8 +271,7 @@ public class CapturePictureActivity extends BaseActivity implements
                 waitProgress.setMessage(ctx
                         .getString(R.string.saving_photo_update));
                 waitProgress.show();
-                mDeamonHandler.post(mSaveImage);
-                handler.sendEmptyMessage(SAVE_IMAGE_DONE);
+                mDeamonHandler.sendEmptyMessage(SAVE_FOR_FINISH);
                 break;
 
             case SAVE_IMAGE_DONE:
@@ -394,27 +392,41 @@ public class CapturePictureActivity extends BaseActivity implements
         // our behalf.
         if (rotatedBitmap != null) {
             mUserImage.setImageBitmap(rotatedBitmap);
-            mDeamonHandler.post(mSaveImage);
+            mDeamonHandler.sendEmptyMessage(SAVE_AFTER_ROTATE);
         }
     }
 
-    private Runnable mSaveImage = new Runnable() {
+    private class DeamonHandler extends Handler {
+
+        public DeamonHandler(Looper looper) {
+            // TODO Auto-generated constructor stub
+        }
 
         @Override
-        public void run() {
-            // store to media store.
-            // ImageInfoUtils.saveToMediaStore(CapturePictureActivity.this,
-            // ((BitmapDrawable) mUserImage.getDrawable()).getBitmap());
+        public void handleMessage(Message msg) {
 
-            Bitmap bitmap = ((BitmapDrawable) mUserImage.getDrawable())
-                    .getBitmap();
+            switch (msg.what) {
+            case SAVE_AFTER_ROTATE:
+                saveImage();
+                break;
 
-            mProfileImageCache.addBitmapToCache(PROFILE_PIC, bitmap);
-            Bitmap thumb = ThumbnailUtils.extractThumbnail(bitmap, 50, 50);
-            mProfileThumbImageCache.addBitmapToCache(PROFILE_PIC_THUMB, thumb);
+            case SAVE_FOR_FINISH:
+                saveImage();
+                handler.sendEmptyMessage(SAVE_IMAGE_DONE);
+                break;
+            }
 
         }
-    };
+
+    }
+
+    private void saveImage() {
+        Bitmap bitmap = ((BitmapDrawable) mUserImage.getDrawable()).getBitmap();
+
+        mProfileImageCache.addBitmapToCache(PROFILE_PIC, bitmap);
+        Bitmap thumb = ThumbnailUtils.extractThumbnail(bitmap, 50, 50);
+        mProfileThumbImageCache.addBitmapToCache(PROFILE_PIC_THUMB, thumb);
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -434,7 +446,6 @@ public class CapturePictureActivity extends BaseActivity implements
             String flag = data.getStringExtra(FLAG);
             if (flag.equals("ok")) {
                 mEditBtn.setEnabled(true);
-
             }
             break;
         }
@@ -540,19 +551,20 @@ public class CapturePictureActivity extends BaseActivity implements
                             d.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
                     Canvas canvas = new Canvas(bitmap);
                     d.draw(canvas);
-                    mEditedBitmap = ImageInfoUtils.updateHSV(bitmap);
+                    Bitmap editedBitmap = ImageInfoUtils.updateHSV(bitmap);
+                    mUserImage.setImageBitmap(editedBitmap);
                     handler.sendEmptyMessage(DONE_GETTING_IMAGE);
                 } else {
                     Bitmap bitmap = ImageResizer.decodeSampledBitmapFromFile(
                             mImageUri.getPath(), 400, 400);
                     if (bitmap != null) {
-                        mEditedBitmap = ImageInfoUtils.updateHSV(bitmap);
+                        Bitmap editedBitmap = ImageInfoUtils.updateHSV(bitmap);
+                        mUserImage.setImageBitmap(editedBitmap);
                         handler.sendEmptyMessage(DONE_GETTING_IMAGE);
                     } else {
                         handler.sendEmptyMessage(ERROR_FILTERING_IMAGE);
                     }
                 }
-
                 break;
             }
         }
