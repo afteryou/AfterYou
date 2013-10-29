@@ -3,6 +3,7 @@ package com.beacon.afterui.sliding.fragment;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.ComponentName;
 import android.content.ContentResolver;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.CursorLoader;
 import android.content.Intent;
@@ -38,7 +39,6 @@ public class ChatScreenFragment extends BaseActivity implements
     private ListView mMessageList;
     // private ChatMessageAdapter mChatMessageAdpter;
     private MessageListAdapter mMessageAdapter;
-    private String[] mUserMsg;
 
     private ChatManagerService mChatManager;
 
@@ -101,6 +101,22 @@ public class ChatScreenFragment extends BaseActivity implements
         cursor.close();
     }
 
+    private void updateUnReadMessages() {
+        if (mReceiver == null) {
+            return;
+        }
+
+        final ContentResolver resolver = getContentResolver();
+        final ContentValues values = new ContentValues();
+        values.put(MessageTable.READ_STATUS, MessageTable.MESSAGE_READ);
+
+        final String selection = MessageTable.SENDER + "=?";
+        final String[] selectionArgs = { mReceiver };
+
+        resolver.update(MessageTable.CONTENT_URI, values, selection,
+                selectionArgs);
+    }
+
     private void bindService() {
         // Bind to LocalService
         Intent intent = new Intent(this, ChatManagerService.class);
@@ -113,7 +129,7 @@ public class ChatScreenFragment extends BaseActivity implements
         public void onServiceConnected(ComponentName name, IBinder service) {
             ChatManagerImpl impl = (ChatManagerImpl) service;
             mChatManager = impl.getService();
-            mChatManager.openChatSession();
+            mChatManager.openChatSession(mReceiver);
         }
 
         @Override
@@ -142,6 +158,7 @@ public class ChatScreenFragment extends BaseActivity implements
 
     @Override
     public void onDestroy() {
+        updateUnReadMessages();
         mChatManager.closeChatSession();
         unbindService(mServicConnection);
         super.onDestroy();
@@ -149,7 +166,6 @@ public class ChatScreenFragment extends BaseActivity implements
 
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args) {
-        Log.d(TAG, "onCreateLoader()");
         final String selection = "(" + MessageTable.SENDER + "=? OR "
                 + MessageTable.SENDER + "=?) AND (" + MessageTable.RECEIVER
                 + "=? OR " + MessageTable.RECEIVER + "=?)";
@@ -163,9 +179,6 @@ public class ChatScreenFragment extends BaseActivity implements
 
     @Override
     public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
-        Log.d(TAG, "onLoadFinished() : "
-                + (cursor == null ? "Cursor is NULL" : "Cursor Length : "
-                        + cursor.getCount()));
         mMessageAdapter.swapCursor(cursor);
         mMessageAdapter.notifyDataSetChanged();
     }
