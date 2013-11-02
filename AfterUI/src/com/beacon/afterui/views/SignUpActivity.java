@@ -125,8 +125,8 @@ public class SignUpActivity extends BaseActivity implements OnClickListener,
             mFirstnameText.setText("abc");
             mLastNameText.setText("xyz");
             mEmailText.setText("peace_manav@gmail.in");
-            mPasswordText.setText("peace");
-            mConfirmText.setText("peace");
+            mPasswordText.setText("peacea");
+            mConfirmText.setText("peacea");
             mBirthDayText.setText("1234");
         }
         mLeftImage.setOnClickListener(this);
