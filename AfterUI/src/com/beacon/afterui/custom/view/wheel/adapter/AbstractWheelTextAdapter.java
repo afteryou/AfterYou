@@ -258,8 +258,10 @@ public abstract class AbstractWheelTextAdapter extends AbstractWheelAdapter {
         switch (resource) {
         case NO_RESOURCE:
             return null;
+            
         case TEXT_VIEW_ITEM_RESOURCE:
             return new TextView(context);
+            
         default:
             return inflater.inflate(resource, parent, false);    
         }

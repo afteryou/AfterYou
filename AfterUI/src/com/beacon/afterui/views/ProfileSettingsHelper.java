@@ -4,8 +4,11 @@ import java.util.Calendar;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 
 import com.beacon.afterui.R;
@@ -102,7 +105,7 @@ public class ProfileSettingsHelper {
         int currentValue;
 
         private Typeface typeFaceRegular;
-        
+
         private Context mContext;
 
         /**
@@ -169,6 +172,8 @@ public class ProfileSettingsHelper {
             view.setTypeface(typeFaceRegular);
             view.setTextColor(mContext.getResources().getColor(
                     R.color.brown_background));
+
+            Log.d("test", " ----> : " + view.getLayoutParams());
         }
 
         @Override
