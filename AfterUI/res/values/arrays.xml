@@ -19,50 +19,23 @@
         <item>@string/IDS_YES</item>
         <item>@string/IDS_NO</item>
     </string-array>
-    <string-array name="height_choices">
+    <string-array name="height_foot">
         <item>4 feet</item>
-        <item>4 feet 1 inches</item>
-        <item>4 feet 2 inches</item>
-        <item>4 feet 3 inches</item>
-        <item>4 feet 4 inches</item>
-        <item>4 feet 5 inches</item>
-        <item>4 feet 6 inches</item>
-        <item>4 feet 7 inches</item>
-        <item>4 feet 8 inches</item>
-        <item>4 feet 9 inches</item>
-        <item>4 feet 10 inches</item>
-        <item>4 feet 11 inches</item>
         <item>5 feet</item>
-        <item>5 feet 1 inches</item>
-        <item>5 feet 2 inches</item>
-        <item>5 feet 3 inches</item>
-        <item>5 feet 4 inches</item>
-        <item>5 feet 5 inches</item>
-        <item>5 feet 6 inches</item>
-        <item>5 feet 7 inches</item>
-        <item>5 feet 8 inches</item>
-        <item>5 feet 9 inches</item>
-        <item>5 feet 10 inches</item>
-        <item>5 feet 11 inches</item>
         <item>6 feet</item>
-        <item>6 feet 1 inches</item>
-        <item>6 feet 2 inches</item>
-        <item>6 feet 3 inches</item>
-        <item>6 feet 4 inches</item>
-        <item>6 feet 5 inches</item>
-        <item>6 feet 6 inches</item>
-        <item>6 feet 7 inches</item>
-        <item>6 feet 8 inches</item>
-        <item>6 feet 9 inches</item>
-        <item>6 feet 10 inches</item>
-        <item>6 feet 11 inches</item>
-        <item>7 feet</item>
-        <item>7 feet 1 inches</item>
-        <item>7 feet 2 inches</item>
-        <item>7 feet 3 inches</item>
-        <item>7 feet 4 inches</item>
-        <item>7 feet 5 inches</item>
-        <item>7 feet 6 inches</item>
+    </string-array>
+    <string-array name="height_inches">
+        <item>1 inches</item>
+        <item>2 inches</item>
+        <item>3 inches</item>
+        <item>4 inches</item>
+        <item>5 inches</item>
+        <item>6 inches</item>
+        <item>7 inches</item>
+        <item>8 inches</item>
+        <item>9 inches</item>
+        <item>10 inches</item>
+        <item>11 inches</item>
     </string-array>
     <string-array name="body_type_choices">
         <item>@string/IDS_THIN</item>

@@ -15,10 +15,14 @@ public final class AppConstants {
 	public static final String SELF_RELATION = "Self_Rltn";
 	public static final String SELF_RELATION_INT = "Self_Rltn_Int";
 	public static final String WANT_CHILDREN = "wnt_chld";
-	public static final String SELF_HEIGHT = "self_height";
-	public static final String MATCH_HEIGHT = "match_height";
-	public static final String SELF_HEIGHT_INT = "self_height_int";
-	public static final String MATCH_HEIGHT_INT = "match_height_int";
+	public static final String SELF_HEIGHT_FOOT = "self_height_foot";
+	public static final String MATCH_HEIGHT_FOOT = "match_height_foot";
+	public static final String SELF_HEIGHT_INCHES = "self_height_inches";
+	public static final String MATCH_HEIGHT_INCHES = "match_height_inches";
+	public static final String SELF_HEIGHT_FOOT_INT = "self_height_foot_int";
+	public static final String MATCH_HEIGHT_FOOT_INT = "match_height_foot_int";
+	public static final String SELF_HEIGHT_INCHES_INT = "self_height_inches_int";
+	public static final String MATCH_HEIGHT_INCHES_INT = "match_height_inches_int";
 	public static final String SELF_BODY = "self_body";
 	public static final String SELF_BODY_INT = "self_body_int";
 	public static final String MATCH_BODY = "match_body";
@@ -66,15 +70,15 @@ public final class AppConstants {
 
 	public static final String SELF_GENDER = "self_gender";
 	public static final String SELF_FB_ID = "SELF_FB_ID";
-	
+
 	public static final String USER_NAME = "user_name";
-	public static final String PASSWORD  = "password";
+	public static final String PASSWORD = "password";
 	public static final String LAST_LOGGED_IN = "last_logged_in";
 	public static final String CHAT_USER_NAME = "chat_user_name";
-	
+
 	public static final String IS_FTT = "IS_FTT";
-	
-	public static final String ROSTER_ID = "roster_id"; 
+
+	public static final String ROSTER_ID = "roster_id";
 
 	public static boolean isDebugMode() {
 		return DEBUGMODE.trim().equals("true");
