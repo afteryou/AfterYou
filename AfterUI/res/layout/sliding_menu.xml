@@ -46,8 +46,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/search_lay"
         android:layout_marginLeft="20dp"
-        android:layout_marginTop="5dp"
-        android:background="@drawable/user_image" />
+        android:layout_marginTop="5dp" />
 
     <TextView
         android:id="@+id/user_name"
