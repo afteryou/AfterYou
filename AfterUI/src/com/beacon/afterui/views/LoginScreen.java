@@ -19,9 +19,11 @@ import com.beacon.afterui.R;
 import com.beacon.afterui.activity.BaseActivity;
 import com.beacon.afterui.constants.AppConstants;
 import com.beacon.afterui.provider.PreferenceEngine;
+import com.beacon.afterui.utils.AnalyticsUtils;
 import com.beacon.afterui.utils.Utilities;
 import com.beacon.afterui.utils.customviews.AfterYouDialogImpl;
 import com.beacon.afterui.utils.customviews.ErrorDialog;
+import com.google.analytics.tracking.android.EasyTracker;
 
 public class LoginScreen extends BaseActivity implements OnClickListener,
         OnFocusChangeListener {
@@ -84,8 +86,19 @@ public class LoginScreen extends BaseActivity implements OnClickListener,
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
+    protected void onStart() {
+        super.onStart();
+
+        EasyTracker easyTracker = EasyTracker.getInstance(this);
+        easyTracker.activityStart(this);
+
+        AnalyticsUtils.logScreenEvent(this, "Login Screen");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        EasyTracker.getInstance(this).activityStop(this);
     }
 
     @Override
@@ -129,6 +142,9 @@ public class LoginScreen extends BaseActivity implements OnClickListener,
 
         prefEngine.setUsername(mEmailText.getText().toString());
         prefEngine.setPassword(mPasswordText.getText().toString());
+
+        AnalyticsUtils.logButtonPressEvent(this, "login-"
+                + mEmailText.getText().toString(), -1);
 
         Intent intent = new Intent(LoginScreen.this,
                 CapturePictureActivity.class);
