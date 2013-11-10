@@ -83,7 +83,7 @@ public class LoginScreen extends BaseActivity implements OnClickListener,
         EasyTracker easyTracker = EasyTracker.getInstance(this);
         easyTracker.activityStart(this);
 
-        AnalyticsUtils.logScreenEvent(this, "login-screen");
+        AnalyticsUtils.logScreenEvent(this, "Login Screen");
     }
 
     @Override
