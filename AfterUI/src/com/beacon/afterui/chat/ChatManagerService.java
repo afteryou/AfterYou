@@ -19,6 +19,9 @@ import org.jivesoftware.smack.packet.Presence;
 import org.jivesoftware.smack.proxy.ProxyInfo;
 import org.jivesoftware.smackx.packet.VCard;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.ContentResolver;
 import android.content.ContentValues;
@@ -32,6 +35,8 @@ import android.os.Looper;
 import android.os.Message;
 import android.util.Log;
 
+import com.beacon.afterui.R;
+import com.beacon.afterui.constants.AppConstants;
 import com.beacon.afterui.provider.AfterYouMetadata.MessageTable;
 import com.beacon.afterui.provider.AfterYouMetadata.RosterTable;
 import com.beacon.afterui.provider.PreferenceEngine;
@@ -238,7 +243,7 @@ public class ChatManagerService extends Service implements
 
                 if (roster == null) {
                     Log.e(TAG, "Roster is NULL");
-                    reportRosterStatus(rosterListener, handler);
+                    reportRosterFailedStatus(rosterListener, handler);
                     return;
                 }
 
@@ -327,6 +332,7 @@ public class ChatManagerService extends Service implements
                 }
                 Log.d(TAG, "Roster updated to DB!");
                 roster.addRosterListener(ChatManagerService.this);
+                reportRosterSuccessStatus(rosterListener, handler);
             }
         }).start();
     }
@@ -349,7 +355,7 @@ public class ChatManagerService extends Service implements
         return false;
     }
 
-    private void reportRosterStatus(final RosterListener rosterListener,
+    private void reportRosterFailedStatus(final RosterListener rosterListener,
             final Handler handler) {
         if (rosterListener == null || handler == null) {
             Log.e(TAG, "roster listener or handler is NULL!");
@@ -361,6 +367,22 @@ public class ChatManagerService extends Service implements
             @Override
             public void run() {
                 rosterListener.onRosterFailed();
+            }
+        });
+    }
+    
+    private void reportRosterSuccessStatus(final RosterListener rosterListener,
+            final Handler handler) {
+        if (rosterListener == null || handler == null) {
+            Log.e(TAG, "roster listener or handler is NULL!");
+            return;
+        }
+
+        handler.post(new Runnable() {
+
+            @Override
+            public void run() {
+                rosterListener.onRosterDownloaded();
             }
         });
     }
@@ -598,6 +620,7 @@ public class ChatManagerService extends Service implements
 
         resolver.update(RosterTable.CONTENT_URI, values, selection,
                 selectionArgs);
+        
     }
 
     private void processIncomingMessages(
@@ -627,6 +650,12 @@ public class ChatManagerService extends Service implements
 
         final ContentResolver resolver = getContentResolver();
         resolver.insert(MessageTable.CONTENT_URI, values);
+        
+        PendingIntent pdSent = PendingIntent.getBroadcast(this, 0, new Intent(AppConstants.NOTIFICATION_SENT).putExtra(AppConstants.SENDER, from), 0);
+        
+        NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        Notification noti = new Notification.Builder(this).setAutoCancel(true).setContentTitle(getString(R.string.IDS_NOTIFY_STRING) + from).setContentText(message.getBody()).setSmallIcon(R.drawable.logo).setContentIntent(pdSent).build(); 
+        nm.notify(AppConstants.NOTIFICATION_ID, AppConstants.NOTIFICATION_INT, noti);
     }
 
     private void processOutGoingMessage(final OutgoingMessage outgoingMessage) {

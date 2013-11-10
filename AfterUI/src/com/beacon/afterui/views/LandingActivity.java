@@ -44,7 +44,7 @@ public class LandingActivity extends BaseActivity implements OnClickListener {
 	private static final int START_SPINNER = 2;
 	private static final int STOP_SPINNER = 3;
 
-	private static final int SPALSH_VISIBLE_TIME = 3000;
+	private static final int SPALSH_VISIBLE_TIME = 1000;
 
 	private SplashHandler mSplashHandler;
 
@@ -66,7 +66,14 @@ public class LandingActivity extends BaseActivity implements OnClickListener {
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
+//        if(getIntent().getAction() == AppConstants.NOTIFICATION_SENT)
+//        {
+//        	PreferenceEngine.getInstance(this).setFromNotification(true);
+//        	PreferenceEngine.getInstance(this).setNotifySenderName(getIntent().getExtras().getString(AppConstants.SENDER));
+//        }
+//        else{
+//        	PreferenceEngine.getInstance(this).setFromNotification(false);
+//        }
 		setContentView(R.layout.landing_screen);
 		setBehindLeftContentView(R.layout.landing_screen);
 		setBehindRightContentView(R.layout.landing_screen);
@@ -172,12 +179,11 @@ public class LandingActivity extends BaseActivity implements OnClickListener {
 			break;
 
 		case R.id.fb_container:
-			if(PreferenceEngine.getInstance(ctx).isFTT())
-			{
+			if (PreferenceEngine.getInstance(ctx).isFTT()) {
 				onClickLogin();
 			}
 			PreferenceEngine.getInstance(ctx).setFTT(false);
-			
+
 			break;
 		}
 
@@ -208,8 +214,10 @@ public class LandingActivity extends BaseActivity implements OnClickListener {
 			progrssText.setVisibility(View.VISIBLE);
 			mCustomProgress.setVisibility(View.VISIBLE);
 		} else {
-			progrssText.setVisibility(View.GONE);
-			mCustomProgress.setVisibility(View.GONE);
+			if (progrssText != null && mCustomProgress != null) {
+				progrssText.setVisibility(View.GONE);
+				mCustomProgress.setVisibility(View.GONE);
+			}
 		}
 
 	}
@@ -227,6 +235,8 @@ public class LandingActivity extends BaseActivity implements OnClickListener {
 	}
 
 	private void onClickLogin() {
+		mSplashHandler.sendEmptyMessageDelayed(START_SPINNER,
+				SPALSH_VISIBLE_TIME);
 		Session session = Session.getActiveSession();
 		if (!session.isOpened() && !session.isClosed()) {
 			session.openForRead(new Session.OpenRequest(this)
@@ -278,7 +288,7 @@ public class LandingActivity extends BaseActivity implements OnClickListener {
 						StringBuffer userInfo = new StringBuffer();
 						JSONArray languages = (JSONArray) user
 								.getProperty("languages");
-						if (languages!= null && languages.length() > 0) {
+						if (languages != null && languages.length() > 0) {
 							for (int i = 0; i < languages.length(); i++) {
 								JSONObject language = languages
 										.optJSONObject(i);
@@ -290,19 +300,17 @@ public class LandingActivity extends BaseActivity implements OnClickListener {
 							// userInfo.append(String.format("Languages: %s\n\n",
 							// languageNames.toString()));
 						}
-//						if (userInfo.length() > 0) {
-							PreferenceEngine.getInstance(ctx).setSelfLangList(
-									userInfo.toString());
-							mSplashHandler.sendEmptyMessageDelayed(
-									STOP_SPINNER, SPALSH_VISIBLE_TIME);
-//						}
+						// if (userInfo.length() > 0) {
+						PreferenceEngine.getInstance(ctx).setSelfLangList(
+								userInfo.toString());
+						mSplashHandler.sendEmptyMessageDelayed(STOP_SPINNER,
+								SPALSH_VISIBLE_TIME);
+						// }
 					}
 
 				}
 			});
 
-			mSplashHandler.sendEmptyMessageDelayed(START_SPINNER,
-					SPALSH_VISIBLE_TIME);
 			fetchUserInfo();
 
 		} else {

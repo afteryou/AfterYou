@@ -9,6 +9,7 @@ import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.graphics.Point;
 import android.graphics.Rect;
@@ -27,6 +28,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,10 +36,14 @@ import com.beacon.afterui.R;
 import com.beacon.afterui.constants.CommonConstants;
 import com.beacon.afterui.log.AfterUIlog;
 import com.beacon.afterui.provider.CacheManager;
+import com.beacon.afterui.provider.PreferenceEngine;
 import com.beacon.afterui.sliding.customViews.CustomGridView;
+import com.beacon.afterui.sliding.customViews.ListPopupMenu;
 import com.beacon.afterui.sliding.customViews.CustomGridView.IDataListener;
 import com.beacon.afterui.utils.ImageUtils;
 import com.beacon.afterui.utils.WindowUtils;
+import com.beacon.afterui.utils.customviews.AfterYouDialogImpl;
+import com.beacon.afterui.utils.customviews.ErrorDialog;
 import com.beacon.afterui.views.data.Interest;
 import com.beacon.afterui.views.data.InterestAdapter;
 import com.beacon.afterui.views.data.InterestController;
@@ -111,6 +117,7 @@ public class ContentFragment extends Fragment implements FragmentLifecycle,OnIte
 	protected int sel_position;
 	protected long sel_id;
 	private InterestClickListener mClickListener;
+	private ListPopupMenu mActionBarNavMenu;
 
 	public ContentFragment(Context mContext) {
 		this.mContext = mContext;
@@ -135,6 +142,21 @@ public class ContentFragment extends Fragment implements FragmentLifecycle,OnIte
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.main_fragment, null);
+		
+		ImageView notifyBox = (ImageView)view.findViewById(R.id.notifyImage);
+		notifyBox.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				ListPopupMenu popup = getNotifyMenu();
+				if (popup != null && !popup.isShowing()) {
+					popup.showAsDropDown(v);
+				}
+				else if(popup == null){
+					showErrorDialog();
+				}
+			}
+		});
 
 		mAdapterView = (CustomGridView) view.findViewById(R.id.list);
 		mAdapterView.setPullLoadEnable(true);
@@ -218,6 +240,43 @@ public class ContentFragment extends Fragment implements FragmentLifecycle,OnIte
 			}
 		};
 		return view;
+	}
+
+	protected ListPopupMenu getNotifyMenu() {
+		if(PreferenceEngine.getInstance(mContext).getUnReadMessageList() == null)
+		{
+			return null;
+		}
+		if (mActionBarNavMenu == null) {
+			mActionBarNavMenu = new ListPopupMenu(mContext,
+					R.layout.actionbar_menu_item, R.id.item_text,
+					PreferenceEngine.getInstance(mContext).getUnReadMessageList()); // TODO
+			mActionBarNavMenu.getListView().setSelector(
+					R.drawable.actionbar_btn_bg_selected);
+
+			mActionBarNavMenu.getListView().setOnItemClickListener(
+					new OnItemClickListener() {
+						public void onItemClick(AdapterView<?> parent,
+								View view, int position, long id) {
+							mActionBarNavMenu.dismiss();
+						}
+					});
+		}
+		return mActionBarNavMenu;
+	}
+	
+	
+	private void showErrorDialog() {
+		ErrorDialog errDialog = new ErrorDialog(new AfterYouDialogImpl(mContext),
+				mContext, R.style.Theme_CustomDialog,
+				new DialogInterface.OnClickListener() {
+
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+
+					}
+				}, getResources().getString(R.string.IDS_NO_UNREAD_MSGS));
+		errDialog.show();
 	}
 
 	private void applyBackAnimation() {

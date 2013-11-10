@@ -1,5 +1,7 @@
 package com.beacon.afterui.provider;
 
+import java.util.Set;
+
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -764,5 +766,41 @@ public class PreferenceEngine {
 		return getDefaultSharePreference()
 				.getBoolean(AppConstants.IS_FTT, true);
 
+	}
+
+	public void setFromNotification(boolean notify) {
+		Editor editor = getDefaultSharePreference().edit();
+		editor.putBoolean(AppConstants.NOTIFICATION_ID, notify);
+		editor.commit();
+		
+	}
+	
+	public boolean isFromNotification(){
+		return getDefaultSharePreference().getBoolean(AppConstants.NOTIFICATION_ID, false);
+	}
+
+	public void setUnReadMessageList(Set<String> messSet) {
+		Editor editor = getDefaultSharePreference().edit();
+		editor.putStringSet(AppConstants.UNREAD_MSGS, messSet);
+		editor.commit();
+		
+	}
+	
+	public String[] getUnReadMessageList() {
+		String[] array = new String[getDefaultSharePreference().getStringSet(AppConstants.UNREAD_MSGS, null).size()];
+		getDefaultSharePreference().getStringSet(AppConstants.UNREAD_MSGS, null).toArray(array);
+		return array;
+		
+	}
+
+	public void setNotifySenderName(String sender) {
+		Editor editor = getDefaultSharePreference().edit();
+		editor.putString(AppConstants.SENDER, sender);
+		editor.commit();
+		
+	}
+	
+	public String getSenderName(){
+		return getDefaultSharePreference().getString(AppConstants.SENDER, null);
 	}
 }

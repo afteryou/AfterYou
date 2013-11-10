@@ -8,14 +8,11 @@ import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.app.SearchManager;
 import android.app.SearchableInfo;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.content.ServiceConnection;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.IBinder;
 import android.provider.SearchRecentSuggestions;
 import android.text.TextUtils;
 import android.view.Menu;
@@ -37,9 +34,8 @@ import android.widget.Toast;
 import com.beacon.afterui.R;
 import com.beacon.afterui.activity.BaseActivity;
 import com.beacon.afterui.application.AfterYouApplication;
-import com.beacon.afterui.chat.ChatManagerService;
-import com.beacon.afterui.chat.ChatManagerService.ChatManagerImpl;
-import com.beacon.afterui.chat.ChatManagerService.ChatManagerImpl;
+import com.beacon.afterui.constants.AppConstants;
+import com.beacon.afterui.provider.PreferenceEngine;
 import com.beacon.afterui.sliding.SlidingMenu;
 import com.beacon.afterui.sliding.customViews.ListPopupMenu;
 import com.beacon.afterui.sliding.fragment.ChatMenuFragment;
@@ -73,6 +69,14 @@ public class MainActivity extends BaseActivity implements OnQueryTextListener,
 		setIsRootView(true);
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.main_fragment_container);
+//        if(getIntent().getAction() == AppConstants.NOTIFICATION_SENT)
+//        {
+//        	PreferenceEngine.getInstance(this).setFromNotification(true);
+//        	PreferenceEngine.getInstance(this).setNotifySenderName(getIntent().getExtras().getString(AppConstants.SENDER));
+//        }
+//        else{
+//        	PreferenceEngine.getInstance(this).setFromNotification(false);
+//        }
 		initActionBar();
 		initLeftSlidMenu();
 		initRightSlidMenu();

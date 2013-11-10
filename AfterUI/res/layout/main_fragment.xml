@@ -11,15 +11,22 @@
         android:layout_height="wrap_content"
         android:background="@drawable/take_photo_bar" >
 
-        <TextView
-            android:id="@+id/searchText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="@string/IDS_SEARCH"
-            android:textColor="@color/white_color"
-            android:textSize="16sp" />
+            <ImageView android:id="@+id/notifyImage"
+                android:src="@drawable/notify"
+                android:layout_width="wrap_content"
+                android:paddingLeft="20dp"
+                android:layout_centerVertical="true"
+                android:layout_height="wrap_content"/>
+            
 
+            <TextView
+                android:id="@+id/searchText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:text="@string/IDS_SEARCH"
+                android:textColor="@color/white_color"
+                android:textSize="16sp" />
     </RelativeLayout>
 
     <com.beacon.afterui.sliding.customViews.CustomGridView
@@ -31,7 +38,6 @@
         android:fastScrollEnabled="true"
         android:paddingLeft="@dimen/feed_list_padding"
         android:paddingRight="@dimen/feed_list_padding"
-        android:scrollbars="vertical"
-        />
+        android:scrollbars="vertical" />
 
 </RelativeLayout>

@@ -1,5 +1,7 @@
 package com.beacon.afterui.constants;
 
+import android.content.Intent;
+
 public final class AppConstants {
 	public static final String APP_PREFERENCE = "com.beacon.afterui.application";
 
@@ -79,6 +81,16 @@ public final class AppConstants {
 	public static final String IS_FTT = "IS_FTT";
 
 	public static final String ROSTER_ID = "roster_id";
+	public static final String ROSTER_NAME = "roster_name";
+	
+	public static final String NOTIFICATION_ID = "AFTERYOU_NOTIFICATION_ID";
+	public static final int NOTIFICATION_INT = 1001;
+
+	public static final String NOTIFICATION_SENT ="AFTERYOU_NOTIFICATION_SENT";
+
+	public static final String SENDER = "afteryou_sender";
+
+	public static final String UNREAD_MSGS = "afteryou_unread";
 
 	public static boolean isDebugMode() {
 		return DEBUGMODE.trim().equals("true");

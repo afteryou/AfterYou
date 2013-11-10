@@ -17,6 +17,7 @@ import android.widget.TextView;
 
 import com.beacon.afterui.R;
 import com.beacon.afterui.activity.BaseActivity;
+import com.beacon.afterui.constants.AppConstants;
 import com.beacon.afterui.provider.PreferenceEngine;
 import com.beacon.afterui.utils.Utilities;
 import com.beacon.afterui.utils.customviews.AfterYouDialogImpl;
@@ -42,6 +43,14 @@ public class LoginScreen extends BaseActivity implements OnClickListener,
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if(getIntent().getAction() == AppConstants.NOTIFICATION_SENT)
+        {
+        	PreferenceEngine.getInstance(this).setFromNotification(true);
+        	PreferenceEngine.getInstance(this).setNotifySenderName(getIntent().getExtras().getString(AppConstants.SENDER));
+        }
+        else{
+        	PreferenceEngine.getInstance(this).setFromNotification(false);
+        }
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.login_screen);
         setBehindLeftContentView(R.layout.login_screen);

@@ -100,7 +100,13 @@
             android:authorities="com.beacon.afterui"
             android:enabled="true" >
         </provider>
-
+        
+		<receiver android:name="com.beacon.afterui.chat.NotificationReciever" android:exported="true">
+            <intent-filter android:priority="1000">
+                <action android:name="AFTERYOU_NOTIFICATION_SENT"/>
+            </intent-filter>
+        </receiver>
+        
         <service android:name=".chat.ChatManagerService" >
         </service>
     </application>

@@ -217,4 +217,6 @@
     <string name="IDS_MESSAGE">Message</string>
     <string name="write_msg_txt">Write a message...</string>
     <string name="post_txt">Post</string>
+    <string name="IDS_NO_UNREAD_MSGS">There are no unread messages</string>
+    <string name="IDS_NOTIFY_STRING">New message from</string>
 </resources>
