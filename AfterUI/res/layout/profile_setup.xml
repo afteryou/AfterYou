@@ -104,8 +104,8 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
-                            android:hint="@string/IDS_Mandatory_Field"
-                            android:paddingRight="10dp" >
+                            android:layout_marginRight="10dp"
+                            android:hint="@string/IDS_Mandatory_Field" >
                         </TextView>
 
                         <TextView
@@ -148,8 +148,8 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
-                            android:hint="@string/IDS_Mandatory_Field"
-                            android:paddingRight="10dp" >
+                            android:layout_marginRight="10dp"
+                            android:hint="@string/IDS_Mandatory_Field" >
                         </TextView>
 
                         <TextView
@@ -191,8 +191,8 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
-                            android:hint="@string/IDS_Mandatory_Field"
-                            android:paddingRight="10dp" >
+                            android:layout_marginRight="10dp"
+                            android:hint="@string/IDS_Mandatory_Field" >
                         </TextView>
 
                         <TextView
@@ -234,8 +234,8 @@
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
-                            android:hint="@string/IDS_Mandatory_Field"
-                            android:paddingRight="10dp" >
+                            android:layout_marginRight="10dp"
+                            android:hint="@string/IDS_Mandatory_Field" >
                         </TextView>
 
                         <TextView
@@ -356,13 +356,22 @@
                         android:background="@drawable/sign_up_btn" >
 
                         <TextView
-                            android:id="@+id/height_edit_text"
+                            android:id="@+id/height_inches"
                             style="@style/LoginPageEditText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
-                            android:paddingRight="10dp" >
+                            android:layout_marginRight="10dp" >
+                        </TextView>
+
+                        <TextView
+                            android:id="@+id/height_foot"
+                            style="@style/LoginPageEditText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_toLeftOf="@id/height_inches" >
                         </TextView>
 
                         <TextView
@@ -960,13 +969,22 @@
                         android:background="@drawable/sign_up_btn" >
 
                         <TextView
-                            android:id="@+id/match_height_edit_text"
+                            android:id="@+id/match_height_inches"
                             style="@style/LoginPageEditText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
-                            android:paddingRight="10dp" >
+                            android:layout_marginRight="10dp" >
+                        </TextView>
+
+                        <TextView
+                            android:id="@+id/match_height_foot"
+                            style="@style/LoginPageEditText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerVertical="true"
+                            android:layout_toLeftOf="@id/match_height_inches" >
                         </TextView>
 
                         <TextView

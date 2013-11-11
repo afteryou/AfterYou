@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import com.beacon.afterui.R;
 import com.beacon.afterui.custom.view.wheel.OnWheelChangedListener;
-import com.beacon.afterui.custom.view.wheel.OnWheelClickedListener;
 import com.beacon.afterui.custom.view.wheel.WheelView;
 import com.beacon.afterui.custom.view.wheel.adapter.ArrayWheelAdapter;
 import com.beacon.afterui.custom.view.wheel.adapter.NumericWheelAdapter;
@@ -27,7 +26,6 @@ public class ProfileSettingsHelper {
 			"September", "October", "November", "December" };
 
 	private static Calendar sCalendar;
-
 	private static WheelView mSingleWheel;
 	private static int flag;
 
@@ -76,8 +74,9 @@ public class ProfileSettingsHelper {
 		year.addChangingListener(dateListener);
 	}
 
-	public static void initForHeight(final View view, final TextView text,
-			final String[] footItem, final String[] inchesItem, final int flag) {
+	public static void initForHeight(final View view, final TextView foot_text,
+			final TextView inches_txt, final String[] footItem,
+			final String[] inchesItem, final int flag) {
 		if (view == null) {
 			return;
 		}
@@ -99,12 +98,16 @@ public class ProfileSettingsHelper {
 							.setSelfHeightFoot(footItem[newValue]);
 					PreferenceEngine.getInstance(view.getContext())
 							.setSelfHeightFootInt(newValue);
+//					foot_text.setText(PreferenceEngine.getInstance(
+//							view.getContext()).getSelfHeightFoot());
 				} else {
 					PreferenceEngine.getInstance(view.getContext())
 							.setMatchHeightFoot(footItem[newValue]);
 					PreferenceEngine.getInstance(view.getContext())
 							.setMatchHeightFootInt(newValue);
 					ProfileSettingsHelper.flag = 0;
+//					foot_text.setText(PreferenceEngine.getInstance(
+//							view.getContext()).getMatchHeightFoot());
 				}
 
 			}
@@ -120,11 +123,15 @@ public class ProfileSettingsHelper {
 							.setSelfHeightInches(inchesItem[newValue]);
 					PreferenceEngine.getInstance(view.getContext())
 							.setSelfHeightInchesInt(newValue);
+//					inches_txt.setText(PreferenceEngine.getInstance(
+//							view.getContext()).getSelfHeightInches());
 				} else {
 					PreferenceEngine.getInstance(view.getContext())
 							.setMatchHeightInches(inchesItem[newValue]);
 					PreferenceEngine.getInstance(view.getContext())
 							.setMatchHeightInchesInt(newValue);
+//					inches_txt.setText(PreferenceEngine.getInstance(
+//							view.getContext()).getMatchHeightInches());
 					ProfileSettingsHelper.flag = 0;
 				}
 
@@ -137,15 +144,13 @@ public class ProfileSettingsHelper {
 	}
 
 	public static void initForView(final View view, final TextView text,
-			final String[] item, final int change, final int flag) {
+			final String[] item, final ProfileInfo profile, final int flag) {
 		if (view == null) {
 			return;
 		}
 		ProfileSettingsHelper.flag = flag;
 
 		mSingleWheel = (WheelView) view.findViewById(R.id.single_wheel);
-		// final String[] relation = view.getResources().getStringArray(
-		// R.array.relation_choices);
 		mSingleWheel.setViewAdapter(new DateArrayAdapter(view.getContext(),
 				item));
 
@@ -153,157 +158,206 @@ public class ProfileSettingsHelper {
 
 			@Override
 			public void onChanged(WheelView wheel, int oldValue, int newValue) {
-				switch (change) {
-				case 1:
+				switch (profile) {
+				case RELIGION:
 					if (ProfileSettingsHelper.flag == 1) {
 						PreferenceEngine.getInstance(view.getContext())
 								.setSelfReligion(item[newValue].toString());
 						PreferenceEngine.getInstance(view.getContext())
 								.setSelfReligionInt(newValue);
+//						text.setText(PreferenceEngine.getInstance(
+//								view.getContext()).getSelfReligion());
 
 					} else {
 						PreferenceEngine.getInstance(view.getContext())
 								.setMatchReligion(item[newValue].toString());
 						PreferenceEngine.getInstance(view.getContext())
 								.setMatchReligionInt(newValue);
+//						text.setText(PreferenceEngine.getInstance(
+//								view.getContext()).getMatchReligion());
 					}
 
 					break;
-				case 2:
+				case RELATIONSHIP:
 					if (ProfileSettingsHelper.flag == 1) {
 						PreferenceEngine.getInstance(view.getContext())
 								.setSelfRelation(item[newValue].toString());
 						PreferenceEngine.getInstance(view.getContext())
 								.setSelfRelationInt(newValue);
+//						text.setText(PreferenceEngine.getInstance(
+//								view.getContext()).getSelfRelation());
 					} else {
 						PreferenceEngine.getInstance(view.getContext())
 								.setMatchRelation(item[newValue].toString());
 						PreferenceEngine.getInstance(view.getContext())
 								.setMatchRelationInt(newValue);
+//						text.setText(PreferenceEngine.getInstance(
+//								view.getContext()).getMatchRelation());
 					}
 
 					break;
-				case 3:
+				case HAVECHILDREN:
 					if (ProfileSettingsHelper.flag == 1) {
 						PreferenceEngine.getInstance(view.getContext())
 								.saveHaveChildren(newValue == 0);
+						if (newValue != 0) {
+							text.setText(view.getContext().getResources()
+									.getString(R.string.IDS_NO));
+						} else {
+							text.setText(view.getContext().getResources()
+									.getString(R.string.IDS_YES));
+						}
+
 					} else {
 						PreferenceEngine.getInstance(view.getContext())
 								.saveMatchHaveChildren(newValue == 0);
+						if (newValue != 0) {
+							text.setText(view.getContext().getResources()
+									.getString(R.string.IDS_NO));
+						} else {
+							text.setText(view.getContext().getResources()
+									.getString(R.string.IDS_YES));
+						}
 					}
 
 					break;
-				case 4:
+				case WANTCHILDREN:
 					if (ProfileSettingsHelper.flag == 1) {
 						PreferenceEngine.getInstance(view.getContext())
 								.saveWantChildren(newValue == 0);
+						if (newValue != 0) {
+							text.setText(view.getContext().getResources()
+									.getString(R.string.IDS_NO));
+						} else {
+							text.setText(view.getContext().getResources()
+									.getString(R.string.IDS_YES));
+						}
 					} else {
 						PreferenceEngine.getInstance(view.getContext())
 								.saveMatchWantChildren(newValue == 0);
+						if (newValue != 0) {
+							text.setText(view.getContext().getResources()
+									.getString(R.string.IDS_NO));
+						} else {
+							text.setText(view.getContext().getResources()
+									.getString(R.string.IDS_YES));
+						}
 					}
 
 					break;
-				// case 5:
-				// if (ProfileSettingsHelper.flag == 1) {
-				// PreferenceEngine.getInstance(view.getContext())
-				// .setSelfHeightFoot(item[newValue].toString());
-				// PreferenceEngine.getInstance(view.getContext())
-				// .setSelfHeightFootInt(newValue);
-				// } else {
-				// PreferenceEngine.getInstance(view.getContext())
-				// .setMatchHeight(item[newValue].toString());
-				// PreferenceEngine.getInstance(view.getContext())
-				// .setMatchHeightInt(newValue);
-				// }
-
-				// break;
-				case 6:
+				case BODYTYPE:
 					if (ProfileSettingsHelper.flag == 1) {
 						PreferenceEngine.getInstance(view.getContext())
 								.setSelfBodyType(item[newValue].toString());
 						PreferenceEngine.getInstance(view.getContext())
 								.setSelfBodyTypeInt(newValue);
+//						text.setText(PreferenceEngine.getInstance(
+//								view.getContext()).getSelfBodyType());
 					} else {
 						PreferenceEngine.getInstance(view.getContext())
 								.setMatchBodyType(item[newValue].toString());
 						PreferenceEngine.getInstance(view.getContext())
 								.setMatchBodyTypeInt(newValue);
+//						text.setText(PreferenceEngine.getInstance(
+//								view.getContext()).getMatchBodyType());
 					}
 
 					break;
-				case 7:
+				case COMMUNITY:
 					if (ProfileSettingsHelper.flag == 1) {
 						PreferenceEngine.getInstance(view.getContext())
 								.setSelfCommunity(item[newValue].toString());
 						PreferenceEngine.getInstance(view.getContext())
 								.setSelfCommunityInt(newValue);
+//						text.setText(PreferenceEngine.getInstance(
+//								view.getContext()).getSelfCommunity());
 					} else {
 						PreferenceEngine.getInstance(view.getContext())
 								.setMatchCommunity(item[newValue].toString());
 						PreferenceEngine.getInstance(view.getContext())
-								.setSelfCommunityInt(newValue);
+								.setMatchCommunityInt(newValue);
+//						text.setText(PreferenceEngine.getInstance(
+//								view.getContext()).getMatchCommunity());
 					}
 
 					break;
-				case 8:
+				case DIET:
 					if (ProfileSettingsHelper.flag == 1) {
 						PreferenceEngine.getInstance(view.getContext())
 								.setSelfDiet(item[newValue].toString());
 						PreferenceEngine.getInstance(view.getContext())
 								.setSelfDietInt(newValue);
+//						text.setText(PreferenceEngine.getInstance(
+//								view.getContext()).getSelfDiet());
 					} else {
 						PreferenceEngine.getInstance(view.getContext())
 								.setMatchDiet(item[newValue].toString());
 						PreferenceEngine.getInstance(view.getContext())
 								.setMatchDietInt(newValue);
+//						text.setText(PreferenceEngine.getInstance(
+//								view.getContext()).getMatchDiet());
 					}
 
 					break;
-				case 9:
+				case SMOKING:
 					if (ProfileSettingsHelper.flag == 1) {
 						PreferenceEngine.getInstance(view.getContext())
 								.setSelfSmoking(item[newValue].toString());
 						PreferenceEngine.getInstance(view.getContext())
 								.setSelfSmokingInt(newValue);
+//						text.setText(PreferenceEngine.getInstance(
+//								view.getContext()).getSelfSmoking());
 					} else {
 						PreferenceEngine.getInstance(view.getContext())
 								.setMatchSmoking(item[newValue].toString());
 						PreferenceEngine.getInstance(view.getContext())
 								.setMatchSmokingInt(newValue);
+//						text.setText(PreferenceEngine.getInstance(
+//								view.getContext()).getMatchSmoking());
 					}
 					break;
-				case 10:
+				case DRINGKING:
 					if (ProfileSettingsHelper.flag == 1) {
 						PreferenceEngine.getInstance(view.getContext())
 								.setSelfDrinking(item[newValue].toString());
 						PreferenceEngine.getInstance(view.getContext())
 								.setSelfDrinkingInt(newValue);
+//						text.setText(PreferenceEngine.getInstance(
+//								view.getContext()).getSelfDrinking());
 					} else {
 						PreferenceEngine.getInstance(view.getContext())
 								.setMatchDrinking(item[newValue].toString());
 						PreferenceEngine.getInstance(view.getContext())
 								.setMatchDrinkingInt(newValue);
+//						text.setText(PreferenceEngine.getInstance(
+//								view.getContext()).getMatchDrinking());
 
 					}
 
 					break;
-				case 11:
+				case EDUCATION:
 					PreferenceEngine.getInstance(view.getContext())
 							.setSelfEducation(item[newValue].toString());
 					PreferenceEngine.getInstance(view.getContext())
 							.setSelfEducationInt(newValue);
+//					text.setText(PreferenceEngine
+//							.getInstance(view.getContext()).getSelfEducation());
 					break;
-				case 12:
+				case SALARY:
 					PreferenceEngine.getInstance(view.getContext())
 							.setSelfSalary(item[newValue].toString());
 					PreferenceEngine.getInstance(view.getContext())
 							.setSelfSalaryInt(newValue);
+//					text.setText(PreferenceEngine
+//							.getInstance(view.getContext()).getSelfSalary());
 					break;
-				case 13:
+				case AGE_RANGE:
 					PreferenceEngine.getInstance(view.getContext()).setWantAge(
 							item[newValue].toString());
 					PreferenceEngine.getInstance(view.getContext())
 							.setWantAgeInt(newValue);
+//					text.setText(PreferenceEngine
+//							.getInstance(view.getContext()).getWantAge());
 
 					break;
 				default:

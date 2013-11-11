@@ -24,5 +24,4 @@ public class MainLoopPosting {
     public void post(Runnable r) {
         mHandler.post(r);
     }
-
 }

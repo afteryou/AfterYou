@@ -44,33 +44,21 @@ public class ProfileSettingsActivity extends BaseActivity implements
 	private Context ctx;
 
 	private String[] religion;
-	private String[] mMatchReligion;
 	private String[] relation;
-	private String[] mMatchRelation;
 	private String[] hvChld;
 	private String[] wntChild;
-	private String[] mMatchHvChild;
-	private String[] mMatchWntChild;
 	private String[] bodyType;
-	private String[] mMatchBodyType;
 	private String[] self_community;
-	private String[] mMatchCommunity;
 	private String[] self_smoking;
-	private String[] mMatchSmoking;
 	private String[] self_drinking;
-	private String[] mMatchDrinking;
 	private String[] self_education;
 	private String[] self_salary;
 	private String[] want_age_range;
 	private String[] self_diet_list;
-	private String[] mMatchDietList;
 	private String[] language_list;
-	private String[] mMatchLanguageList;
 
 	private String[] foot;
 	private String[] inches;
-	private String[] mMatchfoot;
-	private String[] mMatchInches;
 
 	private boolean[] mCurrentSlfLang;
 	private boolean[] mMatchCurrentLagn;
@@ -85,7 +73,9 @@ public class ProfileSettingsActivity extends BaseActivity implements
 
 	private TextView wantChild;
 
-	private TextView hgt_txt;
+	private TextView hgt_foot;
+
+	private TextView hgt_inches;
 
 	private TextView slf_body_type_txt;
 
@@ -109,7 +99,8 @@ public class ProfileSettingsActivity extends BaseActivity implements
 	private TextView mMatch_Rtln;
 	private TextView mMatchHvChlid;
 	private TextView mMatchWntChildTxt;
-	private TextView mMatchHeightTxt;
+	private TextView mMatchHeightFoot;
+	private TextView mMatchHeightInches;
 	private TextView mMatch_Body_Type;
 	private TextView mMatch_Community;
 	private TextView mMatch_Diet;
@@ -123,10 +114,10 @@ public class ProfileSettingsActivity extends BaseActivity implements
 
 	private View mCurrentView;
 	private ViewGroup mCurrentLayout;
-	private boolean showing = false;
+	private boolean mShowing = false;
 
 	public static enum ProfileInfo {
-		RELIGION, RELATIONSHIP, HAVECHILDREN, WANTCHILDREN, LANGUAGES, HEIGHT, BODYTYPE, COMMUNITY, DIET, SMOKING, DRINGKING, EDUCATION, SALARY
+		RELIGION, RELATIONSHIP, HAVECHILDREN, WANTCHILDREN, LANGUAGES, HEIGHT, BODYTYPE, COMMUNITY, DIET, SMOKING, DRINGKING, EDUCATION, SALARY, AGE_RANGE
 	}
 
 	@Override
@@ -205,39 +196,21 @@ public class ProfileSettingsActivity extends BaseActivity implements
 		if (foot == null) {
 			foot = getResources().getStringArray(R.array.height_foot);
 		}
-		if (mMatchfoot == null) {
-			mMatchfoot = foot;
-		}
 		if (inches == null) {
 			inches = getResources().getStringArray(R.array.height_inches);
 		}
-		if (mMatchInches == null) {
-			mMatchInches = inches;
-		}
 		if (bodyType == null) {
 			bodyType = getResources().getStringArray(R.array.body_type_choices);
-		}
-		if (mMatchBodyType == null) {
-			mMatchBodyType = bodyType;
 		}
 		if (self_community == null) {
 			self_community = getResources().getStringArray(
 					R.array.self_community);
 		}
-		if (mMatchCommunity == null) {
-			mMatchCommunity = self_community;
-		}
 		if (self_smoking == null) {
 			self_smoking = getResources().getStringArray(R.array.smoking);
 		}
-		if (mMatchSmoking == null) {
-			mMatchSmoking = self_smoking;
-		}
 		if (self_drinking == null) {
 			self_drinking = getResources().getStringArray(R.array.smoking);
-		}
-		if (mMatchDrinking == null) {
-			mMatchDrinking = self_drinking;
 		}
 		if (self_education == null) {
 			self_education = getResources().getStringArray(R.array.education);
@@ -252,33 +225,10 @@ public class ProfileSettingsActivity extends BaseActivity implements
 		if (self_diet_list == null) {
 			self_diet_list = getResources().getStringArray(R.array.diet);
 		}
-		if (mMatchDietList == null) {
-			mMatchDietList = self_diet_list;
-		}
 		if (language_list == null) {
 			language_list = getResources().getStringArray(
 					R.array.languages_list);
 			mCurrentSlfLang = new boolean[language_list.length];
-		}
-		if (mMatchLanguageList == null) {
-			mMatchLanguageList = language_list;
-			mMatchCurrentLagn = new boolean[mMatchLanguageList.length];
-		}
-		if (mMatchReligion == null) {
-			mMatchReligion = getResources().getStringArray(
-					R.array.religion_choices);
-		}
-		if (mMatchRelation == null) {
-			mMatchRelation = getResources().getStringArray(
-					R.array.relation_choices);
-		}
-		if (mMatchHvChild == null) {
-			mMatchHvChild = getResources().getStringArray(
-					R.array.selfhvChld_choices);
-		}
-
-		if (mMatchWntChild == null) {
-			mMatchWntChild = mMatchHvChild;
 		}
 
 		initView();
@@ -286,6 +236,7 @@ public class ProfileSettingsActivity extends BaseActivity implements
 	}
 
 	private void setListeners() {
+		final int flag = 1;
 		b_day = (TextView) findViewById(R.id.birthday_edit_text);
 		b_day.setTypeface(tf);
 		final View view = findViewById(R.id.brith_lay);
@@ -297,13 +248,19 @@ public class ProfileSettingsActivity extends BaseActivity implements
 			public void onClick(View v) {
 				// getDatePickDialog().show();
 				// mBirthDayViewStub.inflate();
-				if (!showing) {
+				if (!mShowing) {
 					View view = mLayoutInflator.inflate(
 							R.layout.wheel_date_picker, birth_day_holder, true);
-					showing = true;
+					mShowing = true;
 					ProfileSettingsHelper.initForBirthDate(view, b_day);
+					// final WheelView month = (WheelView) view
+					// .findViewById(R.id.month);
+					// final WheelView year = (WheelView) view
+					// .findViewById(R.id.year);
+					// final WheelView day = (WheelView) view
+					// .findViewById(R.id.day);
 				} else {
-					showing = false;
+					mShowing = false;
 					Calendar calendar = ProfileSettingsHelper.getBirthDate();
 					String date = Utilities.getDateByCalendar(calendar);
 					PreferenceEngine.getInstance(ctx).saveBirthday(date);
@@ -323,14 +280,14 @@ public class ProfileSettingsActivity extends BaseActivity implements
 			@Override
 			public void onClick(View v) {
 				// getReligionDialog().show();
-				if (!showing) {
+				if (!mShowing) {
 					View view = mLayoutInflator.inflate(R.layout.wheel_single,
 							religion_holder, true);
 					WheelView religionWheel = (WheelView) view
 							.findViewById(R.id.single_wheel);
-					showing = true;
-					ProfileSettingsHelper
-							.initForView(view, rlg, religion, 1, 1);
+					mShowing = true;
+					ProfileSettingsHelper.initForView(view, rlg, religion,
+							ProfileInfo.RELIGION, flag);
 					int currentItem = 0;
 					currentItem = PreferenceEngine.getInstance(ctx)
 							.getSelfReligionInt();
@@ -339,7 +296,7 @@ public class ProfileSettingsActivity extends BaseActivity implements
 
 					}
 				} else {
-					showing = false;
+					mShowing = false;
 					int i = PreferenceEngine.getInstance(ctx)
 							.getSelfReligionInt();
 					rlg.setText(religion[i]);
@@ -359,14 +316,24 @@ public class ProfileSettingsActivity extends BaseActivity implements
 			public void onClick(View v) {
 				// getRelationDialog().show();
 
-				if (!showing) {
+				if (!mShowing) {
 					View view = mLayoutInflator.inflate(R.layout.wheel_single,
 							relation_holder, true);
-					showing = true;
-					ProfileSettingsHelper
-							.initForView(view, rlg, relation, 2, 1);
+					mShowing = true;
+					ProfileSettingsHelper.initForView(view, rtln, relation,
+							ProfileInfo.RELATIONSHIP, flag);
+					WheelView relationWheel = (WheelView) view
+							.findViewById(R.id.single_wheel);
+					int currentItem = 0;
+					currentItem = PreferenceEngine.getInstance(ctx)
+							.getSelfRelationInt();
+					if (currentItem != 0) {
+						relationWheel.setCurrentItem(currentItem);
+
+					}
+
 				} else {
-					showing = false;
+					mShowing = false;
 					int i = PreferenceEngine.getInstance(ctx)
 							.getSelfRelationInt();
 					rtln.setText(relation[i]);
@@ -385,14 +352,24 @@ public class ProfileSettingsActivity extends BaseActivity implements
 			@Override
 			public void onClick(View v) {
 				// getHaveChildDialog(false).show();
-				if (!showing) {
+				if (!mShowing) {
 					View view = mLayoutInflator.inflate(R.layout.wheel_single,
 							have_child_holder, true);
-					showing = true;
-					ProfileSettingsHelper.initForView(view, hvChild, hvChld, 3,
-							1);
+					mShowing = true;
+					ProfileSettingsHelper.initForView(view, hvChild, hvChld,
+							ProfileInfo.HAVECHILDREN, flag);
+					WheelView haveChildWheel = (WheelView) view
+							.findViewById(R.id.single_wheel);
+					boolean currentItem = false;
+					currentItem = PreferenceEngine.getInstance(ctx)
+							.getHaveChildren();
+					if (currentItem == true) {
+						haveChildWheel.setCurrentItem(0);
+					} else {
+						haveChildWheel.setCurrentItem(1);
+					}
 				} else {
-					showing = false;
+					mShowing = false;
 					boolean have_child = PreferenceEngine.getInstance(ctx)
 							.getHaveChildren();
 					if (have_child) {
@@ -418,14 +395,24 @@ public class ProfileSettingsActivity extends BaseActivity implements
 			public void onClick(View v) {
 				// getHaveChildDialog(true).show();
 
-				if (!showing) {
+				if (!mShowing) {
 					View view = mLayoutInflator.inflate(R.layout.wheel_single,
 							want_child_holder, true);
-					showing = true;
+					mShowing = true;
 					ProfileSettingsHelper.initForView(view, wantChild,
-							wntChild, 4, 1);
+							wntChild, ProfileInfo.WANTCHILDREN, flag);
+					WheelView wantChildWheel = (WheelView) view
+							.findViewById(R.id.single_wheel);
+					boolean currentItem = false;
+					currentItem = PreferenceEngine.getInstance(ctx)
+							.getWantChildren();
+					if (currentItem == true) {
+						wantChildWheel.setCurrentItem(0);
+					} else {
+						wantChildWheel.setCurrentItem(1);
+					}
 				} else {
-					showing = false;
+					mShowing = false;
 					boolean wantchild_txt = PreferenceEngine.getInstance(ctx)
 							.getWantChildren();
 					if (wantchild_txt) {
@@ -440,8 +427,10 @@ public class ProfileSettingsActivity extends BaseActivity implements
 			}
 		});
 
-		hgt_txt = (TextView) findViewById(R.id.height_edit_text);
-		hgt_txt.setTypeface(tf);
+		hgt_foot = (TextView) findViewById(R.id.height_foot);
+		hgt_inches = (TextView) findViewById(R.id.height_inches);
+		hgt_foot.setTypeface(tf);
+		hgt_inches.setTypeface(tf);
 		final View height_lay = findViewById(R.id.height_lay);
 		final FrameLayout height_holder = (FrameLayout) findViewById(R.id.height_holder);
 		height_lay.setOnClickListener(new OnClickListener() {
@@ -450,7 +439,7 @@ public class ProfileSettingsActivity extends BaseActivity implements
 			public void onClick(View v) {
 				// getHeightDialog().show();
 				Log.d(TAG, "Click on height");
-				if (!showing) {
+				if (!mShowing) {
 
 					View view = mLayoutInflator.inflate(R.layout.height_wheel,
 							height_holder, true);
@@ -461,9 +450,9 @@ public class ProfileSettingsActivity extends BaseActivity implements
 							.findViewById(R.id.inches_wheel);
 
 					Log.d(TAG, "Get view");
-					showing = true;
-					ProfileSettingsHelper.initForHeight(view, hgt_txt, foot,
-							inches, 1);
+					mShowing = true;
+					ProfileSettingsHelper.initForHeight(view, hgt_foot,
+							hgt_inches, foot, inches, flag);
 
 					int footIndex = 0;
 					footIndex = PreferenceEngine.getInstance(ctx)
@@ -481,16 +470,16 @@ public class ProfileSettingsActivity extends BaseActivity implements
 
 					}
 
-					Log.d(TAG, "success of init for height");
 				} else {
-					showing = false;
+					mShowing = false;
 					int footIndex = PreferenceEngine.getInstance(ctx)
 							.getSelfHeightFootInt();
 					int inchesIndex = PreferenceEngine.getInstance(ctx)
 							.getSelfHeightInchesInt();
-					String height = foot[footIndex] + " " + inches[inchesIndex];
-					Log.d("Test", height);
-					hgt_txt.setText(height);
+					String height_foot = foot[footIndex];
+					String height_inches = inches[inchesIndex];
+					hgt_foot.setText(height_foot);
+					hgt_inches.setText(height_inches);
 					height_holder.removeAllViews();
 				}
 
@@ -506,14 +495,22 @@ public class ProfileSettingsActivity extends BaseActivity implements
 			@Override
 			public void onClick(View v) {
 				// getSelfBodyType().show();
-				if (!showing) {
+				if (!mShowing) {
 					View view = mLayoutInflator.inflate(R.layout.wheel_single,
 							body_type_holder, true);
-					showing = true;
+					mShowing = true;
 					ProfileSettingsHelper.initForView(view, slf_body_type_txt,
-							bodyType, 6, 1);
+							bodyType, ProfileInfo.BODYTYPE, flag);
+					WheelView bodyWheel = (WheelView) view
+							.findViewById(R.id.single_wheel);
+					int currentItem = 0;
+					currentItem = PreferenceEngine.getInstance(ctx)
+							.getSelfBodyTypeInt();
+					if (currentItem != 0) {
+						bodyWheel.setCurrentItem(currentItem);
+					}
 				} else {
-					showing = false;
+					mShowing = false;
 					int index = PreferenceEngine.getInstance(ctx)
 							.getSelfBodyTypeInt();
 					slf_body_type_txt.setText(bodyType[index]);
@@ -532,14 +529,22 @@ public class ProfileSettingsActivity extends BaseActivity implements
 			@Override
 			public void onClick(View v) {
 				// getSelfCommunity().show();
-				if (!showing) {
+				if (!mShowing) {
 					View view = mLayoutInflator.inflate(R.layout.wheel_single,
 							community_holder, true);
-					showing = true;
+					mShowing = true;
 					ProfileSettingsHelper.initForView(view, slf_community_txt,
-							self_community, 7, 1);
+							self_community, ProfileInfo.COMMUNITY, flag);
+					WheelView communitWheel = (WheelView) view
+							.findViewById(R.id.single_wheel);
+					int currentItem = 0;
+					currentItem = PreferenceEngine.getInstance(ctx)
+							.getSelfCommunityInt();
+					if (currentItem != 0) {
+						communitWheel.setCurrentItem(currentItem);
+					}
 				} else {
-					showing = false;
+					mShowing = false;
 					int index = PreferenceEngine.getInstance(ctx)
 							.getSelfCommunityInt();
 					slf_community_txt.setText(self_community[index]);
@@ -558,14 +563,22 @@ public class ProfileSettingsActivity extends BaseActivity implements
 			@Override
 			public void onClick(View v) {
 				// getSelfDiet().show();
-				if (!showing) {
+				if (!mShowing) {
 					View view = mLayoutInflator.inflate(R.layout.wheel_single,
 							diet_holder, true);
-					showing = true;
+					mShowing = true;
 					ProfileSettingsHelper.initForView(view, self_diet,
-							self_diet_list, 8, 1);
+							self_diet_list, ProfileInfo.DIET, flag);
+					WheelView dietWheel = (WheelView) view
+							.findViewById(R.id.single_wheel);
+					int currentItem = 0;
+					currentItem = PreferenceEngine.getInstance(ctx)
+							.getSelfDietInt();
+					if (currentItem != 0) {
+						dietWheel.setCurrentItem(currentItem);
+					}
 				} else {
-					showing = false;
+					mShowing = false;
 					int index = PreferenceEngine.getInstance(ctx)
 							.getSelfDietInt();
 					self_diet.setText(self_diet_list[index]);
@@ -595,14 +608,22 @@ public class ProfileSettingsActivity extends BaseActivity implements
 			@Override
 			public void onClick(View v) {
 				// getSelfSmoking().show();
-				if (!showing) {
+				if (!mShowing) {
 					View view = mLayoutInflator.inflate(R.layout.wheel_single,
 							smoke_holder, true);
-					showing = true;
+					mShowing = true;
 					ProfileSettingsHelper.initForView(view, slf_smoking,
-							self_smoking, 9, 1);
+							self_smoking, ProfileInfo.SMOKING, flag);
+					WheelView smokingWheel = (WheelView) view
+							.findViewById(R.id.single_wheel);
+					int currentItem = 0;
+					currentItem = PreferenceEngine.getInstance(ctx)
+							.getSelfSmokingInt();
+					if (currentItem != 0) {
+						smokingWheel.setCurrentItem(currentItem);
+					}
 				} else {
-					showing = false;
+					mShowing = false;
 					int index = PreferenceEngine.getInstance(ctx)
 							.getSelfSmokingInt();
 					slf_smoking.setText(self_smoking[index]);
@@ -621,14 +642,22 @@ public class ProfileSettingsActivity extends BaseActivity implements
 			@Override
 			public void onClick(View v) {
 				// getSelfDrinking().show();
-				if (!showing) {
+				if (!mShowing) {
 					View view = mLayoutInflator.inflate(R.layout.wheel_single,
 							drink_holder, true);
-					showing = true;
+					mShowing = true;
 					ProfileSettingsHelper.initForView(view, slf_drinking,
-							self_drinking, 10, 1);
+							self_drinking, ProfileInfo.DRINGKING, flag);
+					WheelView drinkingWheel = (WheelView) view
+							.findViewById(R.id.single_wheel);
+					int currentItem = 0;
+					currentItem = PreferenceEngine.getInstance(ctx)
+							.getSelfDrinkInt();
+					if (currentItem != 0) {
+						drinkingWheel.setCurrentItem(currentItem);
+					}
 				} else {
-					showing = false;
+					mShowing = false;
 					int index = PreferenceEngine.getInstance(ctx)
 							.getSelfDrinkInt();
 					slf_drinking.setText(self_drinking[index]);
@@ -647,14 +676,22 @@ public class ProfileSettingsActivity extends BaseActivity implements
 			@Override
 			public void onClick(View v) {
 				// getSelfEducation().show();
-				if (!showing) {
+				if (!mShowing) {
 					View view = mLayoutInflator.inflate(R.layout.wheel_single,
 							education_holder, true);
-					showing = true;
+					mShowing = true;
 					ProfileSettingsHelper.initForView(view, slf_eduction,
-							self_education, 11, 1);
+							self_education, ProfileInfo.EDUCATION, flag);
+					WheelView educationWheel = (WheelView) view
+							.findViewById(R.id.single_wheel);
+					int currentItem = 0;
+					currentItem = PreferenceEngine.getInstance(ctx)
+							.getSelfEducationInt();
+					if (currentItem != 0) {
+						educationWheel.setCurrentItem(currentItem);
+					}
 				} else {
-					showing = false;
+					mShowing = false;
 					int index = PreferenceEngine.getInstance(ctx)
 							.getSelfEducationInt();
 					slf_eduction.setText(self_education[index]);
@@ -673,14 +710,22 @@ public class ProfileSettingsActivity extends BaseActivity implements
 			@Override
 			public void onClick(View v) {
 				// getSelfSalary().show();
-				if (!showing) {
+				if (!mShowing) {
 					View view = mLayoutInflator.inflate(R.layout.wheel_single,
 							salary_holder, true);
-					showing = true;
+					mShowing = true;
 					ProfileSettingsHelper.initForView(view, slf_salary,
-							self_salary, 12, 1);
+							self_salary, ProfileInfo.SALARY, flag);
+					WheelView salaryWheel = (WheelView) view
+							.findViewById(R.id.single_wheel);
+					int currentItem = 0;
+					currentItem = PreferenceEngine.getInstance(ctx)
+							.getSelfSalaryInt();
+					if (currentItem != 0) {
+						salaryWheel.setCurrentItem(currentItem);
+					}
 				} else {
-					showing = false;
+					mShowing = false;
 					int index = PreferenceEngine.getInstance(ctx)
 							.getSelfSalaryInt();
 					slf_salary.setText(self_salary[index]);
@@ -699,14 +744,22 @@ public class ProfileSettingsActivity extends BaseActivity implements
 			@Override
 			public void onClick(View v) {
 				// getWantAge().show();
-				if (!showing) {
+				if (!mShowing) {
 					View view = mLayoutInflator.inflate(R.layout.wheel_single,
 							match_age_range_holder, true);
-					showing = true;
+					mShowing = true;
 					ProfileSettingsHelper.initForView(view, wnt_age,
-							want_age_range, 13, 1);
+							want_age_range, ProfileInfo.AGE_RANGE, flag);
+					WheelView wantAgeWheel = (WheelView) view
+							.findViewById(R.id.single_wheel);
+					int currentItem = 0;
+					currentItem = PreferenceEngine.getInstance(ctx)
+							.getWantAgeInt();
+					if (currentItem != 0) {
+						wantAgeWheel.setCurrentItem(currentItem);
+					}
 				} else {
-					showing = false;
+					mShowing = false;
 					int index = PreferenceEngine.getInstance(ctx)
 							.getWantAgeInt();
 					wnt_age.setText(want_age_range[index]);
@@ -719,6 +772,7 @@ public class ProfileSettingsActivity extends BaseActivity implements
 	}
 
 	private void matchListner() {
+		final int flag = 0;
 		mMatch_Rlg = (TextView) findViewById(R.id.match_religion_edit_text);
 		mMatch_Rlg.setTypeface(tf);
 		final View match_religion_lay = findViewById(R.id.match_religion_lay);
@@ -728,18 +782,26 @@ public class ProfileSettingsActivity extends BaseActivity implements
 			@Override
 			public void onClick(View v) {
 				// getMatchReligionDialog().show();
-				if (!showing) {
+				if (!mShowing) {
 					View view = mLayoutInflator.inflate(R.layout.wheel_single,
 							match_religion_holder, true);
-					showing = true;
+					mShowing = true;
 					ProfileSettingsHelper.initForView(view, mMatch_Rlg,
-							mMatchReligion, 1, 0);
+							religion, ProfileInfo.RELIGION, flag);
+					WheelView matchRlg = (WheelView) view
+							.findViewById(R.id.single_wheel);
+					int currentItem = 0;
+					currentItem = PreferenceEngine.getInstance(ctx)
+							.getMatchReligionInt();
+					if (currentItem != 0) {
+						matchRlg.setCurrentItem(currentItem);
+					}
 
 				} else {
-					showing = false;
+					mShowing = false;
 					int index = PreferenceEngine.getInstance(ctx)
 							.getMatchReligionInt();
-					mMatch_Rlg.setText(mMatchReligion[index]);
+					mMatch_Rlg.setText(religion[index]);
 					match_religion_holder.removeAllViews();
 				}
 			}
@@ -754,17 +816,26 @@ public class ProfileSettingsActivity extends BaseActivity implements
 			@Override
 			public void onClick(View v) {
 				// getMatchRelationDialog().show();
-				if (!showing) {
+				if (!mShowing) {
 					View view = mLayoutInflator.inflate(R.layout.wheel_single,
 							match_relation_holder, true);
-					showing = true;
+					mShowing = true;
 					ProfileSettingsHelper.initForView(view, mMatch_Rtln,
-							mMatchRelation, 2, 0);
+							relation, ProfileInfo.RELATIONSHIP, flag);
+					WheelView matchRelation = (WheelView) view
+							.findViewById(R.id.single_wheel);
+					int currentItem = 0;
+					currentItem = PreferenceEngine.getInstance(ctx)
+							.getMatchRelationInt();
+					if (currentItem != 0) {
+						matchRelation.setCurrentItem(currentItem);
+					}
+
 				} else {
-					showing = false;
+					mShowing = false;
 					int index = PreferenceEngine.getInstance(ctx)
 							.getMatchRelationInt();
-					mMatch_Rtln.setText(mMatchRelation[index]);
+					mMatch_Rtln.setText(relation[index]);
 					match_relation_holder.removeAllViews();
 				}
 
@@ -780,14 +851,24 @@ public class ProfileSettingsActivity extends BaseActivity implements
 			@Override
 			public void onClick(View v) {
 				// getMatchHaveChildDialog(false).show();
-				if (!showing) {
+				if (!mShowing) {
 					View view = mLayoutInflator.inflate(R.layout.wheel_single,
 							match_havechild_holder, true);
-					showing = true;
+					mShowing = true;
 					ProfileSettingsHelper.initForView(view, mMatchHvChlid,
-							mMatchHvChild, 3, 0);
+							hvChld, ProfileInfo.HAVECHILDREN, 0);
+					WheelView matchHaveChildWheel = (WheelView) view
+							.findViewById(R.id.single_wheel);
+					boolean currentItem = false;
+					currentItem = PreferenceEngine.getInstance(ctx)
+							.getMatchHaveChildren();
+					if (currentItem == true) {
+						matchHaveChildWheel.setCurrentItem(0);
+					} else {
+						matchHaveChildWheel.setCurrentItem(1);
+					}
 				} else {
-					showing = false;
+					mShowing = false;
 					boolean have_child = PreferenceEngine.getInstance(ctx)
 							.getMatchHaveChildren();
 					if (have_child) {
@@ -812,14 +893,24 @@ public class ProfileSettingsActivity extends BaseActivity implements
 			@Override
 			public void onClick(View v) {
 				// getMatchHaveChildDialog(true).show();
-				if (!showing) {
+				if (!mShowing) {
 					View view = mLayoutInflator.inflate(R.layout.wheel_single,
 							match_wantchild_holder, true);
-					showing = true;
+					mShowing = true;
 					ProfileSettingsHelper.initForView(view, mMatchWntChildTxt,
-							mMatchWntChild, 4, 0);
+							wntChild, ProfileInfo.WANTCHILDREN, flag);
+					WheelView matchWantChildWheel = (WheelView) view
+							.findViewById(R.id.single_wheel);
+					boolean currentItem = false;
+					currentItem = PreferenceEngine.getInstance(ctx)
+							.getMatchWantChildren();
+					if (currentItem == true) {
+						matchWantChildWheel.setCurrentItem(0);
+					} else {
+						matchWantChildWheel.setCurrentItem(1);
+					}
 				} else {
-					showing = false;
+					mShowing = false;
 					boolean have_child = PreferenceEngine.getInstance(ctx)
 							.getMatchWantChildren();
 					if (have_child) {
@@ -835,8 +926,10 @@ public class ProfileSettingsActivity extends BaseActivity implements
 			}
 		});
 
-		mMatchHeightTxt = (TextView) findViewById(R.id.match_height_edit_text);
-		mMatchHeightTxt.setTypeface(tf);
+		mMatchHeightFoot = (TextView) findViewById(R.id.match_height_foot);
+		mMatchHeightFoot.setTypeface(tf);
+		mMatchHeightInches = (TextView) findViewById(R.id.match_height_inches);
+		mMatchHeightInches.setTypeface(tf);
 		final View match_height_lay = findViewById(R.id.match_height_lay);
 		final FrameLayout match_height_holder = (FrameLayout) findViewById(R.id.match_height_holder);
 		match_height_lay.setOnClickListener(new OnClickListener() {
@@ -844,14 +937,14 @@ public class ProfileSettingsActivity extends BaseActivity implements
 			@Override
 			public void onClick(View v) {
 				// getMatchHeightDialog().show();
-				if (!showing) {
+				if (!mShowing) {
 
 					View view = mLayoutInflator.inflate(R.layout.height_wheel,
 							match_height_holder, true);
 					Log.d(TAG, "Get view");
-					showing = true;
-					ProfileSettingsHelper.initForHeight(view, mMatchHeightTxt,
-							mMatchfoot, mMatchInches, 0);
+					mShowing = true;
+					ProfileSettingsHelper.initForHeight(view, mMatchHeightFoot,
+							mMatchHeightInches, foot, inches, flag);
 					Log.d(TAG, "success of init for height");
 
 					WheelView footwheel = (WheelView) view
@@ -875,15 +968,15 @@ public class ProfileSettingsActivity extends BaseActivity implements
 
 					}
 				} else {
-					showing = false;
+					mShowing = false;
 					int footIndex = PreferenceEngine.getInstance(ctx)
 							.getMatchHeightFootInt();
 					int inchesIndex = PreferenceEngine.getInstance(ctx)
 							.getMatchHeightInchesInt();
-					String height = mMatchfoot[footIndex] + " "
-							+ mMatchInches[inchesIndex];
-					Log.d("Test", height);
-					mMatchHeightTxt.setText(height);
+					String height_foot = foot[footIndex];
+					String height_inches = inches[inchesIndex];
+					mMatchHeightFoot.setText(height_foot);
+					mMatchHeightInches.setText(height_inches);
 					match_height_holder.removeAllViews();
 				}
 
@@ -898,17 +991,25 @@ public class ProfileSettingsActivity extends BaseActivity implements
 			@Override
 			public void onClick(View v) {
 				// getMatchBodyType().show();
-				if (!showing) {
+				if (!mShowing) {
 					View view = mLayoutInflator.inflate(R.layout.wheel_single,
 							match_bodyType_holder, true);
-					showing = true;
+					mShowing = true;
 					ProfileSettingsHelper.initForView(view, mMatch_Body_Type,
-							mMatchBodyType, 6, 0);
+							bodyType, ProfileInfo.BODYTYPE, flag);
+					WheelView matchBodyType = (WheelView) view
+							.findViewById(R.id.single_wheel);
+					int currentItem = 0;
+					currentItem = PreferenceEngine.getInstance(ctx)
+							.getMatchBodyTypeInt();
+					if (currentItem != 0) {
+						matchBodyType.setCurrentItem(currentItem);
+					}
 				} else {
-					showing = false;
+					mShowing = false;
 					int index = PreferenceEngine.getInstance(ctx)
 							.getMatchBodyTypeInt();
-					mMatch_Body_Type.setText(mMatchBodyType[index]);
+					mMatch_Body_Type.setText(bodyType[index]);
 					match_bodyType_holder.removeAllViews();
 				}
 
@@ -925,17 +1026,25 @@ public class ProfileSettingsActivity extends BaseActivity implements
 			public void onClick(View v) {
 				// getMatchCommunity().show();
 
-				if (!showing) {
+				if (!mShowing) {
 					View view = mLayoutInflator.inflate(R.layout.wheel_single,
 							match_comm_holder, true);
-					showing = true;
+					mShowing = true;
 					ProfileSettingsHelper.initForView(view, mMatch_Community,
-							mMatchCommunity, 7, 0);
+							self_community, ProfileInfo.COMMUNITY, flag);
+					WheelView matchCommunity = (WheelView) view
+							.findViewById(R.id.single_wheel);
+					int currentItem = 0;
+					currentItem = PreferenceEngine.getInstance(ctx)
+							.getMatchCommunityInt();
+					if (currentItem != 0) {
+						matchCommunity.setCurrentItem(currentItem);
+					}
 				} else {
-					showing = false;
+					mShowing = false;
 					int index = PreferenceEngine.getInstance(ctx)
 							.getMatchCommunityInt();
-					mMatch_Community.setText(mMatchCommunity[index]);
+					mMatch_Community.setText(self_community[index]);
 					match_comm_holder.removeAllViews();
 				}
 			}
@@ -950,17 +1059,25 @@ public class ProfileSettingsActivity extends BaseActivity implements
 			@Override
 			public void onClick(View v) {
 				// getMatchDiet().show();
-				if (!showing) {
+				if (!mShowing) {
 					View view = mLayoutInflator.inflate(R.layout.wheel_single,
 							match_diet_holder, true);
-					showing = true;
+					mShowing = true;
 					ProfileSettingsHelper.initForView(view, mMatch_Diet,
-							mMatchDietList, 8, 0);
+							self_diet_list, ProfileInfo.DIET, flag);
+					WheelView matchDiet = (WheelView) view
+							.findViewById(R.id.single_wheel);
+					int currentItem = 0;
+					currentItem = PreferenceEngine.getInstance(ctx)
+							.getMatchDietInt();
+					if (currentItem != 0) {
+						matchDiet.setCurrentItem(currentItem);
+					}
 				} else {
-					showing = false;
+					mShowing = false;
 					int index = PreferenceEngine.getInstance(ctx)
 							.getMatchDietInt();
-					mMatch_Diet.setText(mMatchDietList[index]);
+					mMatch_Diet.setText(self_diet_list[index]);
 					match_diet_holder.removeAllViews();
 				}
 
@@ -976,17 +1093,25 @@ public class ProfileSettingsActivity extends BaseActivity implements
 			@Override
 			public void onClick(View v) {
 				// getMatchSmoking().show();
-				if (!showing) {
+				if (!mShowing) {
 					View view = mLayoutInflator.inflate(R.layout.wheel_single,
 							match_smoke_holder, true);
-					showing = true;
+					mShowing = true;
 					ProfileSettingsHelper.initForView(view, mMatch_Smoking,
-							mMatchSmoking, 9, 0);
+							self_smoking, ProfileInfo.SMOKING, flag);
+					WheelView matchSmoking = (WheelView) view
+							.findViewById(R.id.single_wheel);
+					int currentItem = 0;
+					currentItem = PreferenceEngine.getInstance(ctx)
+							.getMatchSmokingInt();
+					if (currentItem != 0) {
+						matchSmoking.setCurrentItem(currentItem);
+					}
 				} else {
-					showing = false;
+					mShowing = false;
 					int index = PreferenceEngine.getInstance(ctx)
 							.getMatchSmokingInt();
-					mMatch_Smoking.setText(mMatchSmoking[index]);
+					mMatch_Smoking.setText(self_smoking[index]);
 					match_smoke_holder.removeAllViews();
 				}
 
@@ -1001,17 +1126,25 @@ public class ProfileSettingsActivity extends BaseActivity implements
 			@Override
 			public void onClick(View v) {
 				// getMatchDrinking().show();
-				if (!showing) {
+				if (!mShowing) {
 					View view = mLayoutInflator.inflate(R.layout.wheel_single,
 							match_drink_holder, true);
-					showing = true;
+					mShowing = true;
 					ProfileSettingsHelper.initForView(view, mMatch_Drinking,
-							mMatchDrinking, 10, 0);
+							self_drinking, ProfileInfo.DRINGKING, flag);
+					WheelView matchDrinking = (WheelView) view
+							.findViewById(R.id.single_wheel);
+					int currentItem = 0;
+					currentItem = PreferenceEngine.getInstance(ctx)
+							.getMatchDrinkInt();
+					if (currentItem != 0) {
+						matchDrinking.setCurrentItem(currentItem);
+					}
 				} else {
-					showing = false;
+					mShowing = false;
 					int index = PreferenceEngine.getInstance(ctx)
 							.getMatchDrinkInt();
-					mMatch_Drinking.setText(mMatchDrinking[index]);
+					mMatch_Drinking.setText(self_drinking[index]);
 					match_drink_holder.removeAllViews();
 				}
 
@@ -1084,9 +1217,16 @@ public class ProfileSettingsActivity extends BaseActivity implements
 		String foot_txt = PreferenceEngine.getInstance(ctx).getSelfHeightFoot();
 		String inches_txt = PreferenceEngine.getInstance(ctx)
 				.getSelfHeightInches();
-		String height_txt = foot_txt + " " + inches_txt;
+		String height_txt;
+		if (foot_txt == null || inches_txt == null) {
+			height_txt = null;
+		} else {
+			height_txt = foot_txt + " " + inches_txt;
+		}
+
 		if (height_txt != null) {
-			hgt_txt.setText(height_txt);
+			hgt_foot.setText(foot_txt);
+			hgt_inches.setText(inches_txt);
 		}
 
 		// Self body type.
@@ -1269,15 +1409,15 @@ public class ProfileSettingsActivity extends BaseActivity implements
 
 	}
 
-	protected void changeMatchSmoking(int mCurrentSlfSmoking2) {
-		String selectedSlfSmoking = mMatchSmoking[mCurrentSlfSmoking2]
-				.toString();
-		PreferenceEngine.getInstance(ctx).setMatchSmoking(selectedSlfSmoking);
-		PreferenceEngine.getInstance(ctx).setMatchSmokingInt(
-				mCurrentSlfSmoking2);
-		matchInitView();
-
-	}
+	// protected void changeMatchSmoking(int mCurrentSlfSmoking2) {
+	// String selectedSlfSmoking = mMatchSmoking[mCurrentSlfSmoking2]
+	// .toString();
+	// PreferenceEngine.getInstance(ctx).setMatchSmoking(selectedSlfSmoking);
+	// PreferenceEngine.getInstance(ctx).setMatchSmokingInt(
+	// mCurrentSlfSmoking2);
+	// matchInitView();
+	//
+	// }
 
 	protected Dialog getSelfDrinking() {
 		CustomDialog.Builder builder = new CustomDialog.Builder(this,
@@ -1309,15 +1449,15 @@ public class ProfileSettingsActivity extends BaseActivity implements
 
 	}
 
-	protected void changeMatchDrinking(int mCurrentSlfDriking2) {
-		String selectedSlfDrinking = mMatchDrinking[mCurrentSlfDriking2]
-				.toString();
-		PreferenceEngine.getInstance(ctx).setMatchDrinking(selectedSlfDrinking);
-		PreferenceEngine.getInstance(ctx).setMatchDrinkingInt(
-				mCurrentSlfDriking2);
-		matchInitView();
-
-	}
+	// protected void changeMatchDrinking(int mCurrentSlfDriking2) {
+	// String selectedSlfDrinking = mMatchDrinking[mCurrentSlfDriking2]
+	// .toString();
+	// PreferenceEngine.getInstance(ctx).setMatchDrinking(selectedSlfDrinking);
+	// PreferenceEngine.getInstance(ctx).setMatchDrinkingInt(
+	// mCurrentSlfDriking2);
+	// matchInitView();
+	//
+	// }
 
 	protected Dialog getSelfDiet() {
 		CustomDialog.Builder builder = new CustomDialog.Builder(this,
@@ -1391,7 +1531,7 @@ public class ProfileSettingsActivity extends BaseActivity implements
 
 		for (int i = 0; i < mMatchCurrentLagn.length; i++) {
 			if (mMatchCurrentLagn[i]) {
-				toSave.append(mMatchLanguageList[i]).append(separator);
+				toSave.append(language_list[i]).append(separator);
 			}
 		}
 		PreferenceEngine.getInstance(ctx).setMatchLangList(toSave.toString());
@@ -1448,13 +1588,13 @@ public class ProfileSettingsActivity extends BaseActivity implements
 
 	}
 
-	protected void changeMatchBodyType(int mCurrentBdyType2) {
-		String selectedBodyType = mMatchBodyType[mCurrentBdyType2].toString();
-		PreferenceEngine.getInstance(ctx).setMatchBodyType(selectedBodyType);
-		PreferenceEngine.getInstance(ctx).setMatchBodyTypeInt(mCurrentBdyType2);
-		matchInitView();
-
-	}
+	// protected void changeMatchBodyType(int mCurrentBdyType2) {
+	// String selectedBodyType = mMatchBodyType[mCurrentBdyType2].toString();
+	// PreferenceEngine.getInstance(ctx).setMatchBodyType(selectedBodyType);
+	// PreferenceEngine.getInstance(ctx).setMatchBodyTypeInt(mCurrentBdyType2);
+	// matchInitView();
+	//
+	// }
 
 	protected void changeSelfComm(int mCurrentBdyType2) {
 		String selectedSlfComm = self_community[mCurrentBdyType2].toString();
@@ -1464,14 +1604,14 @@ public class ProfileSettingsActivity extends BaseActivity implements
 
 	}
 
-	protected void changeMatchComm(int mCurrentBdyType2) {
-		String selectedSlfComm = mMatchCommunity[mCurrentBdyType2].toString();
-		PreferenceEngine.getInstance(ctx).setMatchCommunity(selectedSlfComm);
-		PreferenceEngine.getInstance(ctx)
-				.setMatchCommunityInt(mCurrentBdyType2);
-		matchInitView();
-
-	}
+	// protected void changeMatchComm(int mCurrentBdyType2) {
+	// String selectedSlfComm = mMatchCommunity[mCurrentBdyType2].toString();
+	// PreferenceEngine.getInstance(ctx).setMatchCommunity(selectedSlfComm);
+	// PreferenceEngine.getInstance(ctx)
+	// .setMatchCommunityInt(mCurrentBdyType2);
+	// matchInitView();
+	//
+	// }
 
 	protected void changeSelfDiet(int mCurrentSlfDiet2) {
 		String selectedSlfDiet = self_diet_list[mCurrentSlfDiet2].toString();
@@ -1481,13 +1621,13 @@ public class ProfileSettingsActivity extends BaseActivity implements
 
 	}
 
-	protected void changeMatchDiet(int mCurrentSlfDiet2) {
-		String selectedSlfDiet = mMatchDietList[mCurrentSlfDiet2].toString();
-		PreferenceEngine.getInstance(ctx).setMatchDiet(selectedSlfDiet);
-		PreferenceEngine.getInstance(ctx).setMatchDietInt(mCurrentSlfDiet2);
-		matchInitView();
-
-	}
+	// protected void changeMatchDiet(int mCurrentSlfDiet2) {
+	// String selectedSlfDiet = mMatchDietList[mCurrentSlfDiet2].toString();
+	// PreferenceEngine.getInstance(ctx).setMatchDiet(selectedSlfDiet);
+	// PreferenceEngine.getInstance(ctx).setMatchDietInt(mCurrentSlfDiet2);
+	// matchInitView();
+	//
+	// }
 
 	protected Dialog getHaveChildDialog(final boolean wntChld) {
 		CustomDialog.Builder builder = new CustomDialog.Builder(this,
@@ -1595,12 +1735,12 @@ public class ProfileSettingsActivity extends BaseActivity implements
 		initView();
 	}
 
-	protected void changeMatchRelation(int mCurrentRtn) {
-		String selectedRelation = mMatchRelation[mCurrentRtn].toString();
-		PreferenceEngine.getInstance(ctx).setMatchRelation(selectedRelation);
-		PreferenceEngine.getInstance(ctx).setMatchRelationInt(mCurrentRtn);
-		matchInitView();
-	}
+	// protected void changeMatchRelation(int mCurrentRtn) {
+	// String selectedRelation = mMatchRelation[mCurrentRtn].toString();
+	// PreferenceEngine.getInstance(ctx).setMatchRelation(selectedRelation);
+	// PreferenceEngine.getInstance(ctx).setMatchRelationInt(mCurrentRtn);
+	// matchInitView();
+	// }
 
 	protected void changeSelfHaveChild(int mCurrentHvChld2) {
 		PreferenceEngine.getInstance(ctx)
@@ -1709,12 +1849,12 @@ public class ProfileSettingsActivity extends BaseActivity implements
 
 	}
 
-	protected void changeMatchReligion(int mCurrentRlg2) {
-		String selectedReligion = mMatchReligion[mCurrentRlg2].toString();
-		PreferenceEngine.getInstance(ctx).setMatchReligion(selectedReligion);
-		PreferenceEngine.getInstance(ctx).setMatchReligionInt(mCurrentRlg2);
-		matchInitView();
-	}
+	// protected void changeMatchReligion(int mCurrentRlg2) {
+	// String selectedReligion = mMatchReligion[mCurrentRlg2].toString();
+	// PreferenceEngine.getInstance(ctx).setMatchReligion(selectedReligion);
+	// PreferenceEngine.getInstance(ctx).setMatchReligionInt(mCurrentRlg2);
+	// matchInitView();
+	// }
 
 	private void matchInitView() {
 
@@ -1762,10 +1902,15 @@ public class ProfileSettingsActivity extends BaseActivity implements
 				.getMatchHeightFoot();
 		String inches_txt = PreferenceEngine.getInstance(ctx)
 				.getMatchHeightInches();
-
-		String height_txt = foot_txt + " " + inches_txt;
+		String height_txt;
+		if (foot_txt == null || inches_txt == null) {
+			height_txt = null;
+		} else {
+			height_txt = foot_txt + " " + inches_txt;
+		}
 		if (height_txt != null) {
-			mMatchHeightTxt.setText(height_txt);
+			mMatchHeightFoot.setText(foot_txt);
+			mMatchHeightInches.setText(inches_txt);
 		}
 
 		// set match body type
@@ -1817,10 +1962,10 @@ public class ProfileSettingsActivity extends BaseActivity implements
 				new AfterYouDialogImpl.AfterYouBuilderImpl(this));
 
 		mMatchCurrentLagn = PreferenceEngine.getInstance(ctx)
-				.getMatchLangBoolean(mMatchLanguageList);
+				.getMatchLangBoolean(language_list);
 		Dialog match_languages = builder
 				.setTitle(this.getString(R.string.languages_label))
-				.setMultiChoiceItems(mMatchLanguageList, mMatchCurrentLagn,
+				.setMultiChoiceItems(language_list, mMatchCurrentLagn,
 						new OnMultiChoiceClickListener() {
 
 							@Override
@@ -1843,112 +1988,112 @@ public class ProfileSettingsActivity extends BaseActivity implements
 		return match_languages;
 	}
 
-	protected Dialog getMatchDrinking() {
-		CustomDialog.Builder builder = new CustomDialog.Builder(this,
-				new AfterYouDialogImpl.AfterYouBuilderImpl(this));
+//	protected Dialog getMatchDrinking() {
+//		CustomDialog.Builder builder = new CustomDialog.Builder(this,
+//				new AfterYouDialogImpl.AfterYouBuilderImpl(this));
+//
+//		int checkedItem = PreferenceEngine.getInstance(ctx).getMatchDrinkInt();
+//		Dialog match_drinking = builder
+//				.setTitle(this.getString(R.string.drink_label))
+//				.setSingleChoiceItems(mMatchDrinking, checkedItem,
+//						new DialogInterface.OnClickListener() {
+//							public void onClick(DialogInterface dialog,
+//									int whichButton) {
+//
+//								changeMatchDrinking(whichButton);
+//							}
+//						})
+//				.setNegativeButton(this.getString(R.string.IDS_CANCEL), null)
+//				.create();
+//
+//		return match_drinking;
+//	}
 
-		int checkedItem = PreferenceEngine.getInstance(ctx).getMatchDrinkInt();
-		Dialog match_drinking = builder
-				.setTitle(this.getString(R.string.drink_label))
-				.setSingleChoiceItems(mMatchDrinking, checkedItem,
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog,
-									int whichButton) {
+//	protected Dialog getMatchSmoking() {
+//		CustomDialog.Builder builder = new CustomDialog.Builder(this,
+//				new AfterYouDialogImpl.AfterYouBuilderImpl(this));
+//
+//		int checkedItem = PreferenceEngine.getInstance(ctx)
+//				.getMatchSmokingInt();
+//		Dialog match_smoking = builder
+//				.setTitle(this.getString(R.string.smoke_label))
+//				.setSingleChoiceItems(mMatchSmoking, checkedItem,
+//						new DialogInterface.OnClickListener() {
+//							public void onClick(DialogInterface dialog,
+//									int whichButton) {
+//
+//								changeMatchSmoking(whichButton);
+//							}
+//						})
+//				.setNegativeButton(this.getString(R.string.IDS_CANCEL), null)
+//				.create();
+//
+//		return match_smoking;
+//	}
 
-								changeMatchDrinking(whichButton);
-							}
-						})
-				.setNegativeButton(this.getString(R.string.IDS_CANCEL), null)
-				.create();
+//	protected Dialog getMatchDiet() {
+//		CustomDialog.Builder builder = new CustomDialog.Builder(this,
+//				new AfterYouDialogImpl.AfterYouBuilderImpl(this));
+//
+//		int checkedItem = PreferenceEngine.getInstance(ctx).getMatchDietInt();
+//		Dialog diet = builder
+//				.setTitle(this.getString(R.string.diet_label))
+//				.setSingleChoiceItems(mMatchDietList, checkedItem,
+//						new DialogInterface.OnClickListener() {
+//							public void onClick(DialogInterface dialog,
+//									int whichButton) {
+//								changeMatchDiet(whichButton);
+//							}
+//						})
+//				.setNegativeButton(this.getString(R.string.IDS_CANCEL), null)
+//				.create();
+//
+//		return diet;
+//	}
 
-		return match_drinking;
-	}
+//	protected Dialog getMatchCommunity() {
+//		CustomDialog.Builder builder = new CustomDialog.Builder(this,
+//				new AfterYouDialogImpl.AfterYouBuilderImpl(this));
+//
+//		int checkedItem = PreferenceEngine.getInstance(ctx)
+//				.getMatchCommunityInt();
+//		Dialog community = builder
+//				.setTitle(this.getString(R.string.comm_label))
+//				.setSingleChoiceItems(mMatchCommunity, checkedItem,
+//						new DialogInterface.OnClickListener() {
+//							public void onClick(DialogInterface dialog,
+//									int whichButton) {
+//
+//								changeMatchComm(whichButton);
+//							}
+//						})
+//				.setNegativeButton(this.getString(R.string.IDS_CANCEL), null)
+//				.create();
+//
+//		return community;
+//	}
 
-	protected Dialog getMatchSmoking() {
-		CustomDialog.Builder builder = new CustomDialog.Builder(this,
-				new AfterYouDialogImpl.AfterYouBuilderImpl(this));
-
-		int checkedItem = PreferenceEngine.getInstance(ctx)
-				.getMatchSmokingInt();
-		Dialog match_smoking = builder
-				.setTitle(this.getString(R.string.smoke_label))
-				.setSingleChoiceItems(mMatchSmoking, checkedItem,
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog,
-									int whichButton) {
-
-								changeMatchSmoking(whichButton);
-							}
-						})
-				.setNegativeButton(this.getString(R.string.IDS_CANCEL), null)
-				.create();
-
-		return match_smoking;
-	}
-
-	protected Dialog getMatchDiet() {
-		CustomDialog.Builder builder = new CustomDialog.Builder(this,
-				new AfterYouDialogImpl.AfterYouBuilderImpl(this));
-
-		int checkedItem = PreferenceEngine.getInstance(ctx).getMatchDietInt();
-		Dialog diet = builder
-				.setTitle(this.getString(R.string.diet_label))
-				.setSingleChoiceItems(mMatchDietList, checkedItem,
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog,
-									int whichButton) {
-								changeMatchDiet(whichButton);
-							}
-						})
-				.setNegativeButton(this.getString(R.string.IDS_CANCEL), null)
-				.create();
-
-		return diet;
-	}
-
-	protected Dialog getMatchCommunity() {
-		CustomDialog.Builder builder = new CustomDialog.Builder(this,
-				new AfterYouDialogImpl.AfterYouBuilderImpl(this));
-
-		int checkedItem = PreferenceEngine.getInstance(ctx)
-				.getMatchCommunityInt();
-		Dialog community = builder
-				.setTitle(this.getString(R.string.comm_label))
-				.setSingleChoiceItems(mMatchCommunity, checkedItem,
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog,
-									int whichButton) {
-
-								changeMatchComm(whichButton);
-							}
-						})
-				.setNegativeButton(this.getString(R.string.IDS_CANCEL), null)
-				.create();
-
-		return community;
-	}
-
-	protected Dialog getMatchBodyType() {
-		CustomDialog.Builder builder = new CustomDialog.Builder(this,
-				new AfterYouDialogImpl.AfterYouBuilderImpl(this));
-
-		int checkedItem = PreferenceEngine.getInstance(ctx)
-				.getMatchBodyTypeInt();
-		Dialog body_type = builder
-				.setTitle(this.getString(R.string.bodyType_label))
-				.setSingleChoiceItems(mMatchBodyType, checkedItem,
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog,
-									int whichButton) {
-
-								changeMatchBodyType(whichButton);
-							}
-						})
-				.setNegativeButton(this.getString(R.string.IDS_CANCEL), null)
-				.create();
-
-		return body_type;
-	}
+//	protected Dialog getMatchBodyType() {
+//		CustomDialog.Builder builder = new CustomDialog.Builder(this,
+//				new AfterYouDialogImpl.AfterYouBuilderImpl(this));
+//
+//		int checkedItem = PreferenceEngine.getInstance(ctx)
+//				.getMatchBodyTypeInt();
+//		Dialog body_type = builder
+//				.setTitle(this.getString(R.string.bodyType_label))
+//				.setSingleChoiceItems(mMatchBodyType, checkedItem,
+//						new DialogInterface.OnClickListener() {
+//							public void onClick(DialogInterface dialog,
+//									int whichButton) {
+//
+//								changeMatchBodyType(whichButton);
+//							}
+//						})
+//				.setNegativeButton(this.getString(R.string.IDS_CANCEL), null)
+//				.create();
+//
+//		return body_type;
+//	}
 
 	// protected Dialog getMatchHeightDialog() {
 	// return new CustomerNumberPickerDialog(new AfterYouDialogImpl(this),
@@ -1957,80 +2102,80 @@ public class ProfileSettingsActivity extends BaseActivity implements
 	// .getMatchHeightInt());
 	// }
 
-	protected Dialog getMatchHaveChildDialog(final boolean wntChld) {
-		CustomDialog.Builder builder = new CustomDialog.Builder(this,
-				new AfterYouDialogImpl.AfterYouBuilderImpl(this));
-		String label = null;
-		int checkedItem = -1;
-		if (wntChld) {
-			label = this.getString(R.string.wantchild_label);
-			checkedItem = PreferenceEngine.getInstance(ctx)
-					.getMatchWantChildren() ? 0 : 1;
-		} else {
-			label = this.getString(R.string.havechild_label);
-			checkedItem = PreferenceEngine.getInstance(ctx)
-					.getMatchHaveChildren() ? 0 : 1;
-		}
+//	protected Dialog getMatchHaveChildDialog(final boolean wntChld) {
+//		CustomDialog.Builder builder = new CustomDialog.Builder(this,
+//				new AfterYouDialogImpl.AfterYouBuilderImpl(this));
+//		String label = null;
+//		int checkedItem = -1;
+//		if (wntChld) {
+//			label = this.getString(R.string.wantchild_label);
+//			checkedItem = PreferenceEngine.getInstance(ctx)
+//					.getMatchWantChildren() ? 0 : 1;
+//		} else {
+//			label = this.getString(R.string.havechild_label);
+//			checkedItem = PreferenceEngine.getInstance(ctx)
+//					.getMatchHaveChildren() ? 0 : 1;
+//		}
+//
+//		Dialog haveChildDialog = builder
+//				.setTitle(label)
+//				.setSingleChoiceItems(mMatchHvChild, checkedItem,
+//						new DialogInterface.OnClickListener() {
+//							public void onClick(DialogInterface dialog,
+//									int whichButton) {
+//								if (wntChld) {
+//									changeMatchWntChild(whichButton);
+//								} else {
+//									changeMatchHaveChild(whichButton);
+//								}
+//							}
+//						})
+//				.setNegativeButton(this.getString(R.string.IDS_CANCEL), null)
+//				.create();
+//
+//		return haveChildDialog;
+//	}
 
-		Dialog haveChildDialog = builder
-				.setTitle(label)
-				.setSingleChoiceItems(mMatchHvChild, checkedItem,
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog,
-									int whichButton) {
-								if (wntChld) {
-									changeMatchWntChild(whichButton);
-								} else {
-									changeMatchHaveChild(whichButton);
-								}
-							}
-						})
-				.setNegativeButton(this.getString(R.string.IDS_CANCEL), null)
-				.create();
+//	private Dialog getMatchReligionDialog() {
+//
+//		CustomDialog.Builder builder = new CustomDialog.Builder(this,
+//				new AfterYouDialogImpl.AfterYouBuilderImpl(this));
+//
+//		int checkedItem = PreferenceEngine.getInstance(ctx)
+//				.getMatchReligionInt();
+//		Dialog religion = builder
+//				.setTitle(this.getString(R.string.religion_label))
+//				.setSingleChoiceItems(mMatchReligion, checkedItem,
+//						new DialogInterface.OnClickListener() {
+//							public void onClick(DialogInterface dialog,
+//									int whichButton) {
+//								changeMatchReligion(whichButton);
+//							}
+//						})
+//				.setNegativeButton(this.getString(R.string.IDS_CANCEL), null)
+//				.create();
+//
+//		return religion;
+//	}
 
-		return haveChildDialog;
-	}
-
-	private Dialog getMatchReligionDialog() {
-
-		CustomDialog.Builder builder = new CustomDialog.Builder(this,
-				new AfterYouDialogImpl.AfterYouBuilderImpl(this));
-
-		int checkedItem = PreferenceEngine.getInstance(ctx)
-				.getMatchReligionInt();
-		Dialog religion = builder
-				.setTitle(this.getString(R.string.religion_label))
-				.setSingleChoiceItems(mMatchReligion, checkedItem,
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog,
-									int whichButton) {
-								changeMatchReligion(whichButton);
-							}
-						})
-				.setNegativeButton(this.getString(R.string.IDS_CANCEL), null)
-				.create();
-
-		return religion;
-	}
-
-	protected Dialog getMatchRelationDialog() {
-		CustomDialog.Builder builder = new CustomDialog.Builder(this,
-				new AfterYouDialogImpl.AfterYouBuilderImpl(this));
-
-		int checkedItem = PreferenceEngine.getInstance(ctx)
-				.getMatchRelationInt();
-		Dialog relation = builder
-				.setTitle(this.getString(R.string.relation_label))
-				.setSingleChoiceItems(mMatchRelation, checkedItem,
-						new DialogInterface.OnClickListener() {
-							public void onClick(DialogInterface dialog,
-									int whichButton) {
-								changeMatchRelation(whichButton);
-							}
-						})
-				.setNegativeButton(this.getString(R.string.IDS_CANCEL), null)
-				.create();
-
-		return relation;
-	}
+	// protected Dialog getMatchRelationDialog() {
+	// CustomDialog.Builder builder = new CustomDialog.Builder(this,
+	// new AfterYouDialogImpl.AfterYouBuilderImpl(this));
+	//
+	// int checkedItem = PreferenceEngine.getInstance(ctx)
+	// .getMatchRelationInt();
+	// Dialog relation = builder
+	// .setTitle(this.getString(R.string.relation_label))
+	// .setSingleChoiceItems(mMatchRelation, checkedItem,
+	// new DialogInterface.OnClickListener() {
+	// public void onClick(DialogInterface dialog,
+	// int whichButton) {
+	// changeMatchRelation(whichButton);
+	// }
+	// })
+	// .setNegativeButton(this.getString(R.string.IDS_CANCEL), null)
+	// .create();
+	//
+	// return relation;
+	// }
 }
