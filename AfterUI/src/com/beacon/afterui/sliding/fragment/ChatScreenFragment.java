@@ -22,6 +22,7 @@ import android.widget.ListView;
 
 import com.beacon.afterui.R;
 import com.beacon.afterui.activity.BaseActivity;
+import com.beacon.afterui.application.AfterYouApplication;
 import com.beacon.afterui.chat.ChatManagerService;
 import com.beacon.afterui.chat.ChatManagerService.ChatManagerImpl;
 import com.beacon.afterui.chat.MessageListAdapter;
@@ -72,8 +73,11 @@ public class ChatScreenFragment extends BaseActivity implements
 
         mPostBtn.setOnClickListener(this);
 
-        bindService();
+        // bindService();
         initData();
+
+        AfterYouApplication app = (AfterYouApplication) getApplication();
+        mChatManager = app.getChatManager();
 
         getLoaderManager().initLoader(0, null, this);
     }
@@ -160,7 +164,7 @@ public class ChatScreenFragment extends BaseActivity implements
     public void onDestroy() {
         updateUnReadMessages();
         mChatManager.closeChatSession();
-        unbindService(mServicConnection);
+        // unbindService(mServicConnection);
         super.onDestroy();
     }
 

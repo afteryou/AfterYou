@@ -38,7 +38,7 @@ import com.beacon.afterui.constants.AppConstants;
 import com.beacon.afterui.provider.PreferenceEngine;
 import com.beacon.afterui.sliding.SlidingMenu;
 import com.beacon.afterui.sliding.customViews.ListPopupMenu;
-import com.beacon.afterui.sliding.fragment.ChatMenuFragment;
+import com.beacon.afterui.sliding.fragment.RosterListFragment;
 import com.beacon.afterui.sliding.fragment.ContentFragment;
 import com.beacon.afterui.sliding.fragment.FragmentHelper;
 import com.beacon.afterui.sliding.fragment.ISearchFunction;
@@ -211,9 +211,9 @@ public class MainActivity extends BaseActivity implements OnQueryTextListener,
 		FragmentTransaction fragmentTransaction = getFragmentManager()
 				.beginTransaction();
 
-		ChatMenuFragment chatFragment = new ChatMenuFragment();
+		RosterListFragment chatFragment = new RosterListFragment();
 		fragmentTransaction.replace("RIGHT".hashCode(), chatFragment,
-				ChatMenuFragment.TAG);
+				RosterListFragment.TAG);
 		fragmentTransaction.commit();
 		SlidingMenu slidingMenu = getSlidingMenu();
 		slidingMenu.setShadowDrawable(R.drawable.shadow, SlidingMenu.RIGHT);

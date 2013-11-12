@@ -35,7 +35,7 @@ public class StartChatService extends BroadcastReceiver {
 
     private void startChatManagerService(final Context context, final int type) {
         Intent intent = new Intent(context, ChatManagerService.class);
-        context.startService(intent);
         intent.putExtra("type", type);
+        context.startService(intent);
     }
 }

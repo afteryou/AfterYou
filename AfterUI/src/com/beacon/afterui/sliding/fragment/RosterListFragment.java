@@ -50,6 +50,7 @@ import android.widget.TextView;
 
 import com.beacon.afterui.R;
 import com.beacon.afterui.activity.BaseActivity;
+import com.beacon.afterui.application.AfterYouApplication;
 import com.beacon.afterui.chat.ChatManagerService;
 import com.beacon.afterui.chat.ChatManagerService.ChatManagerImpl;
 import com.beacon.afterui.chat.LoginListener;
@@ -68,10 +69,10 @@ import com.beacon.afterui.sliding.customViews.ListViewAdapter;
  * @author spoddar
  * 
  */
-public class ChatMenuFragment extends Fragment implements OnItemClickListener,
+public class RosterListFragment extends Fragment implements OnItemClickListener,
 		OnItemLongClickListener, OnClickListener, OnLongClickListener,
 		LoginListener, RosterListener, LoaderCallbacks<Cursor> {
-	public static final String TAG = ChatMenuFragment.class.toString();
+	public static final String TAG = RosterListFragment.class.toString();
 	private static final int ANIMATION_DURATION = 300;
 	private static final float ANIMATION_X_TRANSLATION = 70.0f;
 	private static final int TRANSLATION_X_RIGHT = 0x00000001;
@@ -98,15 +99,14 @@ public class ChatMenuFragment extends Fragment implements OnItemClickListener,
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		mHandler = new Handler();
-
 	}
 
 	@Override
 	public void onActivityCreated(Bundle savedInstanceState) {
 		super.onActivityCreated(savedInstanceState);
 
-		bindService();
-
+//		bindService();
+		performLogin();
 		getLoaderManager().initLoader(0, null, this);
 	}
 
@@ -395,7 +395,7 @@ public class ChatMenuFragment extends Fragment implements OnItemClickListener,
 
 	@Override
 	public void onDestroy() {
-		getActivity().unbindService(mServicConnection);
+//		getActivity().unbindService(mServicConnection);
 
 		if (mUserThumbBitmap != null) {
 			mUserThumbBitmap.recycle();
@@ -403,6 +403,40 @@ public class ChatMenuFragment extends Fragment implements OnItemClickListener,
 		}
 
 		super.onDestroy();
+	}
+	
+	private void performLogin() {
+	    AfterYouApplication app = (AfterYouApplication) getActivity().getApplication();
+	    mChatManager = app.getChatManager();
+	    
+	    if ( mChatManager == null) {
+	        Log.e(TAG, "ChatManager instance is NULL!");
+	        return;
+	    }
+	    
+	    Log.d(TAG, "Service connected, login started!");
+        PreferenceEngine prefEngine = PreferenceEngine
+                .getInstance(getActivity());
+
+        // Get username and password.
+        String userName = prefEngine.getUserName();
+        final String password = prefEngine.getPassword();
+
+        final String lastLoggedIn = prefEngine.getLastLoggedIn();
+
+        if (!userName.equals(lastLoggedIn)) {
+            // Clean DB.
+            ContentResolver resolver = getActivity().getContentResolver();
+            resolver.delete(RosterTable.CONTENT_URI, null, null);
+
+            prefEngine.setLastLoggedIn(userName);
+        }
+
+        int index = userName.indexOf("@");
+        userName = userName.substring(0, index);
+
+        mChatManager.login(userName, password, RosterListFragment.this,
+                mHandler);
 	}
 
 	private ServiceConnection mServicConnection = new ServiceConnection() {
@@ -433,7 +467,7 @@ public class ChatMenuFragment extends Fragment implements OnItemClickListener,
 			int index = userName.indexOf("@");
 			userName = userName.substring(0, index);
 
-			mChatManager.login(userName, password, ChatMenuFragment.this,
+			mChatManager.login(userName, password, RosterListFragment.this,
 					mHandler);
 		}
 
@@ -448,7 +482,7 @@ public class ChatMenuFragment extends Fragment implements OnItemClickListener,
 		Log.d(TAG, "onLoginSuccess");
 
 		// On login success, let's fetch new rooster.
-		mChatManager.updateRosterInDb(ChatMenuFragment.this, mHandler);
+		mChatManager.updateRosterInDb(RosterListFragment.this, mHandler);
 		// if (PreferenceEngine.getInstance(getActivity()).isFromNotification())
 		// {
 		ContentResolver resolver = getActivity().getContentResolver();
