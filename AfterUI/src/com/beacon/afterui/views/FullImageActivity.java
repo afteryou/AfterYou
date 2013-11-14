@@ -1,18 +1,21 @@
 package com.beacon.afterui.views;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.Typeface;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
-import android.view.Window;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.beacon.afterui.R;
 import com.beacon.afterui.activity.BaseActivity;
+import com.beacon.afterui.imageUtils.ImageFilter;
 import com.beacon.afterui.utils.ImageInfoUtils;
 
 public class FullImageActivity extends BaseActivity implements OnClickListener {
@@ -23,6 +26,10 @@ public class FullImageActivity extends BaseActivity implements OnClickListener {
 	private String mImagePath;
 	private ImageButton mDoneBtn;
 	private ImageButton mCancelBtn;
+    private ImageButton mImageRotateBtn;
+    private ImageButton mImageCropBtn;
+    private ImageButton mImageEffectBtn;
+    private ImageButton mImageRedEyeBtn;
 	private long mId;
 
 	@Override
@@ -38,6 +45,16 @@ public class FullImageActivity extends BaseActivity implements OnClickListener {
 
 		TextView cancelTxt = (TextView) findViewById(R.id.cancel_txt);
 		TextView chooseFromLiTxt = (TextView) findViewById(R.id.choose_from_library_txt);
+        mImageCropBtn = (ImageButton) findViewById(R.id.image_crop_btn);
+        mImageRotateBtn = (ImageButton) findViewById(R.id.image_rotate_btn);
+        mImageEffectBtn = (ImageButton) findViewById(R.id.image_effect_btn);
+        mImageRedEyeBtn = (ImageButton) findViewById(R.id.image_red_eye_btn);
+        
+        mImageCropBtn.setOnClickListener(this);
+        mImageRotateBtn.setOnClickListener(this);
+        mImageEffectBtn.setOnClickListener(this);
+        mImageRedEyeBtn.setOnClickListener(this);
+        
 		TextView doneTxt = (TextView) findViewById(R.id.done_txt);
 		Typeface typeFaceSemiBold = Typeface.createFromAsset(getAssets(),
 				"fonts/MyriadPro-Semibold.otf");
@@ -59,6 +76,11 @@ public class FullImageActivity extends BaseActivity implements OnClickListener {
 	public void onClick(View v) {
 
 		switch (v.getId()) {
+		
+		case R.id.image_rotate_btn:
+			Bitmap bit = ImageFilter.rotate(((BitmapDrawable)mFullSizeImage.getDrawable()).getBitmap(), 45);
+			mFullSizeImage.setImageBitmap(bit);
+			break;
 
 		case R.id.done_btn_full_image_activity:
 			Intent intent = new Intent();
