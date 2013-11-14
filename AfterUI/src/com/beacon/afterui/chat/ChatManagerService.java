@@ -103,6 +103,38 @@ public class ChatManagerService extends Service implements
     }
 
     @Override
+    public int onStartCommand(Intent intent, int flags, int startId) {
+
+        if (intent == null) {
+            return super.onStartCommand(intent, flags, startId);
+        }
+        int eventType = intent.getIntExtra("type", -1);
+        Log.d(TAG, "EventType : " + eventType);
+        if (StartChatService.NETWORK_CHANGE == eventType) {
+            // do some messages related operations.
+        } else /*if (StartChatService.BOOT_COMPLETED == eventType)*/ {
+            attemptLoginOnBootComplete();
+        }
+
+        return super.onStartCommand(intent, flags, startId);
+    }
+
+    private void attemptLoginOnBootComplete() {
+        // Get username and password. If retrieved, attempt login.
+
+        final String userName = PreferenceEngine.getInstance(
+                getApplicationContext()).getChatUserName();
+        final String password = PreferenceEngine.getInstance(
+                getApplicationContext()).getPassword();
+
+        if (userName == null || password == null) {
+            return;
+        }
+        Log.d(TAG, "Attempting auto-login");
+        login(userName, password, null, null);
+    }
+
+    @Override
     public IBinder onBind(Intent intent) {
         return mBinder;
     }
@@ -149,6 +181,13 @@ public class ChatManagerService extends Service implements
                 }
 
                 XMPPConnection xmppConnection = initXmpp();
+
+                if (xmppConnection.isAuthenticated()) {
+                    Log.d(TAG, "Already logged in");
+                    reportLoginStatus(loginListener, handler,
+                            ChatConstants.LOGIN_SUCCESS);
+                    return;
+                }
 
                 if (xmppConnection == null) {
                     Log.e(TAG, "XMPP connection is NULL!");
@@ -198,7 +237,7 @@ public class ChatManagerService extends Service implements
     private void reportLoginStatus(final LoginListener loginListener,
             final Handler handler, final int statusCode) {
         if (loginListener == null || handler == null) {
-            Log.e(TAG, "login listener or handle is NULL");
+            Log.d(TAG, "login listener or handle is NULL");
             return;
         }
         handler.post(new Runnable() {
@@ -370,7 +409,7 @@ public class ChatManagerService extends Service implements
             }
         });
     }
-    
+
     private void reportRosterSuccessStatus(final RosterListener rosterListener,
             final Handler handler) {
         if (rosterListener == null || handler == null) {
@@ -620,7 +659,7 @@ public class ChatManagerService extends Service implements
 
         resolver.update(RosterTable.CONTENT_URI, values, selection,
                 selectionArgs);
-        
+
     }
 
     private void processIncomingMessages(
@@ -628,7 +667,6 @@ public class ChatManagerService extends Service implements
         if (message == null) {
             return;
         }
-
         final ContentValues values = new ContentValues();
 
         values.put(MessageTable.MESSAGE, message.getBody());
@@ -650,12 +688,18 @@ public class ChatManagerService extends Service implements
 
         final ContentResolver resolver = getContentResolver();
         resolver.insert(MessageTable.CONTENT_URI, values);
-        
-        PendingIntent pdSent = PendingIntent.getBroadcast(this, 0, new Intent(AppConstants.NOTIFICATION_SENT).putExtra(AppConstants.SENDER, from), 0);
-        
+
+        PendingIntent pdSent = PendingIntent.getBroadcast(this, 0, new Intent(
+                AppConstants.NOTIFICATION_SENT).putExtra(AppConstants.SENDER,
+                from), 0);
+
         NotificationManager nm = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        Notification noti = new Notification.Builder(this).setAutoCancel(true).setContentTitle(getString(R.string.IDS_NOTIFY_STRING) + from).setContentText(message.getBody()).setSmallIcon(R.drawable.logo).setContentIntent(pdSent).build(); 
-        nm.notify(AppConstants.NOTIFICATION_ID, AppConstants.NOTIFICATION_INT, noti);
+        Notification noti = new Notification.Builder(this).setAutoCancel(true)
+                .setContentTitle(getString(R.string.IDS_NOTIFY_STRING) + from)
+                .setContentText(message.getBody())
+                .setSmallIcon(R.drawable.logo).setContentIntent(pdSent).build();
+        nm.notify(AppConstants.NOTIFICATION_ID, AppConstants.NOTIFICATION_INT,
+                noti);
     }
 
     private void processOutGoingMessage(final OutgoingMessage outgoingMessage) {

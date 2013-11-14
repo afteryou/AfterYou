@@ -19,6 +19,7 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
     <uses-permission android:name="android.permission.KILL_BACKGROUND_PROCESSES" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
 
     <application
         android:name="com.beacon.afterui.application.AfterYouApplication"
@@ -86,10 +87,9 @@
         </activity>
         <activity
             android:name="com.beacon.afterui.views.PickFriendsActivity"
-            android:theme="@style/Theme.BaseDialog"
-            android:screenOrientation="portrait" >
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.BaseDialog" >
         </activity>
-        
         <activity
             android:name="com.beacon.afterui.sliding.fragment.ChatScreenFragment"
             android:screenOrientation="portrait" >
@@ -100,15 +100,26 @@
             android:authorities="com.beacon.afterui"
             android:enabled="true" >
         </provider>
-        
-		<receiver android:name="com.beacon.afterui.chat.NotificationReciever" android:exported="true">
-            <intent-filter android:priority="1000">
-                <action android:name="AFTERYOU_NOTIFICATION_SENT"/>
+
+        <receiver
+            android:name="com.beacon.afterui.chat.NotificationReciever"
+            android:exported="true" >
+            <intent-filter android:priority="1000" >
+                <action android:name="AFTERYOU_NOTIFICATION_SENT" />
             </intent-filter>
         </receiver>
-        
+
         <service android:name=".chat.ChatManagerService" >
         </service>
+
+        <receiver android:name=".chat.StartChatService" >
+            <intent-filter>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

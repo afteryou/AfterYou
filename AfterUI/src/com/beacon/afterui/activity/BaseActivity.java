@@ -93,10 +93,10 @@ public class BaseActivity extends SlidingActivity {
 
     @Override
     public void onBackPressed() {
-        if (mIsRootView) {
-            exitApp();
-            return;
-        }
+//        if (mIsRootView) {
+//            exitApp();
+//            return;
+//        }
         finish();
     }
     
