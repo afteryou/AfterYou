@@ -18,21 +18,26 @@ import com.beacon.afterui.views.data.SingleSearchController.SingleSearchResult.R
 public class SingleSearchController {
 
 	private static final String TAG = "SingleSearchController";
-	private static Context mContext = AfterYouApplication.getInstance().getApplicationContext();
+	private static Context mContext = AfterYouApplication.getInstance()
+			.getApplicationContext();
 
-	public static void search(final String query, final SingleSearchCallBack callback) {
+	public static void search(final String query,
+			final SingleSearchCallBack callback) {
 		search(query, null, null, callback);
 	}
 
-	public static void search(final String query, String[] categories, String[] brands, final SingleSearchCallBack callback) {
+	public static void search(final String query, String[] categories,
+			String[] brands, final SingleSearchCallBack callback) {
 		SearchInformation searchInfo = new SearchInformation(mContext);
 		searchInfo.startSearch(new MySingleSearchListener(callback));
 	}
 
-	public static void searchRelated(final String query, final SingleSearchCallBack callback) {
+	public static void searchRelated(final String query,
+			final SingleSearchCallBack callback) {
 	}
 
-	public static void searchRelated(final String query, String[] categories, String[] brands, final SingleSearchCallBack callback) {
+	public static void searchRelated(final String query, String[] categories,
+			String[] brands, final SingleSearchCallBack callback) {
 	}
 
 	private static class MySingleSearchListener implements ISearchListener {
@@ -54,12 +59,15 @@ public class SingleSearchController {
 				interest.setName(searchResult.getName());
 				interest.setAge(searchResult.getAge());
 				interest.setStatus(searchResult.getStatus());
-				interest.setProfile_comments_count(searchResult.getProfile_comments_count());
+				interest.setProfile_comments_count(searchResult
+						.getProfile_comments_count());
 				interest.setProfile_likes(searchResult.getProfile_likes());
-				interest.setAlbum_photo_count(searchResult.getAlbum_photo_count());
+				interest.setAlbum_photo_count(searchResult
+						.getAlbum_photo_count());
 				interest.setLast_online(searchResult.getLast_online());
 				interest.setLast_online_time(searchResult.getLast_online_time());
-				interest.setThumbnailImageUrl(searchResult.getThumbnailImageUrl());
+				interest.setThumbnailImageUrl(searchResult
+						.getThumbnailImageUrl());
 				interest.setImageUrl(searchResult.getImageUrl());
 				if (searchResult.getThumbnailImageUrl() != null) {
 					interest.setDataSrc(searchResult.getThumbnailImageUrl());
@@ -76,29 +84,29 @@ public class SingleSearchController {
 		}
 
 	}
-	
+
 	private static void prefetchImages(List<Interest> interests) {
-		if(interests!= null && !interests.isEmpty()) {
+		if (interests != null && !interests.isEmpty()) {
 			ImageWorkerTask task = new ImageWorkerTask();
 			task.execute(interests);
 		}
 	}
 
-	private static class ImageWorkerTask extends AsyncTask<List<Interest>, Void, Void> {
+	private static class ImageWorkerTask extends
+			AsyncTask<List<Interest>, Void, Void> {
 
 		@Override
 		protected Void doInBackground(List<Interest>... params) {
 			List<Interest> interests = params[0];
-			for(Interest interest : interests) {
+			for (Interest interest : interests) {
 				Object src = interest.getDataSrc();
-				if(src != null) {
+				if (src != null) {
 					ImageUtils.getInstance(mContext).loadImage(src);
 				}
 			}
 			return null;
 		}
 	}
-	
 
 	static List<String> dataUrl = new ArrayList<String>();
 

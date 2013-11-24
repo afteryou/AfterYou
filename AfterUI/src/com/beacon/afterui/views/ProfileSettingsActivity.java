@@ -67,7 +67,7 @@ public class ProfileSettingsActivity extends BaseActivity implements
 
 	private TextView b_day, rlg, rtln;
 
-	private ImageButton mDoneBtn;
+	private TextView mDoneBtn;
 
 	private TextView hvChild;
 
@@ -134,13 +134,12 @@ public class ProfileSettingsActivity extends BaseActivity implements
 				"fonts/MyriadPro-Regular.otf");
 		tf = Typeface.createFromAsset(getAssets(), "fonts/MyriadPro-It.otf");
 
-		int[] selfText = { R.id.profile_setup_text, R.id.done_txt,
-				R.id.about_you_txt, R.id.date_of_birth_txt,
-				R.id.religion_label_txt, R.id.relation_label_txt,
-				R.id.havechild_label_txt, R.id.wantchild_label_txt,
-				R.id.languages_label_txt, R.id.height_label_txt,
-				R.id.bodyType_label_txt, R.id.comm_label_txt,
-				R.id.diet_label_txt, R.id.smoke_label_txt,
+		int[] selfText = { R.id.done_btn, R.id.about_you_txt,
+				R.id.date_of_birth_txt, R.id.religion_label_txt,
+				R.id.relation_label_txt, R.id.havechild_label_txt,
+				R.id.wantchild_label_txt, R.id.languages_label_txt,
+				R.id.height_label_txt, R.id.bodyType_label_txt,
+				R.id.comm_label_txt, R.id.diet_label_txt, R.id.smoke_label_txt,
 				R.id.drink_label_txt, R.id.education_label_txt,
 				R.id.salary_label_txt };
 
@@ -169,7 +168,7 @@ public class ProfileSettingsActivity extends BaseActivity implements
 		if (getIntent().hasExtra(AppConstants.FACEBOOK_USER)) {
 			isFacebook = true;
 		}
-		mDoneBtn = (ImageButton) findViewById(R.id.donebtn);
+		mDoneBtn = (TextView) findViewById(R.id.done_btn);
 		mDoneBtn.setOnClickListener(this);
 		ctx = this;
 		setListeners();
@@ -1825,7 +1824,7 @@ public class ProfileSettingsActivity extends BaseActivity implements
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.donebtn:
+		case R.id.done_btn:
 			if (b_day.getText() != null && b_day.getText().length() > 0
 					&& rlg.getText() != null && rlg.getText().length() > 0
 					&& rtln.getText() != null && rtln.getText().length() > 0) {
@@ -1988,112 +1987,112 @@ public class ProfileSettingsActivity extends BaseActivity implements
 		return match_languages;
 	}
 
-//	protected Dialog getMatchDrinking() {
-//		CustomDialog.Builder builder = new CustomDialog.Builder(this,
-//				new AfterYouDialogImpl.AfterYouBuilderImpl(this));
-//
-//		int checkedItem = PreferenceEngine.getInstance(ctx).getMatchDrinkInt();
-//		Dialog match_drinking = builder
-//				.setTitle(this.getString(R.string.drink_label))
-//				.setSingleChoiceItems(mMatchDrinking, checkedItem,
-//						new DialogInterface.OnClickListener() {
-//							public void onClick(DialogInterface dialog,
-//									int whichButton) {
-//
-//								changeMatchDrinking(whichButton);
-//							}
-//						})
-//				.setNegativeButton(this.getString(R.string.IDS_CANCEL), null)
-//				.create();
-//
-//		return match_drinking;
-//	}
+	// protected Dialog getMatchDrinking() {
+	// CustomDialog.Builder builder = new CustomDialog.Builder(this,
+	// new AfterYouDialogImpl.AfterYouBuilderImpl(this));
+	//
+	// int checkedItem = PreferenceEngine.getInstance(ctx).getMatchDrinkInt();
+	// Dialog match_drinking = builder
+	// .setTitle(this.getString(R.string.drink_label))
+	// .setSingleChoiceItems(mMatchDrinking, checkedItem,
+	// new DialogInterface.OnClickListener() {
+	// public void onClick(DialogInterface dialog,
+	// int whichButton) {
+	//
+	// changeMatchDrinking(whichButton);
+	// }
+	// })
+	// .setNegativeButton(this.getString(R.string.IDS_CANCEL), null)
+	// .create();
+	//
+	// return match_drinking;
+	// }
 
-//	protected Dialog getMatchSmoking() {
-//		CustomDialog.Builder builder = new CustomDialog.Builder(this,
-//				new AfterYouDialogImpl.AfterYouBuilderImpl(this));
-//
-//		int checkedItem = PreferenceEngine.getInstance(ctx)
-//				.getMatchSmokingInt();
-//		Dialog match_smoking = builder
-//				.setTitle(this.getString(R.string.smoke_label))
-//				.setSingleChoiceItems(mMatchSmoking, checkedItem,
-//						new DialogInterface.OnClickListener() {
-//							public void onClick(DialogInterface dialog,
-//									int whichButton) {
-//
-//								changeMatchSmoking(whichButton);
-//							}
-//						})
-//				.setNegativeButton(this.getString(R.string.IDS_CANCEL), null)
-//				.create();
-//
-//		return match_smoking;
-//	}
+	// protected Dialog getMatchSmoking() {
+	// CustomDialog.Builder builder = new CustomDialog.Builder(this,
+	// new AfterYouDialogImpl.AfterYouBuilderImpl(this));
+	//
+	// int checkedItem = PreferenceEngine.getInstance(ctx)
+	// .getMatchSmokingInt();
+	// Dialog match_smoking = builder
+	// .setTitle(this.getString(R.string.smoke_label))
+	// .setSingleChoiceItems(mMatchSmoking, checkedItem,
+	// new DialogInterface.OnClickListener() {
+	// public void onClick(DialogInterface dialog,
+	// int whichButton) {
+	//
+	// changeMatchSmoking(whichButton);
+	// }
+	// })
+	// .setNegativeButton(this.getString(R.string.IDS_CANCEL), null)
+	// .create();
+	//
+	// return match_smoking;
+	// }
 
-//	protected Dialog getMatchDiet() {
-//		CustomDialog.Builder builder = new CustomDialog.Builder(this,
-//				new AfterYouDialogImpl.AfterYouBuilderImpl(this));
-//
-//		int checkedItem = PreferenceEngine.getInstance(ctx).getMatchDietInt();
-//		Dialog diet = builder
-//				.setTitle(this.getString(R.string.diet_label))
-//				.setSingleChoiceItems(mMatchDietList, checkedItem,
-//						new DialogInterface.OnClickListener() {
-//							public void onClick(DialogInterface dialog,
-//									int whichButton) {
-//								changeMatchDiet(whichButton);
-//							}
-//						})
-//				.setNegativeButton(this.getString(R.string.IDS_CANCEL), null)
-//				.create();
-//
-//		return diet;
-//	}
+	// protected Dialog getMatchDiet() {
+	// CustomDialog.Builder builder = new CustomDialog.Builder(this,
+	// new AfterYouDialogImpl.AfterYouBuilderImpl(this));
+	//
+	// int checkedItem = PreferenceEngine.getInstance(ctx).getMatchDietInt();
+	// Dialog diet = builder
+	// .setTitle(this.getString(R.string.diet_label))
+	// .setSingleChoiceItems(mMatchDietList, checkedItem,
+	// new DialogInterface.OnClickListener() {
+	// public void onClick(DialogInterface dialog,
+	// int whichButton) {
+	// changeMatchDiet(whichButton);
+	// }
+	// })
+	// .setNegativeButton(this.getString(R.string.IDS_CANCEL), null)
+	// .create();
+	//
+	// return diet;
+	// }
 
-//	protected Dialog getMatchCommunity() {
-//		CustomDialog.Builder builder = new CustomDialog.Builder(this,
-//				new AfterYouDialogImpl.AfterYouBuilderImpl(this));
-//
-//		int checkedItem = PreferenceEngine.getInstance(ctx)
-//				.getMatchCommunityInt();
-//		Dialog community = builder
-//				.setTitle(this.getString(R.string.comm_label))
-//				.setSingleChoiceItems(mMatchCommunity, checkedItem,
-//						new DialogInterface.OnClickListener() {
-//							public void onClick(DialogInterface dialog,
-//									int whichButton) {
-//
-//								changeMatchComm(whichButton);
-//							}
-//						})
-//				.setNegativeButton(this.getString(R.string.IDS_CANCEL), null)
-//				.create();
-//
-//		return community;
-//	}
+	// protected Dialog getMatchCommunity() {
+	// CustomDialog.Builder builder = new CustomDialog.Builder(this,
+	// new AfterYouDialogImpl.AfterYouBuilderImpl(this));
+	//
+	// int checkedItem = PreferenceEngine.getInstance(ctx)
+	// .getMatchCommunityInt();
+	// Dialog community = builder
+	// .setTitle(this.getString(R.string.comm_label))
+	// .setSingleChoiceItems(mMatchCommunity, checkedItem,
+	// new DialogInterface.OnClickListener() {
+	// public void onClick(DialogInterface dialog,
+	// int whichButton) {
+	//
+	// changeMatchComm(whichButton);
+	// }
+	// })
+	// .setNegativeButton(this.getString(R.string.IDS_CANCEL), null)
+	// .create();
+	//
+	// return community;
+	// }
 
-//	protected Dialog getMatchBodyType() {
-//		CustomDialog.Builder builder = new CustomDialog.Builder(this,
-//				new AfterYouDialogImpl.AfterYouBuilderImpl(this));
-//
-//		int checkedItem = PreferenceEngine.getInstance(ctx)
-//				.getMatchBodyTypeInt();
-//		Dialog body_type = builder
-//				.setTitle(this.getString(R.string.bodyType_label))
-//				.setSingleChoiceItems(mMatchBodyType, checkedItem,
-//						new DialogInterface.OnClickListener() {
-//							public void onClick(DialogInterface dialog,
-//									int whichButton) {
-//
-//								changeMatchBodyType(whichButton);
-//							}
-//						})
-//				.setNegativeButton(this.getString(R.string.IDS_CANCEL), null)
-//				.create();
-//
-//		return body_type;
-//	}
+	// protected Dialog getMatchBodyType() {
+	// CustomDialog.Builder builder = new CustomDialog.Builder(this,
+	// new AfterYouDialogImpl.AfterYouBuilderImpl(this));
+	//
+	// int checkedItem = PreferenceEngine.getInstance(ctx)
+	// .getMatchBodyTypeInt();
+	// Dialog body_type = builder
+	// .setTitle(this.getString(R.string.bodyType_label))
+	// .setSingleChoiceItems(mMatchBodyType, checkedItem,
+	// new DialogInterface.OnClickListener() {
+	// public void onClick(DialogInterface dialog,
+	// int whichButton) {
+	//
+	// changeMatchBodyType(whichButton);
+	// }
+	// })
+	// .setNegativeButton(this.getString(R.string.IDS_CANCEL), null)
+	// .create();
+	//
+	// return body_type;
+	// }
 
 	// protected Dialog getMatchHeightDialog() {
 	// return new CustomerNumberPickerDialog(new AfterYouDialogImpl(this),
@@ -2102,61 +2101,61 @@ public class ProfileSettingsActivity extends BaseActivity implements
 	// .getMatchHeightInt());
 	// }
 
-//	protected Dialog getMatchHaveChildDialog(final boolean wntChld) {
-//		CustomDialog.Builder builder = new CustomDialog.Builder(this,
-//				new AfterYouDialogImpl.AfterYouBuilderImpl(this));
-//		String label = null;
-//		int checkedItem = -1;
-//		if (wntChld) {
-//			label = this.getString(R.string.wantchild_label);
-//			checkedItem = PreferenceEngine.getInstance(ctx)
-//					.getMatchWantChildren() ? 0 : 1;
-//		} else {
-//			label = this.getString(R.string.havechild_label);
-//			checkedItem = PreferenceEngine.getInstance(ctx)
-//					.getMatchHaveChildren() ? 0 : 1;
-//		}
-//
-//		Dialog haveChildDialog = builder
-//				.setTitle(label)
-//				.setSingleChoiceItems(mMatchHvChild, checkedItem,
-//						new DialogInterface.OnClickListener() {
-//							public void onClick(DialogInterface dialog,
-//									int whichButton) {
-//								if (wntChld) {
-//									changeMatchWntChild(whichButton);
-//								} else {
-//									changeMatchHaveChild(whichButton);
-//								}
-//							}
-//						})
-//				.setNegativeButton(this.getString(R.string.IDS_CANCEL), null)
-//				.create();
-//
-//		return haveChildDialog;
-//	}
+	// protected Dialog getMatchHaveChildDialog(final boolean wntChld) {
+	// CustomDialog.Builder builder = new CustomDialog.Builder(this,
+	// new AfterYouDialogImpl.AfterYouBuilderImpl(this));
+	// String label = null;
+	// int checkedItem = -1;
+	// if (wntChld) {
+	// label = this.getString(R.string.wantchild_label);
+	// checkedItem = PreferenceEngine.getInstance(ctx)
+	// .getMatchWantChildren() ? 0 : 1;
+	// } else {
+	// label = this.getString(R.string.havechild_label);
+	// checkedItem = PreferenceEngine.getInstance(ctx)
+	// .getMatchHaveChildren() ? 0 : 1;
+	// }
+	//
+	// Dialog haveChildDialog = builder
+	// .setTitle(label)
+	// .setSingleChoiceItems(mMatchHvChild, checkedItem,
+	// new DialogInterface.OnClickListener() {
+	// public void onClick(DialogInterface dialog,
+	// int whichButton) {
+	// if (wntChld) {
+	// changeMatchWntChild(whichButton);
+	// } else {
+	// changeMatchHaveChild(whichButton);
+	// }
+	// }
+	// })
+	// .setNegativeButton(this.getString(R.string.IDS_CANCEL), null)
+	// .create();
+	//
+	// return haveChildDialog;
+	// }
 
-//	private Dialog getMatchReligionDialog() {
-//
-//		CustomDialog.Builder builder = new CustomDialog.Builder(this,
-//				new AfterYouDialogImpl.AfterYouBuilderImpl(this));
-//
-//		int checkedItem = PreferenceEngine.getInstance(ctx)
-//				.getMatchReligionInt();
-//		Dialog religion = builder
-//				.setTitle(this.getString(R.string.religion_label))
-//				.setSingleChoiceItems(mMatchReligion, checkedItem,
-//						new DialogInterface.OnClickListener() {
-//							public void onClick(DialogInterface dialog,
-//									int whichButton) {
-//								changeMatchReligion(whichButton);
-//							}
-//						})
-//				.setNegativeButton(this.getString(R.string.IDS_CANCEL), null)
-//				.create();
-//
-//		return religion;
-//	}
+	// private Dialog getMatchReligionDialog() {
+	//
+	// CustomDialog.Builder builder = new CustomDialog.Builder(this,
+	// new AfterYouDialogImpl.AfterYouBuilderImpl(this));
+	//
+	// int checkedItem = PreferenceEngine.getInstance(ctx)
+	// .getMatchReligionInt();
+	// Dialog religion = builder
+	// .setTitle(this.getString(R.string.religion_label))
+	// .setSingleChoiceItems(mMatchReligion, checkedItem,
+	// new DialogInterface.OnClickListener() {
+	// public void onClick(DialogInterface dialog,
+	// int whichButton) {
+	// changeMatchReligion(whichButton);
+	// }
+	// })
+	// .setNegativeButton(this.getString(R.string.IDS_CANCEL), null)
+	// .create();
+	//
+	// return religion;
+	// }
 
 	// protected Dialog getMatchRelationDialog() {
 	// CustomDialog.Builder builder = new CustomDialog.Builder(this,

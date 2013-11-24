@@ -9,13 +9,13 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.view.View;
-import android.view.Window;
 import android.view.View.OnClickListener;
+import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.GridView;
 import android.widget.ImageButton;
-import android.widget.TextView;
 
 import com.beacon.afterui.R;
 import com.beacon.afterui.activity.BaseActivity;
@@ -32,7 +32,7 @@ public class PhotoGallaryActivity extends BaseActivity implements
 	private String mId;
 	private String mName;
 
-	private ImageButton mCancelButton;
+	private Button mCancelButton;
 
 	private List<Photo> mPhotoList;
 
@@ -56,20 +56,16 @@ public class PhotoGallaryActivity extends BaseActivity implements
         setBehindRightContentView(R.layout.photo_gallary);
 		mId = getIntent().getStringExtra(PhotoAlbumActivity.ID);
 		mName = getIntent().getStringExtra(PhotoAlbumActivity.NAME);
-		TextView cancelTxt = (TextView) findViewById(R.id.cancel_txt);
-		TextView chooseFromLiTxt = (TextView) findViewById(R.id.choose_from_library_txt);
 
 		// font myriadPro semibold
 		Typeface typeFaceSemiBold = Typeface.createFromAsset(getAssets(),
 				"fonts/MyriadPro-Semibold.otf");
-		cancelTxt.setTypeface(typeFaceSemiBold);
-		chooseFromLiTxt.setTypeface(typeFaceSemiBold);
 
 		mPhotoGridView = (GridView) findViewById(R.id.photo_gallary_layout);
 		mPhotoGridView.setAdapter(new ImageAdapter(this));
 		mPhotoGridView.setOnItemClickListener(mPhotoGriedListener);
 
-		mCancelButton = (ImageButton) findViewById(R.id.cancel_btn_photo_album);
+		mCancelButton = (Button) findViewById(R.id.cancel_btn_photo_album);
 		mCancelButton.setOnClickListener(this);
 
 		mHandlerThread = new HandlerThread("album_loader");

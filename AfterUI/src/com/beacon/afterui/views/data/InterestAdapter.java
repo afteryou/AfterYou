@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -93,29 +94,29 @@ public class InterestAdapter extends BaseAdapter {
 				.findViewById(R.id.news_pic);
 		TextView nameView = (TextView) result.findViewById(R.id.news_name);
 		nameView.setTypeface(typeFaceBold);
-		TextView ageView = (TextView) result.findViewById(R.id.news_age);
-		ageView.setTypeface(typeFaceRegular);
-		TextView albumCount = (TextView) result
-				.findViewById(R.id.news_album_count);
-		albumCount.setTypeface(typeFaceRegular);
+		// TextView ageView = (TextView) result.findViewById(R.id.news_age);
+		// ageView.setTypeface(typeFaceRegular);
+		// TextView albumCount = (TextView) result
+		// .findViewById(R.id.news_album_count);
+		// albumCount.setTypeface(typeFaceRegular);
 		TextView statusView = (TextView) result.findViewById(R.id.news_status);
 		statusView.setTypeface(typefaceItalic);
-		TextView lastLoginView = (TextView) result
-				.findViewById(R.id.news_lastlogin);
-		lastLoginView.setTypeface(typefaceBlack);
-		TextView lastLoginTime = (TextView) result
-				.findViewById(R.id.news_lastlogin_time);
-		lastLoginTime.setTypeface(typefaceBlack);
-		TextView likeCountView = (TextView) result
-				.findViewById(R.id.news_like_text);
-		likeCountView.setTypeface(typeFaceRegular);
-		TextView commentCountView = (TextView) result
-				.findViewById(R.id.news_comment_count);
-		commentCountView.setTypeface(typeFaceRegular);
+		// TextView lastLoginView = (TextView) result
+		// .findViewById(R.id.news_lastlogin);
+		// lastLoginView.setTypeface(typefaceBlack);
+		// TextView lastLoginTime = (TextView) result
+		// .findViewById(R.id.news_lastlogin_time);
+		// lastLoginTime.setTypeface(typefaceBlack);
+		// TextView likeCountView = (TextView) result
+		// .findViewById(R.id.news_like_text);
+		// likeCountView.setTypeface(typeFaceRegular);
+		// TextView commentCountView = (TextView) result
+		// .findViewById(R.id.news_comment_count);
+		// commentCountView.setTypeface(typeFaceRegular);
 
-		TextView add_req_text = (TextView) result
-				.findViewById(R.id.news_add_req_text);
-		add_req_text.setTypeface(typeFaceRegular);
+		// TextView add_req_text = (TextView) result
+		// .findViewById(R.id.news_add_req_text);
+		// add_req_text.setTypeface(typeFaceRegular);
 
 		View divider = (View) result.findViewById(R.id.news_divider);
 		// if (sp.getDescription() == null || sp.getDescription() == "") {
@@ -130,19 +131,19 @@ public class InterestAdapter extends BaseAdapter {
 			imageView.setImageDrawable(holder.imageView.getDrawable());
 		}
 		nameView.setText(sp.getName());
-		ageView.setText(mContext.getResources().getString(R.string.IDS_AGE)
-				+ sp.getAge());
-		albumCount.setText(mContext.getResources().getString(
-				R.string.IDS_OPEN_BRACE)
-				+ sp.getAlbum_photo_count()
-				+ mContext.getResources().getString(R.string.IDS_CLOSE_BRACE));
+		// ageView.setText(mContext.getResources().getString(R.string.IDS_AGE)
+		// + sp.getAge());
+		// albumCount.setText(mContext.getResources().getString(
+		// R.string.IDS_OPEN_BRACE)
+		// + sp.getAlbum_photo_count()
+		// + mContext.getResources().getString(R.string.IDS_CLOSE_BRACE));
 		statusView.setText(sp.getStatus());
-		lastLoginView.setText(sp.getLast_online());
-		lastLoginTime.setText(sp.getLast_online_time());
-		likeCountView.setText(sp.getProfile_likes()
-				+ mContext.getResources().getString(R.string.IDS_LIKES));
-		commentCountView.setText(sp.getProfile_comments_count()
-				+ mContext.getResources().getString(R.string.IDS_COMMENTS));
+		// lastLoginView.setText(sp.getLast_online());
+		// lastLoginTime.setText(sp.getLast_online_time());
+		// likeCountView.setText(sp.getProfile_likes()
+		// + mContext.getResources().getString(R.string.IDS_LIKES));
+		// commentCountView.setText(sp.getProfile_comments_count()
+		// + mContext.getResources().getString(R.string.IDS_COMMENTS));
 		return result;
 	}
 
@@ -158,36 +159,40 @@ public class InterestAdapter extends BaseAdapter {
 			holder.nameView = (TextView) convertView
 					.findViewById(R.id.news_name);
 			holder.nameView.setTypeface(typeFaceBold);
-			holder.ageView = (TextView) convertView.findViewById(R.id.news_age);
-			holder.ageView.setTypeface(typeFaceRegular);
-			holder.albumCount = (TextView) convertView
-					.findViewById(R.id.news_album_count);
-			holder.albumCount.setTypeface(typeFaceRegular);
+			// holder.ageView = (TextView)
+			// convertView.findViewById(R.id.news_age);
+			// holder.ageView.setTypeface(typeFaceRegular);
+			// holder.albumCount = (TextView) convertView
+			// .findViewById(R.id.news_album_count);
+			// holder.albumCount.setTypeface(typeFaceRegular);
 			holder.statusView = (TextView) convertView
 					.findViewById(R.id.news_status);
 			holder.statusView.setTypeface(typefaceItalic);
-			holder.lastLoginView = (TextView) convertView
-					.findViewById(R.id.news_lastlogin);
-			holder.lastLoginView.setTypeface(typefaceBlack);
-			holder.lastLoginTime = (TextView) convertView
-					.findViewById(R.id.news_lastlogin_time);
-			holder.lastLoginTime.setTypeface(typefaceBlack);
-			holder.likeCountView = (TextView) convertView
-					.findViewById(R.id.news_like_text);
-			holder.likeCountView.setTypeface(typeFaceRegular);
-			holder.commentCountView = (TextView) convertView
-					.findViewById(R.id.news_comment_count);
-			holder.commentCountView.setTypeface(typeFaceRegular);
-			holder.add_req_text = (TextView) convertView
-					.findViewById(R.id.news_add_req_text);
-			holder.add_req_text.setTypeface(typeFaceRegular);
-			holder.checkDetails =(Button)convertView.findViewById(R.id.news_details);
+			// holder.lastLoginView = (TextView) convertView
+			// .findViewById(R.id.news_lastlogin);
+			// holder.lastLoginView.setTypeface(typefaceBlack);
+			// holder.lastLoginTime = (TextView) convertView
+			// .findViewById(R.id.news_lastlogin_time);
+			// holder.lastLoginTime.setTypeface(typefaceBlack);
+			// holder.likeCountView = (TextView) convertView
+			// .findViewById(R.id.news_like_text);
+			// holder.likeCountView.setTypeface(typeFaceRegular);
+			// holder.commentCountView = (TextView) convertView
+			// .findViewById(R.id.news_comment_count);
+			// holder.commentCountView.setTypeface(typeFaceRegular);
+			holder.add_req_text = (ImageView) convertView
+					.findViewById(R.id.vote_btn);
+			// holder.add_req_text.setTypeface(typeFaceRegular);
+			holder.checkDetails = (Button) convertView
+					.findViewById(R.id.news_details);
 			holder.checkDetails.setOnClickListener(new View.OnClickListener() {
-				
+
 				@Override
 				public void onClick(View v) {
-					Toast.makeText(mContext, "Clicked Button = "+((Integer)v.getTag()), Toast.LENGTH_LONG).show();
-					clickListner.onItemClick((Integer)v.getTag());
+					Toast.makeText(mContext,
+							"Clicked Button = " + ((Integer) v.getTag()),
+							Toast.LENGTH_LONG).show();
+					clickListner.onItemClick((Integer) v.getTag());
 				}
 			});
 		} else {
@@ -203,14 +208,14 @@ public class InterestAdapter extends BaseAdapter {
 		// holder.descView.setText(sp.getDescription());
 		// }
 		holder.nameView.setText(sp.getName());
-		holder.ageView.setText("Age : " + sp.getAge());
-		holder.albumCount.setText("(" + sp.getAlbum_photo_count() + ")");
+		// holder.ageView.setText("Age : " + sp.getAge());
+		// holder.albumCount.setText("(" + sp.getAlbum_photo_count() + ")");
 		holder.statusView.setText(sp.getStatus());
-		holder.lastLoginView.setText(sp.getLast_online());
-		holder.lastLoginTime.setText(sp.getLast_online_time());
-		holder.likeCountView.setText(sp.getProfile_likes() + " likes");
-		holder.commentCountView.setText(sp.getProfile_comments_count()
-				+ " comments");
+		// holder.lastLoginView.setText(sp.getLast_online());
+		// holder.lastLoginTime.setText(sp.getLast_online_time());
+		// holder.likeCountView.setText(sp.getProfile_likes() + " likes");
+		// holder.commentCountView.setText(sp.getProfile_comments_count()
+		// + " comments");
 		holder.checkDetails.setTag(new Integer(position));
 		convertView.setTag(holder);
 		if (sp.getDataSrc() != null) {
@@ -240,16 +245,16 @@ public class InterestAdapter extends BaseAdapter {
 	}
 
 	public class ViewHolder {
-		TextView add_req_text;
+		ImageView add_req_text;
 		ScaleImageView imageView;
 		TextView nameView;
-		TextView ageView;
-		TextView albumCount;
+		// TextView ageView;
+		// TextView albumCount;
 		TextView statusView;
-		TextView lastLoginView;
-		TextView lastLoginTime;
-		TextView likeCountView;
-		TextView commentCountView;
+		// TextView lastLoginView;
+		// TextView lastLoginTime;
+		// TextView likeCountView;
+		// TextView commentCountView;
 		Button checkDetails;
 		Object dataSrc;
 	}

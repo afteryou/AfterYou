@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/app_theme_color" >
+    android:background="@drawable/app_bg" >
 
     <include
         android:id="@+id/header_image"
@@ -14,38 +14,15 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/header_image" >
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/take_photo_bar" />
-
-        <TextView
-            android:id="@+id/choose_from_library_txt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="@string/choose_from_library_txt"
-            android:textColor="@color/white_color" />
-
-        <ImageButton
+        <Button
             android:id="@+id/cancel_btn_photo_album"
+            style="@style/SignUpPageText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_centerInParent="true"
             android:layout_marginLeft="10dp"
-            android:background="@drawable/cancel_bg" />
-
-        <TextView
-            android:id="@+id/cancel_txt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerInParent="true"
-            android:layout_marginLeft="10dp"
-            android:paddingLeft="10dp"
-            android:text="@string/cancelTxt"
-            android:textColor="@color/white_color" />
+            android:background="@android:color/transparent"
+            android:text="@string/cancelTxt" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -59,7 +36,7 @@
             android:id="@+id/photo_gallary_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@drawable/image_preview_bg_white"
+            android:background="@android:color/transparent"
             android:columnWidth="90dp"
             android:horizontalSpacing="3dp"
             android:numColumns="auto_fit"

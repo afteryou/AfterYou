@@ -4,36 +4,23 @@
     android:layout_height="match_parent"
     android:background="@drawable/app_bg" >
 
-    <include layout="@layout/header" />
+    <include
+        android:id="@+id/header_id"
+        layout="@layout/header" />
 
     <RelativeLayout
+        android:id="@+id/sign_up_lay"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:layout_margin="10dp" >
-
-        <RelativeLayout
-            android:id="@+id/sign_up_lay"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/sign_up_bg" >
-
-            <TextView
-                android:id="@+id/sign_up_txt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="@string/signup_txt"
-                android:textColor="@color/white_color" />
-        </RelativeLayout>
+        android:layout_margin="15dp" >
 
         <EditText
             android:id="@+id/first_name_edit_text"
             style="@style/LoginPageEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/sign_up_lay"
-            android:background="@drawable/sign_up_btn"
+            android:background="@drawable/edit_box"
             android:hint="@string/first_name_text_hint"
             android:paddingRight="35dp"
             android:singleLine="true"
@@ -44,9 +31,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignRight="@id/first_name_edit_text"
-            android:layout_below="@id/sign_up_lay"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="25dp"
             android:src="@drawable/cross_btn" />
 
         <EditText
@@ -55,7 +40,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/first_name_edit_text"
-            android:background="@drawable/sign_up_btn"
+            android:background="@drawable/edit_box"
             android:hint="@string/last_name_text_hint"
             android:paddingRight="35dp"
             android:textCursorDrawable="@null" />
@@ -66,8 +51,7 @@
             android:layout_height="wrap_content"
             android:layout_alignRight="@id/last_name_edit_text"
             android:layout_below="@id/first_name_edit_text"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="25dp"
             android:src="@drawable/cross_btn" />
 
         <EditText
@@ -76,7 +60,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/last_name_edit_text"
-            android:background="@drawable/sign_up_btn"
+            android:background="@drawable/edit_box"
             android:hint="@string/email_hint"
             android:paddingRight="35dp"
             android:textCursorDrawable="@null" />
@@ -87,8 +71,7 @@
             android:layout_height="wrap_content"
             android:layout_alignRight="@id/email_edit_text"
             android:layout_below="@id/last_name_edit_text"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="25dp"
             android:src="@drawable/cross_btn" />
 
         <EditText
@@ -97,7 +80,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/email_edit_text"
-            android:background="@drawable/sign_up_btn"
+            android:background="@drawable/edit_box"
             android:hint="@string/birth_day_hint_txt"
             android:textCursorDrawable="@null" />
 
@@ -107,20 +90,8 @@
             android:layout_height="wrap_content"
             android:layout_alignRight="@id/birthday_edit_text"
             android:layout_below="@id/email_edit_text"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="25dp"
             android:src="@drawable/cross_btn" />
-
-        <TextView
-            android:id="@+id/date_of_birth_txt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/email_edit_text"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_toLeftOf="@id/cross_btn_birth_day"
-            android:text="@string/date_of_birth_txt"
-            android:textColor="@color/profile_setup_blue_color" />
 
         <EditText
             android:id="@+id/password_edit_text"
@@ -128,7 +99,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/birthday_edit_text"
-            android:background="@drawable/sign_up_btn"
+            android:background="@drawable/edit_box"
             android:hint="@string/password_hint"
             android:inputType="textPassword"
             android:paddingRight="35dp"
@@ -140,20 +111,8 @@
             android:layout_height="wrap_content"
             android:layout_alignRight="@id/password_edit_text"
             android:layout_below="@id/birthday_edit_text"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="25dp"
             android:src="@drawable/cross_btn" />
-
-        <TextView
-            android:id="@+id/password_validation_txt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/birthday_edit_text"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_toLeftOf="@id/cross_btn_password"
-            android:text="@string/password_validation_txt"
-            android:textColor="@color/profile_setup_blue_color" />
 
         <EditText
             android:id="@+id/confirm_edit_text"
@@ -161,7 +120,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/password_edit_text"
-            android:background="@drawable/sign_up_btn"
+            android:background="@drawable/edit_box"
             android:hint="@string/confirm_password_text"
             android:inputType="textPassword"
             android:paddingRight="35dp"
@@ -173,8 +132,7 @@
             android:layout_height="wrap_content"
             android:layout_alignRight="@id/confirm_edit_text"
             android:layout_below="@id/password_edit_text"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="25dp"
             android:src="@drawable/cross_btn" />
 
         <LinearLayout
@@ -182,7 +140,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/confirm_edit_text"
-            android:background="@drawable/sign_up_btn"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp"
             android:weightSum="1" >
 
             <TextView
@@ -190,41 +149,36 @@
                 style="@style/SignUpPageText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_gravity="left"
+                android:layout_marginRight="10dp"
                 android:layout_weight="0.5"
                 android:background="@drawable/switch_btn_pressed"
                 android:gravity="center"
-                android:text="MALE" />
+                android:text="@string/male_text" />
 
             <TextView
                 android:id="@+id/right_image"
                 style="@style/SignUpPageText"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
                 android:layout_weight="0.5"
+                android:background="@drawable/switch_btn_normal"
                 android:gravity="center"
-                android:text="FEMALE" />
+                android:text="@string/female_text" />
         </LinearLayout>
 
-        <RelativeLayout
-            android:id="@+id/sign_up_btn_lay"
-            android:layout_width="match_parent"
+        <TextView
+            android:id="@+id/sign_in_btn_signup_screen"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/gender_selection" >
-
-            <ImageButton
-                android:id="@+id/sign_in_btn_signup_screen"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@drawable/sign_in_bg" />
-
-            <TextView
-                android:id="@+id/sign_in_txt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="@string/sign_in"
-                android:textColor="@color/white_color" />
-        </RelativeLayout>
+            android:layout_below="@id/gender_selection"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/sign_in_bg"
+            android:gravity="center"
+            android:text="sign in"
+            android:textColor="@color/font_blue_color" />
     </RelativeLayout>
 
 </RelativeLayout>

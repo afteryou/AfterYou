@@ -98,16 +98,16 @@ public class ProfileSettingsHelper {
 							.setSelfHeightFoot(footItem[newValue]);
 					PreferenceEngine.getInstance(view.getContext())
 							.setSelfHeightFootInt(newValue);
-//					foot_text.setText(PreferenceEngine.getInstance(
-//							view.getContext()).getSelfHeightFoot());
+					// foot_text.setText(PreferenceEngine.getInstance(
+					// view.getContext()).getSelfHeightFoot());
 				} else {
 					PreferenceEngine.getInstance(view.getContext())
 							.setMatchHeightFoot(footItem[newValue]);
 					PreferenceEngine.getInstance(view.getContext())
 							.setMatchHeightFootInt(newValue);
 					ProfileSettingsHelper.flag = 0;
-//					foot_text.setText(PreferenceEngine.getInstance(
-//							view.getContext()).getMatchHeightFoot());
+					// foot_text.setText(PreferenceEngine.getInstance(
+					// view.getContext()).getMatchHeightFoot());
 				}
 
 			}
@@ -123,15 +123,15 @@ public class ProfileSettingsHelper {
 							.setSelfHeightInches(inchesItem[newValue]);
 					PreferenceEngine.getInstance(view.getContext())
 							.setSelfHeightInchesInt(newValue);
-//					inches_txt.setText(PreferenceEngine.getInstance(
-//							view.getContext()).getSelfHeightInches());
+					// inches_txt.setText(PreferenceEngine.getInstance(
+					// view.getContext()).getSelfHeightInches());
 				} else {
 					PreferenceEngine.getInstance(view.getContext())
 							.setMatchHeightInches(inchesItem[newValue]);
 					PreferenceEngine.getInstance(view.getContext())
 							.setMatchHeightInchesInt(newValue);
-//					inches_txt.setText(PreferenceEngine.getInstance(
-//							view.getContext()).getMatchHeightInches());
+					// inches_txt.setText(PreferenceEngine.getInstance(
+					// view.getContext()).getMatchHeightInches());
 					ProfileSettingsHelper.flag = 0;
 				}
 
@@ -165,16 +165,16 @@ public class ProfileSettingsHelper {
 								.setSelfReligion(item[newValue].toString());
 						PreferenceEngine.getInstance(view.getContext())
 								.setSelfReligionInt(newValue);
-//						text.setText(PreferenceEngine.getInstance(
-//								view.getContext()).getSelfReligion());
+						// text.setText(PreferenceEngine.getInstance(
+						// view.getContext()).getSelfReligion());
 
 					} else {
 						PreferenceEngine.getInstance(view.getContext())
 								.setMatchReligion(item[newValue].toString());
 						PreferenceEngine.getInstance(view.getContext())
 								.setMatchReligionInt(newValue);
-//						text.setText(PreferenceEngine.getInstance(
-//								view.getContext()).getMatchReligion());
+						// text.setText(PreferenceEngine.getInstance(
+						// view.getContext()).getMatchReligion());
 					}
 
 					break;
@@ -184,15 +184,15 @@ public class ProfileSettingsHelper {
 								.setSelfRelation(item[newValue].toString());
 						PreferenceEngine.getInstance(view.getContext())
 								.setSelfRelationInt(newValue);
-//						text.setText(PreferenceEngine.getInstance(
-//								view.getContext()).getSelfRelation());
+						// text.setText(PreferenceEngine.getInstance(
+						// view.getContext()).getSelfRelation());
 					} else {
 						PreferenceEngine.getInstance(view.getContext())
 								.setMatchRelation(item[newValue].toString());
 						PreferenceEngine.getInstance(view.getContext())
 								.setMatchRelationInt(newValue);
-//						text.setText(PreferenceEngine.getInstance(
-//								view.getContext()).getMatchRelation());
+						// text.setText(PreferenceEngine.getInstance(
+						// view.getContext()).getMatchRelation());
 					}
 
 					break;
@@ -251,15 +251,15 @@ public class ProfileSettingsHelper {
 								.setSelfBodyType(item[newValue].toString());
 						PreferenceEngine.getInstance(view.getContext())
 								.setSelfBodyTypeInt(newValue);
-//						text.setText(PreferenceEngine.getInstance(
-//								view.getContext()).getSelfBodyType());
+						// text.setText(PreferenceEngine.getInstance(
+						// view.getContext()).getSelfBodyType());
 					} else {
 						PreferenceEngine.getInstance(view.getContext())
 								.setMatchBodyType(item[newValue].toString());
 						PreferenceEngine.getInstance(view.getContext())
 								.setMatchBodyTypeInt(newValue);
-//						text.setText(PreferenceEngine.getInstance(
-//								view.getContext()).getMatchBodyType());
+						// text.setText(PreferenceEngine.getInstance(
+						// view.getContext()).getMatchBodyType());
 					}
 
 					break;
@@ -269,15 +269,15 @@ public class ProfileSettingsHelper {
 								.setSelfCommunity(item[newValue].toString());
 						PreferenceEngine.getInstance(view.getContext())
 								.setSelfCommunityInt(newValue);
-//						text.setText(PreferenceEngine.getInstance(
-//								view.getContext()).getSelfCommunity());
+						// text.setText(PreferenceEngine.getInstance(
+						// view.getContext()).getSelfCommunity());
 					} else {
 						PreferenceEngine.getInstance(view.getContext())
 								.setMatchCommunity(item[newValue].toString());
 						PreferenceEngine.getInstance(view.getContext())
 								.setMatchCommunityInt(newValue);
-//						text.setText(PreferenceEngine.getInstance(
-//								view.getContext()).getMatchCommunity());
+						// text.setText(PreferenceEngine.getInstance(
+						// view.getContext()).getMatchCommunity());
 					}
 
 					break;
@@ -287,15 +287,15 @@ public class ProfileSettingsHelper {
 								.setSelfDiet(item[newValue].toString());
 						PreferenceEngine.getInstance(view.getContext())
 								.setSelfDietInt(newValue);
-//						text.setText(PreferenceEngine.getInstance(
-//								view.getContext()).getSelfDiet());
+						// text.setText(PreferenceEngine.getInstance(
+						// view.getContext()).getSelfDiet());
 					} else {
 						PreferenceEngine.getInstance(view.getContext())
 								.setMatchDiet(item[newValue].toString());
 						PreferenceEngine.getInstance(view.getContext())
 								.setMatchDietInt(newValue);
-//						text.setText(PreferenceEngine.getInstance(
-//								view.getContext()).getMatchDiet());
+						// text.setText(PreferenceEngine.getInstance(
+						// view.getContext()).getMatchDiet());
 					}
 
 					break;
@@ -305,15 +305,15 @@ public class ProfileSettingsHelper {
 								.setSelfSmoking(item[newValue].toString());
 						PreferenceEngine.getInstance(view.getContext())
 								.setSelfSmokingInt(newValue);
-//						text.setText(PreferenceEngine.getInstance(
-//								view.getContext()).getSelfSmoking());
+						// text.setText(PreferenceEngine.getInstance(
+						// view.getContext()).getSelfSmoking());
 					} else {
 						PreferenceEngine.getInstance(view.getContext())
 								.setMatchSmoking(item[newValue].toString());
 						PreferenceEngine.getInstance(view.getContext())
 								.setMatchSmokingInt(newValue);
-//						text.setText(PreferenceEngine.getInstance(
-//								view.getContext()).getMatchSmoking());
+						// text.setText(PreferenceEngine.getInstance(
+						// view.getContext()).getMatchSmoking());
 					}
 					break;
 				case DRINGKING:
@@ -322,15 +322,15 @@ public class ProfileSettingsHelper {
 								.setSelfDrinking(item[newValue].toString());
 						PreferenceEngine.getInstance(view.getContext())
 								.setSelfDrinkingInt(newValue);
-//						text.setText(PreferenceEngine.getInstance(
-//								view.getContext()).getSelfDrinking());
+						// text.setText(PreferenceEngine.getInstance(
+						// view.getContext()).getSelfDrinking());
 					} else {
 						PreferenceEngine.getInstance(view.getContext())
 								.setMatchDrinking(item[newValue].toString());
 						PreferenceEngine.getInstance(view.getContext())
 								.setMatchDrinkingInt(newValue);
-//						text.setText(PreferenceEngine.getInstance(
-//								view.getContext()).getMatchDrinking());
+						// text.setText(PreferenceEngine.getInstance(
+						// view.getContext()).getMatchDrinking());
 
 					}
 
@@ -340,24 +340,24 @@ public class ProfileSettingsHelper {
 							.setSelfEducation(item[newValue].toString());
 					PreferenceEngine.getInstance(view.getContext())
 							.setSelfEducationInt(newValue);
-//					text.setText(PreferenceEngine
-//							.getInstance(view.getContext()).getSelfEducation());
+					// text.setText(PreferenceEngine
+					// .getInstance(view.getContext()).getSelfEducation());
 					break;
 				case SALARY:
 					PreferenceEngine.getInstance(view.getContext())
 							.setSelfSalary(item[newValue].toString());
 					PreferenceEngine.getInstance(view.getContext())
 							.setSelfSalaryInt(newValue);
-//					text.setText(PreferenceEngine
-//							.getInstance(view.getContext()).getSelfSalary());
+					// text.setText(PreferenceEngine
+					// .getInstance(view.getContext()).getSelfSalary());
 					break;
 				case AGE_RANGE:
 					PreferenceEngine.getInstance(view.getContext()).setWantAge(
 							item[newValue].toString());
 					PreferenceEngine.getInstance(view.getContext())
 							.setWantAgeInt(newValue);
-//					text.setText(PreferenceEngine
-//							.getInstance(view.getContext()).getWantAge());
+					// text.setText(PreferenceEngine
+					// .getInstance(view.getContext()).getWantAge());
 
 					break;
 				default:
@@ -427,7 +427,7 @@ public class ProfileSettingsHelper {
 			}
 			view.setTypeface(typeFaceRegular);
 			view.setTextColor(mContext.getResources().getColor(
-					R.color.brown_background));
+					R.color.font_blue_color));
 		}
 
 		@Override
@@ -470,7 +470,7 @@ public class ProfileSettingsHelper {
 			}
 			view.setTypeface(typeFaceRegular);
 			view.setTextColor(mContext.getResources().getColor(
-					R.color.brown_background));
+					R.color.font_blue_color));
 
 			Log.d("test", " ----> : " + view.getLayoutParams());
 		}

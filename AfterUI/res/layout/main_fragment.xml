@@ -8,33 +8,61 @@
     <RelativeLayout
         android:id="@+id/profilebar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/take_photo_bar" >
+        android:layout_height="45dp" >
 
-            <ImageView android:id="@+id/notifyImage"
-                android:src="@drawable/notify"
-                android:layout_width="wrap_content"
-                android:paddingLeft="20dp"
-                android:layout_centerVertical="true"
-                android:layout_height="wrap_content"/>
-            
+        <ImageView
+            android:id="@+id/notifyImage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:paddingLeft="20dp"
+            android:src="@drawable/notify" />
 
-            <TextView
-                android:id="@+id/searchText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerInParent="true"
-                android:text="@string/IDS_SEARCH"
-                android:textColor="@color/white_color"
-                android:textSize="16sp" />
+        <TextView
+            android:id="@+id/notification_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_toRightOf="@id/notifyImage"
+            android:text="@string/notification_txt"
+            android:textColor="@color/font_blue_color"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/notification_numnber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="8dp"
+            android:layout_toRightOf="@id/notification_txt"
+            android:text="@string/notification_number"
+            android:textColor="@color/font_blue_color"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/search_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:background="@drawable/search_img_blue" />
     </RelativeLayout>
+
+    <TextView
+        android:id="@+id/notification_divider"
+        android:layout_width="match_parent"
+        android:layout_height="0.50dp"
+        android:layout_below="@+id/profilebar"
+        android:background="@drawable/divider_listview" />
 
     <com.beacon.afterui.sliding.customViews.CustomGridView
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@id/profilebar"
+        android:layout_below="@id/notification_divider"
         android:fastScrollEnabled="true"
         android:paddingLeft="@dimen/feed_list_padding"
         android:paddingRight="@dimen/feed_list_padding"

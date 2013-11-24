@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/app_theme_color" >
+    android:background="@drawable/app_bg" >
 
     <include
         android:id="@+id/header_image"
@@ -14,112 +14,197 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/header_image" >
 
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/take_photo_bar" />
-
-        <TextView
-            android:id="@+id/choose_from_library_txt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="@string/choose_from_library_txt"
-            android:textColor="@color/white_color" />
-
-        <ImageButton
+        <Button
             android:id="@+id/cancel_btn_full_image_activity"
+            style="@style/SignUpPageText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_centerInParent="true"
             android:layout_marginLeft="10dp"
-            android:background="@drawable/cancel_bg" />
+            android:background="@android:color/transparent"
+            android:text="@string/cancelTxt" />
 
-        <TextView
-            android:id="@+id/cancel_txt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_centerInParent="true"
-            android:layout_marginLeft="10dp"
-            android:paddingLeft="10dp"
-            android:text="@string/cancelTxt"
-            android:textColor="@color/white_color" />
-
-        <ImageButton
+        <Button
             android:id="@+id/done_btn_full_image_activity"
+            style="@style/SignUpPageText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_centerInParent="true"
             android:layout_marginRight="10dp"
-            android:background="@drawable/done_bg" />
-
-        <TextView
-            android:id="@+id/done_txt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerInParent="true"
-            android:layout_marginRight="10dp"
-            android:paddingRight="8dp"
-            android:text="@string/doneTxt"
-            android:textColor="@color/white_color" />
+            android:background="@android:color/transparent"
+            android:text="@string/doneTxt" />
     </RelativeLayout>
 
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <ImageView
+        android:id="@+id/photo_of_user_full_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_below="@id/photo_album_layout"
-        android:layout_margin="20dp"
-        android:background="@drawable/image_preview_bg_white" >
-
-        <ImageView
-            android:id="@+id/photo_of_user_full_image"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_margin="30dip" />
-    </RelativeLayout>
+        android:background="@color/black" />
 
     <RelativeLayout
         android:id="@+id/image_edit_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:background="@drawable/crop_bar_transparant_img" >
+        android:layout_marginBottom="30dip"
+        android:gravity="center_horizontal" >
 
-        <ImageButton
-            android:id="@+id/image_rotate_btn"
+        <FrameLayout
+            android:id="@+id/rotate_btn_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <ImageButton
+                android:id="@+id/image_rotate_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="16sp"
+                android:background="@drawable/rotate_btn" />
+
+            <TextView
+                style="@style/SignUpPageText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center_horizontal"
+                android:layout_marginTop="5dip"
+                android:text="@string/IDS_ROTATE" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/effect_btn_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="60dp"
-            android:background="@drawable/rotate_btn" />
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@id/rotate_btn_layout" >
 
-        <ImageButton
-            android:id="@+id/image_effect_btn"
+            <ImageButton
+                android:id="@+id/image_effect_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="16sp"
+                android:background="@drawable/effect_btn" />
+
+            <TextView
+                style="@style/SignUpPageText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center_horizontal"
+                android:layout_marginTop="5dip"
+                android:text="@string/IDS_ENHANCE" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/layer_btn_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="30dp"
-            android:layout_marginRight="30dp"
-            android:layout_toRightOf="@id/image_rotate_btn"
-            android:background="@drawable/effect_btn" />
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@id/effect_btn_layout" >
 
-        <ImageButton
-            android:id="@+id/image_red_eye_btn"
+            <ImageButton
+                android:id="@+id/image_red_eye_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="16sp"
+                android:background="@drawable/red_eye_btn" />
+
+            <TextView
+                style="@style/SignUpPageText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center_horizontal"
+                android:layout_marginTop="5dip"
+                android:text="@string/IDS_REDEYE" />
+        </FrameLayout>
+
+        <FrameLayout
+            android:id="@+id/crop_btn_layout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="30dp"
-            android:layout_toRightOf="@id/image_effect_btn"
-            android:background="@drawable/red_eye_btn" />
+            android:layout_marginLeft="20dp"
+            android:layout_toRightOf="@id/layer_btn_layout" >
+
+            <ImageButton
+                android:id="@+id/image_crop_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="16sp"
+                android:background="@drawable/crop_btn" />
+
+            <TextView
+                style="@style/SignUpPageText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom|center_horizontal"
+                android:layout_marginTop="5dip"
+                android:text="@string/IDS_CROP" />
+        </FrameLayout>
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/preview_layout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@id/image_edit_layout"
+        android:layout_margin="20dip"
+        android:background="@android:color/transparent" >
 
         <ImageButton
-            android:id="@+id/image_crop_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/image_red_eye_btn"
-            android:background="@drawable/crop_btn" />
+            android:id="@+id/gray_button"
+            android:layout_width="@dimen/preview_btn_width"
+            android:layout_height="@dimen/preview_btn_height"
+            android:visibility="gone"
+            android:background="@drawable/smpl_full_img" />
+
+        <ImageButton
+            android:id="@+id/sepia_button"
+            android:layout_width="@dimen/preview_btn_width"
+            android:layout_height="@dimen/preview_btn_height"
+            android:visibility="gone"
+            android:layout_marginLeft="20dip"
+            android:layout_toRightOf="@id/gray_button"
+            android:background="@drawable/smpl_full_img" />
+
+        <ImageButton
+            android:id="@+id/sharp_button"
+            android:layout_width="@dimen/preview_btn_width"
+            android:layout_height="@dimen/preview_btn_height"
+            android:layout_marginLeft="20dip"
+            android:visibility="gone"
+            android:layout_toRightOf="@id/sepia_button"
+            android:background="@drawable/smpl_full_img" />
+
+        <ImageButton
+            android:id="@+id/color_button"
+            android:layout_width="@dimen/preview_btn_width"
+            android:layout_height="@dimen/preview_btn_height"
+            android:layout_marginLeft="20dip"
+            android:visibility="gone"
+            android:layout_toRightOf="@id/sharp_button"
+            android:background="@drawable/smpl_full_img" />
+
+        <ImageButton
+            android:id="@+id/contrast_button"
+            android:layout_width="@dimen/preview_btn_width"
+            android:layout_height="@dimen/preview_btn_height"
+            android:layout_marginLeft="20dip"
+            android:visibility="gone"
+            android:layout_toRightOf="@id/color_button"
+            android:background="@drawable/smpl_full_img" />
+
+        <ImageButton
+            android:id="@+id/emboss_button"
+            android:layout_width="@dimen/preview_btn_width"
+            android:layout_height="@dimen/preview_btn_height"
+            android:layout_marginLeft="20dip"
+            android:visibility="gone"
+            android:layout_toRightOf="@id/contrast_button"
+            android:background="@drawable/smpl_full_img" />
     </RelativeLayout>
 
 </RelativeLayout>

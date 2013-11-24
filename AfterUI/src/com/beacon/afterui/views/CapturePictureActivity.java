@@ -18,7 +18,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.ExifInterface;
@@ -35,15 +34,11 @@ import android.view.Window;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.beacon.afterui.R;
 import com.beacon.afterui.activity.BaseActivity;
-import com.beacon.afterui.application.AfterYouApplication;
 import com.beacon.afterui.application.CrashHandler;
-import com.beacon.afterui.constants.AppConstants;
 import com.beacon.afterui.imageUtils.ImageCache;
 import com.beacon.afterui.imageUtils.ImageResizer;
 import com.beacon.afterui.log.AfterUIlog;
@@ -57,23 +52,14 @@ import com.beacon.afterui.utils.customviews.ErrorDialog;
 public class CapturePictureActivity extends BaseActivity implements
         OnClickListener {
 
-    private ImageButton mSubmitBtn;
     private ImageButton mEditBtn;
-    private ImageButton mCancelBtn;
-    private ImageButton mDoneBtn;
-    private ImageButton mChooseFromLiabraryBtn;
     private ImageView mCropImgSqaureGray;
     private ImageView mCropImgSqaureLine;
-    private ImageButton mImageRotateBtn;
-    private ImageButton mImageCropBtn;
-    private ImageButton mImageEffectBtn;
-    private ImageButton mImageRedEyeBtn;
     private static final String PATH = "path";
     private ImageView mUserImage;
     private JSONObject profileURL = null;
     private Context ctx;
 
-    private RelativeLayout mImageEditLayout;
     private static final String FLAG = "ok";
 
     private Uri mImageUri;
@@ -101,6 +87,7 @@ public class CapturePictureActivity extends BaseActivity implements
 
     /** Stores profile thumb image. */
     private ImageCache mProfileThumbImageCache;
+	private ImageButton mChooseFromLiabraryBtn;
 
     public static final String PROFILE_PIC = "profile_pic";
     public static final String PROFILE_PIC_THUMB = "profile_pic_thumb";
@@ -118,80 +105,80 @@ public class CapturePictureActivity extends BaseActivity implements
         setBehindLeftContentView(R.layout.capture_picture);
         setBehindRightContentView(R.layout.capture_picture);
         this.ctx = this;
-        mSubmitBtn = (ImageButton) findViewById(R.id.submit_btn);
-        mEditBtn = (ImageButton) findViewById(R.id.edit_btn);
-        mChooseFromLiabraryBtn = (ImageButton) findViewById(R.id.choose_from_library_btn);
-
-        mCancelBtn = (ImageButton) findViewById(R.id.cancel_btn_capture_picture);
-        mDoneBtn = (ImageButton) findViewById(R.id.done_btn_capture_picture);
-
-        TextView cancelTxt = (TextView) findViewById(R.id.cancel_txt);
-        TextView takePhotoTxt = (TextView) findViewById(R.id.take_photo_txt);
-        TextView doneTxt = (TextView) findViewById(R.id.done_txt);
-        TextView chooseFromFbTxt = (TextView) findViewById(R.id.choose_from_fb_txt);
-        TextView chooseFromLibraryTxt = (TextView) findViewById(R.id.choose_from_library_txt);
-        TextView editTxt = (TextView) findViewById(R.id.edit_txt);
-        TextView submitTxt = (TextView) findViewById(R.id.submit_txt);
+//        mSubmitBtn = (ImageButton) findViewById(R.id.submit_btn);
+//        mEditBtn = (ImageButton) findViewById(R.id.edit_btn);
+        mChooseFromLiabraryBtn = (ImageButton) findViewById(R.id.gallery_import);
+//
+//        mCancelBtn = (ImageButton) findViewById(R.id.cancel_btn_capture_picture);
+//        mDoneBtn = (ImageButton) findViewById(R.id.done_btn_capture_picture);
+//
+//        TextView cancelTxt = (TextView) findViewById(R.id.cancel_txt);
+//        TextView takePhotoTxt = (TextView) findViewById(R.id.take_photo_txt);
+//        TextView doneTxt = (TextView) findViewById(R.id.done_txt);
+//        TextView chooseFromFbTxt = (TextView) findViewById(R.id.choose_from_fb_txt);
+//        TextView chooseFromLibraryTxt = (TextView) findViewById(R.id.choose_from_library_txt);
+//        TextView editTxt = (TextView) findViewById(R.id.edit_txt);
+//        TextView submitTxt = (TextView) findViewById(R.id.submit_txt);
 
         // font myriadPro regular
-        Typeface typeFaceRegular = Typeface.createFromAsset(getAssets(),
-                "fonts/MyriadPro-Regular.otf");
-        chooseFromFbTxt.setTypeface(typeFaceRegular);
-        chooseFromLibraryTxt.setTypeface(typeFaceRegular);
-        editTxt.setTypeface(typeFaceRegular);
-        submitTxt.setTypeface(typeFaceRegular);
-
-        // font myriadPro semibold
-        Typeface typeFaceSemiBold = Typeface.createFromAsset(getAssets(),
-                "fonts/MyriadPro-Semibold.otf");
-        cancelTxt.setTypeface(typeFaceSemiBold);
-        takePhotoTxt.setTypeface(typeFaceSemiBold);
-        doneTxt.setTypeface(typeFaceSemiBold);
-
-        mImageCropBtn = (ImageButton) findViewById(R.id.image_crop_btn);
-        mImageRotateBtn = (ImageButton) findViewById(R.id.image_rotate_btn);
-        mImageEffectBtn = (ImageButton) findViewById(R.id.image_effect_btn);
-        mImageRedEyeBtn = (ImageButton) findViewById(R.id.image_red_eye_btn);
-        mImageEditLayout = (RelativeLayout) findViewById(R.id.image_edit_layout);
-
-        mCropImgSqaureGray = (ImageView) findViewById(R.id.crop_image_sqaure);
-        mCropImgSqaureLine = (ImageView) findViewById(R.id.crop_image_sqaure_white);
-        mUserImage = (ImageView) findViewById(R.id.user_image);
-        // mUserImage.setImageDrawable(getResources().getDrawable(
-        // R.drawable.capture_photo_bg));
-        mUserImage.setRotation(0);
-
-        mEditBtn.setEnabled(true);
-        mEditBtn.setOnClickListener(this);
+//        Typeface typeFaceRegular = Typeface.createFromAsset(getAssets(),
+//                "fonts/MyriadPro-Regular.otf");
+//        chooseFromFbTxt.setTypeface(typeFaceRegular);
+//        chooseFromLibraryTxt.setTypeface(typeFaceRegular);
+//        editTxt.setTypeface(typeFaceRegular);
+//        submitTxt.setTypeface(typeFaceRegular);
+//
+//        // font myriadPro semibold
+//        Typeface typeFaceSemiBold = Typeface.createFromAsset(getAssets(),
+//                "fonts/MyriadPro-Semibold.otf");
+//        cancelTxt.setTypeface(typeFaceSemiBold);
+//        takePhotoTxt.setTypeface(typeFaceSemiBold);
+//        doneTxt.setTypeface(typeFaceSemiBold);
+//
+//        mImageCropBtn = (ImageButton) findViewById(R.id.image_crop_btn);
+//        mImageRotateBtn = (ImageButton) findViewById(R.id.image_rotate_btn);
+//        mImageEffectBtn = (ImageButton) findViewById(R.id.image_effect_btn);
+//        mImageRedEyeBtn = (ImageButton) findViewById(R.id.image_red_eye_btn);
+//        mImageEditLayout = (RelativeLayout) findViewById(R.id.image_edit_layout);
+//
+//        mCropImgSqaureGray = (ImageView) findViewById(R.id.crop_image_sqaure);
+//        mCropImgSqaureLine = (ImageView) findViewById(R.id.crop_image_sqaure_white);
+//        mUserImage = (ImageView) findViewById(R.id.user_image);
+//        // mUserImage.setImageDrawable(getResources().getDrawable(
+//        // R.drawable.capture_photo_bg));
+//        mUserImage.setRotation(0);
+//
+//        mEditBtn.setEnabled(true);
+//        mEditBtn.setOnClickListener(this);
         mChooseFromLiabraryBtn.setOnClickListener(this);
-        mSubmitBtn.setOnClickListener(this);
-        mImageCropBtn.setOnClickListener(this);
-        mImageRotateBtn.setOnClickListener(this);
-        mImageEffectBtn.setOnClickListener(this);
-        mImageRedEyeBtn.setOnClickListener(this);
-
-        mCancelBtn.setOnClickListener(this);
-        mDoneBtn.setOnClickListener(this);
-
-        mProfileImageCache = new ImageCache(this, PROFILE_PIC);
-
-        Bitmap editedBitmap = mProfileImageCache
-                .getBitmapFromDiskCache(PROFILE_PIC);
-        if (editedBitmap != null) {
-            mUserImage.setImageBitmap(editedBitmap);
-        }
-
-        mProfileThumbImageCache = new ImageCache(this, PROFILE_PIC_THUMB);
-
-        initDeamonThread();
-
-        handler = new UIHandler(getMainLooper());
-        if (getIntent().hasExtra(AppConstants.FACEBOOK_USER)) {
-            accessToken = ((AfterYouApplication) getApplication())
-                    .getOpenSession().getAccessToken();
-
-            initView();
-        }
+//        mSubmitBtn.setOnClickListener(this);
+//        mImageCropBtn.setOnClickListener(this);
+//        mImageRotateBtn.setOnClickListener(this);
+//        mImageEffectBtn.setOnClickListener(this);
+//        mImageRedEyeBtn.setOnClickListener(this);
+//
+//        mCancelBtn.setOnClickListener(this);
+//        mDoneBtn.setOnClickListener(this);
+//
+//        mProfileImageCache = new ImageCache(this, PROFILE_PIC);
+//
+//        Bitmap editedBitmap = mProfileImageCache
+//                .getBitmapFromDiskCache(PROFILE_PIC);
+//        if (editedBitmap != null) {
+//            mUserImage.setImageBitmap(editedBitmap);
+//        }
+//
+//        mProfileThumbImageCache = new ImageCache(this, PROFILE_PIC_THUMB);
+//
+//        initDeamonThread();
+//
+//        handler = new UIHandler(getMainLooper());
+//        if (getIntent().hasExtra(AppConstants.FACEBOOK_USER)) {
+//            accessToken = ((AfterYouApplication) getApplication())
+//                    .getOpenSession().getAccessToken();
+//
+//            initView();
+//        }
     }
 
     private void initView() {
@@ -457,38 +444,35 @@ public class CapturePictureActivity extends BaseActivity implements
         Intent intent = null;
         switch (v.getId()) {
 
-        case R.id.cancel_btn_capture_picture:
-            finish();
-            break;
-
-        case R.id.choose_from_library_btn:
+//        case R.id.cancel_btn_capture_picture:
+//            finish();
+//            break;
+//
+        case R.id.gallery_import:
 
             intent = new Intent(CapturePictureActivity.this,
                     PhotoAlbumActivity.class);
-            mImageEditLayout.setVisibility(View.INVISIBLE);
-            mCropImgSqaureGray.setVisibility(View.GONE);
-            mCropImgSqaureLine.setVisibility(View.GONE);
             break;
-
-        case R.id.submit_btn:
-            handleSubmit();
-            break;
-
-        case R.id.edit_btn:
-
-            // Intent i = new Intent(this, MainActivity.class);
-            // startActivity(i);
-            mImageEditLayout.setVisibility(View.VISIBLE);
-
-            break;
-
-        case R.id.crop_image_sqaure:
-
-            break;
-
-        case R.id.crop_image_sqaure_white:
-
-            break;
+//
+//        case R.id.submit_btn:
+//            handleSubmit();
+//            break;
+//
+//        case R.id.edit_btn:
+//
+//            // Intent i = new Intent(this, MainActivity.class);
+//            // startActivity(i);
+//            mImageEditLayout.setVisibility(View.VISIBLE);
+//
+//            break;
+//
+//        case R.id.crop_image_sqaure:
+//
+//            break;
+//
+//        case R.id.crop_image_sqaure_white:
+//
+//            break;
 
         case R.id.image_crop_btn:
 

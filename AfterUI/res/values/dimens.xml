@@ -10,4 +10,6 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="feed_list_padding">5dip</dimen>
     <dimen name="actionbar_popup_text_size">10sp</dimen>
+    <dimen name="preview_btn_width">40sp</dimen>
+    <dimen name="preview_btn_height">80sp</dimen>
 </resources>

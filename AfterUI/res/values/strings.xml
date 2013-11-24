@@ -3,7 +3,7 @@
 
     <string name="app_name">AfterYou</string>
     <string name="action_settings">Settings</string>
-    
+
     <!-- Left Drawer -->
     <string name="setting_txt">Setting</string>
     <string name="popularity_txt">Popularity</string>
@@ -19,18 +19,28 @@
     <string name="login_txt">Login</string>
     <string name="signup_txt">Signup</string>
     <string name="sign_up_using_fb">Signup Using Facebook</string>
-    <string name="sign_in">Sign In</string>
+    <string name="sign_in">sign in</string>
+    <string name="sign_up">register\?</string>
+    <string name="lets_sign">Let\'s Sign you up&#x21;</string>
+    <string name="facebook_txt">facebook</string>
+    <string name="after_you_txt">afteryou</string>
 
     <!-- Capture Screen -->
     <string name="take_photo_txt">Take Photo</string>
     <string name="cancelTxt">Cancel</string>
-    <string name="doneTxt">Done</string>
+    <string name="IDS_PROFILE_PIC_LABEL">Profile Pic Setup</string>
+    <string name="IDS_NO_PIC_CHOSEN">No Picture has been chosen</string>
+    <string name="doneTxt">done</string>
     <string name="choose_from_facebook">Choose From Facebook</string>
     <string name="choose_from_library">Choose From Library</string>
     <string name="edit_txt">Edit</string>
 
     <!-- Photo Album Screen -->
     <string name="choose_from_library_txt">Choose From Library</string>
+    <string name="IDS_ROTATE">Rotate</string>
+    <string name="IDS_ENHANCE">Enhance</string>
+    <string name="IDS_REDEYE">Red Eye</string>
+    <string name="IDS_CROP">Crop</string>
 
     <!-- Profile Setting Screen -->
     <string name="profile_setup_txt">Profile Setup</string>
@@ -38,7 +48,7 @@
     <!-- Sign Up Screen -->
     <string name="date_of_birth_txt">Date Of Birth</string>
     <string name="password_validation_txt">6-8 Characters required</string>
-    <string name="about_txt">About You</string>
+    <string name="about_txt">about you</string>
     <string name="required_field">Required Field</string>
     <string name="your_ideal_txt">Your Ideal Match</string>
     <string name="submit_txt">Submit</string>
@@ -51,7 +61,7 @@
     <string name="first_name_text_hint">First Name</string>
     <string name="last_name_text_hint">Last Name</string>
     <string name="email_name_text">eMail</string>
-    <string name="birth_day_text">Birth date</string>
+    <string name="birth_day_text">birthdate</string>
     <string name="password_text">Password</string>
     <string name="confirm_password_text">Confirm Password</string>
     <string name="camera_roll_txt">Camera Roll</string>
@@ -67,15 +77,15 @@
     <string name="IDS_SET">Set</string>
     <string name="IDS_CANCEL">Cancel</string>
     <string name="IDS_OK">OK</string>
-    <string name="religion_label">Religion</string>
-    <string name="relation_label">Relationship</string>
-    <string name="havechild_label">Have Children</string>
-    <string name="wantchild_label">Want Children</string>
-    <string name="height_label">Height</string>
-    <string name="languages_label">Languages</string>
-    <string name="bodyType_label">Body Type</string>
-    <string name="comm_label">Community</string>
-    <string name="diet_label">Diet</string>
+    <string name="religion_label">religion</string>
+    <string name="relation_label">relationship</string>
+    <string name="havechild_label">have children</string>
+    <string name="wantchild_label">want children</string>
+    <string name="height_label">height</string>
+    <string name="languages_label">languages</string>
+    <string name="bodyType_label">body type</string>
+    <string name="comm_label">community</string>
+    <string name="diet_label">diet</string>
     <string name="RLG_HINDU">Hindu</string>
     <string name="RLG_MUSLIM">Muslim</string>
     <string name="RLG_CHRISTIAN">Christian</string>
@@ -199,24 +209,27 @@
     <string name="IDS_USER_WARN">We will not post anything to your facebook profile</string>
     <string name="IDS_ERROR_FILTER">There was an error applying filter to this image. THis might be aformat/path issue.</string>
     <string name="copy_right_text">&#169; 2013 AfterYou Inc. Privacy Policy</string>
-	<string name="IDS_SEARCH">Search</string>
-	<string name="IDS_AGE">Age : </string>
-	<string name="IDS_LIKES"> likes</string>
-	<string name="IDS_COMMENTS"> comments</string>
-	<string name="IDS_OPEN_BRACE">(</string>
-	<string name="IDS_CLOSE_BRACE">)</string>
-	<string name="IDS_DETAILS">Details</string>
-	<string name="saving_photo_update">Saving photo updates...</string>
-	<string name="date_of_less_than_sixteen">You should be above 16 to use this application!</string>
-	<string name="IDS_ADD_REQUEST">Send Request</string>
-	<string name="create_group_chat">Create Group Chat...</string>
-	<string name="IDS_CHAT">Chat</string>
-	<string name="IDS_CLOSE">Close</string>
-	<string name="IDS_MY_STORY">My Story</string>
-	<string name="IDS_MY_MATCH">My Ideal Match</string>
+    <string name="IDS_SEARCH">Search</string>
+    <string name="notification_txt">Notifications</string>
+    <string name="notification_number">\(25\)</string>
+    <string name="IDS_AGE">Age : </string>
+    <string name="IDS_LIKES"> likes</string>
+    <string name="IDS_COMMENTS"> comments</string>
+    <string name="IDS_OPEN_BRACE">(</string>
+    <string name="IDS_CLOSE_BRACE">)</string>
+    <string name="IDS_DETAILS">Details</string>
+    <string name="saving_photo_update">Saving photo updates...</string>
+    <string name="date_of_less_than_sixteen">You should be above 16 to use this application!</string>
+    <string name="IDS_ADD_REQUEST">Send Request</string>
+    <string name="create_group_chat">Create Group Chat...</string>
+    <string name="IDS_CHAT">Chat</string>
+    <string name="IDS_CLOSE">Close</string>
+    <string name="IDS_MY_STORY">My Story</string>
+    <string name="IDS_MY_MATCH">My Ideal Match</string>
     <string name="IDS_MESSAGE">Message</string>
     <string name="write_msg_txt">Write a message...</string>
     <string name="post_txt">Post</string>
     <string name="IDS_NO_UNREAD_MSGS">There are no unread messages</string>
     <string name="IDS_NOTIFY_STRING">New message from</string>
+
 </resources>

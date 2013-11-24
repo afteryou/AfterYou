@@ -2,64 +2,55 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/app_theme_color" >
+    android:background="@drawable/app_bg" >
 
     <include
         android:id="@+id/header_image"
         layout="@layout/header" />
 
-    <RelativeLayout
-        android:id="@+id/photo_album_layout"
+   <RelativeLayout
+        android:id="@+id/take_photo_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/header_image" >
-
-        <ImageView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/take_photo_bar" />
-
-        <TextView
-            android:id="@+id/choose_from_library_txt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerInParent="true"
-            android:text="@string/choose_from_library_txt"
-            android:textColor="@color/white_color" />
-
-        <ImageButton
-            android:id="@+id/cancel_btn_photo_album"
+        
+       <Button
+            android:id="@+id/cancel_btn_capture_picture"
+            style="@style/SignUpPageText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_centerInParent="true"
             android:layout_marginLeft="10dp"
-            android:background="@drawable/cancel_bg" />
+            android:background="@android:color/transparent"
+            android:text="@string/cancelTxt" />
 
-        <TextView
-            android:id="@+id/cancel_txt"
+        <Button
+            android:id="@+id/done_btn_capture_picture"
+            style="@style/SignUpPageText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
             android:layout_centerInParent="true"
-            android:layout_marginLeft="10dp"
-            android:paddingLeft="10dp"
-            android:text="@string/cancelTxt"
-            android:textColor="@color/white_color" />
+            android:layout_marginRight="10dp"
+            android:background="@android:color/transparent"
+            android:text="@string/doneTxt" />
     </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/camera_roll_rl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/photo_album_layout"
+        android:layout_below="@id/take_photo_layout"
         android:layout_margin="10dp"
-        android:background="@drawable/image_preview_bg_white" >
+        android:background="@android:color/transparent" >
 
         <ListView
             android:id="@+id/album_list"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" >
+            android:layout_height="wrap_content" 
+            android:layout_marginLeft="20dip"
+            android:layout_marginRight="20dip"
+            >
         </ListView>
     </RelativeLayout>
 
