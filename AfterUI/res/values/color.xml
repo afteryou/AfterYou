@@ -77,5 +77,6 @@
     <color name="middle_gray">#ff9f9f9f</color>
     <color name="gray_no_transparency ">#88000000</color>
     <color name="profile_setup_blue_color">#226bb3</color>
+    <drawable name="white">#FFFFFFFF</drawable>
 
 </resources>

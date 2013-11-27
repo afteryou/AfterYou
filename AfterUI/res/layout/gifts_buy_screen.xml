@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/white" >
+
+    <Button
+        android:id="@+id/gifts_buy_cancel_button"
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/text_selected_states"
+        android:gravity="center_vertical"
+        android:paddingLeft="20dp"
+        android:text="@string/cancelTxt" />
+
+    <ImageView
+        android:id="@+id/divider_one"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/gifts_buy_cancel_button"
+        android:src="@drawable/area_dark_divider" />
+
+    <ImageView
+        android:id="@+id/points_gifts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/divider_one"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="2dp"
+        android:layout_marginTop="15dp"
+        android:src="@drawable/point_gifts" />
+
+    <TextView
+        android:id="@+id/text_points"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/points_gifts"
+        android:layout_below="@id/points_gifts"
+        android:layout_marginLeft="17dp"
+        android:text="@string/points" />
+
+    <TextView
+        android:id="@+id/text_gifts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@id/points_gifts"
+        android:layout_below="@id/points_gifts"
+        android:layout_marginRight="15dp"
+        android:text="@string/gifts" />
+
+    <ImageView
+        android:id="@+id/divider_two"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/text_gifts"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:src="@drawable/area_divider" />
+
+    <ImageView
+        android:id="@+id/points_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/divider_two"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="2dp"
+        android:src="@drawable/points" />
+
+    <TextView
+        android:id="@+id/points_acc_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/divider_two"
+        android:layout_marginLeft="5dp"
+        android:layout_toRightOf="@id/points_icon"
+        android:text="@string/points_acc_text" />
+
+    <ImageView
+        android:id="@+id/divider_three"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/points_acc_text"
+        android:src="@drawable/area_dark_divider"
+        android:layout_marginTop="5dp" />
+    
+    <ListView
+        android:id="@+id/gifts_buy_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/divider_three"></ListView>
+
+</RelativeLayout>

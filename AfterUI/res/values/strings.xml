@@ -219,4 +219,10 @@
     <string name="post_txt">Post</string>
     <string name="IDS_NO_UNREAD_MSGS">There are no unread messages</string>
     <string name="IDS_NOTIFY_STRING">New message from</string>
+    
+    <!--  Gifts texts -->
+    <string name="points">points</string>
+    <string name="gifts">gifts</string>
+    <string name="points_acc_text">you have %s points</string>
+    <string name="buy_text">buy</string>
 </resources>
