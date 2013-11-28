@@ -16,6 +16,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.beacon.afterui.R;
+import com.beacon.afterui.constants.CommonConstants;
 
 public class GiftsBuyFragment extends Fragment implements FragmentLifecycle,
         ISearchFunction, OnItemClickListener {
@@ -39,9 +40,6 @@ public class GiftsBuyFragment extends Fragment implements FragmentLifecycle,
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
 
-        TextView textView = new TextView(getActivity());
-        textView.setText("This is so good!");
-
         View view = inflater.inflate(R.layout.gifts_buy_screen, null, false);
 
         mListView = (ListView) view.findViewById(R.id.gifts_buy_list);
@@ -60,48 +58,57 @@ public class GiftsBuyFragment extends Fragment implements FragmentLifecycle,
         GiftItem item = new GiftItem();
         item.dollarValue = "$5";
         item.points = "5,000 points";
+        item.pointsIntegerValue = 5000;
         mGiftItems[0] = item;
 
         item = new GiftItem();
         item.dollarValue = "$10";
         item.points = "10,000 points";
+        item.pointsIntegerValue = 10000;
         mGiftItems[1] = item;
 
         item = new GiftItem();
         item.dollarValue = "$15";
         item.points = "15,000 points";
+        item.pointsIntegerValue = 15000;
         mGiftItems[2] = item;
 
         item = new GiftItem();
         item.dollarValue = "$20";
         item.points = "20,000 points";
         item.buy = "buy";
+        item.pointsIntegerValue = 20000;
         mGiftItems[3] = item;
 
         item = new GiftItem();
         item.dollarValue = "$25";
         item.points = "25,000 points";
+        item.pointsIntegerValue = 25000;
         mGiftItems[4] = item;
 
         item = new GiftItem();
         item.dollarValue = "$30";
         item.points = "30,000 points";
+        item.pointsIntegerValue = 30000;
         mGiftItems[5] = item;
 
         item = new GiftItem();
         item.dollarValue = "$35";
         item.points = "35,000 points";
+        item.pointsIntegerValue = 35000;
         item.buy = "buy";
         mGiftItems[6] = item;
 
         item = new GiftItem();
         item.dollarValue = "$40";
         item.points = "40,000 points";
+        item.pointsIntegerValue = 40000;
         mGiftItems[7] = item;
 
         item = new GiftItem();
         item.dollarValue = "$50";
         item.points = "50,000 points";
+        item.pointsIntegerValue = 50000;
         mGiftItems[8] = item;
     }
 
@@ -109,6 +116,7 @@ public class GiftsBuyFragment extends Fragment implements FragmentLifecycle,
         String dollarValue;
         String points;
         String buy;
+        int pointsIntegerValue;
     }
 
     private class GiftPointsAdapter extends BaseAdapter {
@@ -216,6 +224,17 @@ public class GiftsBuyFragment extends Fragment implements FragmentLifecycle,
     @Override
     public void onItemClick(AdapterView<?> arg0, View arg1, int position,
             long arg3) {
-        Log.d(TAG, "CLicked on " + position);
+        Log.d(TAG, "Clicked on " + position);
+
+        if (mGiftItems == null || mGiftItems.length <= 0) {
+            return;
+        }
+        GiftItem giftItem = mGiftItems[position];
+        Fragment detail = new GiftListFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt(CommonConstants.BundleKey.POINTS_KEY,
+                giftItem.pointsIntegerValue);
+        FragmentHelper.gotoFragment(getActivity(), GiftsBuyFragment.this,
+                detail, bundle);
     }
 }
