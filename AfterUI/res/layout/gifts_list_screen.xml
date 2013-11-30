@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/white" >
+
+    <Button
+        android:id="@+id/gifts_list_buy_cancel_button"
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/text_selected_states"
+        android:gravity="center_vertical"
+        android:paddingLeft="20dp"
+        android:text="@string/cancelTxt" />
+
+    <ImageView
+        android:id="@+id/divider_one"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/gifts_list_buy_cancel_button"
+        android:src="@drawable/area_dark_divider" />
+
+    <ImageView
+        android:id="@+id/gl_points_gifts"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/divider_one"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="2dp"
+        android:layout_marginTop="15dp"
+        android:src="@drawable/gift_hz_list" />
+
+    <TextView
+        android:id="@+id/basic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/gl_points_gifts"
+        android:layout_below="@id/gl_points_gifts"
+        android:layout_marginLeft="17dp"
+        android:text="@string/basic" />
+
+    <TextView
+        android:id="@+id/luxary"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignRight="@id/gl_points_gifts"
+        android:layout_below="@id/gl_points_gifts"
+        android:layout_marginRight="15dp"
+        android:text="@string/luxary" />
+    
+    <TextView
+        android:id="@+id/deluxe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/basic"
+        android:layout_below="@id/gl_points_gifts"
+        android:layout_marginLeft="47dp"
+        android:text="@string/deluxe" />
+    
+	<TextView
+        android:id="@+id/premium"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@id/luxary"
+        android:layout_below="@id/gl_points_gifts"
+        android:layout_marginRight="30dp"
+        android:text="@string/premium" />    
+
+    <ImageView
+        android:id="@+id/divider_two"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/premium"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:src="@drawable/area_divider" />
+
+    <ImageView
+        android:id="@+id/points_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/divider_two"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="2dp"
+        android:src="@drawable/points" />
+
+    <TextView
+        android:id="@+id/gl_points_acc_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/divider_two"
+        android:layout_marginLeft="5dp"
+        android:layout_toRightOf="@id/points_icon"
+        android:text="@string/five_thousand" />
+
+    <ImageView
+        android:id="@+id/divider_three"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/gl_points_acc_text"
+        android:src="@drawable/area_dark_divider"
+        android:layout_marginTop="5dp" />
+    
+    <GridView
+        android:id="@+id/gifts_list_grid_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:numColumns="3"
+        android:verticalSpacing="5dp"
+        android:layout_below="@id/divider_three"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="10dp"/>
+
+</RelativeLayout>
