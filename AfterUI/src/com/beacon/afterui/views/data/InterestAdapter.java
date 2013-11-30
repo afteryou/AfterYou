@@ -7,6 +7,7 @@ import android.content.Context;
 import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
@@ -21,12 +22,13 @@ import com.beacon.afterui.sliding.customViews.StaggeredGridView;
 import com.beacon.afterui.utils.ImageUtils;
 import com.beacon.afterui.views.data.InterestController.InterestClickListener;
 
-public class InterestAdapter extends BaseAdapter {
+public class InterestAdapter extends BaseAdapter implements OnClickListener {
 
 	private Context mContext;
 	private LinkedList<Interest> mInterests;
 
 	private InterestClickListener clickListner;
+	private OnProfileButtonClickLister mOnProfileButtonClickLister;
 
 	Typeface typeFaceRegular;
 	Typeface typeFaceBold;
@@ -81,6 +83,19 @@ public class InterestAdapter extends BaseAdapter {
 	public void addItemTop(List<Interest> datas) {
 		mInterests.clear();
 		mInterests.addAll(datas);
+	}
+
+	public interface OnProfileButtonClickLister {
+
+		public static final int HOT_BUTTON = 1;
+		public static final int VOTE_BUTTON = 2;
+
+		public void onClick(int buttonId);
+	}
+
+	public void registerProfileButtonClickListener(
+			OnProfileButtonClickLister onProfileButtonClickLister) {
+		mOnProfileButtonClickLister = onProfileButtonClickLister;
 	}
 
 	public View cloneView(int position, ViewHolder holder) {
@@ -180,11 +195,16 @@ public class InterestAdapter extends BaseAdapter {
 			// holder.commentCountView = (TextView) convertView
 			// .findViewById(R.id.news_comment_count);
 			// holder.commentCountView.setTypeface(typeFaceRegular);
-			holder.add_req_text = (ImageView) convertView
-					.findViewById(R.id.vote_btn);
+			// holder.add_req_text = (ImageView) convertView
+			// .findViewById(R.id.vote_btn);
 			// holder.add_req_text.setTypeface(typeFaceRegular);
 			holder.checkDetails = (Button) convertView
 					.findViewById(R.id.news_details);
+			holder.vote_btn = (ImageView) convertView
+					.findViewById(R.id.vote_btn);
+			holder.hot_btn = (ImageView) convertView.findViewById(R.id.hot_btn);
+			holder.hot_btn.setOnClickListener(this);
+			holder.vote_btn.setOnClickListener(this);
 			holder.checkDetails.setOnClickListener(new View.OnClickListener() {
 
 				@Override
@@ -248,6 +268,8 @@ public class InterestAdapter extends BaseAdapter {
 		ImageView add_req_text;
 		ScaleImageView imageView;
 		TextView nameView;
+		ImageView hot_btn;
+		ImageView vote_btn;
 		// TextView ageView;
 		// TextView albumCount;
 		TextView statusView;
@@ -257,5 +279,31 @@ public class InterestAdapter extends BaseAdapter {
 		// TextView commentCountView;
 		Button checkDetails;
 		Object dataSrc;
+	}
+
+	@Override
+	public void onClick(View v) {
+
+		switch (v.getId()) {
+		case R.id.vote_btn:
+			Toast.makeText(mContext, "Vote btn is pressed", Toast.LENGTH_SHORT)
+					.show();
+			// clickListner.onItemClick(0);
+			updateClickEvents(OnProfileButtonClickLister.VOTE_BUTTON);
+			break;
+		case R.id.hot_btn:
+			Toast.makeText(mContext, "Hot btn is pressed", Toast.LENGTH_SHORT)
+					.show();
+			updateClickEvents(OnProfileButtonClickLister.HOT_BUTTON);
+			break;
+		}
+	}
+
+	private void updateClickEvents(int buttonId) {
+		if (mOnProfileButtonClickLister == null) {
+			return;
+		}
+
+		mOnProfileButtonClickLister.onClick(buttonId);
 	}
 }

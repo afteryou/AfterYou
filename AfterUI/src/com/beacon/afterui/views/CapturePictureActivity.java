@@ -1,6 +1,7 @@
 package com.beacon.afterui.views;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
@@ -28,14 +29,18 @@ import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
 import android.os.Message;
+import android.provider.MediaStore.Images;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.aviary.android.feather.FeatherActivity;
 import com.beacon.afterui.R;
 import com.beacon.afterui.activity.BaseActivity;
 import com.beacon.afterui.application.CrashHandler;
@@ -54,9 +59,11 @@ public class CapturePictureActivity extends BaseActivity implements
 
     private ImageButton mEditBtn;
     private ImageView mCropImgSqaureGray;
+    private Button mDoneBtn;
     private ImageView mCropImgSqaureLine;
     private static final String PATH = "path";
     private ImageView mUserImage;
+    private TextView noPicTxt;
     private JSONObject profileURL = null;
     private Context ctx;
 
@@ -106,11 +113,11 @@ public class CapturePictureActivity extends BaseActivity implements
         setBehindRightContentView(R.layout.capture_picture);
         this.ctx = this;
 //        mSubmitBtn = (ImageButton) findViewById(R.id.submit_btn);
-//        mEditBtn = (ImageButton) findViewById(R.id.edit_btn);
+        mEditBtn = (ImageButton) findViewById(R.id.edit_photo);
         mChooseFromLiabraryBtn = (ImageButton) findViewById(R.id.gallery_import);
 //
 //        mCancelBtn = (ImageButton) findViewById(R.id.cancel_btn_capture_picture);
-//        mDoneBtn = (ImageButton) findViewById(R.id.done_btn_capture_picture);
+        mDoneBtn = (Button) findViewById(R.id.done_btn_capture_picture);
 //
 //        TextView cancelTxt = (TextView) findViewById(R.id.cancel_txt);
 //        TextView takePhotoTxt = (TextView) findViewById(R.id.take_photo_txt);
@@ -143,13 +150,14 @@ public class CapturePictureActivity extends BaseActivity implements
 //
 //        mCropImgSqaureGray = (ImageView) findViewById(R.id.crop_image_sqaure);
 //        mCropImgSqaureLine = (ImageView) findViewById(R.id.crop_image_sqaure_white);
-//        mUserImage = (ImageView) findViewById(R.id.user_image);
+        mUserImage = (ImageView) findViewById(R.id.user_image);
+        noPicTxt = (TextView)findViewById(R.id.no_pic_id);
 //        // mUserImage.setImageDrawable(getResources().getDrawable(
 //        // R.drawable.capture_photo_bg));
 //        mUserImage.setRotation(0);
 //
-//        mEditBtn.setEnabled(true);
-//        mEditBtn.setOnClickListener(this);
+        mEditBtn.setEnabled(true);
+        mEditBtn.setOnClickListener(this);
         mChooseFromLiabraryBtn.setOnClickListener(this);
 //        mSubmitBtn.setOnClickListener(this);
 //        mImageCropBtn.setOnClickListener(this);
@@ -158,21 +166,21 @@ public class CapturePictureActivity extends BaseActivity implements
 //        mImageRedEyeBtn.setOnClickListener(this);
 //
 //        mCancelBtn.setOnClickListener(this);
-//        mDoneBtn.setOnClickListener(this);
+        mDoneBtn.setOnClickListener(this);
 //
-//        mProfileImageCache = new ImageCache(this, PROFILE_PIC);
+        mProfileImageCache = new ImageCache(this, PROFILE_PIC);
+
+        Bitmap editedBitmap = mProfileImageCache
+                .getBitmapFromDiskCache(PROFILE_PIC);
+        if (editedBitmap != null) {
+            mUserImage.setImageBitmap(editedBitmap);
+        }
+
+        mProfileThumbImageCache = new ImageCache(this, PROFILE_PIC_THUMB);
 //
-//        Bitmap editedBitmap = mProfileImageCache
-//                .getBitmapFromDiskCache(PROFILE_PIC);
-//        if (editedBitmap != null) {
-//            mUserImage.setImageBitmap(editedBitmap);
-//        }
+        initDeamonThread();
 //
-//        mProfileThumbImageCache = new ImageCache(this, PROFILE_PIC_THUMB);
-//
-//        initDeamonThread();
-//
-//        handler = new UIHandler(getMainLooper());
+        handler = new UIHandler(getMainLooper());
 //        if (getIntent().hasExtra(AppConstants.FACEBOOK_USER)) {
 //            accessToken = ((AfterYouApplication) getApplication())
 //                    .getOpenSession().getAccessToken();
@@ -424,16 +432,21 @@ public class CapturePictureActivity extends BaseActivity implements
         }
 
         switch (resultCode) {
+        
+        case -2:
         case RESULT_OK:
-            String result = data.getStringExtra(PATH);
-            mImageUri = Uri.parse(result);
+        	
+        	Uri mImageUri = data.getData();
+//            String result = data.getStringExtra(PATH);
+//            mImageUri = Uri.parse(result);
             mUserImage.setImageURI(mImageUri);
             mUserImage.setScaleType(ScaleType.CENTER_CROP);
+            noPicTxt.setVisibility(View.GONE);
 
-            String flag = data.getStringExtra(FLAG);
-            if (flag.equals("ok")) {
-                mEditBtn.setEnabled(true);
-            }
+//            String flag = data.getStringExtra(FLAG);
+//            if (flag.equals("ok")) {
+//                mEditBtn.setEnabled(true);
+//            }
             break;
         }
     }
@@ -454,9 +467,9 @@ public class CapturePictureActivity extends BaseActivity implements
                     PhotoAlbumActivity.class);
             break;
 //
-//        case R.id.submit_btn:
-//            handleSubmit();
-//            break;
+        case R.id.done_btn_capture_picture:
+            handleSubmit();
+            break;
 //
 //        case R.id.edit_btn:
 //
@@ -465,6 +478,14 @@ public class CapturePictureActivity extends BaseActivity implements
 //            mImageEditLayout.setVisibility(View.VISIBLE);
 //
 //            break;
+            
+        case R.id.edit_photo:
+
+        	 Bitmap bitmap = ((BitmapDrawable) mUserImage.getDrawable()).getBitmap();
+        	 intent = new Intent( CapturePictureActivity.this, FeatherActivity.class );
+        	 intent.setData( getImageUri(ctx, bitmap) );
+
+            break;
 //
 //        case R.id.crop_image_sqaure:
 //
@@ -505,6 +526,13 @@ public class CapturePictureActivity extends BaseActivity implements
             AfterUIlog.e(TAG, " Activity not found : " + e.getMessage());
         }
     }
+    
+    public Uri getImageUri(Context inContext, Bitmap inImage) {
+    	  ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+    	  inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+    	  String path = Images.Media.insertImage(inContext.getContentResolver(), inImage, "Title", null);
+    	  return Uri.parse(path);
+    	}
 
     private void handleSubmit() {
 

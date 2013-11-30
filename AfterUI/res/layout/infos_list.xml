@@ -22,7 +22,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="10dp"
+        android:layout_marginRight="15dp"
         android:layout_marginTop="18dp"
         android:src="@drawable/user_status_symbol" />
 
@@ -39,34 +39,33 @@
         android:id="@+id/news_user_pic"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/news_status"
-        android:paddingTop="5dip" >
+        android:layout_below="@id/news_status" >
 
         <com.beacon.afterui.imageUtils.ScaleImageView
             android:id="@+id/news_pic"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="5dip"
+            android:layout_marginTop="10dp"
             android:scaleType="centerCrop"
             android:src="@null" />
 
         <ImageView
-            android:id="@+id/hot_img"
+            android:id="@+id/hot_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_marginBottom="20dp"
-            android:layout_marginLeft="10dp"
-            android:background="@drawable/hot_vote_img" />
+            android:layout_marginLeft="15dp"
+            android:paddingBottom="10dp"
+            android:src="@drawable/hot_vote_img" />
 
         <TextView
             android:id="@+id/hot_txt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:layout_marginBottom="15dp"
-            android:layout_marginLeft="6dp"
-            android:layout_toRightOf="@id/hot_img"
+            android:layout_marginLeft="4dp"
+            android:layout_toRightOf="@id/hot_btn"
+            android:paddingBottom="10dp"
             android:text="Hot"
             android:textColor="@android:color/white" />
 
@@ -78,6 +77,7 @@
             android:layout_marginBottom="15dp"
             android:layout_marginLeft="4dp"
             android:layout_toRightOf="@id/hot_txt"
+            android:paddingBottom="10dp"
             android:text="(25)"
             android:textColor="@android:color/white" />
 
@@ -88,7 +88,8 @@
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
             android:layout_marginBottom="15dp"
-            android:layout_marginRight="10dp"
+            android:layout_marginRight="15dp"
+            android:paddingBottom="10dp"
             android:text="Yesterday"
             android:textColor="@android:color/white" />
 
@@ -100,6 +101,7 @@
             android:layout_marginBottom="15dp"
             android:layout_marginRight="2dp"
             android:layout_toLeftOf="@id/last_update_status"
+            android:paddingBottom="10dp"
             android:text="Last Update:"
             android:textColor="@color/font_blue_color" />
     </RelativeLayout>
@@ -109,11 +111,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/news_user_pic"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginTop="10dp"
         android:baselineAligned="false"
         android:gravity="center"
-        android:paddingTop="5dip"
         android:weightSum="1" >
 
         <LinearLayout
@@ -135,7 +137,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:paddingTop="2dip"
-                android:text="vote"
+                android:text="@string/vote_btn"
                 android:textColor="@color/font_blue_color" />
         </LinearLayout>
 
@@ -158,7 +160,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:paddingTop="2dip"
-                android:text="connect"
+                android:text="@string/connect_btn"
                 android:textColor="@color/font_blue_color" />
         </LinearLayout>
 
@@ -181,7 +183,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:paddingTop="2dip"
-                android:text="referr"
+                android:text="@string/referr_txt"
                 android:textColor="@color/font_blue_color" />
         </LinearLayout>
 
@@ -204,7 +206,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:paddingTop="2dip"
-                android:text="chat"
+                android:text="@string/chat_txt"
                 android:textColor="@color/font_blue_color" />
         </LinearLayout>
     </LinearLayout>

@@ -1,7 +1,6 @@
 package com.beacon.afterui.sliding.fragment;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 
@@ -15,7 +14,6 @@ import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.v4.view.ViewCompat;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,7 +47,6 @@ import com.beacon.afterui.views.CapturePictureActivity;
 import com.beacon.afterui.views.MainActivity;
 import com.beacon.afterui.views.PickFriendsActivity;
 import com.beacon.afterui.views.ProfileSettingsActivity;
-import com.facebook.model.GraphUser;
 
 /**
  * For showing left sliding menu behind main view.
@@ -72,7 +69,7 @@ public class SlidingMenuFragment extends Fragment implements
 	private ListViewAdapter mListAdapter;
 	private boolean mIsDeleteMode = false;
 	private CloseSlidingMenuAdapter mCloseSlidingMenuAdapter = new CloseSlidingMenuAdapter();
-	
+
 	private static final String IMAGE = "icon";
 	private static final String TEXT = "text";
 	private Typeface typeFaceSemiBold;
@@ -80,12 +77,11 @@ public class SlidingMenuFragment extends Fragment implements
 	private Bitmap mUserThumbBitmap;
 
 	private static final int SETTING = 0;
-	private static final int POPULARITY = 1;
-	private static final int IMPORT = 2;
-	private static final int IMPORT_FREIND = 3;
-	private static final int REPORT_PROBLEM = 4;
-	private static final int HELP_CENTER = 5;
-	private static final int TERMS_POLICY = 6;
+	private static final int IMPORT_FREIND = 1;
+	private static final int HELP_CENTER = 3;
+	private static final int TERMS_POLICY = 2;
+	private static final int LOGOUT = 4;
+	private String[] mDashBoardTxt;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -96,13 +92,10 @@ public class SlidingMenuFragment extends Fragment implements
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
-		// TODO Sachin - This string text should be taken from the Strings.xml
-		String[] mDashBoardTxt = getResources().getStringArray(
-				R.array.dash_board_txt);
-		int[] mImages = { R.drawable.setting_img, R.drawable.popularity_img,
-				R.drawable.import_img, R.drawable.import_friends,
-				R.drawable.report_problem, R.drawable.help_center,
-				R.drawable.terms_policy, 0, 0 };
+		mDashBoardTxt = getResources().getStringArray(R.array.dash_board_txt);
+		int[] mImages = { R.drawable.setting_img, R.drawable.import_friends,
+				R.drawable.terms_policy, R.drawable.help_center,
+				R.drawable.log_out_img, 0 };
 		List<HashMap<String, String>> mList = new ArrayList<HashMap<String, String>>();
 		// mRootView = (ViewGroup) inflater.inflate(R.layout.sliding_menu,
 		// null);
@@ -128,12 +121,6 @@ public class SlidingMenuFragment extends Fragment implements
 				+ " "
 				+ PreferenceEngine.getInstance(getActivity()).getLastName();
 		userNameTxt.setText(name);
-
-		TextView dashBoardTitle = (TextView) view.findViewById(R.id.dash_board);
-		dashBoardTitle.setTypeface(typeFaceSemiBold);
-
-		// ImageView dashImage = (ImageView)
-		// view.findViewById(R.id.dashboard_img);
 
 		ImageView userImage = (ImageView) view.findViewById(R.id.user_image);
 		ImageCache mProfileThumb = new ImageCache(getActivity(),
@@ -175,29 +162,31 @@ public class SlidingMenuFragment extends Fragment implements
 				long id) {
 
 			Intent intent = null;
+			Bundle bundle = new Bundle();
 			switch (position) {
 			case SETTING:
 
-				intent = new Intent(getActivity(),
-						ProfileSettingsActivity.class);
+				intent = new Intent(getActivity(), SettingMenuItem.class);
+				intent.putExtra("setting", mDashBoardTxt[position]);
 				startActivity(intent);
 				break;
-			case POPULARITY:
 
-				break;
-			case IMPORT:
-
-				break;
 			case IMPORT_FREIND:
-				onClickPickFriends();
+				// onClickPickFriends();
+				Fragment friendList = new FriendListFragment(getActivity());
+				FragmentHelper.gotoFragment(getActivity(),
+						SlidingMenuFragment.this, friendList, bundle);
 				break;
-			case REPORT_PROBLEM:
+
+			case TERMS_POLICY:
 
 				break;
+
 			case HELP_CENTER:
 
 				break;
-			case TERMS_POLICY:
+
+			case LOGOUT:
 
 				break;
 
@@ -205,24 +194,24 @@ public class SlidingMenuFragment extends Fragment implements
 
 		}
 	};
-	
-	
-    private void onClickPickFriends() {
-        startPickFriendsActivity();
-    }
 
-    private void startPickFriendsActivity() {
-    	AfterYouApplication application = (AfterYouApplication) getActivity().getApplication();
-        if (application.getOpenSession() != null) {
-            application.setSelectedUsers(null);
+	private void onClickPickFriends() {
+		startPickFriendsActivity();
+	}
 
-            Intent intent = new Intent(getActivity(), PickFriendsActivity.class);
-            PickFriendsActivity.populateParameters(intent, null, true, true);
-            startActivityForResult(intent, MainActivity.PICK_FRIENDS_ACTIVITY);
-        } else {
-            AfterUIlog.e(TAG, "Facebook not activated");
-        }
-    }
+	private void startPickFriendsActivity() {
+		AfterYouApplication application = (AfterYouApplication) getActivity()
+				.getApplication();
+		if (application.getOpenSession() != null) {
+			application.setSelectedUsers(null);
+
+			Intent intent = new Intent(getActivity(), PickFriendsActivity.class);
+			PickFriendsActivity.populateParameters(intent, null, true, true);
+			startActivityForResult(intent, MainActivity.PICK_FRIENDS_ACTIVITY);
+		} else {
+			AfterUIlog.e(TAG, "Facebook not activated");
+		}
+	}
 
 	private boolean isRuntimePostJellyBean() {
 		return android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.JELLY_BEAN;
@@ -315,7 +304,6 @@ public class SlidingMenuFragment extends Fragment implements
 		};
 		getActivity().runOnUiThread(runnable);
 	}
-
 
 	private void translationItem(int type, View target,
 			final AnimatorListenerAdapter adapter) {

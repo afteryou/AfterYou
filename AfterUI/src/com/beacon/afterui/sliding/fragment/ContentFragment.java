@@ -21,14 +21,13 @@ import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewGroup.MarginLayoutParams;
+import android.view.Window;
 import android.view.animation.AccelerateInterpolator;
 import android.view.animation.DecelerateInterpolator;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,20 +37,21 @@ import com.beacon.afterui.log.AfterUIlog;
 import com.beacon.afterui.provider.CacheManager;
 import com.beacon.afterui.provider.PreferenceEngine;
 import com.beacon.afterui.sliding.customViews.CustomGridView;
-import com.beacon.afterui.sliding.customViews.ListPopupMenu;
 import com.beacon.afterui.sliding.customViews.CustomGridView.IDataListener;
+import com.beacon.afterui.sliding.customViews.ListPopupMenu;
 import com.beacon.afterui.utils.ImageUtils;
 import com.beacon.afterui.utils.WindowUtils;
 import com.beacon.afterui.utils.customviews.AfterYouDialogImpl;
 import com.beacon.afterui.utils.customviews.ErrorDialog;
 import com.beacon.afterui.views.data.Interest;
 import com.beacon.afterui.views.data.InterestAdapter;
+import com.beacon.afterui.views.data.InterestAdapter.OnProfileButtonClickLister;
 import com.beacon.afterui.views.data.InterestController;
 import com.beacon.afterui.views.data.InterestController.InterestCallBack;
 import com.beacon.afterui.views.data.InterestController.InterestClickListener;
 
-public class ContentFragment extends Fragment implements FragmentLifecycle,OnItemClickListener,
-		ISearchFunction {
+public class ContentFragment extends Fragment implements FragmentLifecycle,
+		OnItemClickListener, ISearchFunction, OnProfileButtonClickLister {
 
 	private CustomGridView mAdapterView = null;
 	private ViewGroup mDetailBox = null;
@@ -59,7 +59,7 @@ public class ContentFragment extends Fragment implements FragmentLifecycle,OnIte
 	private InterestController mController;
 	private final static int CAPACITY = 50;
 	private Context mContext;
-	
+
 	Typeface typeFaceRegular;
 	Typeface typeFaceBold;
 	Typeface typefaceBlack;
@@ -142,17 +142,16 @@ public class ContentFragment extends Fragment implements FragmentLifecycle,OnIte
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
 		View view = inflater.inflate(R.layout.main_fragment, null);
-		
-		ImageView notifyBox = (ImageView)view.findViewById(R.id.notifyImage);
+
+		ImageView notifyBox = (ImageView) view.findViewById(R.id.notifyImage);
 		notifyBox.setOnClickListener(new View.OnClickListener() {
-			
+
 			@Override
 			public void onClick(View v) {
 				ListPopupMenu popup = getNotifyMenu();
 				if (popup != null && !popup.isShowing()) {
 					popup.showAsDropDown(v);
-				}
-				else if(popup == null){
+				} else if (popup == null) {
 					showErrorDialog();
 				}
 			}
@@ -182,11 +181,11 @@ public class ContentFragment extends Fragment implements FragmentLifecycle,OnIte
 				sel_position = position;
 				sel_id = id;
 				// ((MainActivity)getActivity()).updateToDetailsScreenActionBar(data.getPlaceName());
-				applyAnimation(position,id);
+				applyAnimation(position, id);
 				inDetail = true;
 			}
 		});
-		mClickListener = new InterestClickListener(){
+		mClickListener = new InterestClickListener() {
 
 			@Override
 			public void onItemClick(int position) {
@@ -197,15 +196,17 @@ public class ContentFragment extends Fragment implements FragmentLifecycle,OnIte
 				sel_position = position;
 				sel_id = mAdapterView.getItemIdAtPosition(position);
 				// ((MainActivity)getActivity()).updateToDetailsScreenActionBar(data.getPlaceName());
-				applyAnimation(position,sel_id);
+				applyAnimation(position, sel_id);
 				inDetail = true;
-				
-			}};
-		mAdapter = new InterestAdapter(mContext,mClickListener);
+				// FragmentHelper.initFragment(getActivity(),
+				// new HotVoteFragment());
+
+			}
+		};
+		mAdapter = new InterestAdapter(mContext, mClickListener);
+		mAdapter.registerProfileButtonClickListener(this);
 		mAdapterView.setAdapter(mAdapter);
-		
-			
-		
+
 		mCallBack = new InterestCallBack() {
 
 			@Override
@@ -243,14 +244,14 @@ public class ContentFragment extends Fragment implements FragmentLifecycle,OnIte
 	}
 
 	protected ListPopupMenu getNotifyMenu() {
-		if(PreferenceEngine.getInstance(mContext).getUnReadMessageList() == null)
-		{
+		if (PreferenceEngine.getInstance(mContext).getUnReadMessageList() == null) {
 			return null;
 		}
 		if (mActionBarNavMenu == null) {
 			mActionBarNavMenu = new ListPopupMenu(mContext,
 					R.layout.actionbar_menu_item, R.id.item_text,
-					PreferenceEngine.getInstance(mContext).getUnReadMessageList()); // TODO
+					PreferenceEngine.getInstance(mContext)
+							.getUnReadMessageList()); // TODO
 			mActionBarNavMenu.getListView().setSelector(
 					R.drawable.actionbar_btn_bg_selected);
 
@@ -264,11 +265,11 @@ public class ContentFragment extends Fragment implements FragmentLifecycle,OnIte
 		}
 		return mActionBarNavMenu;
 	}
-	
-	
+
 	private void showErrorDialog() {
-		ErrorDialog errDialog = new ErrorDialog(new AfterYouDialogImpl(mContext),
-				mContext, R.style.Theme_CustomDialog,
+		ErrorDialog errDialog = new ErrorDialog(
+				new AfterYouDialogImpl(mContext), mContext,
+				R.style.Theme_CustomDialog,
 				new DialogInterface.OnClickListener() {
 
 					@Override
@@ -279,7 +280,7 @@ public class ContentFragment extends Fragment implements FragmentLifecycle,OnIte
 		errDialog.show();
 	}
 
-	private void applyBackAnimation() {
+	public void applyBackAnimation() {
 		final CustomGridView list = mAdapterView;
 		InterestAdapter adapter = mAdapter;
 		final View selected = list.getChildAt(sel_position);
@@ -555,13 +556,19 @@ public class ContentFragment extends Fragment implements FragmentLifecycle,OnIte
 				.findViewById(R.id.detail_chat_req_text);
 		add_req_text.setTypeface(typeFaceRegular);
 		nameView.setText(data.getName());
-		ageView.setText(mContext.getResources().getString(R.string.IDS_AGE) + data.getAge());
-		albumCount.setText(mContext.getResources().getString(R.string.IDS_OPEN_BRACE) + data.getAlbum_photo_count() + mContext.getResources().getString(R.string.IDS_CLOSE_BRACE));
+		ageView.setText(mContext.getResources().getString(R.string.IDS_AGE)
+				+ data.getAge());
+		albumCount.setText(mContext.getResources().getString(
+				R.string.IDS_OPEN_BRACE)
+				+ data.getAlbum_photo_count()
+				+ mContext.getResources().getString(R.string.IDS_CLOSE_BRACE));
 		statusView.setText(data.getStatus());
 		lastLoginView.setText(data.getLast_online());
 		lastLoginTime.setText(data.getLast_online_time());
-		likeCountView.setText(data.getProfile_likes() + mContext.getResources().getString(R.string.IDS_LIKES));
-		commentCountView.setText(data.getProfile_comments_count() +  mContext.getResources().getString(R.string.IDS_COMMENTS));
+		likeCountView.setText(data.getProfile_likes()
+				+ mContext.getResources().getString(R.string.IDS_LIKES));
+		commentCountView.setText(data.getProfile_comments_count()
+				+ mContext.getResources().getString(R.string.IDS_COMMENTS));
 	}
 
 	private void initDetailBox() {
@@ -653,6 +660,23 @@ public class ContentFragment extends Fragment implements FragmentLifecycle,OnIte
 	public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 		// TODO Auto-generated method stub
 		Toast.makeText(mContext, "On Item Click", Toast.LENGTH_LONG).show();
+	}
+
+	@Override
+	public void onClick(int buttonId) {
+		Bundle bundle = new Bundle();
+		switch (buttonId) {
+		case OnProfileButtonClickLister.HOT_BUTTON:
+			Fragment hot = new HotVoteFragment(mContext);
+			FragmentHelper.gotoFragment(getActivity(), ContentFragment.this,
+					hot, bundle);
+			break;
+		case OnProfileButtonClickLister.VOTE_BUTTON:
+			Fragment vote = new HotVoteFragment(mContext);
+			FragmentHelper.gotoFragment(getActivity(), ContentFragment.this,
+					vote, bundle);
+			break;
+		}
 	}
 
 }

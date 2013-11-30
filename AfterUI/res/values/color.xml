@@ -2,9 +2,16 @@
 <resources>
 
     <color name="font_listview_blue">#005d96</color>
+    <color name="translucent_black">#80000000</color>
+    <color name="red_color">#e20613</color>
+    <color name="grey">#8c8e90</color>
+    <color name="green_color">#b2d074</color>
+    <color name="listview_selector">#f5f5f5</color>
+    <color name="setting_color">#E8F5FD</color>
     <color name="time_color">#8c8e90</color>
     <color name="app_theme_color">#ccdef3</color>
     <color name="font_blue_color">#6caddf</color>
+    <color name="font_dark_blue">#7DBBE4</color>
     <color name="login_text_color">#7ab4e2</color>
     <color name="white_color">#ffffff</color>
     <color name="search_txt_color">#ccdef0</color>
@@ -73,6 +80,7 @@
     <drawable name="translucent_background">#e0303030</drawable>
     <drawable name="translucent_white">#99ffffff</drawable>
     <drawable name="transparent_background">#00000000</drawable>
+
     <color name="main_view_bg">#ffffff</color>
     <color name="middle_gray">#ff9f9f9f</color>
     <color name="gray_no_transparency ">#88000000</color>

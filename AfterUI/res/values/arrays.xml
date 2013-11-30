@@ -162,14 +162,17 @@
     </string-array>
     <string-array name="dash_board_txt">
         <item>@string/setting_txt</item>
-        <item>@string/popularity_txt</item>
-        <item>@string/import_frnd_txt</item>
         <item>@string/import_txt</item>
-        <item>@string/report_problem_txt</item>
-        <item>@string/help_center_txt</item>
         <item>@string/terms_policies_txt</item>
+        <item>@string/help_center_txt</item>
+        <item>@string/logout_txt</item>
         <item>@string/null_txt</item>
-        <item>@string/null_txt</item>
+    </string-array>
+    <string-array name="setting_item_txt">
+        <item>@string/profile_setting</item>
+        <item>@string/privacy_setting</item>
+        <item>@string/blocking</item>
+        <item>@string/notifications</item>
     </string-array>
 
 </resources>

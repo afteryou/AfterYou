@@ -1,18 +1,41 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- Voting Screens -->
+    <string name="hot_txt">Click here if you think I\'m hot</string>
+    <string name="vote_confirm_txt">confirm your voters</string>
+    <string name="vote_txt">Click here to create a vote</string>
+    <string name="msg_txt">send message to voters</string>
+    <string name="vote_btn">vote</string>
+    <string name="connect_btn">connect</string>
+    <string name="referr_txt">referr</string>
+    <string name="chat_txt">chat</string>
+    <string name="decline_btn">decline</string>
+    <string name="messages_txt">messages</string>
+    <string name="referrals_txt">referrals</string>
+    <string name="connects_btn">connects</string>
+    <string name="view_votes_txt">view votes</string>
+    <string name="voting_in_progress_txt">Voting In Progress</string>
     <string name="app_name">AfterYou</string>
     <string name="action_settings">Settings</string>
+    <string name="search_txt">Search</string>
+    <string name="after_you_friends_txt">friends</string>
+    <string name="contacts_txt">contacts</string>
+    <string name="facebook_txt">facebook</string>
+    <string name="twitter_txt">twitter</string>
+    <string name="made_referrel_txt">Made a referal to you</string>
 
     <!-- Left Drawer -->
-    <string name="setting_txt">Setting</string>
-    <string name="popularity_txt">Popularity</string>
-    <string name="import_frnd_txt">Import</string>
-    <string name="import_txt">Import</string>
-    <string name="report_problem_txt">Report &amp; Problem</string>
-    <string name="help_center_txt">Help Center</string>
-    <string name="terms_policies_txt">Terms &amp; Policies</string>
+    <string name="setting_txt">settings</string>
+    <string name="import_txt">import</string>
+    <string name="help_center_txt">help center</string>
+    <string name="terms_policies_txt">terms &amp; policies</string>
+    <string name="logout_txt">logout</string>
     <string name="null_txt"></string>
+    <string name="profile_setting">profile setting</string>
+    <string name="privacy_setting">privacy setting</string>
+    <string name="blocking">blocking</string>
+    <string name="notifications">notifications</string>
 
     <!-- Login Screen -->
     <string name="email_hint">Email</string>
@@ -70,6 +93,7 @@
     <string name="other_roll_number_of_photos_txt">(110)</string>
     <string name="about_you_text">About You</string>
     <string name="app_id">431666200287780</string>
+    <string name="aviary_id">75d935c7615a16a2</string>
     <string name="Log_Out">Log Out</string>
     <string name="hello_user">Hello %1$s!</string>
     <string name="select_date">Select date</string>
@@ -211,7 +235,6 @@
     <string name="copy_right_text">&#169; 2013 AfterYou Inc. Privacy Policy</string>
     <string name="IDS_SEARCH">Search</string>
     <string name="notification_txt">Notifications</string>
-    <string name="notification_number">\(25\)</string>
     <string name="IDS_AGE">Age : </string>
     <string name="IDS_LIKES"> likes</string>
     <string name="IDS_COMMENTS"> comments</string>

@@ -5,6 +5,7 @@ import java.util.List;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
@@ -15,8 +16,8 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.GridView;
-import android.widget.ImageButton;
 
+import com.aviary.android.feather.FeatherActivity;
 import com.beacon.afterui.R;
 import com.beacon.afterui.activity.BaseActivity;
 import com.beacon.afterui.utils.ImageInfoUtils;
@@ -135,10 +136,16 @@ public class PhotoGallaryActivity extends BaseActivity implements
 
 			Photo photo = mPhotoList.get(position);
 
-			Intent intent = new Intent(getApplicationContext(),
-					FullImageActivity.class);
-			intent.putExtra(ID, photo.coverId);
-			startActivityForResult(intent, 1);
+//			Intent intent = new Intent(getApplicationContext(),
+//					FullImageActivity.class);
+//			intent.putExtra(ID, photo.coverId);
+//			startActivityForResult(intent, 1);
+			
+			String imagePath = ImageInfoUtils.getPhotoPath(PhotoGallaryActivity.this,
+					String.valueOf(photo.coverId));
+			Intent newIntent = new Intent( PhotoGallaryActivity.this, FeatherActivity.class );
+			newIntent.setData( Uri.parse(imagePath) );
+			startActivityForResult( newIntent, 1 );
 
 		}
 	};

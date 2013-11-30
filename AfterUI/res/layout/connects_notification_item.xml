@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/referal_lay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:paddingTop="10dp" >
+
+        <ImageView
+            android:id="@+id/referal_user_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:paddingLeft="15dp"
+            android:src="@drawable/referal_sample_img" />
+
+        <TextView
+            android:id="@+id/referal_user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/referal_user_img"
+            android:paddingLeft="10dp"
+            android:text="Supriya Aiman"
+            android:textColor="@color/brown_background" />
+
+        <TextView
+            android:id="@+id/referral_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/referal_user_name"
+            android:layout_toRightOf="@id/referal_user_img"
+            android:paddingLeft="10dp"
+            android:text="@string/made_referrel_txt"
+            android:textColor="@color/font_dark_blue" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/user_name_decline"
+        android:layout_width="wrap_content"
+        android:layout_height="32dp"
+        android:layout_below="@id/referal_lay"
+        android:gravity="center"
+        android:paddingLeft="15dp"
+        android:text="Sachin Mane"
+        android:textColor="@color/brown_background"
+        android:textSize="18sp" />
+
+    <LinearLayout
+        android:id="@+id/decline_lay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/user_name_decline"
+        android:baselineAligned="false"
+        android:gravity="center"
+        android:paddingBottom="10dp"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:weightSum="1" >
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.25"
+            android:gravity="center"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:id="@+id/user_img"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:paddingBottom="2dp"
+                android:src="@drawable/sample_img" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.25"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingLeft="5dp" >
+
+            <ImageView
+                android:id="@+id/conect_green_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/connect_green_btn" />
+
+            <TextView
+                android:id="@+id/connect_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:paddingTop="2dip"
+                android:text="@string/connect_btn"
+                android:textColor="@color/green_color" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.25"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:id="@+id/vote_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/vote_btn" />
+
+            <TextView
+                android:id="@+id/vote_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:paddingTop="2dip"
+                android:text="@string/vote_btn"
+                android:textColor="@color/font_blue_color" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.25"
+            android:orientation="vertical" >
+
+            <ImageView
+                android:id="@+id/decline_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:src="@drawable/decline_btn" />
+
+            <TextView
+                android:id="@+id/decline_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:paddingTop="2dip"
+                android:text="@string/decline_btn"
+                android:textColor="@color/red_color" />
+        </LinearLayout>
+    </LinearLayout>
+
+</RelativeLayout>

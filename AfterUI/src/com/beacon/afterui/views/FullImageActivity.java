@@ -1,12 +1,13 @@
 package com.beacon.afterui.views;
 
-import android.content.Intent;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.BitmapFactory.Options;
 import android.graphics.Typeface;
 import android.graphics.drawable.BitmapDrawable;
 import android.media.ExifInterface;
+import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -19,13 +20,20 @@ import android.widget.ImageView;
 
 import com.beacon.afterui.R;
 import com.beacon.afterui.activity.BaseActivity;
+import com.beacon.afterui.imageUtils.ImageCache;
 import com.beacon.afterui.imageUtils.ImageFilter;
 import com.beacon.afterui.utils.ImageInfoUtils;
+import com.beacon.afterui.utils.customviews.CustomProgressDialog;
+import com.beacon.afterui.utils.customviews.DialogHelper;
 
 public class FullImageActivity extends BaseActivity implements OnClickListener {
 	private static final String ID = "id";
 	private static final String PATH = "path";
 	private static final String FLAG = "ok";
+	
+    public static final String PROFILE_PIC = "profile_pic";
+    public static final String PROFILE_PIC_THUMB = "profile_pic_thumb";
+    private ImageCache mProfileThumbImageCache;
 	private ImageView mFullSizeImage;
 	private String mImagePath;
 	private Button mDoneBtn;
@@ -36,6 +44,8 @@ public class FullImageActivity extends BaseActivity implements OnClickListener {
 	private ImageButton mImageRedEyeBtn;
 	
 	private Bitmap enhancedBitmap;
+    /** Stores profile image. */
+    private ImageCache mProfileImageCache;
 	private long mId;
 	
 	Uri uri = null;
@@ -49,6 +59,7 @@ public class FullImageActivity extends BaseActivity implements OnClickListener {
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
+		setIsRootView(true);
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.full_image_activity);
@@ -477,6 +488,41 @@ public class FullImageActivity extends BaseActivity implements OnClickListener {
 		contrast_btn.setVisibility(visibility);
 		emboss_btn.setVisibility(visibility);
 	}
+	
+	class SaveImageCache extends AsyncTask<Void, Void, Void>
+	{
+		private CustomProgressDialog waitProgress;
+		
+		private Context ctx;
+		
+		public SaveImageCache(Context ctx)
+		{
+			this.ctx = ctx;
+		}
+
+		@Override
+		public void onPreExecute()
+		{
+            waitProgress = DialogHelper.createProgessDialog(ctx, null);
+            waitProgress.setMessage(ctx
+                    .getString(R.string.saving_photo_update));
+            waitProgress.show();
+		}
+
+		@Override
+		protected Void doInBackground(Void... params) {
+			saveImage();
+			return null;
+		}
+	}
+	
+	private void saveImage() {
+        Bitmap bitmap = ((BitmapDrawable) mFullSizeImage.getDrawable()).getBitmap();
+
+        mProfileImageCache.addBitmapToCache(PROFILE_PIC, bitmap);
+        Bitmap thumb = ThumbnailUtils.extractThumbnail(bitmap, 50, 50);
+        mProfileThumbImageCache.addBitmapToCache(PROFILE_PIC_THUMB, thumb);
+    }
 
 	@Override
 	public void onClick(View v) {
@@ -570,12 +616,13 @@ public class FullImageActivity extends BaseActivity implements OnClickListener {
 			break;
 
 		case R.id.done_btn_full_image_activity:
-			Intent intent = new Intent();
-			intent.putExtra(PATH, mImagePath);
-			intent.putExtra(FLAG, "ok");
-			intent.putExtra(ID, mId);
-			setResult(RESULT_OK, intent);
-			finish();
+//			Intent intent = new Intent();
+//			intent.putExtra(PATH, mImagePath);
+//			intent.putExtra(FLAG, "ok");
+//			intent.putExtra(ID, mId);
+//			setResult(RESULT_OK, intent);
+//			finish();
+			
 			break;
 
 		case R.id.cancel_btn_full_image_activity:

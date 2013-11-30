@@ -21,11 +21,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="8dp"
+            android:layout_marginLeft="15dp"
             android:layout_marginRight="15dp"
             android:background="@drawable/search_txt_bg"
-            android:hint="Search"
-            android:paddingLeft="24dp"
+            android:hint="@string/search_txt"
+            android:paddingLeft="14dp"
             android:paddingRight="5dp"
             android:singleLine="true"
             android:textColor="@color/white_color"
@@ -35,8 +35,9 @@
             android:id="@+id/search_btn"
             android:layout_width="15dp"
             android:layout_height="15dp"
+            android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginLeft="12dp"
+            android:layout_marginRight="20dp"
             android:background="@drawable/search_logo" />
     </RelativeLayout>
 
@@ -45,8 +46,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/search_lay"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="5dp" />
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/chat_person_placeholder" />
 
     <TextView
         android:id="@+id/user_name"
@@ -57,20 +59,6 @@
         android:layout_marginLeft="20dp"
         android:layout_marginTop="10dp"
         android:layout_toRightOf="@id/user_image"
-        android:text="Micheal Zinberg"
-        android:textColor="@color/font_listview_blue"
-        android:textSize="18sp" />
-
-    <TextView
-        android:id="@+id/dash_board"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/user_image"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/dashboard_bg"
-        android:gravity="center_vertical"
-        android:paddingLeft="20dp"
-        android:text="DASHBOARD"
         android:textColor="@color/font_listview_blue"
         android:textSize="18sp" />
 
@@ -78,9 +66,11 @@
         android:id="@+id/sliding_menu_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/dash_board"
+        android:layout_below="@id/user_image"
+        android:layout_marginTop="10dp"
         android:divider="@drawable/divider_listview"
-        android:dividerHeight="1dp" >
+        android:dividerHeight="0.50dp"
+        android:listSelector="@drawable/listview_selector" >
     </ListView>
 
 </RelativeLayout>
