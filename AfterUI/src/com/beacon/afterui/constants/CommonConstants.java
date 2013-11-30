@@ -7,5 +7,6 @@ public class CommonConstants {
 		
 		/** Constants for gift screens. */
 		public static final String POINTS_KEY = "points";
+		public static final String GIFT_ID    = "gift_id";
 	}
 }
