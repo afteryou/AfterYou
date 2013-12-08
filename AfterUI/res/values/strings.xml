@@ -21,9 +21,8 @@
     <string name="search_txt" >Search</string>
     <string name="after_you_friends_txt" >friends</string>
     <string name="contacts_txt" >contacts</string>
-    <string name="facebook_txt" >facebook</string>
     <string name="twitter_txt" >twitter</string>
-    <string name="made_referrel_txt" >Made a referal to you</string>
+    <string name="made_referrel_txt" >Made a referral to you</string>
 
     <!-- Left Drawer -->
     <string name="setting_txt" >settings</string>
@@ -70,7 +69,7 @@
 
     <!-- Sign Up Screen -->
     <string name="date_of_birth_txt" >Date Of Birth</string>
-    <string name="password_validation_txt" >6-8 Characters required</string>
+    <string name="password_validation_txt" >6&#8211;8 Characters required</string>
     <string name="about_txt" >about you</string>
     <string name="required_field" >Required Field</string>
     <string name="your_ideal_txt" >Your Ideal Match</string>

@@ -2,7 +2,7 @@
 <ListView
 	android:id="@+id/select_dialog_listview"
 	android:layout_height="fill_parent"
-	android:layout_marginTop="5px"
+	android:layout_marginTop="5dp"
 	android:layout_width="fill_parent"
 	android:listViewStyle="@style/ContextListView"
 	style="@style/CustomAlertDialogListView"
