@@ -5,7 +5,7 @@
     <string name="hot_txt" >Click here if you think I\'m hot</string>
     <string name="vote_confirm_txt" >confirm your voters</string>
     <string name="vote_txt" >Click here to create a vote</string>
-    <string name="msg_txt" >send message to voters</string>
+    <string name="send_msg_to_voters_txt">Send message to voters</string>
     <string name="vote_btn" >vote</string>
     <string name="connect_btn" >connect</string>
     <string name="referr_txt" >referr</string>

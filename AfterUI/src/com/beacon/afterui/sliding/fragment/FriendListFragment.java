@@ -1,31 +1,31 @@
 package com.beacon.afterui.sliding.fragment;
 
-import android.R.color;
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.res.Configuration;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.beacon.afterui.R;
 import com.beacon.afterui.views.MainActivity;
 
 public class FriendListFragment extends Fragment implements OnClickListener,
-		FragmentLifecycle {
+		FragmentLifecycle, OnItemClickListener {
 	private String[] mFriendName;
 	private int[] mFriendImage;
 	private ImageView mAfterYouFrnd;
@@ -35,6 +35,10 @@ public class FriendListFragment extends Fragment implements OnClickListener,
 	private ListView mFriendList;
 	private Context mContext;
 	private Boolean isBacking = false;
+	private static final int AFTER_YOU_BTN = 1;
+	private static final int CONTACTS_BTN = 2;
+	private static final int FACEBOOK_BTN = 3;
+	private static int mButtonId;
 
 	public FriendListFragment() {
 	}
@@ -50,6 +54,8 @@ public class FriendListFragment extends Fragment implements OnClickListener,
 		View friendListView = inflater.inflate(R.layout.voting_002, null);
 		mAfterYouFrnd = (ImageView) friendListView
 				.findViewById(R.id.after_you_friends_btn);
+		TextView done_btn = (TextView) friendListView
+				.findViewById(R.id.voting_done_btn);
 		mContacts = (ImageView) friendListView.findViewById(R.id.contacts_btn);
 		mFacebookFrnd = (ImageView) friendListView
 				.findViewById(R.id.facebook_voting_btn);
@@ -61,8 +67,48 @@ public class FriendListFragment extends Fragment implements OnClickListener,
 		mContacts.setOnClickListener(this);
 		mFacebookFrnd.setOnClickListener(this);
 		mTwitterFrnd.setOnClickListener(this);
+		mFriendList.setOnItemClickListener(this);
+		done_btn.setOnClickListener(this);
 
 		return friendListView;
+	}
+
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position,
+			long id) {
+		Bundle bundle = new Bundle();
+		Fragment confirmFragment = new VoteConfirm(mContext);
+		if (mButtonId == AFTER_YOU_BTN) {
+
+			Toast.makeText(mContext, "Item clicked " + position,
+					Toast.LENGTH_SHORT).show();
+
+			FragmentHelper.gotoFragment(getActivity(), FriendListFragment.this,
+					confirmFragment, bundle);
+
+		} else if (mButtonId == CONTACTS_BTN) {
+
+			Toast.makeText(mContext, "Item clicked " + position,
+					Toast.LENGTH_SHORT).show();
+
+			FragmentHelper.gotoFragment(getActivity(), FriendListFragment.this,
+					confirmFragment, bundle);
+
+		} else if (mButtonId == FACEBOOK_BTN) {
+
+			Toast.makeText(mContext, "Item clicked " + position,
+					Toast.LENGTH_SHORT).show();
+
+			FragmentHelper.gotoFragment(getActivity(), FriendListFragment.this,
+					confirmFragment, bundle);
+
+		} else {
+			Toast.makeText(mContext, "Item clicked " + position,
+					Toast.LENGTH_SHORT).show();
+			FragmentHelper.gotoFragment(getActivity(), FriendListFragment.this,
+					confirmFragment, bundle);
+		}
+
 	}
 
 	@Override
@@ -80,6 +126,7 @@ public class FriendListFragment extends Fragment implements OnClickListener,
 					R.drawable.chat_person_placeholder };
 			mFriendList.setAdapter(new FriendListAdapter(mFriendName,
 					mFriendImage));
+			mButtonId = 1;
 			break;
 		case R.id.contacts_btn:
 			mFriendName = new String[] { "Rajiv", "Sonia", "Priyanka", "Rahul" };
@@ -89,6 +136,7 @@ public class FriendListFragment extends Fragment implements OnClickListener,
 					R.drawable.chat_person_placeholder };
 			mFriendList.setAdapter(new FriendListAdapter(mFriendName,
 					mFriendImage));
+			mButtonId = 2;
 
 			break;
 		case R.id.facebook_voting_btn:
@@ -99,6 +147,7 @@ public class FriendListFragment extends Fragment implements OnClickListener,
 					R.drawable.chat_person_placeholder };
 			mFriendList.setAdapter(new FriendListAdapter(mFriendName,
 					mFriendImage));
+			mButtonId = 3;
 
 			break;
 		case R.id.twitter_btn:
@@ -110,6 +159,9 @@ public class FriendListFragment extends Fragment implements OnClickListener,
 			mFriendList.setAdapter(new FriendListAdapter(mFriendName,
 					mFriendImage));
 
+			break;
+		case R.id.voting_done_btn:
+			onBack();
 			break;
 
 		}
