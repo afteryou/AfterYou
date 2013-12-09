@@ -179,6 +179,10 @@ public class SlidingMenuFragment extends Fragment implements
 				break;
 
 			case TERMS_POLICY:
+				
+				Fragment giftList = new GiftListFragment();
+				FragmentHelper.gotoFragment(getActivity(),
+						SlidingMenuFragment.this, giftList, bundle);
 
 				break;
 

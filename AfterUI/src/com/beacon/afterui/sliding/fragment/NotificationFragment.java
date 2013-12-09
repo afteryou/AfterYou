@@ -11,8 +11,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.beacon.afterui.R;
 import com.beacon.afterui.views.MainActivity;
@@ -22,7 +25,7 @@ import com.beacon.afterui.views.data.NotificationReferralsAddapter;
 import com.beacon.afterui.views.data.NotificationVoteAddapter;
 
 public class NotificationFragment extends Fragment implements
-		FragmentLifecycle, OnClickListener {
+		FragmentLifecycle, OnClickListener, OnItemClickListener {
 
 	private Context mContext;
 	private ListView mNotificationList;
@@ -31,6 +34,11 @@ public class NotificationFragment extends Fragment implements
 	private ImageView mNotificationVoteBtn;
 	private ImageView mNotificationMsgBtn;
 	private boolean isBacking = false;
+	private int mButtonId = 0;
+	private static final int CONNECT_BTN = 1;
+	private static final int REFERRAL_BTN = 2;
+	private static final int VOTES_BTN = 3;
+	private static final int MESSAGE_BTN = 4;
 
 	public NotificationFragment() {
 	}
@@ -46,6 +54,8 @@ public class NotificationFragment extends Fragment implements
 		View view = inflater.inflate(R.layout.voting_003, null);
 		mNotificationConnetsBtn = (ImageView) view
 				.findViewById(R.id.num_friends_btn);
+		TextView done_btn = (TextView) view.findViewById(R.id.voting_done_btn);
+
 		mNotificationReferralsBtn = (ImageView) view
 				.findViewById(R.id.num_referals_btn);
 		mNotificationVoteBtn = (ImageView) view.findViewById(R.id.num_vote_btn);
@@ -55,11 +65,14 @@ public class NotificationFragment extends Fragment implements
 		mNotificationConnetsBtn.setImageResource(R.drawable.connects_pressed);
 		mNotificationList
 				.setAdapter(new NotificationConnectsAddapter(mContext));
+		mButtonId = 1;
+		mNotificationList.setOnItemClickListener(this);
 
 		mNotificationConnetsBtn.setOnClickListener(this);
 		mNotificationReferralsBtn.setOnClickListener(this);
 		mNotificationVoteBtn.setOnClickListener(this);
 		mNotificationMsgBtn.setOnClickListener(this);
+		done_btn.setOnClickListener(this);
 		return view;
 	}
 
@@ -76,6 +89,7 @@ public class NotificationFragment extends Fragment implements
 
 			mNotificationList.setAdapter(new NotificationConnectsAddapter(
 					mContext));
+			mButtonId = 1;
 
 			break;
 		case R.id.num_referals_btn:
@@ -86,7 +100,8 @@ public class NotificationFragment extends Fragment implements
 			mNotificationMsgBtn.setImageResource(R.drawable.msg_voting_btn);
 
 			mNotificationList.setAdapter(new NotificationReferralsAddapter(
-					mContext));
+					mContext, REFERRAL_BTN));
+			mButtonId = 2;
 			break;
 		case R.id.num_vote_btn:
 			mNotificationVoteBtn.setImageResource(R.drawable.votes_pressed);
@@ -96,6 +111,7 @@ public class NotificationFragment extends Fragment implements
 
 			mNotificationList
 					.setAdapter(new NotificationVoteAddapter(mContext));
+			mButtonId = 3;
 			break;
 		case R.id.num_msg_btn:
 			mNotificationMsgBtn.setImageResource(R.drawable.msg_pressed);
@@ -105,8 +121,41 @@ public class NotificationFragment extends Fragment implements
 
 			mNotificationList.setAdapter(new NotificationMessagesAddapter(
 					mContext));
+			mButtonId = 4;
+			break;
+		case R.id.voting_done_btn:
+			onBack();
 			break;
 
+		}
+
+	}
+
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position,
+			long id) {
+		Bundle bundle = new Bundle();
+		if (mButtonId == CONNECT_BTN) {
+			if (position == 4) {
+
+				Fragment viewVotes = new ViewVotesFragment(mContext);
+				FragmentHelper.gotoFragment(getActivity(),
+						NotificationFragment.this, viewVotes, bundle);
+
+			}
+
+		} else if (mButtonId == REFERRAL_BTN) {
+
+			if (position == 3) {
+				Fragment viewVotes = new ViewVotesFragment(mContext,
+						REFERRAL_BTN);
+				FragmentHelper.gotoFragment(getActivity(),
+						NotificationFragment.this, viewVotes, bundle);
+
+			}
+
+		} else if (mButtonId == VOTES_BTN) {
+		} else {
 		}
 
 	}

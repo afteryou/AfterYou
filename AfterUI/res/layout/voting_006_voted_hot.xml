@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <ImageView
+        android:id="@+id/dashboard_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="15dp"
+        android:src="@drawable/sample_img" />
+
+    <RelativeLayout
+        android:id="@+id/name_lay"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toRightOf="@id/dashboard_img" >
+
+        <TextView
+            android:id="@+id/user_name_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:paddingLeft="10dp"
+            android:text="Supriya Aiman"
+            android:textColor="@color/brown_background"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/dashboard_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/user_name_txt"
+            android:layout_marginLeft="5dp"
+            android:paddingLeft="10dp"
+            android:text="what a gentleman. I like him."
+            android:textColor="@color/font_listview_blue"
+            android:textSize="12sp" />
+    </RelativeLayout>
+
+    <ImageView
+        android:id="@+id/status_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginBottom="25dp"
+        android:layout_marginTop="25dp"
+        android:paddingRight="15dp"
+        android:src="@drawable/voted_hot_symbol" />
+
+    <TextView
+        android:id="@+id/time_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_toLeftOf="@id/status_img"
+        android:paddingRight="10dp"
+        android:text="7:34 PM"
+        android:textColor="@color/font_listview_blue"
+        android:textSize="14sp" />
+
+</RelativeLayout>

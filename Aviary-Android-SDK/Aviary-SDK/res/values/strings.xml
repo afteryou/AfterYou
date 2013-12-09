@@ -25,7 +25,7 @@
 	<string name="feather_effects_error_update_editor">Sorry, you must update the Aviary editor to use this plugin.</string>
 	<string name="feather_update">Update</string>
 	<string name="feather_effects_error_update_editors">This app needs to be updated to work with your installed effect packs. Tap \&quot;update\&quot; to update it in Google Play.</string>
-	<string name="feather_filter_pack_updated">A filter pack has been updated. Click ok to reload the packs list.</string>
+	<string name="feather_filter_pack_updated">A filter pack has been updated. Click OK to reload the packs list.</string>
 	<string name="feather_saturation">Saturation</string>
 	<string name="feather_version">Version</string>
 	<string name="feather_revert_dialog_message">You\'re about to lose all the changes you\'ve made. Are you sure you want to revert to the original image?</string>

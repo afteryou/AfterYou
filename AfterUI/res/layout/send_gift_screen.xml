@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    
+    <Button
+        android:id="@+id/send_gift_done_button"
+        android:layout_width="match_parent"
+        android:layout_height="32dp"
+        android:layout_alignParentTop="true"
+        android:background="@drawable/text_selected_states"
+        android:gravity="center_vertical|right"
+        android:paddingRight="20dp"
+        android:layout_alignParentRight="true"
+        android:text="@string/doneTxt" />
+    
+    
+    <Button
+        android:id="@+id/gifts_buy_post_button"
+        android:layout_width="wrap_content"
+        android:layout_height="32dp"
+        android:background="@drawable/text_selected_states"
+        android:gravity="center"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:text="@string/post_txt" />
+    
+        <EditText
+        android:id="@+id/send_gift_edit_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:maxLines="10"
+        android:layout_toLeftOf="@id/gifts_buy_post_button"
+        android:layout_alignParentBottom="true"
+         />
+
+</RelativeLayout>

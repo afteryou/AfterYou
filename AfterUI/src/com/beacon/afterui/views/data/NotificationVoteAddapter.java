@@ -3,14 +3,17 @@ package com.beacon.afterui.views.data;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.beacon.afterui.R;
 
-public class NotificationVoteAddapter extends BaseAdapter {
+public class NotificationVoteAddapter extends BaseAdapter implements
+		OnClickListener {
 
 	private LayoutInflater mInflater;
 	private Context mContext;
@@ -24,7 +27,7 @@ public class NotificationVoteAddapter extends BaseAdapter {
 	@Override
 	public int getCount() {
 		// TODO Auto-generated method stub
-		return 10;
+		return 20;
 	}
 
 	@Override
@@ -79,6 +82,9 @@ public class NotificationVoteAddapter extends BaseAdapter {
 			holder.noVoteTxt.setTextColor(mContext.getResources().getColor(
 					R.color.grey));
 
+			holder.hotBtn.setOnClickListener(this);
+			holder.notHotBtn.setOnClickListener(this);
+			holder.noVoteBtn.setOnClickListener(this);
 			view.setTag(holder);
 
 		} else {
@@ -100,6 +106,35 @@ public class NotificationVoteAddapter extends BaseAdapter {
 		private TextView hotTxt;
 		private TextView notHotTxt;
 		private TextView noVoteTxt;
+	}
+
+	@Override
+	public void onClick(View v) {
+
+		switch (v.getId()) {
+		case R.id.conect_green_btn:
+
+			Toast.makeText(mContext, "Hot btn clicked ", Toast.LENGTH_SHORT)
+					.show();
+
+			break;
+
+		case R.id.vote_btn:
+
+			Toast.makeText(mContext, "Not hot btn clicked ", Toast.LENGTH_SHORT)
+					.show();
+
+			break;
+
+		case R.id.decline_btn:
+
+			Toast.makeText(mContext, "No vote btn clicked ", Toast.LENGTH_SHORT)
+					.show();
+
+			break;
+
+		}
+
 	}
 
 }

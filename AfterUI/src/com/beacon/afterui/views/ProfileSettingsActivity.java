@@ -18,8 +18,6 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.DatePicker;
 import android.widget.FrameLayout;
-import android.widget.ImageButton;
-import android.widget.NumberPicker;
 import android.widget.TextView;
 
 import com.beacon.afterui.R;
@@ -31,7 +29,6 @@ import com.beacon.afterui.utils.Utilities;
 import com.beacon.afterui.utils.customviews.AfterYouDialogImpl;
 import com.beacon.afterui.utils.customviews.CustomDialog;
 import com.beacon.afterui.utils.customviews.CustomerDatePickDialog;
-import com.beacon.afterui.utils.customviews.CustomerNumberPickerDialog;
 import com.beacon.afterui.utils.customviews.ErrorDialog;
 
 public class ProfileSettingsActivity extends BaseActivity implements

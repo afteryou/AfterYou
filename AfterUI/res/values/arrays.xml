@@ -19,12 +19,12 @@
         <item>@string/IDS_YES</item>
         <item>@string/IDS_NO</item>
     </string-array>
-    <string-array name="height_foot">
+    <string-array name="height_foot" translatable="false">
         <item>4 feet</item>
         <item>5 feet</item>
         <item>6 feet</item>
     </string-array>
-    <string-array name="height_inches">
+    <string-array name="height_inches" translatable="false">
         <item>0 inches</item>
         <item>1 inches</item>
         <item>2 inches</item>

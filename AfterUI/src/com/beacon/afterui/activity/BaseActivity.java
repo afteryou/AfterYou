@@ -88,7 +88,6 @@ public class BaseActivity extends SlidingActivity {
         }
 
         super.finish();
-//        overridePendingTransition(R.anim.slide_out_right, R.anim.slide_in_right);
     }
 
     @Override
@@ -116,18 +115,6 @@ public class BaseActivity extends SlidingActivity {
         } catch (Exception e) {
 
         }
-    }
-    
-    @Override
-    public void startActivity(Intent intent) {
-        super.startActivity(intent);
-//        overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
-    }
-    
-    @Override
-    public void startActivityForResult(Intent intent, int requestCode) {
-        super.startActivityForResult(intent, requestCode);
-//        overridePendingTransition(R.anim.slide_in, R.anim.slide_out);
     }
 
     public int getViewType() {

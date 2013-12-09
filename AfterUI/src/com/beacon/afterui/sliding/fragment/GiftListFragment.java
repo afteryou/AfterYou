@@ -1,17 +1,23 @@
 package com.beacon.afterui.sliding.fragment;
 
-import com.beacon.afterui.R;
-
 import android.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 
+import com.beacon.afterui.R;
+import com.beacon.afterui.constants.CommonConstants;
+
 public class GiftListFragment extends Fragment implements FragmentLifecycle,
-        ISearchFunction {
+        ISearchFunction, OnItemClickListener {
+
+    private static final String TAG = GiftListFragment.class.getSimpleName();
 
     private GridView mGridView;
 
@@ -26,6 +32,7 @@ public class GiftListFragment extends Fragment implements FragmentLifecycle,
         View view = inflater.inflate(R.layout.gifts_list_screen, null, false);
         mGridView = (GridView) view.findViewById(R.id.gifts_list_grid_view);
         mGridView.setAdapter(new GiftsAdapter());
+        mGridView.setOnItemClickListener(this);
         return view;
     }
 
@@ -73,11 +80,20 @@ public class GiftListFragment extends Fragment implements FragmentLifecycle,
                 convertView = getActivity().getLayoutInflater().inflate(
                         R.layout.gift_list_item, null, false);
             }
-            
-            
-            
+
             return convertView;
         }
     }
 
+    @Override
+    public void onItemClick(AdapterView<?> arg0, View arg1, int position,
+            long arg3) {
+        Log.d(TAG, "Clicked on " + position);
+
+        Fragment detail = new GiftDetailsFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt(CommonConstants.BundleKey.GIFT_ID, 1);
+        FragmentHelper.gotoFragment(getActivity(), GiftListFragment.this,
+                detail, bundle);
+    }
 }
