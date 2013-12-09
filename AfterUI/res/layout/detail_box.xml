@@ -165,13 +165,38 @@
             android:paddingTop="15dip" >
 
             <ImageView
-                android:id="@+id/detail_gift_lay"
+                android:id="@+id/connect_detail"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
                 android:paddingTop="2dip"
-                android:src="@drawable/gift" />
+                android:src="@drawable/connect_detail" />
+            
+            <ImageView
+                android:id="@+id/gift_detail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="2dip"
+                android:src="@drawable/gift_detail"
+                android:layout_toRightOf="@id/connect_detail"
+                android:layout_marginLeft="18dp" />
+            
+            <ImageView
+                android:id="@+id/video_detail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="2dip"
+                android:src="@drawable/video_detail"
+                android:layout_toRightOf="@id/gift_detail"
+                android:layout_marginLeft="18dp" />
+            
+            <ImageView
+                android:id="@+id/back_detail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingTop="2dip"
+                android:src="@drawable/connect_detail"
+                android:layout_toRightOf="@id/video_detail"
+                android:layout_marginLeft="18dp" />
 
             <RelativeLayout
                 android:layout_width="wrap_content"

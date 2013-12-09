@@ -1,22 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content" >
 
-    <ImageView
-        android:id="@+id/gift_image"
-        android:layout_width="80dp"
-        android:layout_height="100dp"
-        android:src="@drawable/green" />
-
     <TextView
-        android:id="@+id/gift_text"
+        android:id="@+id/gift_list_temp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_below="@id/gift_image"
-        android:layout_marginTop="1dp"
-        android:layout_marginBottom="5dp"
+        android:drawableTop="@drawable/test_gift"
         android:text="@string/placeholder" />
 
 </RelativeLayout>
