@@ -92,7 +92,7 @@ public class SendGiftFragment extends Fragment implements FragmentLifecycle,
         switch (v.getId()) {
         case R.id.send_gift_done_button:
             showToast("Gift is sent!");
-            finishFragment();
+//            finishFragment();
             break;
 
         case R.id.gifts_buy_post_button:
