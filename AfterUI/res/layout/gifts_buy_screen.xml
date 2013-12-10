@@ -16,10 +16,10 @@
 
     <ImageView
         android:id="@+id/divider_one"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/gifts_buy_cancel_button"
-        android:src="@drawable/area_dark_divider" />
+        android:background="@drawable/area_dark_divider" />
 
     <ImageView
         android:id="@+id/points_gifts"
@@ -51,12 +51,12 @@
 
     <ImageView
         android:id="@+id/divider_two"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/text_gifts"
         android:layout_marginBottom="5dp"
         android:layout_marginTop="5dp"
-        android:src="@drawable/area_divider" />
+        android:background="@drawable/area_divider" />
 
     <ImageView
         android:id="@+id/points_icon"
@@ -78,16 +78,17 @@
 
     <ImageView
         android:id="@+id/divider_three"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/points_acc_text"
-        android:src="@drawable/area_dark_divider"
-        android:layout_marginTop="5dp" />
-    
+        android:layout_marginTop="5dp"
+        android:background="@drawable/area_dark_divider" />
+
     <ListView
         android:id="@+id/gifts_buy_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/divider_three"></ListView>
+        android:layout_below="@id/divider_three" >
+    </ListView>
 
 </RelativeLayout>

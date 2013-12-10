@@ -9,9 +9,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.View.OnClickListener;
-import android.webkit.WebView.FindListener;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
@@ -39,6 +38,15 @@ public class GiftListFragment extends Fragment implements FragmentLifecycle,
     private Drawable mNormalImage;
     private Drawable mSelectedImage;
 
+    private int mSelectedId;
+
+    private GiftsAdapter mGiftAdapter;
+
+    private Drawable mBasic;
+    private Drawable mDeluxe;
+    private Drawable mPremium;
+    private Drawable mLuxary;
+
     public GiftListFragment() {
 
     }
@@ -49,7 +57,8 @@ public class GiftListFragment extends Fragment implements FragmentLifecycle,
 
         View view = inflater.inflate(R.layout.gifts_list_screen, null, false);
         mGridView = (GridView) view.findViewById(R.id.gifts_list_grid_view);
-        mGridView.setAdapter(new GiftsAdapter());
+        mGiftAdapter = new GiftsAdapter();
+        mGridView.setAdapter(mGiftAdapter);
         mGridView.setOnItemClickListener(this);
 
         mBasicTextView = (TextView) view.findViewById(R.id.basic);
@@ -71,7 +80,33 @@ public class GiftListFragment extends Fragment implements FragmentLifecycle,
         mSelectedImage.setBounds(0, 0, mSelectedImage.getIntrinsicWidth(),
                 mSelectedImage.getIntrinsicHeight());
 
+        initTempImages();
         return view;
+    }
+
+    private void initTempImages() {
+        mBasic = getResources().getDrawable(R.drawable.test_gift);
+        mBasic.setBounds(0, 0, mBasic.getIntrinsicWidth(),
+                mBasic.getIntrinsicHeight());
+
+        mDeluxe = getResources().getDrawable(R.drawable.sandle_gift);
+        mDeluxe.setBounds(0, 0, mDeluxe.getIntrinsicWidth(),
+                mDeluxe.getIntrinsicHeight());
+
+        mPremium = getResources().getDrawable(R.drawable.teddy_gift);
+        mPremium.setBounds(0, 0, mPremium.getIntrinsicWidth(),
+                mPremium.getIntrinsicHeight());
+
+        mLuxary = getResources().getDrawable(R.drawable.chocolate_gift);
+        mLuxary.setBounds(0, 0, mLuxary.getIntrinsicWidth(),
+                mLuxary.getIntrinsicHeight());
+    }
+    
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        mSelectedId = R.id.basic;
+        setSelectedImage(R.id.basic);
     }
 
     @Override
@@ -112,6 +147,30 @@ public class GiftListFragment extends Fragment implements FragmentLifecycle,
             if (convertView == null) {
                 convertView = getActivity().getLayoutInflater().inflate(
                         R.layout.gift_list_item, null, false);
+            }
+
+            TextView giftItem = (TextView) convertView
+                    .findViewById(R.id.gift_list_temp);
+
+            switch (mSelectedId) {
+            case R.id.basic:
+                giftItem.setCompoundDrawablesWithIntrinsicBounds(null, mBasic,
+                        null, null);
+                break;
+
+            case R.id.deluxe:
+                giftItem.setCompoundDrawablesWithIntrinsicBounds(null, mDeluxe,
+                        null, null);
+                break;
+
+            case R.id.premimum:
+                giftItem.setCompoundDrawablesWithIntrinsicBounds(null,
+                        mPremium, null, null);
+                break;
+
+            case R.id.luxary:
+                giftItem.setCompoundDrawablesWithIntrinsicBounds(null, mLuxary,
+                        null, null);
             }
 
             return convertView;
@@ -168,12 +227,14 @@ public class GiftListFragment extends Fragment implements FragmentLifecycle,
             break;
         }
         setSelectedImage(v.getId());
+        mGiftAdapter.notifyDataSetChanged();
     }
 
     private void setSelectedImage(final int selectedId) {
 
         switch (selectedId) {
         case R.id.basic:
+            mSelectedId = R.id.basic;
             mBasicTextView.setCompoundDrawablesWithIntrinsicBounds(null,
                     mSelectedImage, null, null);
             mDeluxeTextView.setCompoundDrawablesWithIntrinsicBounds(null,
@@ -183,7 +244,9 @@ public class GiftListFragment extends Fragment implements FragmentLifecycle,
             mLuxaryTextView.setCompoundDrawablesWithIntrinsicBounds(null,
                     mNormalImage, null, null);
             break;
+
         case R.id.deluxe:
+            mSelectedId = R.id.deluxe;
             mBasicTextView.setCompoundDrawablesWithIntrinsicBounds(null,
                     mNormalImage, null, null);
             mDeluxeTextView.setCompoundDrawablesWithIntrinsicBounds(null,
@@ -193,7 +256,9 @@ public class GiftListFragment extends Fragment implements FragmentLifecycle,
             mLuxaryTextView.setCompoundDrawablesWithIntrinsicBounds(null,
                     mNormalImage, null, null);
             break;
+
         case R.id.premimum:
+            mSelectedId = R.id.premimum;
             mBasicTextView.setCompoundDrawablesWithIntrinsicBounds(null,
                     mNormalImage, null, null);
             mDeluxeTextView.setCompoundDrawablesWithIntrinsicBounds(null,
@@ -203,7 +268,9 @@ public class GiftListFragment extends Fragment implements FragmentLifecycle,
             mLuxaryTextView.setCompoundDrawablesWithIntrinsicBounds(null,
                     mNormalImage, null, null);
             break;
+
         case R.id.luxary:
+            mSelectedId = R.id.luxary;
             mBasicTextView.setCompoundDrawablesWithIntrinsicBounds(null,
                     mNormalImage, null, null);
             mDeluxeTextView.setCompoundDrawablesWithIntrinsicBounds(null,
@@ -212,8 +279,6 @@ public class GiftListFragment extends Fragment implements FragmentLifecycle,
                     mNormalImage, null, null);
             mLuxaryTextView.setCompoundDrawablesWithIntrinsicBounds(null,
                     mSelectedImage, null, null);
-            break;
         }
     }
-
 }

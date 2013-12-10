@@ -13,6 +13,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class SendGiftFragment extends Fragment implements FragmentLifecycle,
@@ -23,7 +24,7 @@ public class SendGiftFragment extends Fragment implements FragmentLifecycle,
 
     private Button mDoneButton;
     private Button mPost;
-    
+
     private boolean isBacking;
 
     @Override
@@ -64,15 +65,15 @@ public class SendGiftFragment extends Fragment implements FragmentLifecycle,
     private void showToast(final String toastMessage) {
         Toast.makeText(getActivity(), toastMessage, Toast.LENGTH_SHORT).show();
     }
-    
+
     private void finishFragment() {
-        if(!isBacking) {
+        if (!isBacking) {
             isBacking = true;
-            ((MainActivity)getActivity()).updateToMainScreenActionBar();
+            ((MainActivity) getActivity()).updateToMainScreenActionBar();
             applyBackAnimation();
         }
     }
-    
+
     private void applyBackAnimation() {
         AnimatorSet fideOutMap = new AnimatorSet();
         fideOutMap.setDuration(250);
@@ -84,7 +85,7 @@ public class SendGiftFragment extends Fragment implements FragmentLifecycle,
             }
         });
 
-        fideOutMap.start(); 
+        fideOutMap.start();
     }
 
     @Override
@@ -92,7 +93,7 @@ public class SendGiftFragment extends Fragment implements FragmentLifecycle,
         switch (v.getId()) {
         case R.id.send_gift_done_button:
             showToast("Gift is sent!");
-//            finishFragment();
+            // finishFragment();
             break;
 
         case R.id.gifts_buy_post_button:

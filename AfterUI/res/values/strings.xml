@@ -267,4 +267,8 @@
     <string name="placeholder" >placeholder</string>
     <string name="in_app_billing_general_error" >Something went wrong with InApp billing, you will not be able to buy points</string>
 	<string name="error_in_in_app_billing" >Payment didn\'t go through, please try again!</string>
+	<string name="send_gift" >send gift</string>
+	<string name="send_message_with_gift" >send message with gift</string>
+	<string name="not_enough_points" >oops!\nyou don\'t have enough points.</string>
+	<string name="buy_points" >buy points</string>
 </resources>

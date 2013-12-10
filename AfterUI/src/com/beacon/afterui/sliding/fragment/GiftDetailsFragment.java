@@ -1,5 +1,8 @@
 package com.beacon.afterui.sliding.fragment;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -7,9 +10,11 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 
 import com.beacon.afterui.R;
 import com.beacon.afterui.constants.CommonConstants;
+import com.beacon.afterui.views.MainActivity;
 
 public class GiftDetailsFragment extends Fragment implements FragmentLifecycle,
         ISearchFunction, OnClickListener {
@@ -19,6 +24,15 @@ public class GiftDetailsFragment extends Fragment implements FragmentLifecycle,
 
     private Button mDoneButton;
     private Button mCancelButton;
+
+    private boolean isBacking;
+
+    private View mSendGiftPopup;
+    private TextView mSendGiftTextView;
+    private TextView mSendMessageWithGiftTextView;
+
+    private View mBuyPointsPopUp;
+    private TextView mBuyPointsButton;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -30,10 +44,29 @@ public class GiftDetailsFragment extends Fragment implements FragmentLifecycle,
         mCancelButton = (Button) view
                 .findViewById(R.id.gift_details_cancel_button);
 
+        mSendGiftPopup = view.findViewById(R.id.send_gift_pop_up);
+        mSendGiftTextView = (TextView) view.findViewById(R.id.send_gift);
+        mSendMessageWithGiftTextView = (TextView) view
+                .findViewById(R.id.send_message_with_gift);
+
+        mSendGiftTextView.setOnClickListener(this);
+        mSendMessageWithGiftTextView.setOnClickListener(this);
+
+        mBuyPointsPopUp = view.findViewById(R.id.buy_points_pop_up);
+        mBuyPointsButton = (TextView) view.findViewById(R.id.buy_points);
+        mBuyPointsButton.setOnClickListener(this);
+
         mDoneButton.setOnClickListener(this);
         mCancelButton.setOnClickListener(this);
 
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mSendGiftPopup.setVisibility(View.GONE);
+        mBuyPointsPopUp.setVisibility(View.GONE);
     }
 
     @Override
@@ -48,30 +81,65 @@ public class GiftDetailsFragment extends Fragment implements FragmentLifecycle,
 
     @Override
     public void onFragmentResume() {
-        // TODO Auto-generated method stub
 
     }
 
     @Override
     public boolean onBack() {
-        // TODO Auto-generated method stub
-        return false;
+        if (!isBacking) {
+            isBacking = true;
+            ((MainActivity) getActivity()).updateToMainScreenActionBar();
+            applyBackAnimation();
+        }
+        return true;
+    }
+
+    private void applyBackAnimation() {
+        AnimatorSet fideOutMap = new AnimatorSet();
+        fideOutMap.setDuration(250);
+        fideOutMap.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator anim) {
+                FragmentHelper.popFragment(getActivity());
+                isBacking = false;
+            }
+        });
+
+        fideOutMap.start();
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
         case R.id.gift_details_done_button:
-            Fragment detail = new GiftsBuyFragment();
-            Bundle bundle = new Bundle();
-            bundle.putInt(CommonConstants.BundleKey.GIFT_ID, 1);
-            FragmentHelper.gotoFragment(getActivity(),
-                    GiftDetailsFragment.this, detail, bundle);
+            mSendGiftPopup.setVisibility(View.VISIBLE);
             break;
 
         case R.id.gift_details_cancel_button:
+            onBack();
+            break;
+
+        case R.id.send_gift:
+            mSendGiftPopup.setVisibility(View.GONE);
+            mBuyPointsPopUp.setVisibility(View.VISIBLE);
+            break;
+
+        case R.id.send_message_with_gift:
+            mSendGiftPopup.setVisibility(View.GONE);
+            mBuyPointsPopUp.setVisibility(View.VISIBLE);
+            break;
+            
+        case R.id.buy_points:
+            launchBuyGiftFragment();
             break;
         }
     }
 
+    private void launchBuyGiftFragment() {
+        Fragment detail = new GiftsBuyFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt(CommonConstants.BundleKey.GIFT_ID, 1);
+        FragmentHelper.gotoFragment(getActivity(), GiftDetailsFragment.this,
+                detail, bundle);
+    }
 }

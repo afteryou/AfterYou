@@ -1,5 +1,8 @@
 package com.beacon.afterui.sliding.fragment;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
 import android.app.AlertDialog;
 import android.app.Fragment;
 import android.content.Context;
@@ -28,6 +31,7 @@ import com.beacon.afterui.inappbilling.util.Inventory;
 import com.beacon.afterui.inappbilling.util.Purchase;
 import com.beacon.afterui.utils.customviews.AfterYouDialogImpl;
 import com.beacon.afterui.utils.customviews.ErrorDialog;
+import com.beacon.afterui.views.MainActivity;
 
 public class GiftsBuyFragment extends Fragment implements FragmentLifecycle,
         ISearchFunction, OnItemClickListener {
@@ -44,6 +48,8 @@ public class GiftsBuyFragment extends Fragment implements FragmentLifecycle,
     public static final int RC_REQUEST = 10001;
 
     private GiftItem mGiftItem;
+
+    private boolean isBacking;
 
     public GiftsBuyFragment() {
         super();
@@ -152,57 +158,57 @@ public class GiftsBuyFragment extends Fragment implements FragmentLifecycle,
         GiftItem item = new GiftItem();
         item.dollarValue = "$5";
         item.points = "5,000 points";
-        item.pointsIntegerValue = 5000;
+        item.pointsStringValue = InAppBillingConstants.FIVE_K;
         mGiftItems[0] = item;
 
         item = new GiftItem();
         item.dollarValue = "$10";
         item.points = "10,000 points";
-        item.pointsIntegerValue = 10000;
+        item.pointsStringValue = InAppBillingConstants.TEN_K;
         mGiftItems[1] = item;
 
         item = new GiftItem();
         item.dollarValue = "$15";
         item.points = "15,000 points";
-        item.pointsIntegerValue = 15000;
+        item.pointsStringValue = InAppBillingConstants.FIFTEEN_K;
         mGiftItems[2] = item;
 
         item = new GiftItem();
         item.dollarValue = "$20";
         item.points = "20,000 points";
         item.buy = "buy";
-        item.pointsIntegerValue = 20000;
+        item.pointsStringValue = InAppBillingConstants.TWENTY_K;
         mGiftItems[3] = item;
 
         item = new GiftItem();
         item.dollarValue = "$25";
         item.points = "25,000 points";
-        item.pointsIntegerValue = 25000;
+        item.pointsStringValue = InAppBillingConstants.TWENTY_FIVE_K;
         mGiftItems[4] = item;
 
         item = new GiftItem();
         item.dollarValue = "$30";
         item.points = "30,000 points";
-        item.pointsIntegerValue = 30000;
+        item.pointsStringValue = InAppBillingConstants.THIRTY_K;
         mGiftItems[5] = item;
 
         item = new GiftItem();
         item.dollarValue = "$35";
         item.points = "35,000 points";
-        item.pointsIntegerValue = 35000;
+        item.pointsStringValue = InAppBillingConstants.THIRTY_FIVE_K;
         item.buy = "buy";
         mGiftItems[6] = item;
 
         item = new GiftItem();
         item.dollarValue = "$40";
         item.points = "40,000 points";
-        item.pointsIntegerValue = 40000;
+        item.pointsStringValue = InAppBillingConstants.FOURTY_K;
         mGiftItems[7] = item;
 
         item = new GiftItem();
         item.dollarValue = "$50";
         item.points = "50,000 points";
-        item.pointsIntegerValue = 50000;
+        item.pointsStringValue = InAppBillingConstants.FIFTY_K;
         mGiftItems[8] = item;
     }
 
@@ -210,7 +216,7 @@ public class GiftsBuyFragment extends Fragment implements FragmentLifecycle,
         String dollarValue;
         String points;
         String buy;
-        int pointsIntegerValue;
+        String pointsStringValue;
     }
 
     private class GiftPointsAdapter extends BaseAdapter {
@@ -269,7 +275,26 @@ public class GiftsBuyFragment extends Fragment implements FragmentLifecycle,
 
     @Override
     public boolean onBack() {
-        return false;
+        if (!isBacking) {
+            isBacking = true;
+            ((MainActivity) getActivity()).updateToMainScreenActionBar();
+            applyBackAnimation();
+        }
+        return true;
+    }
+
+    private void applyBackAnimation() {
+        AnimatorSet fideOutMap = new AnimatorSet();
+        fideOutMap.setDuration(250);
+        fideOutMap.addListener(new AnimatorListenerAdapter() {
+            @Override
+            public void onAnimationEnd(Animator anim) {
+                FragmentHelper.popFragment(getActivity());
+                isBacking = false;
+            }
+        });
+
+        fideOutMap.start();
     }
 
     public class AnimState implements Parcelable {
@@ -365,7 +390,7 @@ public class GiftsBuyFragment extends Fragment implements FragmentLifecycle,
         // mPurchaseFinishedListener, payload);
         try {
             mHelper.launchPurchaseFlow(getActivity(),
-                    InAppBillingConstants.FIVE_K, RC_REQUEST,
+                    mGiftItem.pointsStringValue, RC_REQUEST,
                     mPurchaseFinishedListener, payload);
         } catch (IllegalStateException e) {
             mGiftItem = null;

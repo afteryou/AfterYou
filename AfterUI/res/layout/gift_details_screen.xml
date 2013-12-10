@@ -13,8 +13,8 @@
         android:layout_marginTop="10dp"
         android:background="@drawable/text_gift_states"
         android:gravity="center"
-        android:textColor="@color/white"
-        android:text="@string/cancelTxt" />
+        android:text="@string/cancelTxt"
+        android:textColor="@color/white" />
 
     <Button
         android:id="@+id/gift_details_done_button"
@@ -25,7 +25,76 @@
         android:layout_marginTop="10dp"
         android:background="@drawable/text_gift_states"
         android:gravity="center"
-        android:textColor="@color/white"
-        android:text="@string/doneTxt" />
+        android:text="@string/doneTxt"
+        android:textColor="@color/white" />
+
+    <LinearLayout
+        android:id="@+id/send_gift_pop_up"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:background="@drawable/gift_transparent_screen"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="visible" >
+
+        <TextView
+            android:id="@+id/send_gift"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableTop="@drawable/gift_icon"
+            android:text="@string/send_gift"
+            android:textColor="#79b2e1"
+            android:layout_marginBottom="15dp" />
+
+        <View
+            android:layout_width="300dp"
+            android:layout_height="1dp"
+            android:background="#FFf9eaea" />
+
+        <TextView
+            android:id="@+id/send_message_with_gift"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:drawableTop="@drawable/msg_voting_btn"
+            android:text="@string/send_message_with_gift"
+            android:textColor="#79b2e1" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/buy_points_pop_up"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_centerInParent="true"
+        android:background="@drawable/gift_transparent_screen"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone" >
+
+        <TextView
+            android:id="@+id/not_enough_points"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:gravity="center"
+            android:textColor="#79b2e1"
+            android:text="@string/not_enough_points" />
+
+        <View
+            android:layout_width="300dp"
+            android:layout_height="1dp"
+            android:background="#FFf9eaea" />
+
+        <TextView
+            android:id="@+id/buy_points"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:drawableTop="@drawable/details_points"
+            android:gravity="center"
+            android:text="@string/buy_points"
+            android:textColor="#79b2e1" />
+    </LinearLayout>
 
 </RelativeLayout>
