@@ -22,7 +22,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.beacon.afterui.R;
-import com.beacon.afterui.constants.CommonConstants;
 import com.beacon.afterui.inappbilling.util.IabHelper;
 import com.beacon.afterui.inappbilling.util.IabHelper.OnIabSetupFinishedListener;
 import com.beacon.afterui.inappbilling.util.IabResult;
@@ -50,6 +49,22 @@ public class GiftsBuyFragment extends Fragment implements FragmentLifecycle,
     private GiftItem mGiftItem;
 
     private boolean isBacking;
+    
+    /** 
+     * Why this variable:
+     * Problem : async error occurs when cancel any transaction or we are not able
+     *           to perform two consecutive operations. In real world this won't 
+     *           required but user might cancel and start the operation again.
+     *           
+     * What is happening : When we press bac google pop up, all that happens is, it
+     *           returns to app without getting any callback. This is where problem
+     *           starts. User tries to launch it again only to find that transaction
+     *           was already in progress.
+     *           So this variable will keep the track if the operation went through
+     *           if not then we will dispose off the resources allocated.
+     *           As simple as that.
+     * */
+    private boolean isInAppBillingStarted;
 
     public GiftsBuyFragment() {
         super();
@@ -63,6 +78,15 @@ public class GiftsBuyFragment extends Fragment implements FragmentLifecycle,
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         initInAppBilling();
+    }
+    
+    @Override
+    public void onResume() {
+        super.onResume();
+        
+        if (isInAppBillingStarted) {
+            initInAppBilling();
+        }
     }
 
     @Override
@@ -389,6 +413,7 @@ public class GiftsBuyFragment extends Fragment implements FragmentLifecycle,
         // IabHelper.ITEM_TYPE_SUBS, RC_REQUEST,
         // mPurchaseFinishedListener, payload);
         try {
+            isInAppBillingStarted = true;
             mHelper.launchPurchaseFlow(getActivity(),
                     mGiftItem.pointsStringValue, RC_REQUEST,
                     mPurchaseFinishedListener, payload);
@@ -432,6 +457,8 @@ public class GiftsBuyFragment extends Fragment implements FragmentLifecycle,
             Log.d(TAG, "Purchase finished: " + result + ", purchase: "
                     + purchase);
 
+            isInAppBillingStarted = false;
+            
             // if we were disposed of in the meantime, quit.
             if (mHelper == null)
                 return;
