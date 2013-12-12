@@ -128,8 +128,9 @@ public class ProfileSettingsActivity extends BaseActivity implements
 		mLayoutInflator = getLayoutInflater();
 
 		Typeface typeFaceRegular = Typeface.createFromAsset(getAssets(),
-				"fonts/MyriadPro-Regular.otf");
-		tf = Typeface.createFromAsset(getAssets(), "fonts/MyriadPro-It.otf");
+				"fonts/ITCAvantGardeStd-Demi.otf");
+		tf = Typeface.createFromAsset(getAssets(),
+				"fonts/ITCAvantGardeStd-Demi.otf");
 
 		int[] selfText = { R.id.done_btn, R.id.about_you_txt,
 				R.id.date_of_birth_txt, R.id.religion_label_txt,
@@ -146,8 +147,10 @@ public class ProfileSettingsActivity extends BaseActivity implements
 			textview.setTypeface(typeFaceRegular);
 		}
 
+		Typeface italic = Typeface.createFromAsset(getAssets(),
+				"fonts/MyriadPro-It.otf");
 		TextView required_txt = (TextView) findViewById(R.id.required_txt);
-		required_txt.setTypeface(tf);
+		required_txt.setTypeface(italic);
 
 		int[] matchText = { R.id.ideal_match, R.id.match_date_of_birth_txt,
 				R.id.match_religion_label_txt, R.id.match_relation_label_txt,

@@ -1,8 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-     >
+    android:layout_height="match_parent" >
 
     <include
         android:id="@+id/header_login"
@@ -75,18 +74,6 @@
                 android:background="@drawable/sign_in_bg"
                 android:gravity="center"
                 android:text="@string/sign_in"
-                android:textColor="@color/font_blue_color"
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/sign_up_btn_login_screen"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_toRightOf="@id/sign_in_btn_login_screen"
-                android:background="@drawable/sign_in_bg"
-                android:gravity="center"
-                android:text="@string/sign_up"
                 android:textColor="@color/font_blue_color"
                 android:textSize="16sp" />
         </RelativeLayout>

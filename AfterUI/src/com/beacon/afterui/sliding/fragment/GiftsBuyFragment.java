@@ -56,7 +56,7 @@ public class GiftsBuyFragment extends Fragment implements FragmentLifecycle,
      *           to perform two consecutive operations. In real world this won't 
      *           required but user might cancel and start the operation again.
      *           
-     * What is happening : When we press bac google pop up, all that happens is, it
+     * What is happening : When we press back google pop up, all that happens is, it
      *           returns to app without getting any callback. This is where problem
      *           starts. User tries to launch it again only to find that transaction
      *           was already in progress.

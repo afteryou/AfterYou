@@ -41,7 +41,6 @@ public class LandingActivity extends BaseActivity implements OnClickListener {
 	private static final String TAG = LandingActivity.class.getSimpleName();
 
 	private static ImageView sAfterYouLoginBtn;
-	// private static ImageView sSignUpButton;
 
 	private static final int SPLASH_END = 1;
 	private static final int START_SPINNER = 2;
@@ -88,19 +87,24 @@ public class LandingActivity extends BaseActivity implements OnClickListener {
 		mCenterLayout = findViewById(R.id.center_layout);
 		user_inter = (RelativeLayout) findViewById(R.id.user_but_id);
 		sAfterYouLoginBtn = (ImageView) findViewById(R.id.after_you_login_btn);
-		// sSignUpButton = (ImageView) findViewById(R.id.signup_btn);
 		mFacebookLogin = (ImageButton) findViewById(R.id.facebook_login_btn);
 
+		TextView lets_sign_txt = (TextView) findViewById(R.id.lets_sign_txt);
+		TextView facebook_txt = (TextView) findViewById(R.id.facebook_txt);
+		TextView after_you_txt = (TextView) findViewById(R.id.after_you_txt);
+
 		sAfterYouLoginBtn.setOnClickListener(this);
-		// sSignUpButton.setOnClickListener(this);
 		mFacebookLogin.setOnClickListener(this);
 
 		copyRightTextView = (TextView) findViewById(R.id.copy_right_text);
 
 		Typeface typeFace = Typeface.createFromAsset(getAssets(),
-				"fonts/MyriadPro-Regular.otf");
+				"fonts/ITCAvantGardeStd-BkCn.otf");
 
 		copyRightTextView.setTypeface(typeFace);
+		lets_sign_txt.setTypeface(typeFace);
+		facebook_txt.setTypeface(typeFace);
+		after_you_txt.setTypeface(typeFace);
 
 		Settings.addLoggingBehavior(LoggingBehavior.INCLUDE_ACCESS_TOKENS);
 
@@ -169,7 +173,7 @@ public class LandingActivity extends BaseActivity implements OnClickListener {
 			// values.put("source", "Test");
 			//
 			// getContentResolver().insert(AuthTable.CONTENT_URI, values);
-			intent = new Intent(LandingActivity.this, LoginScreen.class);
+			intent = new Intent(LandingActivity.this, SignInSignUpScreen.class);
 			AnalyticsUtils.logButtonPressEvent(this, "login button", -1);
 			break;
 

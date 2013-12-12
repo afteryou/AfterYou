@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.beacon.afterui.R;
 import com.beacon.afterui.custom.view.wheel.OnWheelChangedListener;
+import com.beacon.afterui.custom.view.wheel.OnWheelClickedListener;
 import com.beacon.afterui.custom.view.wheel.WheelView;
 import com.beacon.afterui.custom.view.wheel.adapter.ArrayWheelAdapter;
 import com.beacon.afterui.custom.view.wheel.adapter.NumericWheelAdapter;
@@ -471,6 +472,8 @@ public class ProfileSettingsHelper {
 			view.setTypeface(typeFaceRegular);
 			view.setTextColor(mContext.getResources().getColor(
 					R.color.font_blue_color));
+
+			Log.d("test", " ----> : " + view.getLayoutParams());
 		}
 
 		@Override

@@ -16,12 +16,13 @@ import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.View.OnFocusChangeListener;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.View.OnClickListener;
+import android.view.View.OnFocusChangeListener;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -80,7 +81,7 @@ public class SignUpActivity extends BaseActivity implements OnClickListener,
 		setBehindLeftContentView(R.layout.sign_up_screen);
 		setBehindRightContentView(R.layout.sign_up_screen);
 		Typeface typeFaceRegular = Typeface.createFromAsset(getAssets(),
-				"fonts/MyriadPro-Regular.otf");
+				"fonts/ITCAvantGardeStd-Md.otf");
 
 		mSignInBtn = (TextView) findViewById(R.id.sign_in_btn_signup_screen);
 		mCrossFirstNameBtn = (ImageView) findViewById(R.id.cross_btn_firstname);
@@ -108,6 +109,7 @@ public class SignUpActivity extends BaseActivity implements OnClickListener,
 
 		mLeftImage.setTypeface(typeFaceRegular);
 		mRightImage.setTypeface(typeFaceRegular);
+		mSignInBtn.setTypeface(typeFaceRegular);
 
 		if (isTest) {
 			mFirstnameText.setText("abc");
@@ -142,11 +144,10 @@ public class SignUpActivity extends BaseActivity implements OnClickListener,
 					.getUserEmail());
 			if (PreferenceEngine.getInstance(this).getGender()
 					.equalsIgnoreCase("male")) {
-				mLeftImage.setBackgroundResource(R.drawable.switch_btn_pressed);
+				mLeftImage.setBackgroundResource(R.color.white);
 				mRightImage.setBackgroundResource(R.drawable.switch_btn_normal);
 			} else {
-				mRightImage
-						.setBackgroundResource(R.drawable.switch_btn_pressed);
+				mRightImage.setBackgroundResource(R.color.white);
 				mLeftImage.setBackgroundResource(R.drawable.switch_btn_normal);
 				;
 			}
@@ -246,8 +247,10 @@ public class SignUpActivity extends BaseActivity implements OnClickListener,
 			break;
 
 		case R.id.birthday_edit_text:
-			mBirthDayText.setText("");
+			getDatePickDialog().show();
+			mBirthDayText.clearFocus();
 			break;
+
 		}
 
 		if (intent == null) {
@@ -331,6 +334,10 @@ public class SignUpActivity extends BaseActivity implements OnClickListener,
 			showErrorDialog(R.string.password_not_match);
 			return false;
 		}
+		// if (!dateFormate()) {
+		// showErrorDialog(R.string.password_not_match);
+		// return false;
+		// }
 
 		return true;
 	}
@@ -353,13 +360,20 @@ public class SignUpActivity extends BaseActivity implements OnClickListener,
 
 		switch (v.getId()) {
 
-		// case R.id.first_name_edit_text:
-		// if (hasFocus) {
-		// mFirstnameText.setSelection(0);
-		// mFirstnameText.setHint("");
-		// mFirstnameText.setCursorVisible(true);
-		// }
-		// break;
+		case R.id.first_name_edit_text:
+			if (hasFocus) {
+				mFirstnameText.setSelection(0);
+				mFirstnameText.setHint("");
+				mFirstnameText.setCursorVisible(true);
+			}
+			break;
+
+		case R.id.birthday_edit_text:
+			if (hasFocus) {
+				getDatePickDialog().show();
+				mBirthDayText.clearFocus();
+			}
+			break;
 		//
 		// case R.id.last_name_edit_text:
 		// if (hasFocus) {
@@ -404,11 +418,12 @@ public class SignUpActivity extends BaseActivity implements OnClickListener,
 				int dayOfMonth) {
 			int currentYear = Calendar.getInstance().get(Calendar.YEAR);
 			int userAge = currentYear - year;
-			if (userAge > 16) {
-				mDateOfBirthTxt = dayOfMonth + "/" + monthOfYear + "/" + year;
+			if (userAge >= 16) {
+				mDateOfBirthTxt = monthOfYear + " / " + dayOfMonth + " / "
+						+ year;
 				mBirthDayText.setText(mDateOfBirthTxt);
-				mBirthDayText.clearFocus();
-				mCalendar.set(year, monthOfYear, dayOfMonth);
+				// mBirthDayText.clearFocus();
+				// mCalendar.set(year, monthOfYear, dayOfMonth);
 				String date = Utilities.getDateByCalendar(mCalendar);
 				PreferenceEngine.getInstance(getApplicationContext())
 						.saveBirthday(date);

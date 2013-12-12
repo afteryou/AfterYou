@@ -1,8 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-     >
+    android:layout_height="match_parent" >
 
     <include
         android:id="@+id/header_image"
@@ -14,105 +13,105 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/header_image" >
 
-        <Button
+        <TextView
             android:id="@+id/done_btn_capture_picture"
             style="@style/SignUpPageText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_centerInParent="true"
-            android:layout_marginRight="10dp"
-            android:background="@android:color/transparent"
-            android:text="@string/doneTxt" />
+            android:layout_marginRight="5dp"
+            android:padding="10dp"
+            android:text="@string/doneTxt"
+            android:textSize="18sp" />
     </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/setup_layout"
-        android:layout_width="fill_parent"
+    <TextView
+        android:id="@+id/profile_picture_id"
+        style="@style/MediumFontText"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/take_photo_layout"
-        android:orientation="vertical" >
-
-        <TextView
-            android:id="@+id/profile_picture_id"
-            style="@style/MediumFontText"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:background="@android:color/transparent"
-            android:gravity="center_horizontal"
-            android:text="@string/IDS_PROFILE_PIC_LABEL" />
-    </RelativeLayout>
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="10dp"
+        android:text="@string/IDS_PROFILE_PIC_LABEL"
+        android:textSize="26sp" />
 
     <LinearLayout
         android:id="@+id/images_overflow_id"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/setup_layout"
-        android:layout_marginLeft="15dip"
-        android:layout_marginRight="15dip"
-        android:layout_marginTop="5dip"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/profile_picture_id"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
         android:orientation="vertical"
-        android:weightSum="0.9" >
+        android:weightSum="1" >
 
         <FrameLayout
             android:id="@+id/image_setup_id"
-            android:layout_width="fill_parent"
-            android:layout_height="0px"
-            android:layout_weight="0.7" >
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.7"
+            android:background="@drawable/capture_photo_bg" >
 
             <ImageView
                 android:id="@+id/user_image"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@drawable/capture_photo_bg"
                 android:scaleType="center"
                 android:src="@drawable/capture_photo_place_holder" />
 
             <TextView
                 android:id="@+id/no_pic_id"
-                style="@style/MediumFontText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom|center_horizontal"
-                android:layout_marginBottom="25dip"
-                android:text="@string/IDS_NO_PIC_CHOSEN" />
+                android:layout_marginBottom="15dp"
+                android:text="@string/IDS_NO_PIC_CHOSEN"
+                android:textColor="@color/font_blue_color"
+                android:textSize="17sp" />
         </FrameLayout>
 
         <RelativeLayout
             android:id="@+id/image_options"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|center_horizontal"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_marginTop="10dp"
             android:layout_weight="0.3" >
 
-            <ImageButton
+            <TextView
                 android:id="@+id/facebook_import"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@android:color/transparent"
-                android:scaleType="fitCenter"
-                android:src="@drawable/fb_photo_sel" />
+                android:layout_alignParentLeft="true"
+                android:drawablePadding="5dp"
+                android:drawableTop="@drawable/facebook_voting_img"
+                android:gravity="center"
+                android:text="@string/facebook_txt"
+                android:textColor="@color/font_blue_color"
+                android:textSize="17sp" />
 
-            <ImageButton
+            <TextView
                 android:id="@+id/gallery_import"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/facebook_import"
-                android:background="@android:color/transparent"
-                android:scaleType="fitCenter"
-                android:src="@drawable/album_photo_sel" />
+                android:layout_centerHorizontal="true"
+                android:drawablePadding="5dp"
+                android:drawableTop="@drawable/album_photo_sel"
+                android:gravity="center"
+                android:text="@string/library_txt"
+                android:textColor="@color/font_blue_color"
+                android:textSize="17sp" />
 
-            <ImageButton
+            <TextView
                 android:id="@+id/edit_photo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@id/gallery_import"
-                android:background="@android:color/transparent"
-                android:scaleType="fitCenter"
-                android:src="@drawable/edit_photo_sel" />
+                android:layout_alignParentRight="true"
+                android:drawablePadding="5dp"
+                android:drawableTop="@drawable/edit_photo_sel"
+                android:text="@string/edit_txt"
+                android:textColor="@color/font_blue_color"
+                android:textSize="17sp" />
         </RelativeLayout>
     </LinearLayout>
 

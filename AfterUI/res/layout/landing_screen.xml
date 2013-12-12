@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-     >
+    android:background="@drawable/app_bg" >
 
     <include
         android:id="@+id/header_splash"
@@ -17,7 +17,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginBottom="20dp"
         android:text="@string/copy_right_text"
-        android:textColor="#6caddf"
+        android:textColor="@color/font_blue_color"
         android:textSize="15sp" />
 
     <RelativeLayout
@@ -75,8 +75,8 @@
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="15dp"
             android:text="@string/lets_sign"
-            android:textColor="#6caddf"
-            android:textSize="24sp" />
+            android:textColor="@color/font_blue_color"
+            android:textSize="27sp" />
 
         <ImageButton
             android:id="@+id/facebook_login_btn"
@@ -95,7 +95,7 @@
             android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
             android:text="@string/facebook_txt"
-            android:textColor="#6caddf"
+            android:textColor="@color/font_blue_color"
             android:textSize="18sp" />
 
         <ImageButton
@@ -117,7 +117,7 @@
             android:layout_marginTop="10dp"
             android:layout_toRightOf="@id/facebook_login_btn"
             android:text="@string/after_you_txt"
-            android:textColor="#6caddf"
+            android:textColor="@color/font_blue_color"
             android:textSize="18sp" />
     </RelativeLayout>
 

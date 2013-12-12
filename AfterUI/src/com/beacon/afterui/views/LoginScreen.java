@@ -32,7 +32,6 @@ public class LoginScreen extends BaseActivity implements OnClickListener,
 	private static final String TAG = LoginScreen.class.getSimpleName();
 
 	private TextView mLoginButton;
-	private TextView mSignUpBtn;
 
 	private ImageView mCrossEmailBtn;
 
@@ -59,17 +58,17 @@ public class LoginScreen extends BaseActivity implements OnClickListener,
 		setBehindRightContentView(R.layout.login_screen);
 
 		mLoginButton = (TextView) findViewById(R.id.sign_in_btn_login_screen);
-		mSignUpBtn = (TextView) findViewById(R.id.sign_up_btn_login_screen);
 		mCrossEmailBtn = (ImageView) findViewById(R.id.cross_btn_email_login_screen);
 		mCrossPasswordBtn = (ImageView) findViewById(R.id.cross_btn_password_login_screen);
 		mEmailText = (EditText) findViewById(R.id.email_text);
 		mPasswordText = (EditText) findViewById(R.id.password_text);
 
 		Typeface typeFace = Typeface.createFromAsset(getAssets(),
-				"fonts/MyriadPro-Regular.otf");
+				"fonts/ITCAvantGardeStd-Bk.otf");
 
 		mEmailText.setTypeface(typeFace);
 		mPasswordText.setTypeface(typeFace);
+		mLoginButton.setTypeface(typeFace);
 
 		if (isTest) {
 			// TODO remove this, it is for testing
@@ -80,7 +79,6 @@ public class LoginScreen extends BaseActivity implements OnClickListener,
 		mCrossEmailBtn.setOnClickListener(this);
 		mCrossPasswordBtn.setOnClickListener(this);
 		mLoginButton.setOnClickListener(this);
-		mSignUpBtn.setOnClickListener(this);
 	}
 
 	@Override
@@ -107,11 +105,7 @@ public class LoginScreen extends BaseActivity implements OnClickListener,
 		switch (v.getId()) {
 		case R.id.sign_in_btn_login_screen:
 			handleSignInButton();
-			break;
-
-		case R.id.sign_up_btn_login_screen:
-			intent = new Intent(LoginScreen.this, SignUpActivity.class);
-			AnalyticsUtils.logButtonPressEvent(this, "sign up button", -1);
+			AnalyticsUtils.logButtonPressEvent(this, "sign in button", -1);
 			break;
 
 		case R.id.cross_btn_email_login_screen:
@@ -125,12 +119,6 @@ public class LoginScreen extends BaseActivity implements OnClickListener,
 		}
 		if (intent == null) {
 			return;
-		}
-
-		try {
-			startActivity(intent);
-		} catch (ActivityNotFoundException e) {
-			Log.e(TAG, " Activity not found : " + e.getMessage());
 		}
 	}
 
@@ -160,13 +148,9 @@ public class LoginScreen extends BaseActivity implements OnClickListener,
 		AnalyticsUtils.logButtonPressEvent(this, "login-"
 				+ mEmailText.getText().toString(), -1);
 
-		// Intent intent = new Intent(LoginScreen.this,
-		// CapturePictureActivity.class);
+		Intent intent = new Intent(LoginScreen.this, SignUpActivity.class);
 		try {
-			// startActivity(intent);
-			Toast.makeText(getApplicationContext(),
-					"If already registered goto main landing page.",
-					Toast.LENGTH_LONG).show();
+			startActivity(intent);
 		} catch (ActivityNotFoundException e) {
 			Log.e(TAG, " Activity not found : " + e.getMessage());
 		}

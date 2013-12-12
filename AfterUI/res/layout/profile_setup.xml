@@ -1,8 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-     >
+    android:layout_height="match_parent" >
 
     <include
         android:id="@+id/include1"
@@ -14,13 +13,10 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_below="@id/include1"
-        android:layout_marginBottom="2dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp"
-        android:paddingRight="8dp"
+        android:padding="10dp"
         android:text="@string/doneTxt"
         android:textColor="@color/font_blue_color"
-        android:textSize="20sp" />
+        android:textSize="@dimen/profile_setting_font" />
 
     <ScrollView
         android:layout_width="fill_parent"
@@ -40,7 +36,7 @@
                 android:layout_marginTop="30dp"
                 android:text="@string/about_txt"
                 android:textColor="@color/font_blue_color"
-                android:textSize="18sp" />
+                android:textSize="22sp" />
 
             <ImageView
                 android:id="@+id/star_img"
@@ -87,7 +83,8 @@
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
                             android:layout_marginRight="10dp"
-                            android:paddingRight="10dp" >
+                            android:paddingRight="10dp"
+                            android:textSize="@dimen/profile_setting_font" >
                         </TextView>
 
                         <TextView
@@ -98,7 +95,8 @@
                             android:layout_alignParentLeft="true"
                             android:layout_centerVertical="true"
                             android:paddingLeft="10dp"
-                            android:text="@string/birth_day_text" />
+                            android:text="@string/birth_day_text"
+                            android:textSize="@dimen/profile_setting_font" />
 
                         <ImageView
                             android:layout_width="wrap_content"
@@ -152,7 +150,8 @@
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
                             android:layout_marginRight="10dp"
-                            android:paddingRight="10dp" >
+                            android:paddingRight="10dp"
+                            android:textSize="@dimen/profile_setting_font" >
                         </TextView>
 
                         <TextView
@@ -162,7 +161,8 @@
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:paddingLeft="10dp"
-                            android:text="@string/religion_label" />
+                            android:text="@string/religion_label"
+                            android:textSize="@dimen/profile_setting_font" />
 
                         <ImageView
                             android:layout_width="wrap_content"
@@ -216,7 +216,8 @@
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
                             android:layout_marginRight="10dp"
-                            android:paddingRight="10dp" >
+                            android:paddingRight="10dp"
+                            android:textSize="@dimen/profile_setting_font" >
                         </TextView>
 
                         <TextView
@@ -226,7 +227,8 @@
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:paddingLeft="10dp"
-                            android:text="@string/relation_label" />
+                            android:text="@string/relation_label"
+                            android:textSize="@dimen/profile_setting_font" />
 
                         <ImageView
                             android:layout_width="wrap_content"
@@ -280,7 +282,8 @@
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
                             android:layout_marginRight="10dp"
-                            android:paddingRight="10dp" >
+                            android:paddingRight="10dp"
+                            android:textSize="@dimen/profile_setting_font" >
                         </TextView>
 
                         <TextView
@@ -290,7 +293,8 @@
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:paddingLeft="10dp"
-                            android:text="@string/havechild_label" />
+                            android:text="@string/havechild_label"
+                            android:textSize="@dimen/profile_setting_font" />
                     </RelativeLayout>
 
                     <FrameLayout
@@ -336,7 +340,8 @@
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
                             android:layout_marginRight="10dp"
-                            android:paddingRight="10dp" >
+                            android:paddingRight="10dp"
+                            android:textSize="@dimen/profile_setting_font" >
                         </TextView>
 
                         <TextView
@@ -346,7 +351,8 @@
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:paddingLeft="10dp"
-                            android:text="@string/wantchild_label" />
+                            android:text="@string/wantchild_label"
+                            android:textSize="@dimen/profile_setting_font" />
                     </RelativeLayout>
 
                     <FrameLayout
@@ -391,7 +397,8 @@
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:paddingLeft="10dp"
-                            android:text="@string/languages_label" />
+                            android:text="@string/languages_label"
+                            android:textSize="@dimen/profile_setting_font" />
 
                         <TextView
                             android:id="@+id/languages_edit_text"
@@ -401,7 +408,8 @@
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
                             android:paddingLeft="110dp"
-                            android:paddingRight="10dp" >
+                            android:paddingRight="10dp"
+                            android:textSize="@dimen/profile_setting_font" >
                         </TextView>
                     </RelativeLayout>
 
@@ -448,7 +456,8 @@
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
                             android:layout_marginRight="10dp"
-                            android:paddingRight="10dp" >
+                            android:paddingRight="10dp"
+                            android:textSize="@dimen/profile_setting_font" >
                         </TextView>
 
                         <TextView
@@ -457,7 +466,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
-                            android:layout_toLeftOf="@id/height_inches" >
+                            android:layout_toLeftOf="@id/height_inches"
+                            android:textSize="@dimen/profile_setting_font" >
                         </TextView>
 
                         <TextView
@@ -467,7 +477,8 @@
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:paddingLeft="10dp"
-                            android:text="@string/height_label" />
+                            android:text="@string/height_label"
+                            android:textSize="@dimen/profile_setting_font" />
                     </RelativeLayout>
 
                     <FrameLayout
@@ -513,7 +524,8 @@
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
                             android:layout_marginRight="10dp"
-                            android:paddingRight="10dp" >
+                            android:paddingRight="10dp"
+                            android:textSize="@dimen/profile_setting_font" >
                         </TextView>
 
                         <TextView
@@ -523,7 +535,8 @@
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:paddingLeft="10dp"
-                            android:text="@string/bodyType_label" />
+                            android:text="@string/bodyType_label"
+                            android:textSize="@dimen/profile_setting_font" />
                     </RelativeLayout>
 
                     <FrameLayout
@@ -569,7 +582,8 @@
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
                             android:layout_marginRight="10dp"
-                            android:paddingRight="10dp" >
+                            android:paddingRight="10dp"
+                            android:textSize="@dimen/profile_setting_font" >
                         </TextView>
 
                         <TextView
@@ -579,7 +593,8 @@
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:paddingLeft="10dp"
-                            android:text="@string/comm_label" />
+                            android:text="@string/comm_label"
+                            android:textSize="@dimen/profile_setting_font" />
                     </RelativeLayout>
 
                     <FrameLayout
@@ -625,7 +640,8 @@
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
                             android:layout_marginRight="10dp"
-                            android:paddingRight="10dp" >
+                            android:paddingRight="10dp"
+                            android:textSize="@dimen/profile_setting_font" >
                         </TextView>
 
                         <TextView
@@ -635,7 +651,8 @@
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:paddingLeft="10dp"
-                            android:text="@string/diet_label" />
+                            android:text="@string/diet_label"
+                            android:textSize="@dimen/profile_setting_font" />
                     </RelativeLayout>
 
                     <FrameLayout
@@ -681,7 +698,8 @@
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
                             android:layout_marginRight="10dp"
-                            android:paddingRight="10dp" >
+                            android:paddingRight="10dp"
+                            android:textSize="@dimen/profile_setting_font" >
                         </TextView>
 
                         <TextView
@@ -691,7 +709,8 @@
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:paddingLeft="10dp"
-                            android:text="@string/smoke_label" />
+                            android:text="@string/smoke_label"
+                            android:textSize="@dimen/profile_setting_font" />
                     </RelativeLayout>
 
                     <FrameLayout
@@ -737,7 +756,8 @@
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
                             android:layout_marginRight="10dp"
-                            android:paddingRight="10dp" >
+                            android:paddingRight="10dp"
+                            android:textSize="@dimen/profile_setting_font" >
                         </TextView>
 
                         <TextView
@@ -747,7 +767,8 @@
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:paddingLeft="10dp"
-                            android:text="@string/drink_label" />
+                            android:text="@string/drink_label"
+                            android:textSize="@dimen/profile_setting_font" />
                     </RelativeLayout>
 
                     <FrameLayout
@@ -793,7 +814,8 @@
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
                             android:layout_marginRight="10dp"
-                            android:paddingRight="10dp" >
+                            android:paddingRight="10dp"
+                            android:textSize="@dimen/profile_setting_font" >
                         </TextView>
 
                         <TextView
@@ -803,7 +825,8 @@
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:paddingLeft="10dp"
-                            android:text="@string/IDS_Education_Label" />
+                            android:text="@string/IDS_Education_Label"
+                            android:textSize="@dimen/profile_setting_font" />
                     </RelativeLayout>
 
                     <FrameLayout
@@ -849,7 +872,8 @@
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
                             android:layout_marginRight="10dp"
-                            android:paddingRight="10dp" >
+                            android:paddingRight="10dp"
+                            android:textSize="@dimen/profile_setting_font" >
                         </TextView>
 
                         <TextView
@@ -859,7 +883,8 @@
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:paddingLeft="10dp"
-                            android:text="@string/IDS_Salary_Label" />
+                            android:text="@string/IDS_Salary_Label"
+                            android:textSize="@dimen/profile_setting_font" />
                     </RelativeLayout>
 
                     <FrameLayout
@@ -896,8 +921,8 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="30dp"
                 android:text="@string/your_ideal_txt"
-                android:textColor="@color/profile_setup_blue_color"
-                android:textSize="18sp" />
+                android:textColor="@color/font_blue_color"
+                android:textSize="22sp" />
 
             <RelativeLayout
                 android:layout_width="wrap_content"
@@ -925,7 +950,8 @@
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
                             android:layout_marginRight="10dp"
-                            android:paddingRight="10dp" >
+                            android:paddingRight="10dp"
+                            android:textSize="@dimen/profile_setting_font" >
                         </TextView>
 
                         <TextView
@@ -935,7 +961,8 @@
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:paddingLeft="10dp"
-                            android:text="@string/IDS_AgeRange_Label" />
+                            android:text="@string/IDS_AgeRange_Label"
+                            android:textSize="@dimen/profile_setting_font" />
                     </RelativeLayout>
 
                     <FrameLayout
@@ -981,7 +1008,8 @@
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
                             android:layout_marginRight="10dp"
-                            android:paddingRight="10dp" >
+                            android:paddingRight="10dp"
+                            android:textSize="@dimen/profile_setting_font" >
                         </TextView>
 
                         <TextView
@@ -991,7 +1019,8 @@
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:paddingLeft="10dp"
-                            android:text="@string/religion_label" />
+                            android:text="@string/religion_label"
+                            android:textSize="@dimen/profile_setting_font" />
                     </RelativeLayout>
 
                     <FrameLayout
@@ -1037,7 +1066,8 @@
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
                             android:layout_marginRight="10dp"
-                            android:paddingRight="10dp" >
+                            android:paddingRight="10dp"
+                            android:textSize="@dimen/profile_setting_font" >
                         </TextView>
 
                         <TextView
@@ -1047,7 +1077,8 @@
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:paddingLeft="10dp"
-                            android:text="@string/relation_label" />
+                            android:text="@string/relation_label"
+                            android:textSize="@dimen/profile_setting_font" />
                     </RelativeLayout>
 
                     <FrameLayout
@@ -1093,7 +1124,8 @@
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
                             android:layout_marginRight="10dp"
-                            android:paddingRight="10dp" >
+                            android:paddingRight="10dp"
+                            android:textSize="@dimen/profile_setting_font" >
                         </TextView>
 
                         <TextView
@@ -1103,7 +1135,8 @@
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:paddingLeft="10dp"
-                            android:text="@string/havechild_label" />
+                            android:text="@string/havechild_label"
+                            android:textSize="@dimen/profile_setting_font" />
                     </RelativeLayout>
 
                     <FrameLayout
@@ -1149,7 +1182,8 @@
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
                             android:layout_marginRight="10dp"
-                            android:paddingRight="10dp" >
+                            android:paddingRight="10dp"
+                            android:textSize="@dimen/profile_setting_font" >
                         </TextView>
 
                         <TextView
@@ -1159,7 +1193,8 @@
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:paddingLeft="10dp"
-                            android:text="@string/wantchild_label" />
+                            android:text="@string/wantchild_label"
+                            android:textSize="@dimen/profile_setting_font" />
                     </RelativeLayout>
 
                     <FrameLayout
@@ -1201,7 +1236,8 @@
                         android:layout_alignParentLeft="true"
                         android:layout_centerVertical="true"
                         android:paddingLeft="10dp"
-                        android:text="@string/languages_label" />
+                        android:text="@string/languages_label"
+                        android:textSize="@dimen/profile_setting_font" />
 
                     <TextView
                         android:id="@+id/match_languages_edit_text"
@@ -1211,7 +1247,8 @@
                         android:layout_alignParentRight="true"
                         android:layout_centerVertical="true"
                         android:layout_toRightOf="@id/match_languages_label_txt"
-                        android:paddingRight="10dp" >
+                        android:paddingRight="10dp"
+                        android:textSize="@dimen/profile_setting_font" >
                     </TextView>
                 </RelativeLayout>
 
@@ -1234,7 +1271,8 @@
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
                             android:layout_marginRight="10dp"
-                            android:paddingRight="10dp" >
+                            android:paddingRight="10dp"
+                            android:textSize="@dimen/profile_setting_font" >
                         </TextView>
 
                         <TextView
@@ -1243,7 +1281,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
-                            android:layout_toLeftOf="@id/match_height_inches" >
+                            android:layout_toLeftOf="@id/match_height_inches"
+                            android:textSize="@dimen/profile_setting_font" >
                         </TextView>
 
                         <TextView
@@ -1253,7 +1292,8 @@
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:paddingLeft="10dp"
-                            android:text="@string/height_label" />
+                            android:text="@string/height_label"
+                            android:textSize="@dimen/profile_setting_font" />
                     </RelativeLayout>
 
                     <FrameLayout
@@ -1299,7 +1339,8 @@
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
                             android:layout_marginRight="10dp"
-                            android:paddingRight="10dp" >
+                            android:paddingRight="10dp"
+                            android:textSize="@dimen/profile_setting_font" >
                         </TextView>
 
                         <TextView
@@ -1309,7 +1350,8 @@
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:paddingLeft="10dp"
-                            android:text="@string/bodyType_label" />
+                            android:text="@string/bodyType_label"
+                            android:textSize="@dimen/profile_setting_font" />
                     </RelativeLayout>
 
                     <FrameLayout
@@ -1355,7 +1397,8 @@
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
                             android:layout_marginRight="10dp"
-                            android:paddingRight="10dp" >
+                            android:paddingRight="10dp"
+                            android:textSize="@dimen/profile_setting_font" >
                         </TextView>
 
                         <TextView
@@ -1365,7 +1408,8 @@
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:paddingLeft="10dp"
-                            android:text="@string/comm_label" />
+                            android:text="@string/comm_label"
+                            android:textSize="@dimen/profile_setting_font" />
                     </RelativeLayout>
 
                     <FrameLayout
@@ -1411,7 +1455,8 @@
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
                             android:layout_marginRight="10dp"
-                            android:paddingRight="10dp" >
+                            android:paddingRight="10dp"
+                            android:textSize="@dimen/profile_setting_font" >
                         </TextView>
 
                         <TextView
@@ -1421,7 +1466,8 @@
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:paddingLeft="10dp"
-                            android:text="@string/diet_label" />
+                            android:text="@string/diet_label"
+                            android:textSize="@dimen/profile_setting_font" />
                     </RelativeLayout>
 
                     <FrameLayout
@@ -1467,7 +1513,8 @@
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
                             android:layout_marginRight="10dp"
-                            android:paddingRight="10dp" >
+                            android:paddingRight="10dp"
+                            android:textSize="@dimen/profile_setting_font" >
                         </TextView>
 
                         <TextView
@@ -1477,7 +1524,8 @@
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:paddingLeft="10dp"
-                            android:text="@string/smoke_label" />
+                            android:text="@string/smoke_label"
+                            android:textSize="@dimen/profile_setting_font" />
                     </RelativeLayout>
 
                     <FrameLayout
@@ -1523,7 +1571,8 @@
                             android:layout_alignParentRight="true"
                             android:layout_centerVertical="true"
                             android:layout_marginRight="10dp"
-                            android:paddingRight="10dp" >
+                            android:paddingRight="10dp"
+                            android:textSize="@dimen/profile_setting_font" >
                         </TextView>
 
                         <TextView
@@ -1533,7 +1582,8 @@
                             android:layout_height="wrap_content"
                             android:layout_centerVertical="true"
                             android:paddingLeft="10dp"
-                            android:text="@string/drink_label" />
+                            android:text="@string/drink_label"
+                            android:textSize="@dimen/profile_setting_font" />
                     </RelativeLayout>
 
                     <FrameLayout
