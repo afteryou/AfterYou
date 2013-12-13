@@ -1,12 +1,16 @@
 package com.beacon.afterui.sliding.fragment;
 
+import java.util.ArrayList;
+
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.res.Configuration;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -110,6 +114,52 @@ public class FriendListFragment extends Fragment implements OnClickListener,
 		}
 
 	}
+	
+	class PhoneContactInfo
+	{
+		String phoneContactNumber, phoneContactName;
+		int phoneContactID;
+		
+		public PhoneContactInfo(int id,String name,String number)
+		{
+			this.phoneContactNumber = number;
+			this.phoneContactID = id;
+			this.phoneContactName = name;
+		}
+		
+		public int getPhoneContactID()
+		{
+			return phoneContactID;
+		}
+		
+		public String getPhoneContactNumber()
+		{
+			return phoneContactNumber;
+		}
+		
+		public String getPhoneContactName()
+		{
+			return phoneContactName;
+		}
+	}
+	
+	private ArrayList<PhoneContactInfo> getPhoneContacts()
+	{
+		PhoneContactInfo phoneContactInfo = null;
+		ArrayList<PhoneContactInfo> contacts = new ArrayList<PhoneContactInfo>();
+		Cursor cursor = getActivity().getContentResolver().query(ContactsContract.CommonDataKinds.Phone.CONTENT_URI, new String[]{ContactsContract.CommonDataKinds.Phone.NUMBER,ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,ContactsContract.CommonDataKinds.Phone._ID} , null, null,ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME+" ASC");
+		cursor.moveToFirst();
+		while(cursor.isAfterLast()  == false)
+		{
+			int contactID = cursor.getInt(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone._ID));
+			String contactName = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME));
+			String contactNumber = cursor.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
+			phoneContactInfo = new PhoneContactInfo(contactID, contactName, contactNumber);
+			contacts.add(phoneContactInfo);
+			cursor.moveToNext();
+		}
+		return contacts;
+	}
 
 	@Override
 	public void onClick(View v) {
@@ -129,12 +179,12 @@ public class FriendListFragment extends Fragment implements OnClickListener,
 			mButtonId = 1;
 			break;
 		case R.id.contacts_btn:
-			mFriendName = new String[] { "Rajiv", "Sonia", "Priyanka", "Rahul" };
+//			mFriendName = getPhoneContacts();
 			mFriendImage = new int[] { R.drawable.chat_person_placeholder,
 					R.drawable.chat_person_placeholder,
 					R.drawable.chat_person_placeholder,
 					R.drawable.chat_person_placeholder };
-			mFriendList.setAdapter(new FriendListAdapter(mFriendName,
+			mFriendList.setAdapter(new FriendListAdapter(getPhoneContacts(),
 					mFriendImage));
 			mButtonId = 2;
 
@@ -171,19 +221,33 @@ public class FriendListFragment extends Fragment implements OnClickListener,
 	private class FriendListAdapter extends BaseAdapter {
 		private String[] friendName;
 		private int[] image;
+		private ArrayList<PhoneContactInfo> contactInfo;
 
 		public FriendListAdapter(String[] list, int[] userImage) {
 			this.friendName = list;
 			image = userImage;
 		}
+		
+		public FriendListAdapter(ArrayList<PhoneContactInfo> contactInfo, int[] userImage) {
+			this.contactInfo = contactInfo;
+			image = userImage;
+		}
 
 		@Override
 		public int getCount() {
+			if(contactInfo != null)
+			{
+				return contactInfo.size();
+			}
 			return friendName.length;
 		}
 
 		@Override
 		public Object getItem(int position) {
+			if(contactInfo != null)
+			{
+				return contactInfo.get(position);
+			}
 			return friendName[position];
 		}
 
@@ -210,8 +274,14 @@ public class FriendListFragment extends Fragment implements OnClickListener,
 			} else {
 				holder = (ViewHolder) view.getTag();
 			}
-
-			holder.userName.setText(friendName[position]);
+			
+			if(contactInfo != null)
+			{
+				holder.userName.setText(contactInfo.get(position).getPhoneContactName());
+			}
+			else{
+				holder.userName.setText(friendName[position]);
+			}
 			holder.userName.setTextColor(mContext.getResources().getColor(
 					R.color.brown_background));
 			holder.userName.setTextSize(16f);
