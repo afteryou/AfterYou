@@ -15,7 +15,8 @@
             android:id="@+id/dollar_amt_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center" />
+            android:layout_gravity="center"
+            android:textColor="@android:color/white" />
     </FrameLayout>
 
     <TextView
@@ -23,18 +24,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_toRightOf="@id/dollar_amt"
         android:layout_marginLeft="15dp"
-         />
-    
-        <TextView
+        android:layout_toRightOf="@id/dollar_amt"
+        android:textColor="@color/font_blue_color" />
+
+    <TextView
         android:id="@+id/buy_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:layout_marginRight="15dp"
-        android:layout_alignParentRight="true"
         android:text="@string/buy_text"
-         />
+        android:textColor="@color/font_blue_color" />
 
 </RelativeLayout>

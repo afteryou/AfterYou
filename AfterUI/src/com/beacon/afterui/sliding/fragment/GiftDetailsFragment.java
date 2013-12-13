@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
 import android.app.Fragment;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,129 +18,155 @@ import com.beacon.afterui.constants.CommonConstants;
 import com.beacon.afterui.views.MainActivity;
 
 public class GiftDetailsFragment extends Fragment implements FragmentLifecycle,
-        ISearchFunction, OnClickListener {
+		ISearchFunction, OnClickListener {
 
-    /** TAG */
-    private static final String TAG = GiftDetailsFragment.class.getSimpleName();
+	/** TAG */
+	private static final String TAG = GiftDetailsFragment.class.getSimpleName();
 
-    private Button mDoneButton;
-    private Button mCancelButton;
+	private Button mDoneButton;
+	private Button mCancelButton;
 
-    private boolean isBacking;
+	private boolean isBacking;
 
-    private View mSendGiftPopup;
-    private TextView mSendGiftTextView;
-    private TextView mSendMessageWithGiftTextView;
+	private View mSendGiftPopup;
+	private TextView mSendGiftTextView;
+	private TextView mSendMessageWithGiftTextView;
 
-    private View mBuyPointsPopUp;
-    private TextView mBuyPointsButton;
+	private TextView mGiftName;
+	private TextView mGiftPoints;
+	private TextView mDateText;
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+	private View mBuyPointsPopUp;
+	private TextView mBuyPointsButton;
+	private Typeface mTypeFace;
 
-        View view = inflater.inflate(R.layout.gift_details_screen, null, false);
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
 
-        mDoneButton = (Button) view.findViewById(R.id.gift_details_done_button);
-        mCancelButton = (Button) view
-                .findViewById(R.id.gift_details_cancel_button);
+		View view = inflater.inflate(R.layout.gift_details_screen, null, false);
+		mTypeFace = Typeface.createFromAsset(getActivity().getAssets(),
+				"fonts/ITCAvantGardeStd-Bk.otf");
 
-        mSendGiftPopup = view.findViewById(R.id.send_gift_pop_up);
-        mSendGiftTextView = (TextView) view.findViewById(R.id.send_gift);
-        mSendMessageWithGiftTextView = (TextView) view
-                .findViewById(R.id.send_message_with_gift);
+		mGiftName = (TextView) view.findViewById(R.id.gift_name);
+		mGiftName.setTypeface(mTypeFace);
 
-        mSendGiftTextView.setOnClickListener(this);
-        mSendMessageWithGiftTextView.setOnClickListener(this);
+		mGiftPoints = (TextView) view.findViewById(R.id.number_of_points);
+		mGiftPoints.setTypeface(mTypeFace);
 
-        mBuyPointsPopUp = view.findViewById(R.id.buy_points_pop_up);
-        mBuyPointsButton = (TextView) view.findViewById(R.id.buy_points);
-        mBuyPointsButton.setOnClickListener(this);
+		mDateText = (TextView) view.findViewById(R.id.date_txt);
+		mDateText.setTypeface(mTypeFace);
 
-        mDoneButton.setOnClickListener(this);
-        mCancelButton.setOnClickListener(this);
+		mDoneButton = (Button) view.findViewById(R.id.gift_details_done_button);
+		mCancelButton = (Button) view
+				.findViewById(R.id.gift_details_cancel_button);
 
-        return view;
-    }
+		mDoneButton.setTypeface(mTypeFace);
+		mCancelButton.setTypeface(mTypeFace);
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        mSendGiftPopup.setVisibility(View.GONE);
-        mBuyPointsPopUp.setVisibility(View.GONE);
-    }
+		mSendGiftPopup = view.findViewById(R.id.send_gift_pop_up);
+		mSendGiftTextView = (TextView) view.findViewById(R.id.send_gift);
+		mSendMessageWithGiftTextView = (TextView) view
+				.findViewById(R.id.send_message_with_gift);
+		mSendMessageWithGiftTextView.setTypeface(mTypeFace);
+		mSendGiftTextView.setTypeface(mTypeFace);
 
-    @Override
-    public void doSearch(int type, SearchParams params) {
+		mSendGiftTextView.setOnClickListener(this);
+		mSendMessageWithGiftTextView.setOnClickListener(this);
 
-    }
+		mBuyPointsPopUp = view.findViewById(R.id.buy_points_pop_up);
+		mBuyPointsButton = (TextView) view.findViewById(R.id.buy_points);
+		mBuyPointsButton.setOnClickListener(this);
+		mBuyPointsButton.setTypeface(mTypeFace);
 
-    @Override
-    public void onFragmentPause() {
+		TextView not_enough_points = (TextView) view
+				.findViewById(R.id.not_enough_points);
+		not_enough_points.setTypeface(mTypeFace);
 
-    }
+		mDoneButton.setOnClickListener(this);
+		mCancelButton.setOnClickListener(this);
 
-    @Override
-    public void onFragmentResume() {
+		return view;
+	}
 
-    }
+	@Override
+	public void onResume() {
+		super.onResume();
+		mSendGiftPopup.setVisibility(View.GONE);
+		mBuyPointsPopUp.setVisibility(View.GONE);
+	}
 
-    @Override
-    public boolean onBack() {
-        if (!isBacking) {
-            isBacking = true;
-            ((MainActivity) getActivity()).updateToMainScreenActionBar();
-            applyBackAnimation();
-        }
-        return true;
-    }
+	@Override
+	public void doSearch(int type, SearchParams params) {
 
-    private void applyBackAnimation() {
-        AnimatorSet fideOutMap = new AnimatorSet();
-        fideOutMap.setDuration(250);
-        fideOutMap.addListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator anim) {
-                FragmentHelper.popFragment(getActivity());
-                isBacking = false;
-            }
-        });
+	}
 
-        fideOutMap.start();
-    }
+	@Override
+	public void onFragmentPause() {
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-        case R.id.gift_details_done_button:
-            mSendGiftPopup.setVisibility(View.VISIBLE);
-            break;
+	}
 
-        case R.id.gift_details_cancel_button:
-            onBack();
-            break;
+	@Override
+	public void onFragmentResume() {
 
-        case R.id.send_gift:
-            mSendGiftPopup.setVisibility(View.GONE);
-            mBuyPointsPopUp.setVisibility(View.VISIBLE);
-            break;
+	}
 
-        case R.id.send_message_with_gift:
-            mSendGiftPopup.setVisibility(View.GONE);
-            mBuyPointsPopUp.setVisibility(View.VISIBLE);
-            break;
-            
-        case R.id.buy_points:
-            launchBuyGiftFragment();
-            break;
-        }
-    }
+	@Override
+	public boolean onBack() {
+		if (!isBacking) {
+			isBacking = true;
+			((MainActivity) getActivity()).updateToMainScreenActionBar();
+			applyBackAnimation();
+		}
+		return true;
+	}
 
-    private void launchBuyGiftFragment() {
-        Fragment detail = new GiftsBuyFragment();
-        Bundle bundle = new Bundle();
-        bundle.putInt(CommonConstants.BundleKey.GIFT_ID, 1);
-        FragmentHelper.gotoFragment(getActivity(), GiftDetailsFragment.this,
-                detail, bundle);
-    }
+	private void applyBackAnimation() {
+		AnimatorSet fideOutMap = new AnimatorSet();
+		fideOutMap.setDuration(250);
+		fideOutMap.addListener(new AnimatorListenerAdapter() {
+			@Override
+			public void onAnimationEnd(Animator anim) {
+				FragmentHelper.popFragment(getActivity());
+				isBacking = false;
+			}
+		});
+
+		fideOutMap.start();
+	}
+
+	@Override
+	public void onClick(View v) {
+		switch (v.getId()) {
+		case R.id.gift_details_done_button:
+			mSendGiftPopup.setVisibility(View.VISIBLE);
+			break;
+
+		case R.id.gift_details_cancel_button:
+			onBack();
+			break;
+
+		case R.id.send_gift:
+			mSendGiftPopup.setVisibility(View.GONE);
+			mBuyPointsPopUp.setVisibility(View.VISIBLE);
+			break;
+
+		case R.id.send_message_with_gift:
+			mSendGiftPopup.setVisibility(View.GONE);
+			mBuyPointsPopUp.setVisibility(View.VISIBLE);
+			break;
+
+		case R.id.buy_points:
+			launchBuyGiftFragment();
+			break;
+		}
+	}
+
+	private void launchBuyGiftFragment() {
+		Fragment detail = new GiftsBuyFragment();
+		Bundle bundle = new Bundle();
+		bundle.putInt(CommonConstants.BundleKey.GIFT_ID, 1);
+		FragmentHelper.gotoFragment(getActivity(), GiftDetailsFragment.this,
+				detail, bundle);
+	}
 }

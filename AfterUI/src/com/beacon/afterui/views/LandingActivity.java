@@ -40,17 +40,17 @@ public class LandingActivity extends BaseActivity implements OnClickListener {
 	/** TAG */
 	private static final String TAG = LandingActivity.class.getSimpleName();
 
-	private static ImageView sAfterYouLoginBtn;
+	private static TextView sAfterYouLoginBtn;
 
 	private static final int SPLASH_END = 1;
 	private static final int START_SPINNER = 2;
 	private static final int STOP_SPINNER = 3;
 
-	private static final int SPALSH_VISIBLE_TIME = 2000;
+	private static final int SPALSH_VISIBLE_TIME = 3000;
 
 	private SplashHandler mSplashHandler;
 
-	private ImageButton mFacebookLogin;
+	private TextView mFacebookLogin;
 
 	private Context ctx;
 
@@ -86,12 +86,10 @@ public class LandingActivity extends BaseActivity implements OnClickListener {
 		mHeaderView = findViewById(R.id.header_splash);
 		mCenterLayout = findViewById(R.id.center_layout);
 		user_inter = (RelativeLayout) findViewById(R.id.user_but_id);
-		sAfterYouLoginBtn = (ImageView) findViewById(R.id.after_you_login_btn);
-		mFacebookLogin = (ImageButton) findViewById(R.id.facebook_login_btn);
+		sAfterYouLoginBtn = (TextView) findViewById(R.id.after_you_login_btn);
+		mFacebookLogin = (TextView) findViewById(R.id.facebook_login_btn);
 
 		TextView lets_sign_txt = (TextView) findViewById(R.id.lets_sign_txt);
-		TextView facebook_txt = (TextView) findViewById(R.id.facebook_txt);
-		TextView after_you_txt = (TextView) findViewById(R.id.after_you_txt);
 
 		sAfterYouLoginBtn.setOnClickListener(this);
 		mFacebookLogin.setOnClickListener(this);
@@ -103,8 +101,8 @@ public class LandingActivity extends BaseActivity implements OnClickListener {
 
 		copyRightTextView.setTypeface(typeFace);
 		lets_sign_txt.setTypeface(typeFace);
-		facebook_txt.setTypeface(typeFace);
-		after_you_txt.setTypeface(typeFace);
+		sAfterYouLoginBtn.setTypeface(typeFace);
+		mFacebookLogin.setTypeface(typeFace);
 
 		Settings.addLoggingBehavior(LoggingBehavior.INCLUDE_ACCESS_TOKENS);
 

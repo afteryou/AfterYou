@@ -50,7 +50,7 @@
 
     <!-- Capture Screen -->
     <string name="take_photo_txt">Take Photo</string>
-    <string name="cancelTxt">Cancel</string>
+    <string name="cancelTxt">cancel</string>
     <string name="IDS_PROFILE_PIC_LABEL">Profile Pic Setup</string>
     <string name="IDS_NO_PIC_CHOSEN">No Picture has Been Chosen.</string>
     <string name="doneTxt">done</string>

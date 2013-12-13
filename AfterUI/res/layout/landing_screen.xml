@@ -78,44 +78,31 @@
             android:textColor="@color/font_blue_color"
             android:textSize="27sp" />
 
-        <ImageButton
+        <TextView
             android:id="@+id/facebook_login_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/lets_sign_txt"
             android:layout_marginLeft="10dp"
-            android:background="@drawable/circle_btn"
-            android:src="@drawable/facebook_logo" />
-
-        <TextView
-            android:id="@+id/facebook_txt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/facebook_login_btn"
-            android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
+            android:drawablePadding="5dp"
+            android:drawableTop="@drawable/facebook_voting_img"
+            android:gravity="center"
             android:text="@string/facebook_txt"
             android:textColor="@color/font_blue_color"
             android:textSize="18sp" />
 
-        <ImageButton
+        <TextView
             android:id="@+id/after_you_login_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@id/lets_sign_txt"
-            android:layout_marginLeft="30dp"
-            android:layout_toRightOf="@id/facebook_login_btn"
-            android:background="@drawable/circle_btn"
-            android:src="@drawable/after_you_logo" />
-
-        <TextView
-            android:id="@+id/after_you_txt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/after_you_login_btn"
-            android:layout_marginLeft="35dp"
+            android:layout_marginLeft="40dp"
             android:layout_marginTop="10dp"
             android:layout_toRightOf="@id/facebook_login_btn"
+            android:drawablePadding="5dp"
+            android:drawableTop="@drawable/after_you_voting_img"
+            android:gravity="center"
             android:text="@string/after_you_txt"
             android:textColor="@color/font_blue_color"
             android:textSize="18sp" />

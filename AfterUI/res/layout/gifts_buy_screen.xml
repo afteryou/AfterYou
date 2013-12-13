@@ -7,12 +7,14 @@
     <Button
         android:id="@+id/gifts_buy_cancel_button"
         android:layout_width="match_parent"
-        android:layout_height="32dp"
+        android:layout_height="40dp"
         android:layout_alignParentTop="true"
         android:background="@drawable/text_selected_states"
         android:gravity="center_vertical"
         android:paddingLeft="20dp"
-        android:text="@string/cancelTxt" />
+        android:text="@string/cancelTxt"
+        android:textColor="@color/font_blue_color"
+        android:textSize="18sp" />
 
     <ImageView
         android:id="@+id/divider_one"
@@ -38,7 +40,9 @@
         android:layout_alignLeft="@id/points_gifts"
         android:layout_below="@id/points_gifts"
         android:layout_marginLeft="17dp"
-        android:text="@string/points" />
+        android:text="@string/points"
+        android:textColor="@color/font_blue_color"
+        android:textSize="14sp" />
 
     <TextView
         android:id="@+id/text_gifts"
@@ -47,7 +51,9 @@
         android:layout_alignRight="@id/points_gifts"
         android:layout_below="@id/points_gifts"
         android:layout_marginRight="15dp"
-        android:text="@string/gifts" />
+        android:text="@string/gifts"
+        android:textColor="@color/font_blue_color"
+        android:textSize="14sp" />
 
     <ImageView
         android:id="@+id/divider_two"
@@ -74,7 +80,9 @@
         android:layout_below="@id/divider_two"
         android:layout_marginLeft="5dp"
         android:layout_toRightOf="@id/points_icon"
-        android:text="@string/points_acc_text" />
+        android:text="@string/points_acc_text"
+        android:textColor="@color/font_blue_color"
+        android:textSize="14sp" />
 
     <ImageView
         android:id="@+id/divider_three"
@@ -88,7 +96,10 @@
         android:id="@+id/gifts_buy_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/divider_three" >
+        android:layout_below="@id/divider_three"
+        android:divider="@drawable/divider_listview"
+        android:dividerHeight="0.50dp"
+        android:listSelector="@drawable/listview_selector" >
     </ListView>
 
 </RelativeLayout>
