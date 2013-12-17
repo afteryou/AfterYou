@@ -46,6 +46,7 @@ import com.beacon.afterui.application.CrashHandler;
 import com.beacon.afterui.imageUtils.ImageCache;
 import com.beacon.afterui.imageUtils.ImageResizer;
 import com.beacon.afterui.log.AfterUIlog;
+import com.beacon.afterui.utils.FontUtils;
 import com.beacon.afterui.utils.ImageInfoUtils;
 import com.beacon.afterui.utils.ImageUtils;
 import com.beacon.afterui.utils.customviews.AfterYouDialogImpl;
@@ -122,8 +123,10 @@ public class CapturePictureActivity extends BaseActivity implements
 		mDoneBtn = (TextView) findViewById(R.id.done_btn_capture_picture);
 		TextView profile_picture_id = (TextView) findViewById(R.id.profile_picture_id);
 		TextView no_pic_id = (TextView) findViewById(R.id.no_pic_id);
-		Typeface typeFace = Typeface.createFromAsset(getAssets(),
-				"fonts/ITCAvantGardeStd-Bk.otf");
+//		Typeface typeFace = Typeface.createFromAsset(getAssets(),
+//				"fonts/ITCAvantGardeStd-Bk.otf");
+		
+		Typeface typeFace = FontUtils.loadTypeFace(getApplicationContext(), FontUtils.ITC_AVANT_GARDE_STD_BK);
 
 		Typeface typeFaceRegular = Typeface.createFromAsset(getAssets(),
 				"fonts/ITCAvantGardeStd-Md.otf");

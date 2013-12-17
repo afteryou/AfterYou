@@ -31,6 +31,7 @@ import com.beacon.afterui.inappbilling.util.IabResult;
 import com.beacon.afterui.inappbilling.util.InAppBillingConstants;
 import com.beacon.afterui.inappbilling.util.Inventory;
 import com.beacon.afterui.inappbilling.util.Purchase;
+import com.beacon.afterui.utils.FontUtils;
 import com.beacon.afterui.utils.customviews.AfterYouDialogImpl;
 import com.beacon.afterui.utils.customviews.ErrorDialog;
 import com.beacon.afterui.views.MainActivity;
@@ -109,8 +110,10 @@ public class GiftsBuyFragment extends Fragment implements FragmentLifecycle,
 				.findViewById(R.id.points_acc_text);
 
 		mListView = (ListView) view.findViewById(R.id.gifts_buy_list);
-		mTypeFace = Typeface.createFromAsset(getActivity().getAssets(),
-				"fonts/ITCAvantGardeStd-Bk.otf");
+//		mTypeFace = Typeface.createFromAsset(getActivity().getAssets(),
+//				"fonts/ITCAvantGardeStd-Bk.otf");
+		mTypeFace = FontUtils.loadTypeFace(getActivity()
+                .getApplicationContext(), FontUtils.ITC_AVANT_GARDE_STD_BK);
 		mCancelBtn.setTypeface(mTypeFace);
 		text_points.setTypeface(mTypeFace);
 		text_gifts.setTypeface(mTypeFace);

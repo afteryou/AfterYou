@@ -20,6 +20,7 @@ import com.beacon.afterui.activity.BaseActivity;
 import com.beacon.afterui.constants.AppConstants;
 import com.beacon.afterui.provider.PreferenceEngine;
 import com.beacon.afterui.utils.AnalyticsUtils;
+import com.beacon.afterui.utils.FontUtils;
 import com.beacon.afterui.utils.Utilities;
 import com.beacon.afterui.utils.customviews.AfterYouDialogImpl;
 import com.beacon.afterui.utils.customviews.ErrorDialog;
@@ -63,8 +64,10 @@ public class LoginScreen extends BaseActivity implements OnClickListener,
 		mEmailText = (EditText) findViewById(R.id.email_text);
 		mPasswordText = (EditText) findViewById(R.id.password_text);
 
-		Typeface typeFace = Typeface.createFromAsset(getAssets(),
-				"fonts/ITCAvantGardeStd-Bk.otf");
+//		Typeface typeFace = Typeface.createFromAsset(getAssets(),
+//				"fonts/ITCAvantGardeStd-Bk.otf");
+		
+		Typeface typeFace = FontUtils.loadTypeFace(getApplicationContext(), FontUtils.ITC_AVANT_GARDE_STD_BK);
 
 		mEmailText.setTypeface(typeFace);
 		mPasswordText.setTypeface(typeFace);

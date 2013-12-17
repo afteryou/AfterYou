@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.beacon.afterui.R;
 import com.beacon.afterui.constants.CommonConstants;
+import com.beacon.afterui.utils.FontUtils;
 import com.beacon.afterui.views.MainActivity;
 
 public class GiftDetailsFragment extends Fragment implements FragmentLifecycle,
@@ -45,8 +46,11 @@ public class GiftDetailsFragment extends Fragment implements FragmentLifecycle,
 			Bundle savedInstanceState) {
 
 		View view = inflater.inflate(R.layout.gift_details_screen, null, false);
-		mTypeFace = Typeface.createFromAsset(getActivity().getAssets(),
-				"fonts/ITCAvantGardeStd-Bk.otf");
+//		mTypeFace = Typeface.createFromAsset(getActivity().getAssets(),
+//				"fonts/ITCAvantGardeStd-Bk.otf");
+		
+		mTypeFace = FontUtils.loadTypeFace(getActivity()
+                .getApplicationContext(), FontUtils.ITC_AVANT_GARDE_STD_BK);
 
 		mGiftName = (TextView) view.findViewById(R.id.gift_name);
 		mGiftName.setTypeface(mTypeFace);
