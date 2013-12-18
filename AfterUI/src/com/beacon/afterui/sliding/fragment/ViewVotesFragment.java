@@ -6,6 +6,7 @@ import android.animation.AnimatorSet;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.res.Configuration;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,9 +33,12 @@ public class ViewVotesFragment extends Fragment implements FragmentLifecycle,
 	private ProgressBar mProgressNot;
 	private ProgressBar mProgressHot;
 	private ProgressBar mProgressNo;
-	private int mNotValue = 300;
-	private int mHotValue = 200;
-	private int mNoValue = 500;
+	private int mNotValue = 200;
+	private int mHotValue = 500;
+	private int mNoValue = 100;
+
+	public ViewVotesFragment() {
+	}
 
 	public ViewVotesFragment(Context context) {
 
@@ -53,50 +57,68 @@ public class ViewVotesFragment extends Fragment implements FragmentLifecycle,
 			Bundle savedInstanceState) {
 
 		View view = inflater.inflate(R.layout.voting_006, null);
+		Typeface typeFaceBK = Typeface.createFromAsset(getActivity()
+				.getAssets(), "fonts/ITCAvantGardeStd-Bk.otf");
 		ListView mViewVotesList = (ListView) view
 				.findViewById(R.id.view_votes_list);
 		TextView votedNotTxt = (TextView) view
 				.findViewById(R.id.voted_not_num_count);
+		votedNotTxt.setTypeface(typeFaceBK);
+
 		TextView votedHotTxt = (TextView) view
 				.findViewById(R.id.voted_hot_num_count);
+		votedHotTxt.setTypeface(typeFaceBK);
+
 		TextView votedNoTxt = (TextView) view
 				.findViewById(R.id.voted_no_num_count);
+		votedNoTxt.setTypeface(typeFaceBK);
+
 		TextView done_btn = (TextView) view.findViewById(R.id.voting_done_btn);
-		ImageView connectBtn = (ImageView) view.findViewById(R.id.conect_btn);
+		done_btn.setTypeface(typeFaceBK);
+
+		TextView connectBtn = (TextView) view.findViewById(R.id.conect_btn);
+		connectBtn.setTypeface(typeFaceBK);
+
+		TextView voted_not_txt = (TextView) view
+				.findViewById(R.id.voted_not_txt);
+		voted_not_txt.setTypeface(typeFaceBK);
+
+		TextView voted_hot_txt = (TextView) view
+				.findViewById(R.id.voted_hot_txt);
+		voted_hot_txt.setTypeface(typeFaceBK);
+
+		TextView no_vote_txt = (TextView) view.findViewById(R.id.no_vote_txt);
+		no_vote_txt.setTypeface(typeFaceBK);
+
+		TextView voting_congrates_txt = (TextView) view
+				.findViewById(R.id.voting_congrates_txt);
+		voting_congrates_txt.setTypeface(typeFaceBK);
+
+		TextView slogan_congrates_txt = (TextView) view
+				.findViewById(R.id.slogan_congrates_txt);
+		slogan_congrates_txt.setTypeface(typeFaceBK);
+
 		mProgressNot = (ProgressBar) view.findViewById(R.id.progress_not);
 		mProgressHot = (ProgressBar) view.findViewById(R.id.progress_hot);
 		mProgressNo = (ProgressBar) view.findViewById(R.id.progress_no);
 
-		if (mNotValue > mHotValue && mNotValue > mNoValue) {
-			mProgressNot.setMax(mNotValue);
-			mProgressHot.setMax(mNotValue);
-			mProgressNo.setMax(mNotValue);
+		int maxValue = mHotValue + mNotValue + mNoValue;
 
-		} else if (mHotValue > mNotValue && mHotValue > mNoValue) {
-			mProgressNot.setMax(mHotValue);
-			mProgressHot.setMax(mHotValue);
-			mProgressNo.setMax(mHotValue);
-
-		} else {
-			mProgressNot.setMax(mNoValue);
-			mProgressHot.setMax(mNoValue);
-			mProgressNo.setMax(mNoValue);
-
-		}
+		mProgressNot.setMax(maxValue);
+		mProgressHot.setMax(maxValue);
+		mProgressNo.setMax(maxValue);
 
 		mProgressNot.setProgress(mNotValue);
 		mProgressHot.setProgress(mHotValue);
 		mProgressNo.setProgress(mNoValue);
+
 		if (REFERRAL_BTN == mButtonId) {
-			LinearLayout connect_btn_lay = (LinearLayout) view
-					.findViewById(R.id.connect_btn_lay);
-			TextView voting_congrates_txt = (TextView) view
-					.findViewById(R.id.voting_congrates_txt);
-			TextView slogan_congrates_txt = (TextView) view
-					.findViewById(R.id.slogan_congrates_txt);
+
 			voting_congrates_txt.setText("It seems to be a tie");
+
 			slogan_congrates_txt.setText("But u can still accept if you wish");
-			connect_btn_lay.setVisibility(View.VISIBLE);
+
+			connectBtn.setVisibility(View.VISIBLE);
 		}
 		String votedNot = "(" + 2 + ")";
 		votedNotTxt.setText(votedNot);

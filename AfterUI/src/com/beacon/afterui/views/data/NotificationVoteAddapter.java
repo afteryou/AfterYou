@@ -1,6 +1,8 @@
 package com.beacon.afterui.views.data;
 
 import android.content.Context;
+import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -17,28 +19,32 @@ public class NotificationVoteAddapter extends BaseAdapter implements
 
 	private LayoutInflater mInflater;
 	private Context mContext;
+	private Drawable mDeclineBtn;
+	private Drawable mHotGreenBtn;
+	private Drawable mNoVoteBtn;
+	private Typeface mTypeFace;
 
 	public NotificationVoteAddapter(Context context) {
 
 		mInflater = LayoutInflater.from(context);
 		mContext = context;
+		initTempImages();
+		mTypeFace = Typeface.createFromAsset(mContext.getAssets(),
+				"fonts/ITCAvantGardeStd-Bk.otf");
 	}
 
 	@Override
 	public int getCount() {
-		// TODO Auto-generated method stub
 		return 20;
 	}
 
 	@Override
 	public Object getItem(int position) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public long getItemId(int position) {
-		// TODO Auto-generated method stub
 		return 0;
 	}
 
@@ -50,36 +56,43 @@ public class NotificationVoteAddapter extends BaseAdapter implements
 			holder = new ViewHolder();
 
 			view = mInflater.inflate(R.layout.connects_notification_item, null);
-			holder.hotBtn = (ImageView) view
-					.findViewById(R.id.conect_green_btn);
 
-			holder.notHotBtn = (ImageView) view.findViewById(R.id.vote_btn);
+			holder.hotBtn = (TextView) view.findViewById(R.id.conect_green_btn);
+			holder.hotBtn.setTypeface(mTypeFace);
+
+			holder.notHotBtn = (TextView) view.findViewById(R.id.vote_btn);
+			holder.notHotBtn.setTypeface(mTypeFace);
+
+			holder.noVoteBtn = (TextView) view.findViewById(R.id.decline_btn);
+			holder.noVoteBtn.setTypeface(mTypeFace);
 
 			holder.userImg = (ImageView) view.findViewById(R.id.user_img);
 
-			holder.noVoteBtn = (ImageView) view.findViewById(R.id.decline_btn);
-			holder.hotTxt = (TextView) view.findViewById(R.id.connect_txt);
-			holder.notHotTxt = (TextView) view.findViewById(R.id.vote_txt);
-			holder.noVoteTxt = (TextView) view.findViewById(R.id.decline_txt);
-
 			holder.requestUserName = (TextView) view
 					.findViewById(R.id.user_name_decline);
+			holder.requestUserName.setTypeface(mTypeFace);
 
 			holder.referalUserImg = (ImageView) view
 					.findViewById(R.id.referal_user_img);
+
 			holder.referalUserName = (TextView) view
 					.findViewById(R.id.referal_user_name);
+			holder.referalUserName.setTypeface(mTypeFace);
+
 			holder.voteTxt = (TextView) view.findViewById(R.id.referral_txt);
+			holder.voteTxt.setTypeface(mTypeFace);
 			holder.voteTxt.setText("Needs your vote");
-			holder.noVoteBtn.setImageResource(R.drawable.no_vote_btn);
-			holder.hotBtn.setImageResource(R.drawable.hot_green_btn);
-			holder.notHotBtn.setImageResource(R.drawable.decline_btn);
-			holder.hotTxt.setText("hot");
-			holder.notHotTxt.setText("not hot");
-			holder.notHotTxt.setTextColor(mContext.getResources().getColor(
+
+			holder.noVoteBtn.setCompoundDrawables(null, mNoVoteBtn, null, null);
+			holder.hotBtn.setCompoundDrawables(null, mHotGreenBtn, null, null);
+			holder.hotBtn.setText("hot");
+			holder.notHotBtn
+					.setCompoundDrawables(null, mDeclineBtn, null, null);
+			holder.notHotBtn.setText("not hot");
+			holder.notHotBtn.setTextColor(mContext.getResources().getColor(
 					R.color.red_color));
-			holder.noVoteTxt.setText("no vote");
-			holder.noVoteTxt.setTextColor(mContext.getResources().getColor(
+			holder.noVoteBtn.setText("no vote");
+			holder.noVoteBtn.setTextColor(mContext.getResources().getColor(
 					R.color.grey));
 
 			holder.hotBtn.setOnClickListener(this);
@@ -94,12 +107,30 @@ public class NotificationVoteAddapter extends BaseAdapter implements
 		return view;
 	}
 
+	private void initTempImages() {
+		mDeclineBtn = mContext.getResources().getDrawable(
+				R.drawable.decline_btn);
+		mDeclineBtn.setBounds(0, 0, mDeclineBtn.getIntrinsicWidth(),
+				mDeclineBtn.getIntrinsicHeight());
+
+		mHotGreenBtn = mContext.getResources().getDrawable(
+				R.drawable.hot_green_btn);
+		mHotGreenBtn.setBounds(0, 0, mHotGreenBtn.getIntrinsicWidth(),
+				mHotGreenBtn.getIntrinsicHeight());
+
+		mNoVoteBtn = mContext.getResources()
+				.getDrawable(R.drawable.no_vote_btn);
+		mNoVoteBtn.setBounds(0, 0, mNoVoteBtn.getIntrinsicWidth(),
+				mNoVoteBtn.getIntrinsicHeight());
+
+	}
+
 	private static class ViewHolder {
 		private TextView requestUserName;
 		private ImageView userImg;
-		private ImageView hotBtn;
-		private ImageView notHotBtn;
-		private ImageView noVoteBtn;
+		private TextView hotBtn;
+		private TextView notHotBtn;
+		private TextView noVoteBtn;
 		private ImageView referalUserImg;
 		private TextView referalUserName;
 		private TextView voteTxt;

@@ -24,12 +24,11 @@ public class MessageAdapter extends BaseAdapter {
 	private Context mContext;
 	private int i = 1;
 
-	private ArrayList<String> mMessage;
+	private ArrayList<String> mMessage = new ArrayList<String>();
 
-	public MessageAdapter(Context context, String msg) {
-		mMessage = new ArrayList<String>();
+	public MessageAdapter(Context context, ArrayList<String> msg) {
 		mMessage.clear();
-		mMessage.add(0,msg);
+		mMessage = msg;
 		mContext = context;
 		mInflater = LayoutInflater.from(mContext);
 	}

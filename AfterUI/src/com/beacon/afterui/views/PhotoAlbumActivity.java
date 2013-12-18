@@ -35,7 +35,8 @@ public class PhotoAlbumActivity extends BaseActivity implements
 	/** TAG */
 	private static final String TAG = PhotoAlbumActivity.class.getSimpleName();
 
-	private Button mCancelBtn;
+	private TextView mCancelBtn;
+	private TextView mDoneBtn;
 
 	private static final int LOADING_ALBUMS = 1;
 
@@ -62,22 +63,24 @@ public class PhotoAlbumActivity extends BaseActivity implements
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.photo_album);
-        setBehindLeftContentView(R.layout.photo_album);
-        setBehindRightContentView(R.layout.photo_album);
-		mCancelBtn = (Button) findViewById(R.id.cancel_btn_capture_picture);
+		setBehindLeftContentView(R.layout.photo_album);
+		setBehindRightContentView(R.layout.photo_album);
+		mCancelBtn = (TextView) findViewById(R.id.cancel_btn_photo_album);
+		mDoneBtn = (TextView) findViewById(R.id.done_btn_photo_album);
 		mListView = (ListView) findViewById(R.id.album_list);
 		mListView.setOnItemClickListener(this);
 		mListView.setDivider(getResources().getDrawable(
-                R.drawable.divider_listview));
+				R.drawable.divider_listview));
 		mNoImageGallary = (TextView) findViewById(R.id.no_images);
-//		TextView cancelTxt = (TextView) findViewById(R.id.cancel_txt);
-//		TextView chooseFromLiTxt = (TextView) findViewById(R.id.choose_from_library_txt);
+		// TextView chooseFromLiTxt = (TextView)
+		// findViewById(R.id.choose_from_library_txt);
 
 		// font myriadPro semibold
-		Typeface typeFaceSemiBold = Typeface.createFromAsset(getAssets(),
-				"fonts/MyriadPro-Semibold.otf");
-//		cancelTxt.setTypeface(typeFaceSemiBold);
-//		chooseFromLiTxt.setTypeface(typeFaceSemiBold);
+		Typeface itcAvaStdBk = Typeface.createFromAsset(getAssets(),
+				"fonts/ITCAvantGardeStd-Bk.otf");
+		mCancelBtn.setTypeface(itcAvaStdBk);
+		mDoneBtn.setTypeface(itcAvaStdBk);
+		// chooseFromLiTxt.setTypeface(typeFaceSemiBold);
 
 		mCancelBtn.setOnClickListener(this);
 		mHandlerThread = new HandlerThread("album_loader");
@@ -212,7 +215,7 @@ public class PhotoAlbumActivity extends BaseActivity implements
 			albumName.setTypeface(typeFaceRegular);
 
 			TextView albumCount = (TextView) view.findViewById(R.id.number_txt);
-			albumCount.setText("("+String.valueOf(album.count)+")");
+			albumCount.setText("(" + String.valueOf(album.count) + ")");
 			albumCount.setTypeface(typeFaceRegular);
 
 			ImageView coverImage = (ImageView) view

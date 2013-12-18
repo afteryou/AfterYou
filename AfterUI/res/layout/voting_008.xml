@@ -13,7 +13,7 @@
         android:layout_below="@id/voting_search_lay"
         android:gravity="center"
         android:paddingRight="15dp"
-        android:text="done"
+        android:text="@string/doneTxt"
         android:textColor="@color/font_blue_color" />
 
     <TextView

@@ -2,6 +2,7 @@
 <resources>
 
     <color name="font_listview_blue">#005d96</color>
+    <color name="name_color">#794d1f</color>
     <color name="translucent_black">#80000000</color>
     <color name="red_color">#e20613</color>
     <color name="grey">#8c8e90</color>

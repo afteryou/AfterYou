@@ -1,8 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-     >
+    android:layout_height="match_parent" >
 
     <include
         android:id="@+id/header_image"
@@ -14,15 +13,29 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/header_image" >
 
-        <Button
+        <TextView
             android:id="@+id/cancel_btn_photo_album"
-            style="@style/SignUpPageText"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:layout_alignParentLeft="true"
-            android:layout_marginLeft="10dp"
-            android:background="@android:color/transparent"
-            android:text="@string/cancelTxt" />
+            android:gravity="center"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="@string/cancelTxt"
+            android:textColor="@color/font_blue_color"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/done_btn_photo_album"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_alignParentRight="true"
+            android:gravity="center"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="@string/doneTxt"
+            android:textColor="@color/font_blue_color"
+            android:textSize="18sp" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -34,18 +47,12 @@
 
         <GridView
             android:id="@+id/photo_gallary_layout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@android:color/transparent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:columnWidth="90dp"
-            android:horizontalSpacing="3dp"
+            android:gravity="center"
             android:numColumns="auto_fit"
-            android:paddingBottom="7dp"
-            android:paddingLeft="7dp"
-            android:paddingRight="6dp"
-            android:paddingTop="7dp"
-            android:stretchMode="columnWidth"
-            android:verticalSpacing="3dp" >
+            android:stretchMode="columnWidth" >
         </GridView>
     </RelativeLayout>
 

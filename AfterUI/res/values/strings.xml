@@ -3,6 +3,8 @@
 
     <!-- Voting Screens -->
     <string name="hot_txt">Click here if you think I\'m hot</string>
+    <string name="hot">Hot</string>
+    <string name="last_update_txt">Last Update\:</string>
     <string name="vote_confirm_txt">confirm your voters</string>
     <string name="vote_txt">Click here to create a vote</string>
     <string name="send_msg_to_voters_txt">Send message to voters</string>
@@ -57,6 +59,13 @@
     <string name="choose_from_facebook">Choose From Facebook</string>
     <string name="choose_from_library">Choose From Library</string>
     <string name="edit_txt">edit picture</string>
+
+    <!-- Voting Screen 006 -->
+    <string name="congrates_txt">Congrats! its approved.</string>
+    <string name="slogan_txt">Your one step closer to your dream guy</string>
+    <string name="voted_not">Voted \"Not\"</string>
+    <string name="voted_hot">Voted \"Hot\"</string>
+    <string name="no_vote">No Vote</string>
 
     <!-- Photo Album Screen -->
     <string name="choose_from_library_txt">Choose From Library</string>

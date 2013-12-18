@@ -6,6 +6,7 @@ import android.animation.AnimatorSet;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.res.Configuration;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -39,12 +40,20 @@ public class NotificationFragment extends Fragment implements
 	private static final int REFERRAL_BTN = 2;
 	private static final int VOTES_BTN = 3;
 	private static final int MESSAGE_BTN = 4;
+	private Typeface mTypeFace;
+
+	private TextView mNumConnects;
+	private TextView mNumReferrals;
+	private TextView mNumVotes;
+	private TextView mNumMsg;
 
 	public NotificationFragment() {
 	}
 
 	public NotificationFragment(Context context) {
 		mContext = context;
+		mTypeFace = Typeface.createFromAsset(mContext.getAssets(),
+				"fonts/ITCAvantGardeStd-Bk.otf");
 	}
 
 	@Override
@@ -52,9 +61,36 @@ public class NotificationFragment extends Fragment implements
 			Bundle savedInstanceState) {
 
 		View view = inflater.inflate(R.layout.voting_003, null);
+
+		TextView connects_txt = (TextView) view.findViewById(R.id.connects_txt);
+		connects_txt.setTypeface(mTypeFace);
+
+		TextView referrals_txt = (TextView) view
+				.findViewById(R.id.referrals_txt);
+		referrals_txt.setTypeface(mTypeFace);
+
+		TextView vote_txt = (TextView) view.findViewById(R.id.vote_txt);
+		vote_txt.setTypeface(mTypeFace);
+
+		TextView messages_txt = (TextView) view.findViewById(R.id.messages_txt);
+		messages_txt.setTypeface(mTypeFace);
+
+		mNumVotes = (TextView) view.findViewById(R.id.num_votes);
+		mNumVotes.setTypeface(mTypeFace);
+
+		mNumConnects = (TextView) view.findViewById(R.id.num_connects);
+		mNumConnects.setTypeface(mTypeFace);
+
+		mNumReferrals = (TextView) view.findViewById(R.id.num_referrals);
+		mNumReferrals.setTypeface(mTypeFace);
+
+		mNumMsg = (TextView) view.findViewById(R.id.num_msg);
+		mNumMsg.setTypeface(mTypeFace);
+
 		mNotificationConnetsBtn = (ImageView) view
 				.findViewById(R.id.num_friends_btn);
 		TextView done_btn = (TextView) view.findViewById(R.id.voting_done_btn);
+		done_btn.setTypeface(mTypeFace);
 
 		mNotificationReferralsBtn = (ImageView) view
 				.findViewById(R.id.num_referals_btn);

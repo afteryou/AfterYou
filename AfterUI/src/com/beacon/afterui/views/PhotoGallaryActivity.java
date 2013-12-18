@@ -16,6 +16,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.TextView;
 
 import com.aviary.android.feather.FeatherActivity;
 import com.beacon.afterui.R;
@@ -33,7 +34,8 @@ public class PhotoGallaryActivity extends BaseActivity implements
 	private String mId;
 	private String mName;
 
-	private Button mCancelButton;
+	private TextView mCancelButton;
+	private TextView mDoneBtn;
 
 	private List<Photo> mPhotoList;
 
@@ -53,21 +55,25 @@ public class PhotoGallaryActivity extends BaseActivity implements
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		setContentView(R.layout.photo_gallary);
-        setBehindLeftContentView(R.layout.photo_gallary);
-        setBehindRightContentView(R.layout.photo_gallary);
+		setBehindLeftContentView(R.layout.photo_gallary);
+		setBehindRightContentView(R.layout.photo_gallary);
 		mId = getIntent().getStringExtra(PhotoAlbumActivity.ID);
 		mName = getIntent().getStringExtra(PhotoAlbumActivity.NAME);
 
 		// font myriadPro semibold
-		Typeface typeFaceSemiBold = Typeface.createFromAsset(getAssets(),
-				"fonts/MyriadPro-Semibold.otf");
+		Typeface itcAvaStdBk = Typeface.createFromAsset(getAssets(),
+				"fonts/ITCAvantGardeStd-Bk.otf");
 
 		mPhotoGridView = (GridView) findViewById(R.id.photo_gallary_layout);
 		mPhotoGridView.setAdapter(new ImageAdapter(this));
 		mPhotoGridView.setOnItemClickListener(mPhotoGriedListener);
 
-		mCancelButton = (Button) findViewById(R.id.cancel_btn_photo_album);
+		mCancelButton = (TextView) findViewById(R.id.cancel_btn_photo_album);
 		mCancelButton.setOnClickListener(this);
+		mCancelButton.setTypeface(itcAvaStdBk);
+
+		mDoneBtn = (TextView) findViewById(R.id.done_btn_photo_album);
+		mDoneBtn.setTypeface(itcAvaStdBk);
 
 		mHandlerThread = new HandlerThread("album_loader");
 		mHandlerThread.start();
@@ -136,16 +142,17 @@ public class PhotoGallaryActivity extends BaseActivity implements
 
 			Photo photo = mPhotoList.get(position);
 
-//			Intent intent = new Intent(getApplicationContext(),
-//					FullImageActivity.class);
-//			intent.putExtra(ID, photo.coverId);
-//			startActivityForResult(intent, 1);
-			
-			String imagePath = ImageInfoUtils.getPhotoPath(PhotoGallaryActivity.this,
-					String.valueOf(photo.coverId));
-			Intent newIntent = new Intent( PhotoGallaryActivity.this, FeatherActivity.class );
-			newIntent.setData( Uri.parse(imagePath) );
-			startActivityForResult( newIntent, 1 );
+			// Intent intent = new Intent(getApplicationContext(),
+			// FullImageActivity.class);
+			// intent.putExtra(ID, photo.coverId);
+			// startActivityForResult(intent, 1);
+
+			String imagePath = ImageInfoUtils.getPhotoPath(
+					PhotoGallaryActivity.this, String.valueOf(photo.coverId));
+			Intent newIntent = new Intent(PhotoGallaryActivity.this,
+					FeatherActivity.class);
+			newIntent.setData(Uri.parse(imagePath));
+			startActivityForResult(newIntent, 1);
 
 		}
 	};

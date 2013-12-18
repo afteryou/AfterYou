@@ -35,6 +35,10 @@ public class InterestAdapter extends BaseAdapter implements OnClickListener {
 	Typeface typefaceBlack;
 	Typeface typefaceItalic;
 
+	private Typeface mITCAvantGardeStdBk;
+	private TextView mHot_Num;
+	private TextView mLastUpdateStatus;
+
 	public InterestAdapter(Context context, InterestClickListener clickListner) {
 		this(context, new LinkedList<Interest>());
 		this.clickListner = clickListner;
@@ -52,6 +56,9 @@ public class InterestAdapter extends BaseAdapter implements OnClickListener {
 		typefaceItalic = Typeface.createFromAsset(mContext.getAssets(),
 				"fonts/MyriadPro-It.otf");
 		// mImageFetcher.setExitTasksEarly(false);
+
+		mITCAvantGardeStdBk = Typeface.createFromAsset(mContext.getAssets(),
+				"fonts/ITCAvantGardeStd-Bk.otf");
 	}
 
 	@Override
@@ -108,14 +115,28 @@ public class InterestAdapter extends BaseAdapter implements OnClickListener {
 		ScaleImageView imageView = (ScaleImageView) result
 				.findViewById(R.id.news_pic);
 		TextView nameView = (TextView) result.findViewById(R.id.news_name);
-		nameView.setTypeface(typeFaceBold);
+		nameView.setTypeface(mITCAvantGardeStdBk);
 		// TextView ageView = (TextView) result.findViewById(R.id.news_age);
 		// ageView.setTypeface(typeFaceRegular);
 		// TextView albumCount = (TextView) result
 		// .findViewById(R.id.news_album_count);
 		// albumCount.setTypeface(typeFaceRegular);
 		TextView statusView = (TextView) result.findViewById(R.id.news_status);
-		statusView.setTypeface(typefaceItalic);
+		statusView.setTypeface(mITCAvantGardeStdBk);
+		TextView hot_txt = (TextView) result.findViewById(R.id.hot_txt);
+		hot_txt.setTypeface(mITCAvantGardeStdBk);
+
+		mHot_Num = (TextView) result.findViewById(R.id.hot_num);
+		mHot_Num.setTypeface(mITCAvantGardeStdBk);
+
+		TextView last_update_txt = (TextView) result
+				.findViewById(R.id.last_update_txt);
+		last_update_txt.setTypeface(mITCAvantGardeStdBk);
+
+		mLastUpdateStatus = (TextView) result
+				.findViewById(R.id.last_update_status);
+		mLastUpdateStatus.setTypeface(mITCAvantGardeStdBk);
+
 		// TextView lastLoginView = (TextView) result
 		// .findViewById(R.id.news_lastlogin);
 		// lastLoginView.setTypeface(typefaceBlack);
@@ -173,7 +194,7 @@ public class InterestAdapter extends BaseAdapter implements OnClickListener {
 					.findViewById(R.id.news_pic);
 			holder.nameView = (TextView) convertView
 					.findViewById(R.id.news_name);
-			holder.nameView.setTypeface(typeFaceBold);
+			holder.nameView.setTypeface(mITCAvantGardeStdBk);
 			// holder.ageView = (TextView)
 			// convertView.findViewById(R.id.news_age);
 			// holder.ageView.setTypeface(typeFaceRegular);
@@ -182,7 +203,7 @@ public class InterestAdapter extends BaseAdapter implements OnClickListener {
 			// holder.albumCount.setTypeface(typeFaceRegular);
 			holder.statusView = (TextView) convertView
 					.findViewById(R.id.news_status);
-			holder.statusView.setTypeface(typefaceItalic);
+			holder.statusView.setTypeface(mITCAvantGardeStdBk);
 			// holder.lastLoginView = (TextView) convertView
 			// .findViewById(R.id.news_lastlogin);
 			// holder.lastLoginView.setTypeface(typefaceBlack);
@@ -198,13 +219,33 @@ public class InterestAdapter extends BaseAdapter implements OnClickListener {
 			// holder.add_req_text = (ImageView) convertView
 			// .findViewById(R.id.vote_btn);
 			// holder.add_req_text.setTypeface(typeFaceRegular);
+
+			holder.hot_btn = (ImageView) convertView.findViewById(R.id.hot_btn);
 			holder.checkDetails = (Button) convertView
 					.findViewById(R.id.news_details);
-			holder.vote_btn = (ImageView) convertView
+			holder.checkDetails.setTypeface(mITCAvantGardeStdBk);
+
+			holder.vote_btn = (TextView) convertView
 					.findViewById(R.id.vote_btn);
-			holder.hot_btn = (ImageView) convertView.findViewById(R.id.hot_btn);
+			holder.vote_btn.setTypeface(mITCAvantGardeStdBk);
+
+			holder.connectBtn = (TextView) convertView
+					.findViewById(R.id.connect_btn);
+			holder.connectBtn.setTypeface(mITCAvantGardeStdBk);
+
+			holder.refferBtn = (TextView) convertView
+					.findViewById(R.id.referr_btn);
+			holder.refferBtn.setTypeface(mITCAvantGardeStdBk);
+
+			holder.chatBtn = (TextView) convertView.findViewById(R.id.chat_btn);
+			holder.chatBtn.setTypeface(mITCAvantGardeStdBk);
+
 			holder.hot_btn.setOnClickListener(this);
 			holder.vote_btn.setOnClickListener(this);
+			holder.connectBtn.setOnClickListener(this);
+			holder.refferBtn.setOnClickListener(this);
+			holder.chatBtn.setOnClickListener(this);
+
 			holder.checkDetails.setOnClickListener(new View.OnClickListener() {
 
 				@Override
@@ -269,7 +310,10 @@ public class InterestAdapter extends BaseAdapter implements OnClickListener {
 		ScaleImageView imageView;
 		TextView nameView;
 		ImageView hot_btn;
-		ImageView vote_btn;
+		TextView vote_btn;
+		TextView connectBtn;
+		TextView refferBtn;
+		TextView chatBtn;
 		// TextView ageView;
 		// TextView albumCount;
 		TextView statusView;

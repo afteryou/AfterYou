@@ -27,7 +27,7 @@
             android:paddingLeft="10dp"
             android:text="Supriya Aiman"
             android:textColor="@color/brown_background"
-            android:textSize="16sp" />
+            android:textSize="18sp" />
 
         <TextView
             android:id="@+id/dashboard_txt"
@@ -37,7 +37,7 @@
             android:layout_marginLeft="5dp"
             android:paddingLeft="10dp"
             android:text="what a gentleman. I like him."
-            android:textColor="@color/font_listview_blue"
+            android:textColor="@color/font_blue_color"
             android:textSize="12sp" />
     </RelativeLayout>
 
@@ -60,7 +60,7 @@
         android:layout_toLeftOf="@id/status_img"
         android:paddingRight="10dp"
         android:text="7:34 PM"
-        android:textColor="@color/font_listview_blue"
+        android:textColor="@color/grey"
         android:textSize="14sp" />
 
 </RelativeLayout>

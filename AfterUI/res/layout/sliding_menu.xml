@@ -10,12 +10,6 @@
         android:layout_height="wrap_content"
         android:background="@drawable/search_bg" >
 
-        <LinearLayout
-            android:layout_width="0px"
-            android:layout_height="0px"
-            android:focusable="true"
-            android:focusableInTouchMode="true" />
-
         <EditText
             android:id="@+id/search_txt"
             android:layout_width="match_parent"
@@ -28,7 +22,7 @@
             android:paddingLeft="14dp"
             android:paddingRight="5dp"
             android:singleLine="true"
-            android:textColor="@color/white_color"
+            android:textColor="@color/time_color"
             android:textCursorDrawable="@null" />
 
         <Button
@@ -37,36 +31,40 @@
             android:layout_height="15dp"
             android:layout_alignParentRight="true"
             android:layout_centerVertical="true"
-            android:layout_marginRight="20dp"
+            android:layout_marginRight="30dp"
             android:background="@drawable/search_logo" />
     </RelativeLayout>
 
-    <ImageView
-        android:id="@+id/user_image"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:id="@+id/user_lay"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/search_lay"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="5dp"
-        android:background="@drawable/chat_person_placeholder" />
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp" >
 
-    <TextView
-        android:id="@+id/user_name"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/search_lay"
-        android:layout_centerHorizontal="true"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="10dp"
-        android:layout_toRightOf="@id/user_image"
-        android:textColor="@color/font_listview_blue"
-        android:textSize="18sp" />
+        <ImageView
+            android:id="@+id/user_image"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="27dp"
+            android:background="@drawable/chat_person_placeholder" />
+
+        <TextView
+            android:id="@+id/user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginLeft="10dp"
+            android:textColor="@color/name_color"
+            android:textSize="18sp" />
+    </LinearLayout>
 
     <ListView
         android:id="@+id/sliding_menu_list"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/user_image"
+        android:layout_below="@id/user_lay"
         android:layout_marginTop="10dp"
         android:divider="@drawable/divider_listview"
         android:dividerHeight="0.50dp"

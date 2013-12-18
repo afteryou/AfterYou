@@ -102,17 +102,14 @@ public class SlidingMenuFragment extends Fragment implements
 
 		// font myriadPro semibold
 		typeFaceSemiBold = Typeface.createFromAsset(getActivity().getAssets(),
-				"fonts/MyriadPro-Semibold.otf");
-		// font myriadPro regular
-		Typeface typeFaceRegular = Typeface.createFromAsset(getActivity()
-				.getAssets(), "fonts/MyriadPro-Regular.otf");
+				"fonts/ITCAvantGardeStd-Bk.otf");
 		View view = inflater.inflate(R.layout.sliding_menu, null);
 		View viewText = inflater.inflate(R.layout.sliding_menu_item, null);
 		mListView = (ListView) view.findViewById(R.id.sliding_menu_list);
 		TextView dashText = (TextView) viewText
 				.findViewById(R.id.dashboard_txt);
 		EditText searchEditText = (EditText) view.findViewById(R.id.search_txt);
-		searchEditText.setTypeface(typeFaceRegular);
+		searchEditText.setTypeface(typeFaceSemiBold);
 
 		TextView userNameTxt = (TextView) view.findViewById(R.id.user_name);
 		userNameTxt.setTypeface(typeFaceSemiBold);
@@ -147,6 +144,8 @@ public class SlidingMenuFragment extends Fragment implements
 			@Override
 			public void setViewText(TextView v, String text) {
 				v.setTypeface(typeFaceSemiBold);
+				v.setTextColor(getActivity().getResources().getColor(
+						R.color.font_blue_color));
 				v.setText(text);
 			}
 		};
@@ -179,7 +178,7 @@ public class SlidingMenuFragment extends Fragment implements
 				break;
 
 			case TERMS_POLICY:
-				
+
 				Fragment giftList = new GiftListFragment();
 				FragmentHelper.gotoFragment(getActivity(),
 						SlidingMenuFragment.this, giftList, bundle);

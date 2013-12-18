@@ -55,7 +55,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_marginLeft="15dp"
-            android:paddingBottom="10dp"
+            android:paddingBottom="15dp"
             android:src="@drawable/hot_vote_img" />
 
         <TextView
@@ -65,9 +65,10 @@
             android:layout_alignParentBottom="true"
             android:layout_marginLeft="4dp"
             android:layout_toRightOf="@id/hot_btn"
-            android:paddingBottom="10dp"
-            android:text="Hot"
-            android:textColor="@android:color/white" />
+            android:paddingBottom="15dp"
+            android:text="@string/hot"
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/hot_num"
@@ -77,9 +78,10 @@
             android:layout_marginBottom="15dp"
             android:layout_marginLeft="4dp"
             android:layout_toRightOf="@id/hot_txt"
-            android:paddingBottom="10dp"
+            android:paddingBottom="15dp"
             android:text="(25)"
-            android:textColor="@android:color/white" />
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/last_update_status"
@@ -89,9 +91,10 @@
             android:layout_alignParentRight="true"
             android:layout_marginBottom="15dp"
             android:layout_marginRight="15dp"
-            android:paddingBottom="10dp"
+            android:paddingBottom="15dp"
             android:text="Yesterday"
-            android:textColor="@android:color/white" />
+            android:textColor="@android:color/white"
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/last_update_txt"
@@ -101,9 +104,10 @@
             android:layout_marginBottom="15dp"
             android:layout_marginRight="2dp"
             android:layout_toLeftOf="@id/last_update_status"
-            android:paddingBottom="10dp"
-            android:text="Last Update:"
-            android:textColor="@color/font_blue_color" />
+            android:paddingBottom="15dp"
+            android:text="@string/last_update_txt"
+            android:textColor="@color/font_blue_color"
+            android:textSize="16sp" />
     </RelativeLayout>
 
     <LinearLayout
@@ -118,97 +122,57 @@
         android:gravity="center"
         android:weightSum="1" >
 
-        <LinearLayout
+        <TextView
+            android:id="@+id/vote_btn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_weight="0.25"
-            android:orientation="vertical" >
+            android:drawablePadding="3dp"
+            android:drawableTop="@drawable/vote_btn"
+            android:gravity="center"
+            android:text="@string/vote_btn"
+            android:textColor="@color/font_blue_color"
+            android:textSize="14sp" />
 
-            <ImageView
-                android:id="@+id/vote_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:paddingTop="2dip"
-                android:src="@drawable/vote_btn" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:paddingTop="2dip"
-                android:text="@string/vote_btn"
-                android:textColor="@color/font_blue_color" />
-        </LinearLayout>
-
-        <LinearLayout
+        <TextView
+            android:id="@+id/connect_btn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_weight="0.25"
-            android:orientation="vertical" >
+            android:drawablePadding="3dp"
+            android:drawableTop="@drawable/connect_btn"
+            android:gravity="center"
+            android:text="@string/connect_btn"
+            android:textColor="@color/font_blue_color"
+            android:textSize="14sp" />
 
-            <ImageView
-                android:id="@+id/connect_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:paddingTop="2dip"
-                android:src="@drawable/connect_btn" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:paddingTop="2dip"
-                android:text="@string/connect_btn"
-                android:textColor="@color/font_blue_color" />
-        </LinearLayout>
-
-        <LinearLayout
+        <TextView
+            android:id="@+id/referr_btn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_weight="0.25"
-            android:orientation="vertical" >
+            android:drawablePadding="3dp"
+            android:drawableTop="@drawable/referr_btn"
+            android:gravity="center"
+            android:text="@string/referr_txt"
+            android:textColor="@color/font_blue_color"
+            android:textSize="14sp" />
 
-            <ImageView
-                android:id="@+id/referr_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:paddingTop="2dip"
-                android:src="@drawable/referr_btn" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:paddingTop="2dip"
-                android:text="@string/referr_txt"
-                android:textColor="@color/font_blue_color" />
-        </LinearLayout>
-
-        <LinearLayout
+        <TextView
+            android:id="@+id/chat_btn"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
             android:layout_weight="0.25"
-            android:orientation="vertical" >
-
-            <ImageView
-                android:id="@+id/chat_btn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:paddingTop="2dip"
-                android:src="@drawable/chat_btn" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:paddingTop="2dip"
-                android:text="@string/chat_txt"
-                android:textColor="@color/font_blue_color" />
-        </LinearLayout>
+            android:drawablePadding="3dp"
+            android:drawableTop="@drawable/chat_btn"
+            android:gravity="center"
+            android:paddingTop="2dip"
+            android:text="@string/chat_txt"
+            android:textColor="@color/font_blue_color" />
     </LinearLayout>
 
     <RelativeLayout

@@ -49,18 +49,18 @@
         android:gravity="center"
         android:paddingLeft="15dp"
         android:text="Sachin Mane"
-        android:textColor="@color/brown_background"
+        android:textColor="@color/name_color"
         android:textSize="18sp" />
 
     <LinearLayout
         android:id="@+id/view_votes_lay"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
         android:baselineAligned="false"
         android:gravity="center"
         android:paddingBottom="10dp"
-        android:paddingLeft="15dp"
-        android:paddingRight="15dp"
         android:weightSum="1" >
 
         <LinearLayout
@@ -85,29 +85,33 @@
             android:orientation="vertical" >
 
             <TextView
+                android:id="@+id/view_votes_txt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
                 android:text="@string/view_votes_txt"
                 android:textColor="@color/font_blue_color"
-                android:textSize="24sp" />
+                android:textSize="18sp" />
 
             <TextView
+                android:id="@+id/voting_in_progress_txt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
                 android:paddingLeft="5dp"
                 android:text="@string/voting_in_progress_txt"
-                android:textColor="@color/font_blue_color" />
+                android:textColor="@color/font_blue_color"
+                android:textSize="14sp" />
 
             <TextView
+                android:id="@+id/time_txt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
                 android:paddingLeft="5dp"
                 android:text="24H : 00M : 00S"
                 android:textColor="@color/font_blue_color"
-                android:textSize="30sp" />
+                android:textSize="31sp" />
         </LinearLayout>
     </LinearLayout>
 

@@ -1,5 +1,7 @@
 package com.beacon.afterui.sliding.fragment;
 
+import java.util.ArrayList;
+
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.AnimatorSet;
@@ -28,6 +30,7 @@ public class SendMessageScreenFragment extends Fragment implements
 	private ListView mMessageList;
 	private boolean isBacking;
 	private MessageAdapter mMessageAdapter;
+	private ArrayList<String> mMessage = new ArrayList<String>();
 
 	public SendMessageScreenFragment() {
 	}
@@ -61,7 +64,8 @@ public class SendMessageScreenFragment extends Fragment implements
 			final String text = mMessageEditText.getText().toString().trim();
 			if (text.length() > 0) {
 				mMessageEditText.setText("");
-				mMessageAdapter = new MessageAdapter(mContext, text);
+				mMessage.add(text);
+				mMessageAdapter = new MessageAdapter(mContext, mMessage);
 				mMessageList.setAdapter(mMessageAdapter);
 				mMessageAdapter.notifyDataSetChanged();
 			}

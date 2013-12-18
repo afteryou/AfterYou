@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical" >
+
+    <RelativeLayout
+        android:id="@+id/voting_search_lay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/search_bg" >
+
+        <LinearLayout
+            android:layout_width="0px"
+            android:layout_height="0px"
+            android:focusable="true"
+            android:focusableInTouchMode="true" />
+
+        <EditText
+            android:id="@+id/search_txt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="@drawable/search_txt_bg"
+            android:hint="@string/search_txt"
+            android:paddingLeft="14dp"
+            android:paddingRight="35dp"
+            android:singleLine="true"
+            android:textColor="@color/gray"
+            android:textCursorDrawable="@null" />
+
+        <Button
+            android:id="@+id/search_btn"
+            android:layout_width="15dp"
+            android:layout_height="15dp"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="25dp"
+            android:background="@drawable/search_logo"
+            android:paddingLeft="3dp" />
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/voting_done_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/voting_search_lay"
+        android:gravity="center"
+        android:paddingRight="15dp"
+        android:text="@string/doneTxt"
+        android:textColor="@color/font_blue_color"
+        android:textSize="18sp" />
+
+    <View
+        android:id="@+id/bar"
+        android:layout_width="match_parent"
+        android:layout_height="0.50dp"
+        android:layout_below="@id/voting_done_btn"
+        android:background="@drawable/divider_listview" />
+
+    <LinearLayout
+        android:id="@+id/voting_lay"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/bar"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="5dp"
+        android:baselineAligned="false"
+        android:gravity="center"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp"
+        android:weightSum="1" >
+
+        <TextView
+            android:id="@+id/after_you_friends_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="0.25"
+            android:drawablePadding="3dp"
+            android:drawableTop="@drawable/after_you_voting_img"
+            android:gravity="center"
+            android:text="@string/after_you_friends_txt"
+            android:textColor="@color/font_blue_color"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/contacts_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="0.25"
+            android:drawablePadding="3dip"
+            android:drawableTop="@drawable/contacts_voting_img"
+            android:gravity="center"
+            android:text="@string/contacts_txt"
+            android:textColor="@color/font_blue_color"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/facebook_voting_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="0.25"
+            android:drawablePadding="3dp"
+            android:drawableTop="@drawable/facebook_voting_img"
+            android:gravity="center"
+            android:text="@string/facebook_txt"
+            android:textColor="@color/font_blue_color"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/twitter_btn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="0.25"
+            android:drawablePadding="3dp"
+            android:drawableTop="@drawable/twitter_voting_img"
+            android:gravity="center"
+            android:text="@string/twitter_txt"
+            android:textColor="@color/font_blue_color"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/voting_divider"
+        android:layout_width="match_parent"
+        android:layout_height="0.50dp"
+        android:layout_below="@+id/voting_lay"
+        android:layout_marginTop="2dp"
+        android:background="@drawable/divider_listview" />
+
+    <ListView
+        android:id="@+id/freind_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/voting_divider"
+        android:layout_marginTop="1dp"
+        android:divider="@drawable/divider_listview"
+        android:dividerHeight="0.50dp"
+        android:listSelector="@drawable/listview_selector" >
+    </ListView>
+
+</RelativeLayout>

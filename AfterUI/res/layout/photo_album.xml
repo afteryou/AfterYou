@@ -1,39 +1,39 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-     >
+    android:layout_height="match_parent" >
 
     <include
         android:id="@+id/header_image"
         layout="@layout/header" />
 
-   <RelativeLayout
+    <RelativeLayout
         android:id="@+id/take_photo_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/header_image" >
-        
-       <Button
-            android:id="@+id/cancel_btn_capture_picture"
-            style="@style/SignUpPageText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="10dp"
-            android:background="@android:color/transparent"
-            android:text="@string/cancelTxt" />
 
-        <Button
-            android:id="@+id/done_btn_capture_picture"
-            style="@style/SignUpPageText"
+        <TextView
+            android:id="@+id/cancel_btn_photo_album"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_alignParentLeft="true"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="@string/cancelTxt"
+            android:textColor="@color/font_blue_color"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/done_btn_photo_album"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:layout_centerInParent="true"
-            android:layout_marginRight="10dp"
-            android:background="@android:color/transparent"
-            android:text="@string/doneTxt" />
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="@string/doneTxt"
+            android:textColor="@color/font_blue_color"
+            android:textSize="18sp" />
     </RelativeLayout>
 
     <RelativeLayout
@@ -41,16 +41,14 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/take_photo_layout"
-        android:layout_margin="10dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
         android:background="@android:color/transparent" >
 
         <ListView
             android:id="@+id/album_list"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" 
-            android:layout_marginLeft="20dip"
-            android:layout_marginRight="20dip"
-            >
+            android:layout_height="wrap_content" >
         </ListView>
     </RelativeLayout>
 

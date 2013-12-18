@@ -10,8 +10,8 @@
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_marginBottom="25dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="25dp" />
+        android:layout_marginLeft="@dimen/lay_margine"
+        android:layout_marginTop="15dp" />
 
     <TextView
         android:id="@+id/dashboard_txt"
@@ -20,8 +20,8 @@
         android:layout_centerVertical="true"
         android:layout_marginLeft="5dp"
         android:layout_toRightOf="@id/dashboard_img"
-        android:paddingLeft="10dp"
-        android:textColor="@color/font_listview_blue"
+        android:paddingLeft="15dp"
+        android:textColor="@color/name_color"
         android:textSize="18sp" />
 
 </RelativeLayout>

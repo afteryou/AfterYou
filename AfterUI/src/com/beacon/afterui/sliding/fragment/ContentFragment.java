@@ -66,6 +66,9 @@ public class ContentFragment extends Fragment implements FragmentLifecycle,
 	Typeface typefaceBlack;
 	Typeface typefaceItalic;
 
+	private TextView mNumNotification;
+	private Typeface mITCAvantGardeStdBk;
+
 	private boolean inDetail = false;
 
 	private InterestCallBack mCallBack;
@@ -130,6 +133,9 @@ public class ContentFragment extends Fragment implements FragmentLifecycle,
 				"fonts/MyriadPro-Light.otf");
 		typefaceItalic = Typeface.createFromAsset(mContext.getAssets(),
 				"fonts/MyriadPro-It.otf");
+
+		mITCAvantGardeStdBk = Typeface.createFromAsset(mContext.getAssets(),
+				"fonts/ITCAvantGardeStd-Bk.otf");
 	}
 
 	@Override
@@ -145,6 +151,12 @@ public class ContentFragment extends Fragment implements FragmentLifecycle,
 		View view = inflater.inflate(R.layout.main_fragment, null);
 
 		ImageView notifyBox = (ImageView) view.findViewById(R.id.notifyImage);
+		TextView notificationTxt = (TextView) view
+				.findViewById(R.id.notification_txt);
+		notificationTxt.setTypeface(mITCAvantGardeStdBk);
+		mNumNotification = (TextView) view
+				.findViewById(R.id.notification_numnber);
+		mNumNotification.setTypeface(mITCAvantGardeStdBk);
 		notifyBox.setOnClickListener(new View.OnClickListener() {
 
 			@Override
@@ -532,30 +544,30 @@ public class ContentFragment extends Fragment implements FragmentLifecycle,
 		}
 		TextView nameView = (TextView) mDetailBox
 				.findViewById(R.id.detail_name);
-		nameView.setTypeface(typeFaceBold);
+		nameView.setTypeface(mITCAvantGardeStdBk);
 		TextView ageView = (TextView) mDetailBox.findViewById(R.id.detail_age);
-		ageView.setTypeface(typeFaceRegular);
+		ageView.setTypeface(mITCAvantGardeStdBk);
 		TextView albumCount = (TextView) mDetailBox
 				.findViewById(R.id.detail_album_count);
-		albumCount.setTypeface(typeFaceRegular);
+		albumCount.setTypeface(mITCAvantGardeStdBk);
 		TextView statusView = (TextView) mDetailBox
 				.findViewById(R.id.detail_status);
-		statusView.setTypeface(typefaceItalic);
+		statusView.setTypeface(mITCAvantGardeStdBk);
 		TextView lastLoginView = (TextView) mDetailBox
 				.findViewById(R.id.detail_lastlogin);
-		lastLoginView.setTypeface(typefaceBlack);
+		lastLoginView.setTypeface(mITCAvantGardeStdBk);
 		TextView lastLoginTime = (TextView) mDetailBox
 				.findViewById(R.id.detail_lastlogin_time);
-		lastLoginTime.setTypeface(typefaceBlack);
+		lastLoginTime.setTypeface(mITCAvantGardeStdBk);
 		TextView likeCountView = (TextView) mDetailBox
 				.findViewById(R.id.detail_like_text);
-		likeCountView.setTypeface(typeFaceRegular);
+		likeCountView.setTypeface(mITCAvantGardeStdBk);
 		TextView commentCountView = (TextView) mDetailBox
 				.findViewById(R.id.detail_comment_count);
-		commentCountView.setTypeface(typeFaceRegular);
+		commentCountView.setTypeface(mITCAvantGardeStdBk);
 		TextView add_req_text = (TextView) mDetailBox
 				.findViewById(R.id.detail_chat_req_text);
-		add_req_text.setTypeface(typeFaceRegular);
+		add_req_text.setTypeface(mITCAvantGardeStdBk);
 		nameView.setText(data.getName());
 		ageView.setText(mContext.getResources().getString(R.string.IDS_AGE)
 				+ data.getAge());
