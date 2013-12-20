@@ -7,3 +7,6 @@
 */*.log
 */.settings
 */target
+*/.settings/*
+AfterUI/lint.xml
+AfterUI/.settings/org.eclipse.jdt.core.prefs
