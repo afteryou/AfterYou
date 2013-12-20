@@ -20,6 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.beacon.afterui.R;
+import com.beacon.afterui.utils.FontUtils;
 import com.beacon.afterui.views.MainActivity;
 import com.beacon.afterui.views.data.ViewVotesAddapter;
 
@@ -37,19 +38,17 @@ public class ViewVotesFragment extends Fragment implements FragmentLifecycle,
 	private int mHotValue = 500;
 	private int mNoValue = 100;
 
+	private Typeface mITCAvantGardeStdBkFont;
+
 	public ViewVotesFragment() {
-	}
-
-	public ViewVotesFragment(Context context) {
-
-		mContext = context;
-
 	}
 
 	public ViewVotesFragment(Context context, final int buttonId) {
 
 		mContext = context;
 		mButtonId = buttonId;
+		mITCAvantGardeStdBkFont = FontUtils.loadTypeFace(mContext,
+				FontUtils.ITC_AVANT_GARDE_STD_BK);
 	}
 
 	@Override
@@ -57,46 +56,45 @@ public class ViewVotesFragment extends Fragment implements FragmentLifecycle,
 			Bundle savedInstanceState) {
 
 		View view = inflater.inflate(R.layout.voting_006, null);
-		Typeface typeFaceBK = Typeface.createFromAsset(getActivity()
-				.getAssets(), "fonts/ITCAvantGardeStd-Bk.otf");
+
 		ListView mViewVotesList = (ListView) view
 				.findViewById(R.id.view_votes_list);
 		TextView votedNotTxt = (TextView) view
 				.findViewById(R.id.voted_not_num_count);
-		votedNotTxt.setTypeface(typeFaceBK);
+		votedNotTxt.setTypeface(mITCAvantGardeStdBkFont);
 
 		TextView votedHotTxt = (TextView) view
 				.findViewById(R.id.voted_hot_num_count);
-		votedHotTxt.setTypeface(typeFaceBK);
+		votedHotTxt.setTypeface(mITCAvantGardeStdBkFont);
 
 		TextView votedNoTxt = (TextView) view
 				.findViewById(R.id.voted_no_num_count);
-		votedNoTxt.setTypeface(typeFaceBK);
+		votedNoTxt.setTypeface(mITCAvantGardeStdBkFont);
 
 		TextView done_btn = (TextView) view.findViewById(R.id.voting_done_btn);
-		done_btn.setTypeface(typeFaceBK);
+		done_btn.setTypeface(mITCAvantGardeStdBkFont);
 
 		TextView connectBtn = (TextView) view.findViewById(R.id.conect_btn);
-		connectBtn.setTypeface(typeFaceBK);
+		connectBtn.setTypeface(mITCAvantGardeStdBkFont);
 
 		TextView voted_not_txt = (TextView) view
 				.findViewById(R.id.voted_not_txt);
-		voted_not_txt.setTypeface(typeFaceBK);
+		voted_not_txt.setTypeface(mITCAvantGardeStdBkFont);
 
 		TextView voted_hot_txt = (TextView) view
 				.findViewById(R.id.voted_hot_txt);
-		voted_hot_txt.setTypeface(typeFaceBK);
+		voted_hot_txt.setTypeface(mITCAvantGardeStdBkFont);
 
 		TextView no_vote_txt = (TextView) view.findViewById(R.id.no_vote_txt);
-		no_vote_txt.setTypeface(typeFaceBK);
+		no_vote_txt.setTypeface(mITCAvantGardeStdBkFont);
 
 		TextView voting_congrates_txt = (TextView) view
 				.findViewById(R.id.voting_congrates_txt);
-		voting_congrates_txt.setTypeface(typeFaceBK);
+		voting_congrates_txt.setTypeface(mITCAvantGardeStdBkFont);
 
 		TextView slogan_congrates_txt = (TextView) view
 				.findViewById(R.id.slogan_congrates_txt);
-		slogan_congrates_txt.setTypeface(typeFaceBK);
+		slogan_congrates_txt.setTypeface(mITCAvantGardeStdBkFont);
 
 		mProgressNot = (ProgressBar) view.findViewById(R.id.progress_not);
 		mProgressHot = (ProgressBar) view.findViewById(R.id.progress_hot);

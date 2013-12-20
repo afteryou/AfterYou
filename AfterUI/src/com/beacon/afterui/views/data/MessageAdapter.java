@@ -3,6 +3,7 @@ package com.beacon.afterui.views.data;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.beacon.afterui.R;
+import com.beacon.afterui.utils.FontUtils;
 
 public class MessageAdapter extends BaseAdapter {
 
@@ -22,6 +24,7 @@ public class MessageAdapter extends BaseAdapter {
 	private LayoutInflater mInflater;
 
 	private Context mContext;
+	private Typeface mITCAvantGardeStdBkFont;
 	private int i = 1;
 
 	private ArrayList<String> mMessage = new ArrayList<String>();
@@ -31,6 +34,8 @@ public class MessageAdapter extends BaseAdapter {
 		mMessage = msg;
 		mContext = context;
 		mInflater = LayoutInflater.from(mContext);
+		mITCAvantGardeStdBkFont = FontUtils.loadTypeFace(mContext,
+				FontUtils.ITC_AVANT_GARDE_STD_BK);
 	}
 
 	@Override
@@ -84,6 +89,11 @@ public class MessageAdapter extends BaseAdapter {
 			view = mInflater
 					.inflate(R.layout.chat_screen_right_text_item, null);
 			holder.userMessageTxt = (TextView) view.findViewById(R.id.user_msg);
+			holder.userMessageTxt.setTypeface(mITCAvantGardeStdBkFont);
+			// holder.userMessageTxt.setTextColor(mContext.getResources()
+			// .getColor(R.color.white));
+			// holder.userMessageTxt.setBackgroundColor(mContext.getResources()
+			// .getColor(R.color.msg_bg));
 
 			// break;
 			view.setTag(holder);

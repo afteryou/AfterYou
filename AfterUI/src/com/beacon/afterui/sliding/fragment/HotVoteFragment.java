@@ -6,18 +6,16 @@ import android.animation.AnimatorSet;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.res.Configuration;
-import android.content.res.Resources.Theme;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.beacon.afterui.R;
+import com.beacon.afterui.utils.FontUtils;
 import com.beacon.afterui.views.MainActivity;
 
 public class HotVoteFragment extends Fragment implements OnClickListener,
@@ -27,6 +25,7 @@ public class HotVoteFragment extends Fragment implements OnClickListener,
 	private boolean isBacking = false;
 	private TextView mVoteBtn;
 	private TextView mHotBtn;
+	private Typeface mITCAvantGardeStdMdFont;
 
 	public HotVoteFragment() {
 	}
@@ -38,6 +37,8 @@ public class HotVoteFragment extends Fragment implements OnClickListener,
 
 	public HotVoteFragment(Context context) {
 		mContext = context;
+		mITCAvantGardeStdMdFont = FontUtils.loadTypeFace(mContext,
+				"ITCAvantGardeStd-Md.otf");
 	}
 
 	@Override
@@ -47,10 +48,10 @@ public class HotVoteFragment extends Fragment implements OnClickListener,
 		View hotVoteView = inflater.inflate(R.layout.voting_001, null);
 		mVoteBtn = (TextView) hotVoteView.findViewById(R.id.vote_btn);
 		mHotBtn = (TextView) hotVoteView.findViewById(R.id.hot_btn);
-		Typeface typeFace = Typeface.createFromAsset(getActivity().getAssets(),
-				"fonts/ITCAvantGardeStd-Demi.otf");
-		mVoteBtn.setTypeface(typeFace);
-		mHotBtn.setTypeface(typeFace);
+
+		mVoteBtn.setTypeface(mITCAvantGardeStdMdFont);
+		mHotBtn.setTypeface(mITCAvantGardeStdMdFont);
+
 		mVoteBtn.setOnClickListener(this);
 		mHotBtn.setOnClickListener(this);
 		return hotVoteView;

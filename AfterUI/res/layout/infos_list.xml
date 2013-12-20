@@ -55,7 +55,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_marginLeft="15dp"
-            android:paddingBottom="15dp"
+            android:paddingBottom="20dp"
             android:src="@drawable/hot_vote_img" />
 
         <TextView
@@ -66,20 +66,6 @@
             android:layout_marginLeft="4dp"
             android:layout_toRightOf="@id/hot_btn"
             android:paddingBottom="15dp"
-            android:text="@string/hot"
-            android:textColor="@android:color/white"
-            android:textSize="16sp" />
-
-        <TextView
-            android:id="@+id/hot_num"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="15dp"
-            android:layout_marginLeft="4dp"
-            android:layout_toRightOf="@id/hot_txt"
-            android:paddingBottom="15dp"
-            android:text="(25)"
             android:textColor="@android:color/white"
             android:textSize="16sp" />
 

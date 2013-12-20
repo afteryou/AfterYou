@@ -2,6 +2,8 @@
 <resources>
 
     <color name="font_listview_blue">#005d96</color>
+    <color name="message_txt">#c6c6c5</color>
+    <color name="msg_bg">#79B2E1</color>
     <color name="name_color">#794d1f</color>
     <color name="translucent_black">#80000000</color>
     <color name="red_color">#e20613</color>
@@ -86,6 +88,7 @@
     <color name="middle_gray">#ff9f9f9f</color>
     <color name="gray_no_transparency ">#88000000</color>
     <color name="profile_setup_blue_color">#226bb3</color>
+
     <drawable name="white">#FFFFFFFF</drawable>
     <drawable name="green">#FF00FF00</drawable>
 

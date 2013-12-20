@@ -19,6 +19,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.beacon.afterui.R;
+import com.beacon.afterui.utils.FontUtils;
 import com.beacon.afterui.views.MainActivity;
 import com.beacon.afterui.views.data.NotificationConnectsAddapter;
 import com.beacon.afterui.views.data.NotificationMessagesAddapter;
@@ -40,7 +41,7 @@ public class NotificationFragment extends Fragment implements
 	private static final int REFERRAL_BTN = 2;
 	private static final int VOTES_BTN = 3;
 	private static final int MESSAGE_BTN = 4;
-	private Typeface mTypeFace;
+	private Typeface ITCAvantGardeStdFont;
 
 	private TextView mNumConnects;
 	private TextView mNumReferrals;
@@ -52,8 +53,8 @@ public class NotificationFragment extends Fragment implements
 
 	public NotificationFragment(Context context) {
 		mContext = context;
-		mTypeFace = Typeface.createFromAsset(mContext.getAssets(),
-				"fonts/ITCAvantGardeStd-Bk.otf");
+		ITCAvantGardeStdFont = FontUtils.loadTypeFace(mContext,
+				FontUtils.ITC_AVANT_GARDE_STD_BK);
 	}
 
 	@Override
@@ -63,34 +64,34 @@ public class NotificationFragment extends Fragment implements
 		View view = inflater.inflate(R.layout.voting_003, null);
 
 		TextView connects_txt = (TextView) view.findViewById(R.id.connects_txt);
-		connects_txt.setTypeface(mTypeFace);
+		connects_txt.setTypeface(ITCAvantGardeStdFont);
 
 		TextView referrals_txt = (TextView) view
 				.findViewById(R.id.referrals_txt);
-		referrals_txt.setTypeface(mTypeFace);
+		referrals_txt.setTypeface(ITCAvantGardeStdFont);
 
 		TextView vote_txt = (TextView) view.findViewById(R.id.vote_txt);
-		vote_txt.setTypeface(mTypeFace);
+		vote_txt.setTypeface(ITCAvantGardeStdFont);
 
 		TextView messages_txt = (TextView) view.findViewById(R.id.messages_txt);
-		messages_txt.setTypeface(mTypeFace);
+		messages_txt.setTypeface(ITCAvantGardeStdFont);
 
 		mNumVotes = (TextView) view.findViewById(R.id.num_votes);
-		mNumVotes.setTypeface(mTypeFace);
+		mNumVotes.setTypeface(ITCAvantGardeStdFont);
 
 		mNumConnects = (TextView) view.findViewById(R.id.num_connects);
-		mNumConnects.setTypeface(mTypeFace);
+		mNumConnects.setTypeface(ITCAvantGardeStdFont);
 
 		mNumReferrals = (TextView) view.findViewById(R.id.num_referrals);
-		mNumReferrals.setTypeface(mTypeFace);
+		mNumReferrals.setTypeface(ITCAvantGardeStdFont);
 
 		mNumMsg = (TextView) view.findViewById(R.id.num_msg);
-		mNumMsg.setTypeface(mTypeFace);
+		mNumMsg.setTypeface(ITCAvantGardeStdFont);
 
 		mNotificationConnetsBtn = (ImageView) view
 				.findViewById(R.id.num_friends_btn);
 		TextView done_btn = (TextView) view.findViewById(R.id.voting_done_btn);
-		done_btn.setTypeface(mTypeFace);
+		done_btn.setTypeface(ITCAvantGardeStdFont);
 
 		mNotificationReferralsBtn = (ImageView) view
 				.findViewById(R.id.num_referals_btn);
@@ -174,7 +175,7 @@ public class NotificationFragment extends Fragment implements
 		if (mButtonId == CONNECT_BTN) {
 			if (position == 4) {
 
-				Fragment viewVotes = new ViewVotesFragment(mContext);
+				Fragment viewVotes = new ViewVotesFragment(mContext, 0);
 				FragmentHelper.gotoFragment(getActivity(),
 						NotificationFragment.this, viewVotes, bundle);
 

@@ -21,6 +21,7 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
@@ -28,6 +29,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.beacon.afterui.R;
+import com.beacon.afterui.utils.FontUtils;
 import com.beacon.afterui.views.MainActivity;
 
 public class FriendListFragment extends Fragment implements OnClickListener,
@@ -41,11 +43,13 @@ public class FriendListFragment extends Fragment implements OnClickListener,
 	private Button mSearchBtn;
 	private ListView mFriendList;
 	private Context mContext;
+	private EditText mSearchBox;
 	private Boolean isBacking = false;
 	private static final int AFTER_YOU_BTN = 1;
 	private static final int CONTACTS_BTN = 2;
 	private static final int FACEBOOK_BTN = 3;
 	private static int mButtonId;
+	private Typeface mITCAvantGardeStdBk;
 
 	public FriendListFragment() {
 	}
@@ -53,6 +57,8 @@ public class FriendListFragment extends Fragment implements OnClickListener,
 	public FriendListFragment(Context context) {
 
 		mContext = context;
+		mITCAvantGardeStdBk = FontUtils.loadTypeFace(mContext,
+				FontUtils.ITC_AVANT_GARDE_STD_BK);
 	}
 
 	@Override
@@ -60,21 +66,22 @@ public class FriendListFragment extends Fragment implements OnClickListener,
 			Bundle savedInstanceState) {
 		View friendListView = inflater.inflate(R.layout.friend_list_screen,
 				null);
-		Typeface typeFaceBK = Typeface.createFromAsset(getActivity()
-				.getAssets(), "fonts/ITCAvantGardeStd-Bk.otf");
+
+		mSearchBox = (EditText) friendListView.findViewById(R.id.search_txt);
+		mSearchBox.setTypeface(mITCAvantGardeStdBk);
 		mAfterYouFrnd = (TextView) friendListView
 				.findViewById(R.id.after_you_friends_btn);
-		mAfterYouFrnd.setTypeface(typeFaceBK);
+		mAfterYouFrnd.setTypeface(mITCAvantGardeStdBk);
 
 		mContacts = (TextView) friendListView.findViewById(R.id.contacts_btn);
-		mContacts.setTypeface(typeFaceBK);
+		mContacts.setTypeface(mITCAvantGardeStdBk);
 
 		mFacebookFrnd = (TextView) friendListView
 				.findViewById(R.id.facebook_voting_btn);
-		mFacebookFrnd.setTypeface(typeFaceBK);
+		mFacebookFrnd.setTypeface(mITCAvantGardeStdBk);
 
 		mTwitterFrnd = (TextView) friendListView.findViewById(R.id.twitter_btn);
-		mTwitterFrnd.setTypeface(typeFaceBK);
+		mTwitterFrnd.setTypeface(mITCAvantGardeStdBk);
 
 		mFriendList = (ListView) friendListView.findViewById(R.id.freind_list);
 
@@ -82,7 +89,7 @@ public class FriendListFragment extends Fragment implements OnClickListener,
 
 		TextView done_btn = (TextView) friendListView
 				.findViewById(R.id.voting_done_btn);
-		done_btn.setTypeface(typeFaceBK);
+		done_btn.setTypeface(mITCAvantGardeStdBk);
 
 		mAfterYouFrnd.setOnClickListener(this);
 		mContacts.setOnClickListener(this);

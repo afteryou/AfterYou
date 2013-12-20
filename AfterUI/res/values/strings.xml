@@ -4,7 +4,7 @@
     <!-- Voting Screens -->
     <string name="hot_txt">Click here if you think I\'m hot</string>
     <string name="hot">Hot</string>
-    <string name="last_update_txt">Last Update\:</string>
+    <string name="last_update_txt">Last Update:</string>
     <string name="vote_confirm_txt">confirm your voters</string>
     <string name="vote_txt">Click here to create a vote</string>
     <string name="send_msg_to_voters_txt">Send message to voters</string>
@@ -25,6 +25,10 @@
     <string name="contacts_txt">contacts</string>
     <string name="twitter_txt">twitter</string>
     <string name="made_referrel_txt">Made a referral to you</string>
+    <string name="photos_txt">photos</string>
+    <string name="video_txt">video</string>
+    <string name="send_gift_txt">send gift</string>
+    <string name="comment_txt">comment</string>
 
     <!-- Left Drawer -->
     <string name="setting_txt">settings</string>
@@ -59,6 +63,11 @@
     <string name="choose_from_facebook">Choose From Facebook</string>
     <string name="choose_from_library">Choose From Library</string>
     <string name="edit_txt">edit picture</string>
+    <string name="edit_caps">Edit</string>
+    <string name="sponsor_txt">Sponsor</string>
+    <string name="edit_small">edit</string>
+    <string name="in_txt">In </string>
+    <string name="from_txt">From </string>
 
     <!-- Voting Screen 006 -->
     <string name="congrates_txt">Congrats! its approved.</string>
@@ -259,7 +268,7 @@
     <string name="IDS_MY_STORY">My Story</string>
     <string name="IDS_MY_MATCH">My Ideal Match</string>
     <string name="IDS_MESSAGE">Message</string>
-    <string name="write_msg_txt">Write a message&#8230;</string>
+    <string name="write_msg_txt">Message&#8230;</string>
     <string name="post_txt">Post</string>
     <string name="IDS_NO_UNREAD_MSGS">There are no unread messages</string>
     <string name="IDS_NOTIFY_STRING">New message from</string>

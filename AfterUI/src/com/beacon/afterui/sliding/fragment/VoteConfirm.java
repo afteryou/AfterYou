@@ -6,6 +6,7 @@ import android.animation.AnimatorSet;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.res.Configuration;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.beacon.afterui.R;
+import com.beacon.afterui.utils.FontUtils;
 import com.beacon.afterui.views.MainActivity;
 
 public class VoteConfirm extends Fragment implements FragmentLifecycle,
@@ -24,11 +26,19 @@ public class VoteConfirm extends Fragment implements FragmentLifecycle,
 	private Context mContext;
 	private boolean isBacking;
 
+	private Typeface mITCAvantGardeStdMdFont;
+	private Typeface mITCAvantGardeStdBkFont;
+
 	public VoteConfirm() {
 	}
 
 	public VoteConfirm(Context context) {
 		mContext = context;
+
+		mITCAvantGardeStdMdFont = FontUtils.loadTypeFace(mContext,
+				"ITCAvantGardeStd-Md.otf");
+		mITCAvantGardeStdBkFont = FontUtils.loadTypeFace(mContext,
+				FontUtils.ITC_AVANT_GARDE_STD_BK);
 	}
 
 	@Override
@@ -36,13 +46,16 @@ public class VoteConfirm extends Fragment implements FragmentLifecycle,
 			Bundle savedInstanceState) {
 
 		View view = inflater.inflate(R.layout.voting_008, null);
-		ImageView vote_confirm_btn = (ImageView) view
+		TextView vote_confirm_btn = (TextView) view
 				.findViewById(R.id.vote_confirm_btn);
-		ImageView msg_confirm_btn = (ImageView) view
+		vote_confirm_btn.setTypeface(mITCAvantGardeStdMdFont);
+		TextView msg_confirm_btn = (TextView) view
 				.findViewById(R.id.msg_confirm_btn);
+		msg_confirm_btn.setTypeface(mITCAvantGardeStdMdFont);
 
 		TextView voting_done_btn = (TextView) view
 				.findViewById(R.id.voting_done_btn);
+		voting_done_btn.setTypeface(mITCAvantGardeStdBkFont);
 
 		vote_confirm_btn.setOnClickListener(this);
 		msg_confirm_btn.setOnClickListener(this);

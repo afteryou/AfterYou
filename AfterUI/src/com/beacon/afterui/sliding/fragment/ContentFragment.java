@@ -40,6 +40,7 @@ import com.beacon.afterui.provider.PreferenceEngine;
 import com.beacon.afterui.sliding.customViews.CustomGridView;
 import com.beacon.afterui.sliding.customViews.CustomGridView.IDataListener;
 import com.beacon.afterui.sliding.customViews.ListPopupMenu;
+import com.beacon.afterui.utils.FontUtils;
 import com.beacon.afterui.utils.ImageUtils;
 import com.beacon.afterui.utils.WindowUtils;
 import com.beacon.afterui.utils.customviews.AfterYouDialogImpl;
@@ -134,8 +135,8 @@ public class ContentFragment extends Fragment implements FragmentLifecycle,
 		typefaceItalic = Typeface.createFromAsset(mContext.getAssets(),
 				"fonts/MyriadPro-It.otf");
 
-		mITCAvantGardeStdBk = Typeface.createFromAsset(mContext.getAssets(),
-				"fonts/ITCAvantGardeStd-Bk.otf");
+		mITCAvantGardeStdBk = FontUtils.loadTypeFace(this.mContext,
+				FontUtils.ITC_AVANT_GARDE_STD_BK);
 	}
 
 	@Override
@@ -198,6 +199,7 @@ public class ContentFragment extends Fragment implements FragmentLifecycle,
 				inDetail = true;
 			}
 		});
+		
 		mClickListener = new InterestClickListener() {
 
 			@Override
@@ -547,41 +549,41 @@ public class ContentFragment extends Fragment implements FragmentLifecycle,
 		nameView.setTypeface(mITCAvantGardeStdBk);
 		TextView ageView = (TextView) mDetailBox.findViewById(R.id.detail_age);
 		ageView.setTypeface(mITCAvantGardeStdBk);
-		TextView albumCount = (TextView) mDetailBox
-				.findViewById(R.id.detail_album_count);
-		albumCount.setTypeface(mITCAvantGardeStdBk);
+		// TextView albumCount = (TextView) mDetailBox
+		// .findViewById(R.id.detail_album_count);
+		// albumCount.setTypeface(mITCAvantGardeStdBk);
 		TextView statusView = (TextView) mDetailBox
 				.findViewById(R.id.detail_status);
 		statusView.setTypeface(mITCAvantGardeStdBk);
-		TextView lastLoginView = (TextView) mDetailBox
-				.findViewById(R.id.detail_lastlogin);
-		lastLoginView.setTypeface(mITCAvantGardeStdBk);
-		TextView lastLoginTime = (TextView) mDetailBox
-				.findViewById(R.id.detail_lastlogin_time);
-		lastLoginTime.setTypeface(mITCAvantGardeStdBk);
-		TextView likeCountView = (TextView) mDetailBox
-				.findViewById(R.id.detail_like_text);
-		likeCountView.setTypeface(mITCAvantGardeStdBk);
-		TextView commentCountView = (TextView) mDetailBox
-				.findViewById(R.id.detail_comment_count);
-		commentCountView.setTypeface(mITCAvantGardeStdBk);
-		TextView add_req_text = (TextView) mDetailBox
-				.findViewById(R.id.detail_chat_req_text);
-		add_req_text.setTypeface(mITCAvantGardeStdBk);
+		// TextView lastLoginView = (TextView) mDetailBox
+		// .findViewById(R.id.detail_lastlogin);
+		// lastLoginView.setTypeface(mITCAvantGardeStdBk);
+		// TextView lastLoginTime = (TextView) mDetailBox
+		// .findViewById(R.id.detail_lastlogin_time);
+		// lastLoginTime.setTypeface(mITCAvantGardeStdBk);
+		// TextView likeCountView = (TextView) mDetailBox
+		// .findViewById(R.id.detail_like_text);
+		// likeCountView.setTypeface(mITCAvantGardeStdBk);
+		// TextView commentCountView = (TextView) mDetailBox
+		// .findViewById(R.id.detail_comment_count);
+		// commentCountView.setTypeface(mITCAvantGardeStdBk);
+		// TextView add_req_text = (TextView) mDetailBox
+		// .findViewById(R.id.detail_chat_req_text);
+		// add_req_text.setTypeface(mITCAvantGardeStdBk);
 		nameView.setText(data.getName());
 		ageView.setText(mContext.getResources().getString(R.string.IDS_AGE)
 				+ data.getAge());
-		albumCount.setText(mContext.getResources().getString(
-				R.string.IDS_OPEN_BRACE)
-				+ data.getAlbum_photo_count()
-				+ mContext.getResources().getString(R.string.IDS_CLOSE_BRACE));
+		// albumCount.setText(mContext.getResources().getString(
+		// R.string.IDS_OPEN_BRACE)
+		// + data.getAlbum_photo_count()
+		// + mContext.getResources().getString(R.string.IDS_CLOSE_BRACE));
 		statusView.setText(data.getStatus());
-		lastLoginView.setText(data.getLast_online());
-		lastLoginTime.setText(data.getLast_online_time());
-		likeCountView.setText(data.getProfile_likes()
-				+ mContext.getResources().getString(R.string.IDS_LIKES));
-		commentCountView.setText(data.getProfile_comments_count()
-				+ mContext.getResources().getString(R.string.IDS_COMMENTS));
+		// lastLoginView.setText(data.getLast_online());
+		// lastLoginTime.setText(data.getLast_online_time());
+		// likeCountView.setText(data.getProfile_likes()
+		// + mContext.getResources().getString(R.string.IDS_LIKES));
+		// commentCountView.setText(data.getProfile_comments_count()
+		// + mContext.getResources().getString(R.string.IDS_COMMENTS));
 	}
 
 	private void initDetailBox() {

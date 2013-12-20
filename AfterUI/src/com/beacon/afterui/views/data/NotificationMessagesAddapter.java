@@ -11,17 +11,18 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.beacon.afterui.R;
+import com.beacon.afterui.utils.FontUtils;
 
 public class NotificationMessagesAddapter extends BaseAdapter {
 
 	private LayoutInflater mInflater;
-	private Typeface mTypeFace;
+	private Typeface mITCAvantGardeStdBkFont;
 
 	public NotificationMessagesAddapter(Context context) {
 
 		mInflater = LayoutInflater.from(context);
-		mTypeFace = Typeface.createFromAsset(context.getAssets(),
-				"fonts/ITCAvantGardeStd-Bk.otf");
+		mITCAvantGardeStdBkFont = FontUtils.loadTypeFace(context,
+				FontUtils.ITC_AVANT_GARDE_STD_BK);
 	}
 
 	@Override
@@ -51,7 +52,7 @@ public class NotificationMessagesAddapter extends BaseAdapter {
 					.findViewById(R.id.dashboard_img);
 			holder.userMsgTxt = (TextView) view
 					.findViewById(R.id.dashboard_txt);
-			holder.userMsgTxt.setTypeface(mTypeFace);
+			holder.userMsgTxt.setTypeface(mITCAvantGardeStdBkFont);
 
 			holder.userMsgTxt.setText("Hello Sir how are you?");
 			holder.userMsgImg.setImageResource(R.drawable.sample_img);

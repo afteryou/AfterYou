@@ -12,6 +12,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.beacon.afterui.R;
+import com.beacon.afterui.utils.FontUtils;
 
 public class NotificationConnectsAddapter extends BaseAdapter implements
 		OnClickListener {
@@ -26,15 +27,15 @@ public class NotificationConnectsAddapter extends BaseAdapter implements
 
 	private static final int VIEW_TYPE_COUNT = 2;
 
-	private Typeface mTypeFace;
+	private Typeface mITCAvantGardeStdBkFont;
 
 	private TextView mViewVotesUserName;
 
 	public NotificationConnectsAddapter(Context context) {
 		mInflater = LayoutInflater.from(context);
 		mContext = context;
-		mTypeFace = Typeface.createFromAsset(mContext.getAssets(),
-				"fonts/ITCAvantGardeStd-Bk.otf");
+		mITCAvantGardeStdBkFont = FontUtils.loadTypeFace(mContext,
+				FontUtils.ITC_AVANT_GARDE_STD_BK);
 	}
 
 	@Override
@@ -80,31 +81,31 @@ public class NotificationConnectsAddapter extends BaseAdapter implements
 						null);
 				holder.connectBtn = (TextView) view
 						.findViewById(R.id.conect_green_btn);
-				holder.connectBtn.setTypeface(mTypeFace);
+				holder.connectBtn.setTypeface(mITCAvantGardeStdBkFont);
 
 				holder.voteBtn = (TextView) view.findViewById(R.id.vote_btn);
-				holder.voteBtn.setTypeface(mTypeFace);
+				holder.voteBtn.setTypeface(mITCAvantGardeStdBkFont);
 
 				holder.declineBtn = (TextView) view
 						.findViewById(R.id.decline_btn);
-				holder.declineBtn.setTypeface(mTypeFace);
+				holder.declineBtn.setTypeface(mITCAvantGardeStdBkFont);
 
 				holder.userImg = (ImageView) view.findViewById(R.id.user_img);
 
 				holder.requestUserName = (TextView) view
 						.findViewById(R.id.user_name_decline);
-				holder.requestUserName.setTypeface(mTypeFace);
+				holder.requestUserName.setTypeface(mITCAvantGardeStdBkFont);
 
 				holder.referalUserImg = (ImageView) view
 						.findViewById(R.id.referal_user_img);
 
 				holder.referalUserName = (TextView) view
 						.findViewById(R.id.referal_user_name);
-				holder.referalUserName.setTypeface(mTypeFace);
+				holder.referalUserName.setTypeface(mITCAvantGardeStdBkFont);
 
 				holder.referalTxt = (TextView) view
 						.findViewById(R.id.referral_txt);
-				holder.referalTxt.setTypeface(mTypeFace);
+				holder.referalTxt.setTypeface(mITCAvantGardeStdBkFont);
 
 				holder.referalUserImg.setVisibility(View.GONE);
 				holder.referalUserName.setVisibility(View.GONE);
@@ -119,18 +120,19 @@ public class NotificationConnectsAddapter extends BaseAdapter implements
 				view = mInflater.inflate(R.layout.view_votes_lay, null);
 				holder.viewVotesUserName = (TextView) view
 						.findViewById(R.id.user_name_view_votes);
-				holder.viewVotesUserName.setTypeface(mTypeFace);
+				holder.viewVotesUserName.setTypeface(mITCAvantGardeStdBkFont);
 
 				holder.view_votes_txt = (TextView) view
 						.findViewById(R.id.view_votes_txt);
-				holder.view_votes_txt.setTypeface(mTypeFace);
+				holder.view_votes_txt.setTypeface(mITCAvantGardeStdBkFont);
 
 				holder.voting_in_progress_txt = (TextView) view
 						.findViewById(R.id.voting_in_progress_txt);
-				holder.voting_in_progress_txt.setTypeface(mTypeFace);
+				holder.voting_in_progress_txt
+						.setTypeface(mITCAvantGardeStdBkFont);
 
 				holder.time_txt = (TextView) view.findViewById(R.id.time_txt);
-				holder.time_txt.setTypeface(mTypeFace);
+				holder.time_txt.setTypeface(mITCAvantGardeStdBkFont);
 				break;
 			}
 

@@ -43,6 +43,7 @@ import com.beacon.afterui.log.AfterUIlog;
 import com.beacon.afterui.provider.PreferenceEngine;
 import com.beacon.afterui.sliding.SlidingActivity;
 import com.beacon.afterui.sliding.customViews.ListViewAdapter;
+import com.beacon.afterui.utils.FontUtils;
 import com.beacon.afterui.views.CapturePictureActivity;
 import com.beacon.afterui.views.MainActivity;
 import com.beacon.afterui.views.PickFriendsActivity;
@@ -72,7 +73,7 @@ public class SlidingMenuFragment extends Fragment implements
 
 	private static final String IMAGE = "icon";
 	private static final String TEXT = "text";
-	private Typeface typeFaceSemiBold;
+	private Typeface ITCAvantGardeStdBkFont;
 
 	private Bitmap mUserThumbBitmap;
 
@@ -100,19 +101,20 @@ public class SlidingMenuFragment extends Fragment implements
 		// mRootView = (ViewGroup) inflater.inflate(R.layout.sliding_menu,
 		// null);
 
-		// font myriadPro semibold
-		typeFaceSemiBold = Typeface.createFromAsset(getActivity().getAssets(),
-				"fonts/ITCAvantGardeStd-Bk.otf");
+		// font myriadPro ITCAvantGardeStdBkFont
+		ITCAvantGardeStdBkFont = FontUtils.loadTypeFace(getActivity()
+				.getApplicationContext(), FontUtils.ITC_AVANT_GARDE_STD_BK);
+
 		View view = inflater.inflate(R.layout.sliding_menu, null);
 		View viewText = inflater.inflate(R.layout.sliding_menu_item, null);
 		mListView = (ListView) view.findViewById(R.id.sliding_menu_list);
 		TextView dashText = (TextView) viewText
 				.findViewById(R.id.dashboard_txt);
 		EditText searchEditText = (EditText) view.findViewById(R.id.search_txt);
-		searchEditText.setTypeface(typeFaceSemiBold);
+		searchEditText.setTypeface(ITCAvantGardeStdBkFont);
 
 		TextView userNameTxt = (TextView) view.findViewById(R.id.user_name);
-		userNameTxt.setTypeface(typeFaceSemiBold);
+		userNameTxt.setTypeface(ITCAvantGardeStdBkFont);
 		String name = PreferenceEngine.getInstance(getActivity())
 				.getFirstName()
 				+ " "
@@ -130,7 +132,7 @@ public class SlidingMenuFragment extends Fragment implements
 
 		String[] from = { IMAGE, TEXT };
 		int[] to = { R.id.dashboard_img, R.id.dashboard_txt };
-		dashText.setTypeface(typeFaceSemiBold);
+		dashText.setTypeface(ITCAvantGardeStdBkFont);
 		Log.d(TAG, "Size Array : " + mDashBoardTxt.length);
 
 		for (int i = 0; i < mDashBoardTxt.length; i++) {
@@ -143,7 +145,7 @@ public class SlidingMenuFragment extends Fragment implements
 				R.layout.sliding_menu_item, from, to) {
 			@Override
 			public void setViewText(TextView v, String text) {
-				v.setTypeface(typeFaceSemiBold);
+				v.setTypeface(ITCAvantGardeStdBkFont);
 				v.setTextColor(getActivity().getResources().getColor(
 						R.color.font_blue_color));
 				v.setText(text);

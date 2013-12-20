@@ -13,6 +13,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.beacon.afterui.R;
+import com.beacon.afterui.utils.FontUtils;
 
 public class NotificationVoteAddapter extends BaseAdapter implements
 		OnClickListener {
@@ -22,15 +23,15 @@ public class NotificationVoteAddapter extends BaseAdapter implements
 	private Drawable mDeclineBtn;
 	private Drawable mHotGreenBtn;
 	private Drawable mNoVoteBtn;
-	private Typeface mTypeFace;
+	private Typeface mITCAvantGardeStdBkFont;
 
 	public NotificationVoteAddapter(Context context) {
 
 		mInflater = LayoutInflater.from(context);
 		mContext = context;
 		initTempImages();
-		mTypeFace = Typeface.createFromAsset(mContext.getAssets(),
-				"fonts/ITCAvantGardeStd-Bk.otf");
+		mITCAvantGardeStdBkFont = FontUtils.loadTypeFace(mContext,
+				FontUtils.ITC_AVANT_GARDE_STD_BK);
 	}
 
 	@Override
@@ -58,29 +59,29 @@ public class NotificationVoteAddapter extends BaseAdapter implements
 			view = mInflater.inflate(R.layout.connects_notification_item, null);
 
 			holder.hotBtn = (TextView) view.findViewById(R.id.conect_green_btn);
-			holder.hotBtn.setTypeface(mTypeFace);
+			holder.hotBtn.setTypeface(mITCAvantGardeStdBkFont);
 
 			holder.notHotBtn = (TextView) view.findViewById(R.id.vote_btn);
-			holder.notHotBtn.setTypeface(mTypeFace);
+			holder.notHotBtn.setTypeface(mITCAvantGardeStdBkFont);
 
 			holder.noVoteBtn = (TextView) view.findViewById(R.id.decline_btn);
-			holder.noVoteBtn.setTypeface(mTypeFace);
+			holder.noVoteBtn.setTypeface(mITCAvantGardeStdBkFont);
 
 			holder.userImg = (ImageView) view.findViewById(R.id.user_img);
 
 			holder.requestUserName = (TextView) view
 					.findViewById(R.id.user_name_decline);
-			holder.requestUserName.setTypeface(mTypeFace);
+			holder.requestUserName.setTypeface(mITCAvantGardeStdBkFont);
 
 			holder.referalUserImg = (ImageView) view
 					.findViewById(R.id.referal_user_img);
 
 			holder.referalUserName = (TextView) view
 					.findViewById(R.id.referal_user_name);
-			holder.referalUserName.setTypeface(mTypeFace);
+			holder.referalUserName.setTypeface(mITCAvantGardeStdBkFont);
 
 			holder.voteTxt = (TextView) view.findViewById(R.id.referral_txt);
-			holder.voteTxt.setTypeface(mTypeFace);
+			holder.voteTxt.setTypeface(mITCAvantGardeStdBkFont);
 			holder.voteTxt.setText("Needs your vote");
 
 			holder.noVoteBtn.setCompoundDrawables(null, mNoVoteBtn, null, null);

@@ -1,367 +1,478 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="fill_parent" >
+    android:layout_height="match_parent"
+    android:background="@color/white" >
 
     <RelativeLayout
-        android:id="@+id/detail_content"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@drawable/content_background_holo_light"
-        android:orientation="vertical" >
-
-        <TextView
-            android:id="@+id/detail_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:paddingLeft="10dip"
-            android:paddingTop="10dip"
-            android:textColor="@color/brown_background"
-            android:textSize="24sp" />
-
-        <TextView
-            android:id="@+id/detail_age"
-            style="@style/LoginPageEditText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_toRightOf="@id/detail_name"
-            android:gravity="center"
-            android:paddingLeft="10dip"
-            android:paddingTop="15dip" />
+        android:layout_height="wrap_content" >
 
         <RelativeLayout
-            android:id="@+id/detail_album"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:paddingRight="10dip"
-            android:paddingTop="10dip" >
-
-            <ImageView
-                android:id="@+id/detail_album_art"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:paddingTop="2dip"
-                android:src="@drawable/album_art" />
-
-            <TextView
-                android:id="@+id/detail_album_count"
-                style="@style/LoginPageEditText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_toRightOf="@id/detail_album_art"
-                android:gravity="center"
-                android:paddingLeft="5dip" />
-        </RelativeLayout>
-
-        <TextView
-            android:id="@+id/detail_status"
-            style="@style/LoginPageEditText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/detail_name"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:paddingLeft="10dip"
-            android:paddingTop="5dip" />
-
-        <RelativeLayout
-            android:id="@+id/detail_login"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/detail_status"
-            android:paddingLeft="10dip"
-            android:paddingTop="5dip" >
-
-            <TextView
-                android:id="@+id/detail_lastlogin"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:textColor="@color/black" />
-
-            <TextView
-                android:id="@+id/detail_lastlogin_time"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_toRightOf="@id/detail_lastlogin"
-                android:gravity="center"
-                android:paddingLeft="10dip"
-                android:textColor="@color/black" />
-        </RelativeLayout>
-
-        <com.beacon.afterui.imageUtils.ScaleImageView
-            android:id="@+id/detail_pic"
+            android:id="@+id/profilebar"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/detail_login"
-            android:paddingTop="5dip"
-            android:scaleType="centerCrop"
-            android:src="@null" />
-
-        <RelativeLayout
-            android:id="@+id/detail_social"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/detail_pic"
-            android:paddingLeft="10dip"
-            android:paddingTop="5dip" >
+            android:layout_height="45dp" >
 
             <ImageView
-                android:id="@+id/detail_like_art"
+                android:id="@+id/notifyImage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:gravity="center"
-                android:paddingTop="2dip"
-                android:src="@drawable/like_art" />
+                android:layout_centerVertical="true"
+                android:paddingLeft="@dimen/lay_margine"
+                android:src="@drawable/notify" />
 
             <TextView
-                android:id="@+id/detail_like_text"
-                style="@style/LoginPageEditText"
+                android:id="@+id/notification_txt"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_toRightOf="@id/detail_like_art"
-                android:gravity="center"
-                android:paddingLeft="5dip" />
-
-            <ImageView
-                android:id="@+id/detail_comment_art"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_toRightOf="@id/detail_like_text"
-                android:gravity="center"
-                android:paddingLeft="10dip"
-                android:paddingTop="2dip"
-                android:src="@drawable/comment_bubble" />
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="10dp"
+                android:layout_toRightOf="@id/notifyImage"
+                android:text="@string/notification_txt"
+                android:textColor="@color/font_blue_color"
+                android:textSize="16sp" />
 
             <TextView
-                android:id="@+id/detail_comment_count"
-                style="@style/LoginPageEditText"
+                android:id="@+id/notification_numnber"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_toRightOf="@id/detail_comment_art"
-                android:gravity="center"
-                android:paddingLeft="5dip" />
-        </RelativeLayout>
+                android:layout_centerVertical="true"
+                android:layout_marginLeft="8dp"
+                android:layout_toRightOf="@id/notification_txt"
+                android:text="(25)"
+                android:textColor="@color/font_blue_color"
+                android:textSize="16sp" />
 
-        <RelativeLayout
-            android:id="@+id/detail_comunicate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/detail_social"
-            android:paddingLeft="10dip"
-            android:paddingTop="15dip" >
-
-            <ImageView
-                android:id="@+id/connect_detail"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingTop="2dip"
-                android:src="@drawable/connect_detail" />
-            
-            <ImageView
-                android:id="@+id/gift_detail"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingTop="2dip"
-                android:src="@drawable/gift_detail"
-                android:layout_toRightOf="@id/connect_detail"
-                android:layout_marginLeft="18dp" />
-            
-            <ImageView
-                android:id="@+id/video_detail"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingTop="2dip"
-                android:src="@drawable/video_detail"
-                android:layout_toRightOf="@id/gift_detail"
-                android:layout_marginLeft="18dp" />
-            
-            <ImageView
-                android:id="@+id/back_detail"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingTop="2dip"
-                android:src="@drawable/connect_detail"
-                android:layout_toRightOf="@id/video_detail"
-                android:layout_marginLeft="18dp" />
-
-            <RelativeLayout
+            <TextView
+                android:id="@+id/search_btn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
-                android:paddingRight="5dip" >
+                android:layout_centerVertical="true"
+                android:layout_marginRight="@dimen/lay_margine"
+                android:background="@drawable/search_img_blue" />
+        </RelativeLayout>
 
-                <ImageView
-                    android:id="@+id/detail_chat_req"
-                    android:layout_width="wrap_content"
+        <View
+            android:id="@+id/notification_divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_below="@id/profilebar"
+            android:adjustViewBounds="true"
+            android:background="@color/time_color" />
+
+        <RelativeLayout
+            android:id="@+id/detail_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/notification_divider" >
+
+            <RelativeLayout
+                android:id="@+id/user_img"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" >
+
+                <com.beacon.afterui.imageUtils.ScaleImageView
+                    android:id="@+id/detail_pic"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingRight="2dip"
-                    android:paddingTop="2dip"
-                    android:src="@drawable/chat_req" />
+                    android:scaleType="centerCrop"
+                    android:src="@null" />
 
                 <TextView
-                    android:id="@+id/detail_chat_req_text"
-                    style="@style/LoginPageEditText"
+                    android:id="@+id/detail_album_art"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toRightOf="@id/detail_chat_req"
-                    android:paddingTop="2dip"
-                    android:text="@string/IDS_CHAT" />
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="@dimen/lay_margine"
+                    android:layout_marginTop="15dp"
+                    android:background="@drawable/text_gift_states"
+                    android:gravity="center"
+                    android:text="@string/edit_small"
+                    android:textColor="@color/white" />
+
+                <ImageView
+                    android:id="@+id/hot_img"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginLeft="@dimen/lay_margine"
+                    android:paddingBottom="20dp"
+                    android:src="@drawable/hot_vote_img" />
+
+                <TextView
+                    android:id="@+id/num_hot"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_toRightOf="@id/hot_img"
+                    android:paddingBottom="15dp"
+                    android:paddingLeft="3dp"
+                    android:text="Hot (25)"
+                    android:textColor="@android:color/white"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/last_update_status"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="@dimen/lay_margine"
+                    android:paddingBottom="15dp"
+                    android:text="Yesterday"
+                    android:textColor="@android:color/white"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/last_update_txt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentBottom="true"
+                    android:layout_marginRight="2dp"
+                    android:layout_toLeftOf="@id/last_update_status"
+                    android:paddingBottom="15dp"
+                    android:text="@string/last_update_txt"
+                    android:textColor="@color/font_blue_color"
+                    android:textSize="16sp" />
             </RelativeLayout>
-        </RelativeLayout>
 
-        <RelativeLayout
-            android:id="@+id/detail_divider_lay"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/detail_comunicate"
-            android:paddingBottom="10dip"
-            android:paddingTop="10dip" >
-
-            <ImageView
-                android:id="@+id/detail_divider"
-                style="@style/GrayDividerImageView"
-                android:layout_width="fill_parent"
-                android:layout_height="2dip"
-                android:adjustViewBounds="true" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/detail_comment_list"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/detail_divider_lay"
-            android:layout_centerInParent="true"
-            android:paddingBottom="10dip"
-            android:paddingTop="20dip"
-            android:visibility="gone" >
-
-            <ListView
-                android:id="@+id/list"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:drawSelectorOnTop="false"
-                android:isScrollContainer="false" >
-            </ListView>
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/detail_details_lay"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/detail_comment_list"
-            android:layout_centerInParent="true"
-            android:paddingBottom="10dip"
-            android:paddingTop="20dip" >
-
-            <Button
-                android:id="@+id/detail_details"
+            <TextView
+                android:id="@+id/detail_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/done_btn"
+                android:layout_below="@id/user_img"
+                android:layout_gravity="center"
                 android:gravity="center"
-                android:text="@string/IDS_CLOSE"
-                android:textColor="@color/white"
-                android:textStyle="bold" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/detail_divider_lay2"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/detail_details_lay"
-            android:paddingBottom="10dip"
-            android:paddingTop="10dip" >
+                android:paddingLeft="@dimen/lay_margine"
+                android:paddingTop="10dip"
+                android:textColor="@color/name_color"
+                android:textSize="22sp" />
 
             <ImageView
-                android:id="@+id/detail_divider2"
-                style="@style/GrayDividerImageView"
+                android:id="@+id/user_status_symbol_detail_box"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@id/user_img"
+                android:layout_marginRight="@dimen/lay_margine"
+                android:paddingTop="12dp"
+                android:src="@drawable/user_status_detail_box" />
+
+            <TextView
+                android:id="@+id/detail_status"
+                style="@style/LoginPageEditText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/detail_name"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:paddingLeft="@dimen/lay_margine"
+                android:paddingTop="5dip" />
+
+            <TextView
+                android:id="@+id/detail_age"
+                style="@style/LoginPageEditText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@id/detail_name"
+                android:layout_marginRight="@dimen/lay_margine"
+                android:gravity="center"
+                android:paddingTop="5dip" />
+
+            <TextView
+                android:id="@+id/home_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/detail_status"
+                android:layout_marginLeft="@dimen/lay_margine"
+                android:drawableLeft="@drawable/home_img"
+                android:drawablePadding="5dp"
+                android:paddingTop="10dp"
+                android:text="@string/in_txt"
+                android:textColor="@color/time_color"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/home_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/detail_status"
+                android:layout_toRightOf="@id/home_txt"
+                android:paddingLeft="2dp"
+                android:paddingTop="10dp"
+                android:text="Miami Beach, Florida"
+                android:textColor="@color/name_color"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/edit_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@id/detail_status"
+                android:layout_marginRight="@dimen/lay_margine"
+                android:paddingTop="10dp"
+                android:text="@string/edit_caps"
+                android:textColor="@color/time_color"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/from_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/home_txt"
+                android:layout_marginLeft="@dimen/lay_margine"
+                android:drawableLeft="@drawable/earth_img"
+                android:drawablePadding="5dp"
+                android:paddingTop="3dp"
+                android:text="@string/from_txt"
+                android:textColor="@color/time_color"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/from_location"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/home_txt"
+                android:layout_toRightOf="@id/from_txt"
+                android:paddingLeft="2dp"
+                android:paddingTop="3dp"
+                android:text="Chicago, LLLinois"
+                android:textColor="@color/name_color"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/sponser_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@id/home_txt"
+                android:layout_marginBottom="10dp"
+                android:layout_marginRight="@dimen/lay_margine"
+                android:paddingTop="3dp"
+                android:text="@string/sponsor_txt"
+                android:textColor="@color/time_color"
+                android:textSize="16sp" />
+
+            <View
+                android:id="@+id/basic_info_divider"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@id/sponser_txt"
+                android:adjustViewBounds="true"
+                android:background="@color/time_color" />
+
+            <RelativeLayout
+                android:id="@+id/detail_comunicate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/sponser_txt"
+                android:layout_marginBottom="15dp"
+                android:layout_marginTop="20dp" >
+
+                <LinearLayout
+                    android:id="@+id/voting_lay"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="@dimen/lay_margine"
+                    android:layout_marginRight="@dimen/lay_margine"
+                    android:weightSum="1" >
+
+                    <TextView
+                        android:id="@+id/vote_btn"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="0.25"
+                        android:drawablePadding="3dp"
+                        android:drawableTop="@drawable/vote_btn"
+                        android:gravity="center"
+                        android:text="@string/vote_btn"
+                        android:textColor="@color/font_blue_color"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/connect_btn"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="0.25"
+                        android:drawablePadding="3dp"
+                        android:drawableTop="@drawable/connect_btn"
+                        android:gravity="center"
+                        android:text="@string/connect_btn"
+                        android:textColor="@color/font_blue_color"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/referr_btn"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="0.25"
+                        android:drawablePadding="3dp"
+                        android:drawableTop="@drawable/referr_btn"
+                        android:gravity="center"
+                        android:text="@string/referr_txt"
+                        android:textColor="@color/font_blue_color"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/chat_btn"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="0.25"
+                        android:drawablePadding="3dp"
+                        android:drawableTop="@drawable/chat_btn"
+                        android:gravity="center"
+                        android:paddingTop="2dip"
+                        android:text="@string/chat_txt"
+                        android:textColor="@color/font_blue_color" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/gift_lay"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/voting_lay"
+                    android:layout_marginLeft="@dimen/lay_margine"
+                    android:layout_marginRight="@dimen/lay_margine"
+                    android:layout_marginTop="5dp"
+                    android:weightSum="1" >
+
+                    <TextView
+                        android:id="@+id/photos_btn"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="0.25"
+                        android:drawablePadding="3dp"
+                        android:drawableTop="@drawable/photos_btn"
+                        android:gravity="center"
+                        android:text="@string/photos_txt"
+                        android:textColor="@color/font_blue_color"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/video_btn"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="0.25"
+                        android:drawablePadding="3dp"
+                        android:drawableTop="@drawable/video_btn"
+                        android:gravity="center"
+                        android:text="@string/video_txt"
+                        android:textColor="@color/font_blue_color"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/gift_btn"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="0.25"
+                        android:drawablePadding="3dp"
+                        android:drawableTop="@drawable/gift_btn"
+                        android:gravity="center"
+                        android:text="@string/send_gift_txt"
+                        android:textColor="@color/font_blue_color"
+                        android:textSize="14sp" />
+
+                    <TextView
+                        android:id="@+id/comment_btn"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_weight="0.25"
+                        android:drawablePadding="3dp"
+                        android:drawableTop="@drawable/comment_btn"
+                        android:gravity="center"
+                        android:paddingTop="2dip"
+                        android:text="@string/comment_txt"
+                        android:textColor="@color/font_blue_color" />
+                </LinearLayout>
+            </RelativeLayout>
+
+            <View
+                android:id="@+id/detail_divider_lay"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@id/detail_comunicate"
+                android:adjustViewBounds="true"
+                android:background="@color/time_color" />
+
+            <RelativeLayout
+                android:id="@+id/my_story_lay"
                 android:layout_width="fill_parent"
-                android:layout_height="2dip"
-                android:adjustViewBounds="true" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/my_story_lay"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/detail_divider_lay2"
-            android:paddingBottom="10dip"
-            android:paddingLeft="10dip"
-            android:paddingTop="5dip" >
-
-            <TextView
-                android:id="@+id/my_story_label"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:editable="false"
-                android:text="@string/IDS_MY_STORY"
-                android:textColor="@color/brown_background" />
+                android:layout_below="@id/detail_divider_lay"
+                android:paddingBottom="10dip"
+                android:paddingLeft="10dip"
+                android:paddingTop="5dip" >
 
-            <TextView
-                android:id="@+id/my_story_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@id/my_story_label"
-                android:text="Lots of things about myself sdsdfasduiashdlkasd asopdiapsd asdp aajsdp0as9ud9uawewpq ejqw qw"
-                android:textColor="@color/blue_link" />
-        </RelativeLayout>
+                <TextView
+                    android:id="@+id/my_story_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:editable="false"
+                    android:text="@string/IDS_MY_STORY"
+                    android:textColor="@color/name_color" />
 
-        <RelativeLayout
-            android:id="@+id/detail_divider_lay3"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/my_story_lay"
-            android:paddingBottom="10dip"
-            android:paddingTop="10dip" >
+                <TextView
+                    android:id="@+id/my_story_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/my_story_label"
+                    android:text="Lots of things about myself sdsdfasduiashdlkasd asopdiapsd asdp aajsdp0as9ud9uawewpq ejqw qw"
+                    android:textColor="@color/blue_link" />
+            </RelativeLayout>
 
-            <ImageView
-                android:id="@+id/detail_divider3"
-                style="@style/GrayDividerImageView"
+            <RelativeLayout
+                android:id="@+id/detail_divider_lay3"
                 android:layout_width="fill_parent"
-                android:layout_height="2dip"
-                android:adjustViewBounds="true" />
-        </RelativeLayout>
-
-        <RelativeLayout
-            android:id="@+id/my_match_lay"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/detail_divider_lay3"
-            android:paddingBottom="10dip"
-            android:paddingLeft="10dip"
-            android:paddingTop="5dip" >
-
-            <TextView
-                android:id="@+id/my_match_label"
-                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:editable="false"
-                android:text="@string/IDS_MY_MATCH"
-                android:textColor="@color/brown_background" />
+                android:layout_below="@id/my_story_lay"
+                android:paddingBottom="10dip"
+                android:paddingTop="10dip" >
 
-            <TextView
-                android:id="@+id/my_match_text"
-                android:layout_width="wrap_content"
+                <ImageView
+                    android:id="@+id/detail_divider3"
+                    style="@style/GrayDividerImageView"
+                    android:layout_width="fill_parent"
+                    android:layout_height="2dip"
+                    android:adjustViewBounds="true" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:id="@+id/my_match_lay"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@id/my_match_label"
-                android:text="Lots of things about myself sdsdfasduiashdlkasd asopdiapsd asdp aajsdp0as9ud9uawewpq ejqw qw"
-                android:textColor="@color/blue_link" />
+                android:layout_below="@id/detail_divider_lay3"
+                android:paddingBottom="10dip"
+                android:paddingLeft="10dip"
+                android:paddingTop="5dip" >
+
+                <TextView
+                    android:id="@+id/my_match_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:editable="false"
+                    android:text="@string/IDS_MY_MATCH"
+                    android:textColor="@color/name_color" />
+
+                <TextView
+                    android:id="@+id/my_match_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/my_match_label"
+                    android:text="Lots of things about myself sdsdfasduiashdlkasd asopdiapsd asdp aajsdp0as9ud9uawewpq ejqw qw"
+                    android:textColor="@color/blue_link" />
+            </RelativeLayout>
         </RelativeLayout>
     </RelativeLayout>
 
 </ScrollView>
-

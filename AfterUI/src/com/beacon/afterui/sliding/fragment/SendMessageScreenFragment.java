@@ -8,6 +8,7 @@ import android.animation.AnimatorSet;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.res.Configuration;
+import android.graphics.Typeface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +19,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.beacon.afterui.R;
+import com.beacon.afterui.utils.FontUtils;
 import com.beacon.afterui.views.MainActivity;
 import com.beacon.afterui.views.data.MessageAdapter;
 
@@ -32,12 +34,16 @@ public class SendMessageScreenFragment extends Fragment implements
 	private MessageAdapter mMessageAdapter;
 	private ArrayList<String> mMessage = new ArrayList<String>();
 
+	private Typeface mITCAvantGardeStdBkFont;
+
 	public SendMessageScreenFragment() {
 	}
 
 	public SendMessageScreenFragment(Context context) {
 
 		mContext = context;
+		mITCAvantGardeStdBkFont = FontUtils.loadTypeFace(mContext,
+				FontUtils.ITC_AVANT_GARDE_STD_BK);
 	}
 
 	@Override
@@ -47,9 +53,14 @@ public class SendMessageScreenFragment extends Fragment implements
 
 		TextView voting_done_btn = (TextView) view
 				.findViewById(R.id.voting_done_btn);
+		voting_done_btn.setTypeface(mITCAvantGardeStdBkFont);
 
 		mPostBtn = (TextView) view.findViewById(R.id.post_btn);
+		mPostBtn.setTypeface(mITCAvantGardeStdBkFont);
+
 		mMessageEditText = (EditText) view.findViewById(R.id.write_msg_txt);
+		mMessageEditText.setTypeface(mITCAvantGardeStdBkFont);
+
 		mMessageList = (ListView) view.findViewById(R.id.chat_msg_list);
 		voting_done_btn.setOnClickListener(this);
 		mPostBtn.setOnClickListener(this);

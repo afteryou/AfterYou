@@ -22,6 +22,7 @@ import com.beacon.afterui.R;
 import com.beacon.afterui.constants.CommonConstants;
 import com.beacon.afterui.provider.CacheManager;
 import com.beacon.afterui.sliding.customViews.CustomGridView;
+import com.beacon.afterui.utils.FontUtils;
 import com.beacon.afterui.utils.ImageUtils;
 import com.beacon.afterui.utils.WindowUtils;
 import com.beacon.afterui.views.MainActivity;
@@ -29,258 +30,262 @@ import com.beacon.afterui.views.data.Interest;
 import com.beacon.afterui.views.data.InterestController;
 
 public class DetailFragment extends Fragment implements FragmentLifecycle,
-        OnClickListener {
-    private CustomGridView mMoreView = null;
-    private ViewGroup mDetailView = null;
+		OnClickListener {
+	private CustomGridView mMoreView = null;
+	private ViewGroup mDetailView = null;
 
-    private int mCacheKey;
+	private int mCacheKey;
 
-    private int mSelectedPostion = -1;
+	private int mSelectedPostion = -1;
 
-    private boolean isBacking = false;
+	private boolean isBacking = false;
 
-    Context mContext;
+	private Context mContext;
 
-    Typeface typeFaceRegular;
-    Typeface typeFaceBold;
-    Typeface typefaceBlack;
-    Typeface typefaceItalic;
-    private ImageView mConnectDetailBtn;
-    private ImageView mGiftDetailBtn;
-    private ImageView mVideoDetailBtn;
-    private ImageView mBackDetail;
+	Typeface typeFaceRegular;
+	Typeface typeFaceBold;
+	Typeface typefaceBlack;
+	Typeface typefaceItalic;
+	private TextView mPhotosBtn;
+	private TextView mGiftDetailBtn;
+	private TextView mVideoDetailBtn;
+	private TextView mCommentBtn;
+	private Typeface mITCAvantGardeStdBk;
 
-    public DetailFragment(Context mContext) {
-        this.mContext = mContext;
-        typeFaceRegular = Typeface.createFromAsset(mContext.getAssets(),
-                "fonts/MyriadPro-Regular.otf");
-        typeFaceBold = Typeface.createFromAsset(mContext.getAssets(),
-                "fonts/MyriadPro-Semibold.otf");
-        typefaceBlack = Typeface.createFromAsset(mContext.getAssets(),
-                "fonts/MyriadPro-Light.otf");
-        typefaceItalic = Typeface.createFromAsset(mContext.getAssets(),
-                "fonts/MyriadPro-It.otf");
-    }
+	public DetailFragment(Context mContext) {
+		this.mContext = mContext;
+		typeFaceRegular = Typeface.createFromAsset(mContext.getAssets(),
+				"fonts/MyriadPro-Regular.otf");
+		typeFaceBold = Typeface.createFromAsset(mContext.getAssets(),
+				"fonts/MyriadPro-Semibold.otf");
+		typefaceBlack = Typeface.createFromAsset(mContext.getAssets(),
+				"fonts/MyriadPro-Light.otf");
+		typefaceItalic = Typeface.createFromAsset(mContext.getAssets(),
+				"fonts/MyriadPro-It.otf");
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setRetainInstance(true);
-    }
+		mITCAvantGardeStdBk = FontUtils.loadTypeFace(this.mContext,
+				FontUtils.ITC_AVANT_GARDE_STD_BK);
+	}
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.detail_box, null);
-        mDetailView = (ViewGroup) view.findViewById(R.id.detail_content);
-        mConnectDetailBtn = (ImageView) view.findViewById(R.id.connect_detail);
-        mGiftDetailBtn = (ImageView) view.findViewById(R.id.gift_detail);
-        mVideoDetailBtn = (ImageView) view.findViewById(R.id.video_detail);
-        mBackDetail = (ImageView) view.findViewById(R.id.back_detail);
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+		setRetainInstance(true);
+	}
 
-        mConnectDetailBtn.setOnClickListener(this);
-        mGiftDetailBtn.setOnClickListener(this);
-        mVideoDetailBtn.setOnClickListener(this);
-        mBackDetail.setOnClickListener(this);
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
+		View view = inflater.inflate(R.layout.detail_box, null);
+		mDetailView = (ViewGroup) view.findViewById(R.id.detail_content);
+		mPhotosBtn = (TextView) view.findViewById(R.id.photos_btn);
+		mGiftDetailBtn = (TextView) view.findViewById(R.id.gift_btn);
+		mVideoDetailBtn = (TextView) view.findViewById(R.id.video_btn);
+		mCommentBtn = (TextView) view.findViewById(R.id.comment_btn);
 
-        if (getArguments() != null) {
-            mCacheKey = getArguments().getInt(
-                    CommonConstants.BundleKey.CACHE_KEY);
-            mSelectedPostion = getArguments().getInt(
-                    CommonConstants.BundleKey.SELECTED_POSITION);
-        }
-        return view;
-    }
+		mPhotosBtn.setOnClickListener(this);
+		mGiftDetailBtn.setOnClickListener(this);
+		mVideoDetailBtn.setOnClickListener(this);
+		mCommentBtn.setOnClickListener(this);
 
-    @Override
-    public void onClick(View v) {
+		if (getArguments() != null) {
+			mCacheKey = getArguments().getInt(
+					CommonConstants.BundleKey.CACHE_KEY);
+			mSelectedPostion = getArguments().getInt(
+					CommonConstants.BundleKey.SELECTED_POSITION);
+		}
+		return view;
+	}
 
-        Bundle bundle = new Bundle();
+	@Override
+	public void onClick(View v) {
 
-        switch (v.getId()) {
-        case R.id.connect_detail:
+		Bundle bundle = new Bundle();
 
-            break;
-        case R.id.gift_detail:
+		switch (v.getId()) {
+		case R.id.photos_btn:
 
-            Fragment giftListFragment = new GiftListFragment();
-            FragmentHelper.gotoFragment(getActivity(), DetailFragment.this,
-                    giftListFragment, bundle);
-            break;
-        case R.id.video_detail:
+			break;
+		case R.id.gift_btn:
 
-            break;
-        case R.id.back_detail:
+			Fragment giftListFragment = new GiftListFragment();
+			FragmentHelper.gotoFragment(getActivity(), DetailFragment.this,
+					giftListFragment, bundle);
+			break;
+		case R.id.video_btn:
 
-            break;
+			break;
+		case R.id.comment_btn:
 
-        }
+			break;
 
-    }
+		}
 
-    private void updateDetailView() {
-        if (mCacheKey == CacheManager.NO_RESULT_KEY) {
-            return;
-        }
-        SparseArray datas = InterestController.getInstance(getActivity())
-                .getCacheManager().readCache(mCacheKey).getResultData();
-        Interest data = (Interest) datas.get(mSelectedPostion);
+	}
 
-        ImageView iv = (ImageView) mDetailView.findViewById(R.id.detail_pic);
-        if (data.getDataSrc() instanceof String) {
-            ImageUtils.getInstance(getActivity()).loadImage(data.getDataSrc(),
-                    iv);
-        } else if (data.getDataSrc() instanceof Integer) {
-            ImageUtils.getInstance(getActivity()).resizeImage(
-                    data.getDataSrc(), iv);
-        }
-        TextView nameView = (TextView) mDetailView
-                .findViewById(R.id.detail_name);
-        nameView.setTypeface(typeFaceBold);
-        TextView ageView = (TextView) mDetailView.findViewById(R.id.detail_age);
-        ageView.setTypeface(typeFaceRegular);
-        TextView albumCount = (TextView) mDetailView
-                .findViewById(R.id.detail_album_count);
-        albumCount.setTypeface(typeFaceRegular);
-        TextView statusView = (TextView) mDetailView
-                .findViewById(R.id.detail_status);
-        statusView.setTypeface(typefaceItalic);
-        TextView lastLoginView = (TextView) mDetailView
-                .findViewById(R.id.detail_lastlogin);
-        lastLoginView.setTypeface(typefaceBlack);
-        TextView lastLoginTime = (TextView) mDetailView
-                .findViewById(R.id.detail_lastlogin_time);
-        lastLoginTime.setTypeface(typefaceBlack);
-        TextView likeCountView = (TextView) mDetailView
-                .findViewById(R.id.detail_like_text);
-        likeCountView.setTypeface(typeFaceRegular);
-        TextView commentCountView = (TextView) mDetailView
-                .findViewById(R.id.detail_comment_count);
-        commentCountView.setTypeface(typeFaceRegular);
-        TextView add_req_text = (TextView) mDetailView
-                .findViewById(R.id.detail_chat_req_text);
-        add_req_text.setTypeface(typeFaceRegular);
-        nameView.setText(data.getName());
-        ageView.setText(mContext.getResources().getString(R.string.IDS_AGE)
-                + data.getAge());
-        albumCount.setText(mContext.getResources().getString(
-                R.string.IDS_OPEN_BRACE)
-                + data.getAlbum_photo_count()
-                + mContext.getResources().getString(R.string.IDS_CLOSE_BRACE));
-        statusView.setText(data.getStatus());
-        lastLoginView.setText(data.getLast_online());
-        lastLoginTime.setText(data.getLast_online_time());
-        likeCountView.setText(data.getProfile_likes()
-                + mContext.getResources().getString(R.string.IDS_LIKES));
-        commentCountView.setText(data.getProfile_comments_count()
-                + mContext.getResources().getString(R.string.IDS_COMMENTS));
-    }
+	private void updateDetailView() {
+		if (mCacheKey == CacheManager.NO_RESULT_KEY) {
+			return;
+		}
+		SparseArray datas = InterestController.getInstance(getActivity())
+				.getCacheManager().readCache(mCacheKey).getResultData();
+		Interest data = (Interest) datas.get(mSelectedPostion);
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-    }
+		ImageView iv = (ImageView) mDetailView.findViewById(R.id.detail_pic);
+		if (data.getDataSrc() instanceof String) {
+			ImageUtils.getInstance(getActivity()).loadImage(data.getDataSrc(),
+					iv);
+		} else if (data.getDataSrc() instanceof Integer) {
+			ImageUtils.getInstance(getActivity()).resizeImage(
+					data.getDataSrc(), iv);
+		}
+		TextView nameView = (TextView) mDetailView
+				.findViewById(R.id.detail_name);
+		nameView.setTypeface(mITCAvantGardeStdBk);
+		TextView ageView = (TextView) mDetailView.findViewById(R.id.detail_age);
+		ageView.setTypeface(mITCAvantGardeStdBk);
+		// TextView albumCount = (TextView) mDetailView
+		// .findViewById(R.id.detail_album_count);
+		// albumCount.setTypeface(mITCAvantGardeStdBk);
+		TextView statusView = (TextView) mDetailView
+				.findViewById(R.id.detail_status);
+		statusView.setTypeface(mITCAvantGardeStdBk);
+		// TextView lastLoginView = (TextView) mDetailView
+		// .findViewById(R.id.detail_lastlogin);
+		// lastLoginView.setTypeface(mITCAvantGardeStdBk);
+		// TextView lastLoginTime = (TextView) mDetailView
+		// .findViewById(R.id.detail_lastlogin_time);
+		// lastLoginTime.setTypeface(mITCAvantGardeStdBk);
+		// TextView likeCountView = (TextView) mDetailView
+		// .findViewById(R.id.detail_like_text);
+		// likeCountView.setTypeface(mITCAvantGardeStdBk);
+		// TextView commentCountView = (TextView) mDetailView
+		// .findViewById(R.id.detail_comment_count);
+		// commentCountView.setTypeface(mITCAvantGardeStdBk);
+		// TextView add_req_text = (TextView) mDetailView
+		// .findViewById(R.id.detail_chat_req_text);
+		// add_req_text.setTypeface(mITCAvantGardeStdBk);
+		nameView.setText(data.getName());
+		ageView.setText(mContext.getResources().getString(R.string.IDS_AGE)
+				+ data.getAge());
+		// albumCount.setText(mContext.getResources().getString(
+		// R.string.IDS_OPEN_BRACE)
+		// + data.getAlbum_photo_count()
+		// + mContext.getResources().getString(R.string.IDS_CLOSE_BRACE));
+		statusView.setText(data.getStatus());
+		// lastLoginView.setText(data.getLast_online());
+		// lastLoginTime.setText(data.getLast_online_time());
+		// likeCountView.setText(data.getProfile_likes()
+		// + mContext.getResources().getString(R.string.IDS_LIKES));
+		// commentCountView.setText(data.getProfile_comments_count()
+		// + mContext.getResources().getString(R.string.IDS_COMMENTS));
+	}
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-    }
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+	}
 
-    @Override
-    public void onPause() {
-        super.onPause();
-    }
+	@Override
+	public void onDetach() {
+		super.onDetach();
+	}
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        // displayViews();
-        updateDetailView();
-        fixDetailViewY(null);
-    }
+	@Override
+	public void onPause() {
+		super.onPause();
+	}
 
-    @Override
-    public void onStart() {
-        super.onStart();
-    }
+	@Override
+	public void onResume() {
+		super.onResume();
+		// displayViews();
+		updateDetailView();
+		fixDetailViewY(null);
+	}
 
-    @Override
-    public void onStop() {
-        super.onStop();
-    }
+	@Override
+	public void onStart() {
+		super.onStart();
+	}
 
-    @Override
-    public void onFragmentPause() {
+	@Override
+	public void onStop() {
+		super.onStop();
+	}
 
-    }
+	@Override
+	public void onFragmentPause() {
 
-    @Override
-    public void onFragmentResume() {
-        System.out.println("[onFragmentResume]");
-    }
+	}
 
-    @Override
-    public boolean onBack() {
-        if (!isBacking) {
-            isBacking = true;
-            ((MainActivity) getActivity()).updateToMainScreenActionBar();
-            applyBackAnimation();
-        }
-        return true;
-    }
+	@Override
+	public void onFragmentResume() {
+		System.out.println("[onFragmentResume]");
+	}
 
-    private void applyBackAnimation() {
-        AnimatorSet fideOutMap = new AnimatorSet();
-        fideOutMap.setDuration(250);
-        fideOutMap.addListener(new AnimatorListenerAdapter() {
-            @Override
-            public void onAnimationEnd(Animator anim) {
-                FragmentHelper.popFragment(getActivity());
-                isBacking = false;
-            }
-        });
+	@Override
+	public boolean onBack() {
+		if (!isBacking) {
+			isBacking = true;
+			((MainActivity) getActivity()).updateToMainScreenActionBar();
+			applyBackAnimation();
+		}
+		return true;
+	}
 
-        fideOutMap.start();
-    }
+	private void applyBackAnimation() {
+		AnimatorSet fideOutMap = new AnimatorSet();
+		fideOutMap.setDuration(250);
+		fideOutMap.addListener(new AnimatorListenerAdapter() {
+			@Override
+			public void onAnimationEnd(Animator anim) {
+				FragmentHelper.popFragment(getActivity());
+				isBacking = false;
+			}
+		});
 
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        fixDetailViewY(newConfig);
-    }
+		fideOutMap.start();
+	}
 
-    private void fixDetailViewY(Configuration config) {
-        mDetailView.setVisibility(View.VISIBLE);
-        MarginLayoutParams lp = (MarginLayoutParams) mDetailView
-                .getLayoutParams();
-    }
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
+		fixDetailViewY(newConfig);
+	}
 
-    private int getWindowWidth(Configuration config) {
-        Rect window = WindowUtils.getRootViewVisibleDisplayFrame(getActivity());
-        int height = window.height();
-        int width = window.width();
-        if (config == null) {
-            return width;
-        }
-        if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            return height > width ? width : height;
-        } else {
-            return height > width ? height : width;
-        }
-    }
+	private void fixDetailViewY(Configuration config) {
+		mDetailView.setVisibility(View.VISIBLE);
+		MarginLayoutParams lp = (MarginLayoutParams) mDetailView
+				.getLayoutParams();
+	}
 
-    private int getWindowHeight(Configuration config) {
-        Rect window = WindowUtils.getRootViewVisibleDisplayFrame(getActivity());
-        int height = window.height();
-        int width = window.width();
-        if (config == null) {
-            return height;
-        }
-        if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            return height < width ? width : height;
-        } else {
-            return height < width ? height : width;
-        }
-    }
+	private int getWindowWidth(Configuration config) {
+		Rect window = WindowUtils.getRootViewVisibleDisplayFrame(getActivity());
+		int height = window.height();
+		int width = window.width();
+		if (config == null) {
+			return width;
+		}
+		if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
+			return height > width ? width : height;
+		} else {
+			return height > width ? height : width;
+		}
+	}
+
+	private int getWindowHeight(Configuration config) {
+		Rect window = WindowUtils.getRootViewVisibleDisplayFrame(getActivity());
+		int height = window.height();
+		int width = window.width();
+		if (config == null) {
+			return height;
+		}
+		if (config.orientation == Configuration.ORIENTATION_PORTRAIT) {
+			return height < width ? width : height;
+		} else {
+			return height < width ? height : width;
+		}
+	}
 
 }

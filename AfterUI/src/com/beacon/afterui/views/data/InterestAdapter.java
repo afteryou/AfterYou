@@ -19,6 +19,7 @@ import com.beacon.afterui.R;
 import com.beacon.afterui.imageUtils.ScaleImageView;
 import com.beacon.afterui.imageUtils.ScaleImageView.ImageChangedListener;
 import com.beacon.afterui.sliding.customViews.StaggeredGridView;
+import com.beacon.afterui.utils.FontUtils;
 import com.beacon.afterui.utils.ImageUtils;
 import com.beacon.afterui.views.data.InterestController.InterestClickListener;
 
@@ -30,14 +31,9 @@ public class InterestAdapter extends BaseAdapter implements OnClickListener {
 	private InterestClickListener clickListner;
 	private OnProfileButtonClickLister mOnProfileButtonClickLister;
 
-	Typeface typeFaceRegular;
-	Typeface typeFaceBold;
-	Typeface typefaceBlack;
-	Typeface typefaceItalic;
-
 	private Typeface mITCAvantGardeStdBk;
 	private TextView mHot_Num;
-	private TextView mLastUpdateStatus;
+	private int mNumHot = 25;
 
 	public InterestAdapter(Context context, InterestClickListener clickListner) {
 		this(context, new LinkedList<Interest>());
@@ -47,18 +43,10 @@ public class InterestAdapter extends BaseAdapter implements OnClickListener {
 	public InterestAdapter(Context ctx, LinkedList<? extends Interest> datas) {
 		mContext = ctx;
 		mInterests = new LinkedList<Interest>(datas);
-		typeFaceRegular = Typeface.createFromAsset(mContext.getAssets(),
-				"fonts/MyriadPro-Regular.otf");
-		typeFaceBold = Typeface.createFromAsset(mContext.getAssets(),
-				"fonts/MyriadPro-Semibold.otf");
-		typefaceBlack = Typeface.createFromAsset(mContext.getAssets(),
-				"fonts/MyriadPro-Light.otf");
-		typefaceItalic = Typeface.createFromAsset(mContext.getAssets(),
-				"fonts/MyriadPro-It.otf");
 		// mImageFetcher.setExitTasksEarly(false);
 
-		mITCAvantGardeStdBk = Typeface.createFromAsset(mContext.getAssets(),
-				"fonts/ITCAvantGardeStd-Bk.otf");
+		mITCAvantGardeStdBk = FontUtils.loadTypeFace(mContext,
+				FontUtils.ITC_AVANT_GARDE_STD_BK);
 	}
 
 	@Override
@@ -123,19 +111,9 @@ public class InterestAdapter extends BaseAdapter implements OnClickListener {
 		// albumCount.setTypeface(typeFaceRegular);
 		TextView statusView = (TextView) result.findViewById(R.id.news_status);
 		statusView.setTypeface(mITCAvantGardeStdBk);
-		TextView hot_txt = (TextView) result.findViewById(R.id.hot_txt);
-		hot_txt.setTypeface(mITCAvantGardeStdBk);
 
-		mHot_Num = (TextView) result.findViewById(R.id.hot_num);
-		mHot_Num.setTypeface(mITCAvantGardeStdBk);
-
-		TextView last_update_txt = (TextView) result
-				.findViewById(R.id.last_update_txt);
-		last_update_txt.setTypeface(mITCAvantGardeStdBk);
-
-		mLastUpdateStatus = (TextView) result
-				.findViewById(R.id.last_update_status);
-		mLastUpdateStatus.setTypeface(mITCAvantGardeStdBk);
+		// mHot_Num = (TextView) result.findViewById(R.id.hot_num);
+		// mHot_Num.setTypeface(mITCAvantGardeStdBk);
 
 		// TextView lastLoginView = (TextView) result
 		// .findViewById(R.id.news_lastlogin);
@@ -204,6 +182,18 @@ public class InterestAdapter extends BaseAdapter implements OnClickListener {
 			holder.statusView = (TextView) convertView
 					.findViewById(R.id.news_status);
 			holder.statusView.setTypeface(mITCAvantGardeStdBk);
+
+			holder.hot_txt = (TextView) convertView.findViewById(R.id.hot_txt);
+			holder.hot_txt.setTypeface(mITCAvantGardeStdBk);
+			holder.hot_txt.setText("Hot " + "(" + mNumHot + ")");
+
+			TextView last_update_txt = (TextView) convertView
+					.findViewById(R.id.last_update_txt);
+			last_update_txt.setTypeface(mITCAvantGardeStdBk);
+
+			holder.lastUpdateStatus = (TextView) convertView
+					.findViewById(R.id.last_update_status);
+			holder.lastUpdateStatus.setTypeface(mITCAvantGardeStdBk);
 			// holder.lastLoginView = (TextView) convertView
 			// .findViewById(R.id.news_lastlogin);
 			// holder.lastLoginView.setTypeface(typefaceBlack);
@@ -314,6 +304,9 @@ public class InterestAdapter extends BaseAdapter implements OnClickListener {
 		TextView connectBtn;
 		TextView refferBtn;
 		TextView chatBtn;
+		TextView hot_txt;
+		TextView lastUpdateStatus;
+
 		// TextView ageView;
 		// TextView albumCount;
 		TextView statusView;

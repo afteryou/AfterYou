@@ -10,15 +10,19 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.beacon.afterui.R;
+import com.beacon.afterui.utils.FontUtils;
 
 public class ViewVotesAddapter extends BaseAdapter {
 
 	private LayoutInflater mInflater;
 	private Context mContext;
+	private Typeface mITCAvantGardeStdBkFont;
 
 	public ViewVotesAddapter(Context context) {
 		mInflater = LayoutInflater.from(context);
 		mContext = context;
+		mITCAvantGardeStdBkFont = FontUtils.loadTypeFace(mContext,
+				FontUtils.ITC_AVANT_GARDE_STD_BK);
 	}
 
 	@Override
@@ -45,26 +49,22 @@ public class ViewVotesAddapter extends BaseAdapter {
 			viewHolder = new ViewHolder();
 
 			view = mInflater.inflate(R.layout.voting_006_voted_hot, null);
-			Typeface typeFaceBK = Typeface.createFromAsset(
-					mContext.getAssets(), "fonts/ITCAvantGardeStd-Bk.otf");
 
 			viewHolder.mUserName = (TextView) view
 					.findViewById(R.id.user_name_txt);
-			viewHolder.mUserName.setTypeface(typeFaceBK);
+			viewHolder.mUserName.setTypeface(mITCAvantGardeStdBkFont);
 
 			viewHolder.mTimeTxt = (TextView) view.findViewById(R.id.time_txt);
-			viewHolder.mTimeTxt.setTypeface(typeFaceBK);
+			viewHolder.mTimeTxt.setTypeface(mITCAvantGardeStdBkFont);
 
 			viewHolder.mSloganTxt = (TextView) view
 					.findViewById(R.id.dashboard_txt);
-			viewHolder.mSloganTxt.setTypeface(typeFaceBK);
+			viewHolder.mSloganTxt.setTypeface(mITCAvantGardeStdBkFont);
 
 			view.setTag(viewHolder);
-		}else
-		{
+		} else {
 			viewHolder = (ViewHolder) view.getTag();
 		}
-		
 
 		return view;
 	}
