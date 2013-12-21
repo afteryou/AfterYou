@@ -234,8 +234,10 @@ public class DetailFragment extends Fragment implements FragmentLifecycle,
 		case R.id.gift_btn:
 
 			Fragment giftListFragment = new GiftListFragment();
-			FragmentHelper.gotoFragment(getActivity(), DetailFragment.this,
-					giftListFragment, bundle);
+//			FragmentHelper.gotoFragment(getActivity(), DetailFragment.this,
+//					giftListFragment, bundle);
+			FragmentHelper.replaceFragment(getActivity(),
+                    giftListFragment, bundle);
 			break;
 		case R.id.video_btn:
 
@@ -371,11 +373,11 @@ public class DetailFragment extends Fragment implements FragmentLifecycle,
 
 	@Override
 	public boolean onBack() {
-		if (!isBacking) {
-			isBacking = true;
-			((MainActivity) getActivity()).updateToMainScreenActionBar();
-			applyBackAnimation();
-		}
+//		if (!isBacking) {
+//			isBacking = true;
+//			((MainActivity) getActivity()).updateToMainScreenActionBar();
+//			applyBackAnimation();
+//		}
 		return true;
 	}
 
@@ -501,5 +503,4 @@ public class DetailFragment extends Fragment implements FragmentLifecycle,
 		}
 
 	}
-
 }

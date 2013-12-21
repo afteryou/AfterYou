@@ -83,11 +83,11 @@ public class HotVoteFragment extends Fragment implements OnClickListener,
 
 	@Override
 	public boolean onBack() {
-		if (!isBacking) {
-			isBacking = true;
-			((MainActivity) getActivity()).updateToMainScreenActionBar();
-			applyBackAnimation();
-		}
+//		if (!isBacking) {
+//			isBacking = true;
+//			((MainActivity) getActivity()).updateToMainScreenActionBar();
+//			applyBackAnimation();
+//		}
 		return true;
 	}
 
@@ -132,13 +132,16 @@ public class HotVoteFragment extends Fragment implements OnClickListener,
 		switch (v.getId()) {
 		case R.id.vote_btn:
 			Fragment detail = new FriendListFragment(mContext);
-			FragmentHelper.gotoFragment(getActivity(), HotVoteFragment.this,
-					detail, bundle);
+//			FragmentHelper.gotoFragment(getActivity(), HotVoteFragment.this,
+//					detail, bundle);
+			FragmentHelper.replaceFragment(getActivity(), detail, bundle);
 			break;
+			
 		case R.id.hot_btn:
 			Fragment notification = new NotificationFragment(mContext);
-			FragmentHelper.gotoFragment(getActivity(), HotVoteFragment.this,
-					notification, bundle);
+//			FragmentHelper.gotoFragment(getActivity(), HotVoteFragment.this,
+//					notification, bundle);
+			FragmentHelper.replaceFragment(getActivity(), notification, bundle);
 			break;
 		}
 

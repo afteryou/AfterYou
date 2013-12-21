@@ -472,8 +472,6 @@ public class ProfileSettingsHelper {
 			view.setTypeface(typeFaceRegular);
 			view.setTextColor(mContext.getResources().getColor(
 					R.color.font_blue_color));
-
-			Log.d("test", " ----> : " + view.getLayoutParams());
 		}
 
 		@Override

@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.provider.SearchRecentSuggestions;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -333,21 +334,22 @@ public class MainActivity extends BaseActivity implements OnQueryTextListener,
         return shareIntent;
     }
 
-    public void onBackPressed() {
-        SlidingMenu slidingMenu = getSlidingMenu();
-        if (slidingMenu.isActivated()) {
-            super.onBackPressed();
-        } else {
-            if (!FragmentHelper.onBack(this)) {
-                SlidingMenuFragment slidingMenuFragment = (SlidingMenuFragment) getFragmentManager()
-                        .findFragmentByTag(SlidingMenuFragment.TAG);
-                if (slidingMenuFragment.onBack()) {
-                    return;
-                }
-                super.onBackPressed();
-            }
-        }
-    }
+//    public void onBackPressed() {
+//        SlidingMenu slidingMenu = getSlidingMenu();
+////        if (slidingMenu.isActivated()) {
+////            super.onBackPressed();
+////        } else {
+////            if (!FragmentHelper.onBack(this)) {
+////                SlidingMenuFragment slidingMenuFragment = (SlidingMenuFragment) getFragmentManager()
+////                        .findFragmentByTag(SlidingMenuFragment.TAG);
+////                if (slidingMenuFragment.onBack()) {
+////                    return;
+////                }
+////                super.onBackPressed();
+////            }
+////        }
+//        super.onBackPressed();
+//    }
 
     private void setSlidingMenuOffset(boolean left) {
         int orientation = this.getResources().getConfiguration().orientation;
@@ -441,6 +443,11 @@ public class MainActivity extends BaseActivity implements OnQueryTextListener,
         // SingleSearchCallBack(), -1);
         return true;
     }
+    
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -470,7 +477,5 @@ public class MainActivity extends BaseActivity implements OnQueryTextListener,
         } else {
             results = "<No friends selected>";
         }
-
     }
-
 }

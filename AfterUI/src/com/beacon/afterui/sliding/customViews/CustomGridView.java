@@ -153,6 +153,7 @@ public class CustomGridView extends GridView {
 	
 	public void setDataListener(IDataListener l) {
 		mDataListener = l;
+		startLoadMore();
 	}
 
 	public interface IDataListener {

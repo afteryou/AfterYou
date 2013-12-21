@@ -4,8 +4,10 @@ import java.util.Stack;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.beacon.afterui.R;
 
@@ -29,19 +31,21 @@ public class FragmentHelper {
                 .beginTransaction();
         // transaction.setCustomAnimations(enter, exit);
 
+        FragmentManager fragmentManager = act.getFragmentManager();
+        Log.d("test", "goto : Total Fragment count : " + fragmentManager.getBackStackEntryCount());
+        
         if (datas != null) {
             targetFragment.setArguments(datas);
         }
 
-//        transaction.setCustomAnimations(R.animator.slide_in_left_test,
-//                R.animator.slide_out_right_test, R.animator.slide_in_right,
-//                R.animator.slide_out_left);
         transaction.setCustomAnimations(R.animator.fragment_slide_left_enter,
-                R.animator.fragment_slide_left_exit,
+                R.animator.fragment_slide_right_exit,
                 R.animator.fragment_slide_right_enter,
-                R.animator.fragment_slide_right_exit);
-        transaction.add(act.findViewById(R.id.main_fragment_container).getId(),
+                R.animator.fragment_slide_left_exit);
+        
+        transaction.add(act.findViewById(R.id.content_detail).getId(),
                 targetFragment, null);
+//        transaction.replace(act.findViewById(R.id.main_fragment_container).getId(), targetFragment);
         transaction.show(targetFragment);
         if (!keepInStack) {
             transaction.remove(currFragment);
@@ -50,6 +54,7 @@ public class FragmentHelper {
         } else {
 //            transaction.hide(currFragment);
             transaction.addToBackStack(null);
+            
             if (fragmentStack.isEmpty())
                 fragmentStack.push(currFragment);
         }
@@ -62,7 +67,7 @@ public class FragmentHelper {
     public static void initFragment(Activity act, Fragment fragment) {
         FragmentTransaction transaction = act.getFragmentManager()
                 .beginTransaction();
-        transaction.add(act.findViewById(R.id.main_fragment_container).getId(),
+        transaction.add(act.findViewById(R.id.content_detail).getId(),
                 fragment, null);
         fragmentStack.push(fragment);
         transaction.show(fragment);
@@ -86,11 +91,17 @@ public class FragmentHelper {
         if (datas != null) {
             fragment.setArguments(datas);
         }
-        transaction.replace(act.findViewById(R.id.main_fragment_container)
+        transaction.setCustomAnimations(R.animator.fragment_slide_left_enter,
+                R.animator.fragment_slide_right_exit,
+                R.animator.fragment_slide_right_enter,
+                R.animator.fragment_slide_left_exit);
+        transaction.replace(act.findViewById(R.id.content_detail)
                 .getId(), fragment);
+        transaction.show(fragment);
         if (keepInStack)
             transaction.addToBackStack(null);
 
+        Log.d("test", "replace : Total Fragment count : " + act.getFragmentManager().getBackStackEntryCount());
         transaction.commit();
     }
 

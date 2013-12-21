@@ -109,24 +109,27 @@ public class FriendListFragment extends Fragment implements OnClickListener,
 		Fragment confirmFragment = new VoteConfirm(mContext);
 		if (mButtonId == AFTER_YOU_BTN) {
 
-			FragmentHelper.gotoFragment(getActivity(), FriendListFragment.this,
-					confirmFragment, bundle);
+//			FragmentHelper.gotoFragment(getActivity(), FriendListFragment.this,
+//					confirmFragment, bundle);
+			FragmentHelper.replaceFragment(getActivity(), confirmFragment, bundle);
 
 		} else if (mButtonId == CONTACTS_BTN) {
 
-			FragmentHelper.gotoFragment(getActivity(), FriendListFragment.this,
-					confirmFragment, bundle);
+//			FragmentHelper.gotoFragment(getActivity(), FriendListFragment.this,
+//					confirmFragment, bundle);
+			FragmentHelper.replaceFragment(getActivity(), confirmFragment, bundle);
 
 		} else if (mButtonId == FACEBOOK_BTN) {
 
-			FragmentHelper.gotoFragment(getActivity(), FriendListFragment.this,
-					confirmFragment, bundle);
+//			FragmentHelper.gotoFragment(getActivity(), FriendListFragment.this,
+//					confirmFragment, bundle);
+			FragmentHelper.replaceFragment(getActivity(), confirmFragment, bundle);
 
 		} else {
-			FragmentHelper.gotoFragment(getActivity(), FriendListFragment.this,
-					confirmFragment, bundle);
+//			FragmentHelper.gotoFragment(getActivity(), FriendListFragment.this,
+//					confirmFragment, bundle);
+			FragmentHelper.replaceFragment(getActivity(), confirmFragment, bundle);
 		}
-
 	}
 
 	class PhoneContactInfo {
@@ -346,11 +349,11 @@ public class FriendListFragment extends Fragment implements OnClickListener,
 
 	@Override
 	public boolean onBack() {
-		if (!isBacking) {
-			isBacking = true;
-			((MainActivity) getActivity()).updateToMainScreenActionBar();
-			applyBackAnimation();
-		}
+//		if (!isBacking) {
+//			isBacking = true;
+//			((MainActivity) getActivity()).updateToMainScreenActionBar();
+//			applyBackAnimation();
+//		}
 		return true;
 	}
 

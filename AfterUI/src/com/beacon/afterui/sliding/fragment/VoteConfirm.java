@@ -81,9 +81,9 @@ public class VoteConfirm extends Fragment implements FragmentLifecycle,
 			Toast.makeText(mContext, "Send message to voter btn is pressed",
 					Toast.LENGTH_SHORT).show();
 			Fragment sendMsg = new SendMessageScreenFragment(mContext);
-			FragmentHelper.gotoFragment(getActivity(), VoteConfirm.this,
-					sendMsg, bundle);
-
+//			FragmentHelper.gotoFragment(getActivity(), VoteConfirm.this,
+//					sendMsg, bundle);
+			FragmentHelper.replaceFragment(getActivity(), sendMsg, bundle);
 			break;
 
 		case R.id.voting_done_btn:
@@ -104,11 +104,11 @@ public class VoteConfirm extends Fragment implements FragmentLifecycle,
 
 	@Override
 	public boolean onBack() {
-		if (!isBacking) {
-			isBacking = true;
-			((MainActivity) getActivity()).updateToMainScreenActionBar();
-			applyBackAnimation();
-		}
+//		if (!isBacking) {
+//			isBacking = true;
+//			((MainActivity) getActivity()).updateToMainScreenActionBar();
+//			applyBackAnimation();
+//		}
 		return true;
 	}
 

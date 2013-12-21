@@ -206,11 +206,11 @@ public class GiftListFragment extends Fragment implements FragmentLifecycle,
 
     @Override
     public boolean onBack() {
-        if (!isBacking) {
-            isBacking = true;
-            ((MainActivity) getActivity()).updateToMainScreenActionBar();
-            applyBackAnimation();
-        }
+//        if (!isBacking) {
+//            isBacking = true;
+//            ((MainActivity) getActivity()).updateToMainScreenActionBar();
+//            applyBackAnimation();
+//        }
         return true;
     }
 
@@ -236,8 +236,9 @@ public class GiftListFragment extends Fragment implements FragmentLifecycle,
         Fragment detail = new GiftDetailsFragment();
         Bundle bundle = new Bundle();
         bundle.putInt(CommonConstants.BundleKey.GIFT_ID, 1);
-        FragmentHelper.gotoFragment(getActivity(), GiftListFragment.this,
-                detail, bundle);
+//        FragmentHelper.gotoFragment(getActivity(), GiftListFragment.this,
+//                detail, bundle);
+        FragmentHelper.replaceFragment(getActivity(), detail, bundle);
     }
 
     @Override

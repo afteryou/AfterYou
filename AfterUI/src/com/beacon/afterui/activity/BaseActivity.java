@@ -90,14 +90,14 @@ public class BaseActivity extends SlidingActivity {
         super.finish();
     }
 
-    @Override
-    public void onBackPressed() {
-//        if (mIsRootView) {
-//            exitApp();
-//            return;
-//        }
-        finish();
-    }
+//    @Override
+//    public void onBackPressed() {
+////        if (mIsRootView) {
+////            exitApp();
+////            return;
+////        }
+//        finish();
+//    }
     
     public void exitApp() {
         // Calling destroy causes crash. On Thunderbolt application hungs

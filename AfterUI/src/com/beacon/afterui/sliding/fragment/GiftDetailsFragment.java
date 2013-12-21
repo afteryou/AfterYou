@@ -16,7 +16,6 @@ import android.widget.TextView;
 import com.beacon.afterui.R;
 import com.beacon.afterui.constants.CommonConstants;
 import com.beacon.afterui.utils.FontUtils;
-import com.beacon.afterui.views.MainActivity;
 
 public class GiftDetailsFragment extends Fragment implements FragmentLifecycle,
 		ISearchFunction, OnClickListener {
@@ -117,11 +116,11 @@ public class GiftDetailsFragment extends Fragment implements FragmentLifecycle,
 
 	@Override
 	public boolean onBack() {
-		if (!isBacking) {
-			isBacking = true;
-			((MainActivity) getActivity()).updateToMainScreenActionBar();
-			applyBackAnimation();
-		}
+//		if (!isBacking) {
+//			isBacking = true;
+//			((MainActivity) getActivity()).updateToMainScreenActionBar();
+//			applyBackAnimation();
+//		}
 		return true;
 	}
 
@@ -170,7 +169,8 @@ public class GiftDetailsFragment extends Fragment implements FragmentLifecycle,
 		Fragment detail = new GiftsBuyFragment();
 		Bundle bundle = new Bundle();
 		bundle.putInt(CommonConstants.BundleKey.GIFT_ID, 1);
-		FragmentHelper.gotoFragment(getActivity(), GiftDetailsFragment.this,
-				detail, bundle);
+//		FragmentHelper.gotoFragment(getActivity(), GiftDetailsFragment.this,
+//				detail, bundle);
+		FragmentHelper.replaceFragment(getActivity(), detail, bundle);
 	}
 }

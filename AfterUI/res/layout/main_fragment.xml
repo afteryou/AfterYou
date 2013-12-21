@@ -36,7 +36,7 @@
             android:layout_centerVertical="true"
             android:layout_marginLeft="8dp"
             android:layout_toRightOf="@id/notification_txt"
-            android:text="(25)"
+            android:text="(35)"
             android:textColor="@color/font_blue_color"
             android:textSize="16sp" />
 
