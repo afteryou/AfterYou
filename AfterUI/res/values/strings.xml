@@ -256,6 +256,11 @@
     <string name="IDS_AGE">Age : </string>
     <string name="IDS_LIKES"> likes</string>
     <string name="IDS_COMMENTS"> comments</string>
+    <string name="comments_txt">Comments (3)</string>
+    <string name="sample_txt">In this section she will write her story.This section will have a short story about her.She will 
+write a littlle bit about herself.</string>
+    <string name="sample_comment_txt">In this section she will write her comment.</string>
+    <string name="supriya_aiman">Supriya Aiman</string>
     <string name="IDS_OPEN_BRACE">(</string>
     <string name="IDS_CLOSE_BRACE">)</string>
     <string name="IDS_DETAILS">Details</string>
@@ -265,8 +270,8 @@
     <string name="create_group_chat">Create Group Chat&#8230;</string>
     <string name="IDS_CHAT">Chat</string>
     <string name="IDS_CLOSE">Close</string>
-    <string name="IDS_MY_STORY">My Story</string>
-    <string name="IDS_MY_MATCH">My Ideal Match</string>
+    <string name="IDS_MY_STORY">about me</string>
+    <string name="IDS_MY_MATCH">my ideal match</string>
     <string name="IDS_MESSAGE">Message</string>
     <string name="write_msg_txt">Message&#8230;</string>
     <string name="post_txt">Post</string>
