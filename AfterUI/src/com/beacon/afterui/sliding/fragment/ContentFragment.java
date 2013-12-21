@@ -195,7 +195,8 @@ public class ContentFragment extends Fragment implements FragmentLifecycle,
 				sel_position = position;
 				sel_id = id;
 				// ((MainActivity)getActivity()).updateToDetailsScreenActionBar(data.getPlaceName());
-				applyAnimation(position, id);
+//				applyAnimation(position, id);
+				startDetailsFragment(position);
 				inDetail = true;
 			}
 		});
@@ -211,7 +212,8 @@ public class ContentFragment extends Fragment implements FragmentLifecycle,
 				sel_position = position;
 				sel_id = mAdapterView.getItemIdAtPosition(position);
 				// ((MainActivity)getActivity()).updateToDetailsScreenActionBar(data.getPlaceName());
-				applyAnimation(position, sel_id);
+//				applyAnimation(position, sel_id);
+				startDetailsFragment(position);
 				inDetail = true;
 				// FragmentHelper.initFragment(getActivity(),
 				// new HotVoteFragment());
@@ -527,6 +529,16 @@ public class ContentFragment extends Fragment implements FragmentLifecycle,
 		set.playTogether(filpOver, fideIn);
 		set.start();
 	}
+	
+	private void startDetailsFragment(final int position) {
+	    Fragment detail = new DetailFragment(mContext);
+        Bundle bundle = new Bundle();
+        bundle.putInt(CommonConstants.BundleKey.CACHE_KEY, mCacheKey);
+        bundle.putInt(CommonConstants.BundleKey.SELECTED_POSITION,
+                position);
+        FragmentHelper.gotoFragment(getActivity(),
+                ContentFragment.this, detail, bundle);
+	}
 
 	private void updateDetailView(int position) {
 		if (mCacheKey == CacheManager.NO_RESULT_KEY) {
@@ -649,7 +661,7 @@ public class ContentFragment extends Fragment implements FragmentLifecycle,
 	@Override
 	public void onFragmentResume() {
 		if (inDetail) {
-			applyBackAnimation();
+//			applyBackAnimation();
 			inDetail = false;
 		}
 	}

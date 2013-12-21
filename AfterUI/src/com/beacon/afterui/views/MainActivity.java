@@ -449,8 +449,8 @@ public class MainActivity extends BaseActivity implements OnQueryTextListener,
         } else if (requestCode == GiftsBuyFragment.RC_REQUEST) {
             super.onActivityResult(requestCode, resultCode, data);
         } else {
-            overridePendingTransition(R.anim.slid_in_from_top,
-                    R.anim.slid_out_from_bottom);
+//            overridePendingTransition(R.anim.slid_in_from_top,
+//                    R.anim.slid_out_from_bottom);
             super.onActivityResult(requestCode, resultCode, data);
             getFragmentManager().findFragmentByTag(SlidingMenuFragment.TAG)
                     .onActivityResult(requestCode, resultCode, data);
