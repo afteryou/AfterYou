@@ -38,10 +38,10 @@ public class FragmentHelper {
             targetFragment.setArguments(datas);
         }
 
-        transaction.setCustomAnimations(R.animator.fragment_slide_left_enter,
-                R.animator.fragment_slide_right_exit,
-                R.animator.fragment_slide_right_enter,
-                R.animator.fragment_slide_left_exit);
+        transaction.setCustomAnimations(R.animator.fragment_slide_right_enter,
+                R.animator.fragment_slide_left_exit,
+                R.animator.fragment_slide_left_enter,
+                R.animator.fragment_slide_right_exit);
         
         transaction.add(act.findViewById(R.id.content_detail).getId(),
                 targetFragment, null);
@@ -91,10 +91,10 @@ public class FragmentHelper {
         if (datas != null) {
             fragment.setArguments(datas);
         }
-        transaction.setCustomAnimations(R.animator.fragment_slide_left_enter,
-                R.animator.fragment_slide_right_exit,
-                R.animator.fragment_slide_right_enter,
-                R.animator.fragment_slide_left_exit);
+        transaction.setCustomAnimations(R.animator.fragment_slide_right_enter,
+                R.animator.fragment_slide_left_exit,
+                R.animator.fragment_slide_left_enter,
+                R.animator.fragment_slide_right_exit);
         transaction.replace(act.findViewById(R.id.content_detail)
                 .getId(), fragment);
         transaction.show(fragment);
