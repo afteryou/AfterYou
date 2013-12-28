@@ -295,4 +295,7 @@ write a littlle bit about herself.</string>
 	<string name="send_message_with_gift" >send message with gift</string>
 	<string name="not_enough_points" >oops!\nyou don\'t have enough points.</string>
 	<string name="buy_points" >buy points</string>
+	
+	<string name="err_sign_up" >Error occurred during sign up, please try again!</string>
+	<string name="progress_sign_up" >Signing up..</string>
 </resources>
