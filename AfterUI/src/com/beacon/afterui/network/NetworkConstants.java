@@ -10,8 +10,13 @@ public class NetworkConstants {
     
     public static final int REQUEST_FAILED                  = 103;
     
-    public static class SignUpRequestConstants
+    public static final class SignUpRequestConstants
     {
         public static final int EMAIL_ALREADY_TAKEN         = 200; 
+    }
+    
+    public static final class SignInRequestConstans
+    {
+        public static final int SIGN_IN_FAILED              = 300;
     }
 }
