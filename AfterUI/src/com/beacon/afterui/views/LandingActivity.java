@@ -16,8 +16,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.Window;
-import android.widget.ImageButton;
-import android.widget.ImageView;
+import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -40,8 +39,6 @@ public class LandingActivity extends BaseActivity implements OnClickListener {
 	/** TAG */
 	private static final String TAG = LandingActivity.class.getSimpleName();
 
-	private static TextView sAfterYouLoginBtn;
-
 	private static final int SPLASH_END = 1;
 	private static final int START_SPINNER = 2;
 	private static final int STOP_SPINNER = 3;
@@ -50,7 +47,9 @@ public class LandingActivity extends BaseActivity implements OnClickListener {
 
 	private SplashHandler mSplashHandler;
 
-	private TextView mFacebookLogin;
+	private Button mFacebookLogin;
+	private Button sAfterYouLoginBtn;
+	private Button sAfterYouSignupBtn;
 
 	private Context ctx;
 
@@ -61,48 +60,37 @@ public class LandingActivity extends BaseActivity implements OnClickListener {
 	private TextView progrssText;
 
 	private RelativeLayout user_inter;
-	private TextView copyRightTextView;
-	private View mCenterLayout;
-	private View mHeaderView;
-
-	// private TextView userwarn;
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		// if(getIntent().getAction() == AppConstants.NOTIFICATION_SENT)
-		// {
-		// PreferenceEngine.getInstance(this).setFromNotification(true);
-		// PreferenceEngine.getInstance(this).setNotifySenderName(getIntent().getExtras().getString(AppConstants.SENDER));
-		// }
-		// else{
-		// PreferenceEngine.getInstance(this).setFromNotification(false);
-		// }
+		if (getIntent().getAction() == AppConstants.NOTIFICATION_SENT) {
+			PreferenceEngine.getInstance(this).setFromNotification(true);
+			PreferenceEngine.getInstance(this).setNotifySenderName(
+					getIntent().getExtras().getString(AppConstants.SENDER));
+		} else {
+			PreferenceEngine.getInstance(this).setFromNotification(false);
+		}
 		setContentView(R.layout.landing_screen);
 		setBehindLeftContentView(R.layout.landing_screen);
 		setBehindRightContentView(R.layout.landing_screen);
 		this.ctx = this;
-		mHeaderView = findViewById(R.id.header_splash);
-		mCenterLayout = findViewById(R.id.center_layout);
 		user_inter = (RelativeLayout) findViewById(R.id.user_but_id);
-		sAfterYouLoginBtn = (TextView) findViewById(R.id.after_you_login_btn);
-		mFacebookLogin = (TextView) findViewById(R.id.facebook_login_btn);
-
-		TextView lets_sign_txt = (TextView) findViewById(R.id.lets_sign_txt);
+		sAfterYouLoginBtn = (Button) findViewById(R.id.afteryou_register);
+		mFacebookLogin = (Button) findViewById(R.id.facebook_login_btn);
+		sAfterYouSignupBtn = (Button) findViewById(R.id.after_you_login_btn);
 
 		sAfterYouLoginBtn.setOnClickListener(this);
 		mFacebookLogin.setOnClickListener(this);
-
-		copyRightTextView = (TextView) findViewById(R.id.copy_right_text);
+		sAfterYouSignupBtn.setOnClickListener(this);
 
 		Typeface typeFace = Typeface.createFromAsset(getAssets(),
 				"fonts/ITCAvantGardeStd-BkCn.otf");
 
-		copyRightTextView.setTypeface(typeFace);
-		lets_sign_txt.setTypeface(typeFace);
 		sAfterYouLoginBtn.setTypeface(typeFace);
 		mFacebookLogin.setTypeface(typeFace);
+		sAfterYouSignupBtn.setTypeface(typeFace);
 
 		Settings.addLoggingBehavior(LoggingBehavior.INCLUDE_ACCESS_TOKENS);
 
@@ -164,6 +152,12 @@ public class LandingActivity extends BaseActivity implements OnClickListener {
 
 		Intent intent = null;
 		switch (v.getId()) {
+		
+		case R.id.afteryou_register:
+			intent = new Intent(LandingActivity.this, SignUpActivity.class);
+			AnalyticsUtils.logButtonPressEvent(this, "signup button", -1);
+			break;
+			
 		case R.id.after_you_login_btn:
 			// ContentValues values = new ContentValues();
 			// values.put("Email", "peacemanav@gmail.com");
@@ -171,7 +165,7 @@ public class LandingActivity extends BaseActivity implements OnClickListener {
 			// values.put("source", "Test");
 			//
 			// getContentResolver().insert(AuthTable.CONTENT_URI, values);
-			intent = new Intent(LandingActivity.this, SignInSignUpScreen.class);
+			intent = new Intent(LandingActivity.this, LoginScreen.class);
 			AnalyticsUtils.logButtonPressEvent(this, "login button", -1);
 			break;
 
@@ -202,19 +196,19 @@ public class LandingActivity extends BaseActivity implements OnClickListener {
 
 	public void startSpinner(boolean start) {
 		if (start) {
-			if (mCustomProgress == null) {
-				mCustomProgress = (ProgressBar) findViewById(R.id.progress_bar);
-				mCustomProgress.setIndeterminate(true);
-				mCustomProgress.setIndeterminateDrawable(getResources()
-						.getDrawable(R.drawable.progress_spinner));
-			}
-			if (progrssText == null) {
-				progrssText = (TextView) findViewById(R.id.progress_text);
-				progrssText.setText(getResources().getString(
-						R.string.IDS_AUTHENTICATING));
-			}
-			progrssText.setVisibility(View.VISIBLE);
-			mCustomProgress.setVisibility(View.VISIBLE);
+			// if (mCustomProgress == null) {
+			// mCustomProgress = (ProgressBar) findViewById(R.id.progress_bar);
+			// mCustomProgress.setIndeterminate(true);
+			// mCustomProgress.setIndeterminateDrawable(getResources()
+			// .getDrawable(R.drawable.progress_spinner));
+			// }
+			// if (progrssText == null) {
+			// progrssText = (TextView) findViewById(R.id.progress_text);
+			// progrssText.setText(getResources().getString(
+			// R.string.IDS_AUTHENTICATING));
+			// }
+			// progrssText.setVisibility(View.VISIBLE);
+			// mCustomProgress.setVisibility(View.VISIBLE);
 		} else {
 			if (progrssText != null && mCustomProgress != null) {
 				progrssText.setVisibility(View.GONE);
@@ -326,13 +320,7 @@ public class LandingActivity extends BaseActivity implements OnClickListener {
 
 			if (user_inter != null) {
 				user_inter.setVisibility(View.VISIBLE);
-				mHeaderView.setVisibility(View.VISIBLE);
-				mCenterLayout.setVisibility(View.GONE);
-				copyRightTextView.setVisibility(View.GONE);
 			}
-			// if (userwarn != null) {
-			// userwarn.setVisibility(View.VISIBLE);
-			// }
 
 		}
 

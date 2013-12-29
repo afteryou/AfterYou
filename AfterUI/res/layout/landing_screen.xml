@@ -2,138 +2,67 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/app_bg" >
+    android:background="@drawable/splash_bckground" >
 
-    <include
-        android:id="@+id/header_splash"
-        layout="@layout/header"
-        android:visibility="gone" />
-
-    <TextView
-        android:id="@+id/copy_right_text"
+    <ImageView
+        android:id="@+id/afteryou"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="20dp"
-        android:text="@string/copy_right_text"
-        android:textColor="@color/font_blue_color"
-        android:textSize="15sp" />
+        android:layout_marginTop="50dp"
+        android:background="@drawable/after_you_image" />
 
-    <RelativeLayout
-        android:id="@+id/center_layout"
-        android:layout_width="match_parent"
+    <ImageView
+        android:id="@+id/slogan_txt"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true" >
-
-        <ImageView
-            android:id="@+id/welcome"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="15dp"
-            android:src="@drawable/welcome" />
-
-        <ImageView
-            android:id="@+id/afteryou"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/welcome"
-            android:layout_centerHorizontal="true"
-            android:background="@drawable/after_you_image" />
-
-        <ImageView
-            android:id="@+id/slogan_txt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/afteryou"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="10dp"
-            android:background="@drawable/slogan_txt" />
-
-        <ImageView
-            android:id="@+id/search_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/slogan_txt"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="15dp"
-            android:background="@drawable/sample_text" />
-    </RelativeLayout>
+        android:layout_below="@id/afteryou"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/slogan_txt" />
 
     <RelativeLayout
         android:id="@+id/user_but_id"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:visibility="gone" >
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:visibility="gone"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true" >
 
-        <TextView
-            android:id="@+id/lets_sign_txt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginBottom="15dp"
-            android:text="@string/lets_sign"
-            android:textColor="@color/font_blue_color"
-            android:textSize="27sp" />
-
-        <TextView
+        <Button
             android:id="@+id/facebook_login_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/lets_sign_txt"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:drawablePadding="5dp"
-            android:drawableTop="@drawable/facebook_voting_img"
-            android:gravity="center"
-            android:text="@string/facebook_txt"
-            android:textColor="@color/font_blue_color"
-            android:textSize="18sp" />
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/fb_background"
+            android:drawableLeft="@drawable/fb_icon"
+            android:text="@string/sign_up_using_fb"
+            android:textColor="@color/white" />
 
-        <TextView
+        <Button
+            android:id="@+id/afteryou_register"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/facebook_login_btn"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/login_background"
+            android:text="@string/register_using_email"
+            android:textColor="@color/font_listview_blue" />
+
+        <Button
             android:id="@+id/after_you_login_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/lets_sign_txt"
-            android:layout_marginLeft="40dp"
-            android:layout_marginTop="10dp"
-            android:layout_toRightOf="@id/facebook_login_btn"
-            android:drawablePadding="5dp"
-            android:drawableTop="@drawable/after_you_voting_img"
-            android:gravity="center"
-            android:text="@string/after_you_txt"
-            android:textColor="@color/font_blue_color"
-            android:textSize="18sp" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_below="@id/user_but_id"
-        android:layout_centerHorizontal="true" >
-
-        <TextView
-            android:id="@+id/progress_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dip"
-            android:gravity="center"
-            android:paddingLeft="65dip"
-            android:paddingRight="65dip"
-            android:textColor="@color/brown_background"
-            android:visibility="gone" />
-
-        <ProgressBar
-            android:id="@+id/progress_bar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/progress_text"
+            android:layout_below="@id/afteryou_register"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dip"
-            android:visibility="gone" />
+            android:layout_marginTop="10dp"
+            android:background="@drawable/login_background"
+            android:text="@string/login_txt"
+            android:textColor="@color/font_listview_blue" />
     </RelativeLayout>
 
 </RelativeLayout>

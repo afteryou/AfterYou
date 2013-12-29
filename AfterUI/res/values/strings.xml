@@ -46,7 +46,8 @@
     <string name="email_hint">email</string>
     <string name="login_txt">Login</string>
     <string name="signup_txt">sign up</string>
-    <string name="sign_up_using_fb">Signup Using Facebook</string>
+    <string name="sign_up_using_fb">Register with Facebook</string>
+    <string name="register_using_email">Register with Email</string>
     <string name="sign_in">sign in</string>
     <string name="sign_up">register\?</string>
     <string name="lets_sign">Let\'s Sign you up&#x21;</string>
