@@ -297,5 +297,8 @@ write a littlle bit about herself.</string>
 	<string name="buy_points" >buy points</string>
 	
 	<string name="err_sign_up" >Error occurred during sign up, please try again!</string>
-	<string name="progress_sign_up" >Signing up..</string>
+	<string name="progress_sign_up" >Signing up...</string>
+	<string name="progress_sign_in" >Signing in...</string>
+	<string name="err_sign_in" >Error occurred during sign in, please try again!</string>
+	
 </resources>

@@ -355,16 +355,7 @@ public class SignUpActivity extends BaseActivity implements OnClickListener,
     }
 
     private void showErrorDialog(int stringResId) {
-        ErrorDialog errDialog = new ErrorDialog(new AfterYouDialogImpl(this),
-                this, R.style.Theme_CustomDialog,
-                new DialogInterface.OnClickListener() {
-
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                }, getResources().getString(stringResId));
-        errDialog.show();
+        showErrorDialog(getResources().getString(stringResId));
     }
 
     private void showErrorDialog(final String message) {
