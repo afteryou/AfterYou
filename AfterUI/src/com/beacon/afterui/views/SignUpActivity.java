@@ -491,7 +491,9 @@ public class SignUpActivity extends BaseActivity implements OnClickListener,
         }
 
         Toast.makeText(this, "Signed Up", Toast.LENGTH_SHORT).show();
-
+        PreferenceEngine prefEngine = PreferenceEngine
+                .getInstance(SignUpActivity.this);
+        prefEngine.setUserSignedUpStatus(true);
 //        saveData();
         Intent intent = new Intent(SignUpActivity.this,
                 ProfileSettingsActivity.class);

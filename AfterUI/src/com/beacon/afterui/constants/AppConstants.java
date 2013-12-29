@@ -91,6 +91,8 @@ public final class AppConstants {
 	public static final String SENDER = "afteryou_sender";
 
 	public static final String UNREAD_MSGS = "afteryou_unread";
+	
+	public static final String SIGNED_UP = "signed_up";
 
 	public static boolean isDebugMode() {
 		return DEBUGMODE.trim().equals("true");
