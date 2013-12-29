@@ -301,5 +301,6 @@ write a littlle bit about herself.</string>
 	<string name="progress_sign_up" >Signing up...</string>
 	<string name="progress_sign_in" >Signing in...</string>
 	<string name="err_sign_in" >Error occurred during sign in, please try again!</string>
+	<string name="IDS_ASK_LOGOUT">Do you really want to Log out?</string>
 	
 </resources>

@@ -8,6 +8,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
 import android.app.Fragment;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
@@ -44,10 +45,11 @@ import com.beacon.afterui.provider.PreferenceEngine;
 import com.beacon.afterui.sliding.SlidingActivity;
 import com.beacon.afterui.sliding.customViews.ListViewAdapter;
 import com.beacon.afterui.utils.FontUtils;
+import com.beacon.afterui.utils.customviews.CustomDialog;
+import com.beacon.afterui.utils.customviews.DialogHelper;
 import com.beacon.afterui.views.CapturePictureActivity;
 import com.beacon.afterui.views.MainActivity;
 import com.beacon.afterui.views.PickFriendsActivity;
-import com.beacon.afterui.views.ProfileSettingsActivity;
 
 /**
  * For showing left sliding menu behind main view.
@@ -192,6 +194,29 @@ public class SlidingMenuFragment extends Fragment implements
 				break;
 
 			case LOGOUT:
+				
+				CustomDialog dialog = DialogHelper.createMessageDialogBuilder(getActivity(), false).setMessage(
+		                getString(R.string.IDS_ASK_LOGOUT))
+		                .setPositiveButton(R.string.IDS_YES,
+		                    new DialogInterface.OnClickListener() {
+		                    @Override
+		                    public void onClick(DialogInterface arg0,
+		                        int arg1) {
+		        				PreferenceEngine prefEngine = PreferenceEngine
+		        						.getInstance(getActivity());
+		        				prefEngine.setUserSignedUpStatus(false);
+		        				exitApp();
+		                    }
+
+		                }).setNegativeButton(R.string.IDS_NO,
+		                    new DialogInterface.OnClickListener() {
+		                    @Override
+		                    public void onClick(DialogInterface dialog,
+		                        int which) {
+		                    }
+		                }).create();
+				dialog.show();
+
 
 				break;
 
@@ -199,6 +224,13 @@ public class SlidingMenuFragment extends Fragment implements
 
 		}
 	};
+	
+	
+	private void exitApp() {
+		MainActivity activity  = (MainActivity)getActivity();
+		activity.exitApp();
+		
+	}
 
 	private void onClickPickFriends() {
 		startPickFriendsActivity();
