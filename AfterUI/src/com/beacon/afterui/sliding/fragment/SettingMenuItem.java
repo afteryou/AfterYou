@@ -1,12 +1,18 @@
 package com.beacon.afterui.sliding.fragment;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.AnimatorSet;
 import android.app.Activity;
-import android.content.Context;
+import android.app.Fragment;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
@@ -14,10 +20,14 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.beacon.afterui.R;
-import com.beacon.afterui.activity.BaseActivity;
+import com.beacon.afterui.utils.FontUtils;
+import com.beacon.afterui.views.MainActivity;
 import com.beacon.afterui.views.ProfileSettingsActivity;
+import com.beacon.afterui.views.data.SettingMenuAdapter;
+import com.beacon.afterui.views.data.TermsPoliciesAdapter;
 
 /**
  * For showing left sliding menu behind main view.
@@ -25,177 +35,221 @@ import com.beacon.afterui.views.ProfileSettingsActivity;
  * @author spoddar
  * 
  */
-public class SettingMenuItem extends BaseActivity {
+public class SettingMenuItem extends Fragment implements FragmentLifecycle,
+		OnClickListener, OnItemClickListener {
 	public static final String TAG = SettingMenuItem.class.toString();
 
 	private ListView mListView;
 
-	private Typeface typeFaceSemiBold;
+	private Typeface mITCAvantGardeStdBkFont;
 
 	private static final int PROFILE_SETTING = 0;
 	private static final int PRIVACY_SETTING = 1;
 	private static final int BLOCKING = 2;
 	private static final int NOTIFICATION = 3;
-	private Context mContext;
+	private static final String SETTING = "setting";
+	private static final String TERM_POLICIES = "Terms & Policies";
+	private static String CHECKED_ITEM;
 	private int[] mImages;
 	private String[] mSettingItemTxt;
+	private String[] mSubHeadingItemTxt;
 	private TextView mCancelBtn;
-	
-	private static final String IMAGE = "icon";
-	private static final String TEXT = "text";
+
+	private static final int STAT_RIGHTS = 0;
+	private static final int DATA_USE_POLICY = 1;
+	private static final int COMMUNITY_STANDARDS = 2;
+
+	private boolean isBacking = false;
+
+	public SettingMenuItem() {
+	}
+
+	public SettingMenuItem(int[] Images, String[] SettingItemTxt) {
+
+		mImages = Images;
+		mSettingItemTxt = SettingItemTxt;
+
+	}
+
+	public SettingMenuItem(int[] Images, String[] SettingItemTxt,
+			String[] subHeadingItemTxt) {
+
+		mImages = Images;
+		mSettingItemTxt = SettingItemTxt;
+		mSubHeadingItemTxt = subHeadingItemTxt;
+
+	}
 
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.setting_fragment);
-		setBehindLeftContentView(R.layout.setting_fragment);
-		setBehindRightContentView(R.layout.setting_fragment);
-		TextView clickItem = (TextView) findViewById(R.id.setting_txt);
-		mCancelBtn = (TextView) findViewById(R.id.cancel_btn);
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
 
-		mContext = this;
-		String clickText = getIntent().getExtras().getString("setting");
-		clickItem.setText(clickText);
-		mListView = (ListView) findViewById(R.id.setting_menu_list);
-		mSettingItemTxt = getResources().getStringArray(
-				R.array.setting_item_txt);
-		mImages = new int[] { R.drawable.profile_setting_img,
-				R.drawable.privacy_setting_img, R.drawable.blocking_img,
-				R.drawable.notifications_img };
-		typeFaceSemiBold = Typeface.createFromAsset(this.getAssets(),
-				"fonts/MyriadPro-Semibold.otf");
-		Typeface typeFaceRegular = Typeface.createFromAsset(this.getAssets(),
-				"fonts/MyriadPro-Regular.otf");
-		mListView.setAdapter(new ListAddapter());
-		mListView.setOnItemClickListener(setting_item_listener);
+		View view = inflater.inflate(R.layout.setting_fragment, null);
+		mITCAvantGardeStdBkFont = FontUtils.loadTypeFace(getActivity()
+				.getApplicationContext(), FontUtils.ITC_AVANT_GARDE_STD_BK);
+		TextView clickItem = (TextView) view.findViewById(R.id.setting_txt);
+		clickItem.setTypeface(mITCAvantGardeStdBkFont);
+		clickItem.setText(SlidingMenuFragment.getHeading());
 
-	}
-	
-	// When using fragment
+		mListView = (ListView) view.findViewById(R.id.setting_menu_list);
+		mCancelBtn = (TextView) view.findViewById(R.id.cancel_btn);
+		mCancelBtn.setTypeface(mITCAvantGardeStdBkFont);
 
-//	@Override
-//	public View onCreateView(LayoutInflater inflater, ViewGroup container,
-//			Bundle savedInstanceState) {
-//		mSettingItemTxt = getResources().getStringArray(
-//				R.array.setting_item_txt);
-//		mImages = new int[] { R.drawable.profile_setting_img,
-//				R.drawable.privacy_setting_img, R.drawable.blocking_img,
-//				R.drawable.notifications_img };
-//		List<HashMap<String, String>> mList = new ArrayList<HashMap<String, String>>();
-//		// mRootView = (ViewGroup) inflater.inflate(R.layout.sliding_menu,
-//		// null);
-//
-//		// font myriadPro semibold
-//		typeFaceSemiBold = Typeface.createFromAsset(getActivity().getAssets(),
-//				"fonts/MyriadPro-Semibold.otf");
-//		// font myriadPro regular
-//		Typeface typeFaceRegular = Typeface.createFromAsset(getActivity()
-//				.getAssets(), "fonts/MyriadPro-Regular.otf");
-//		View view = inflater.inflate(R.layout.setting_fragment, null);
-//		View viewText = inflater.inflate(R.layout.setting_menu_item, null);
-//		mListView = (ListView) view.findViewById(R.id.setting_menu_list);
-//		TextView dashText = (TextView) viewText
-//				.findViewById(R.id.setting_item_txt);
-//
-//
-//		String[] from = { IMAGE, TEXT };
-//		int[] to = { R.id.setting_img, R.id.setting_item_txt };
-//		dashText.setTypeface(typeFaceSemiBold);
-//
-//		for (int i = 0; i < mSettingItemTxt.length; i++) {
-//			HashMap<String, String> map = new HashMap<String, String>();
-//			map.put(IMAGE, String.valueOf(mImages[i]));
-//			map.put(TEXT, mSettingItemTxt[i]);
-//			mList.add(map);
-//		}
-//		SimpleAdapter addapter = new SimpleAdapter(getActivity(), mList,
-//				R.layout.setting_menu_item, from, to) {
-//			@Override
-//			public void setViewText(TextView v, String text) {
-//				v.setTypeface(typeFaceSemiBold);
-//				v.setText(text);
-//			}
-//		};
-//		mListView.setAdapter(addapter);
-//		mListView.setOnItemClickListener(leftDrawerListner);
-//		return view;
-//	}
-
-	private class ListAddapter extends BaseAdapter {
-
-		@Override
-		public int getCount() {
-			return mSettingItemTxt.length;
+		if (SlidingMenuFragment.getHeading().equals(SETTING)) {
+			mListView.setAdapter(new SettingMenuAdapter(getActivity(),
+					mSettingItemTxt, mImages));
+		} else if (SlidingMenuFragment.getHeading().equals(TERM_POLICIES)) {
+			mListView.setAdapter(new TermsPoliciesAdapter(getActivity(),
+					mImages, mSettingItemTxt, mSubHeadingItemTxt));
 		}
 
-		@Override
-		public Object getItem(int position) {
-			return mSettingItemTxt[position];
-		}
-
-		@Override
-		public long getItemId(int id) {
-			// TODO Auto-generated method stub
-			return id;
-		}
-
-		@Override
-		public View getView(int position, View view, ViewGroup parent) {
-			LayoutInflater mInflater = (LayoutInflater) mContext
-					.getSystemService(Activity.LAYOUT_INFLATER_SERVICE);
-			ViewHolder holder = null;
-			if (view == null) {
-				view = mInflater.inflate(R.layout.setting_menu_item, null);
-				holder = new ViewHolder();
-				holder.txtTitle = (TextView) view
-						.findViewById(R.id.setting_item_txt);
-				holder.imageView = (ImageView) view
-						.findViewById(R.id.setting_img);
-				view.setTag(holder);
-			} else {
-				holder = (ViewHolder) view.getTag();
-			}
-			holder.txtTitle.setText(mSettingItemTxt[position]);
-			holder.imageView.setImageResource(mImages[position]);
-			return view;
-		}
-
-		private class ViewHolder {
-			ImageView imageView;
-			TextView txtTitle;
-		}
-
+		mListView.setOnItemClickListener(this);
+		mCancelBtn.setOnClickListener(this);
+		return view;
 	}
 
-	private OnItemClickListener setting_item_listener = new OnItemClickListener() {
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position,
+			long id) {
+		Intent intent = null;
+		Bundle bundle = new Bundle();
+		if (SlidingMenuFragment.getHeading().equals(SETTING)) {
 
-		@Override
-		public void onItemClick(AdapterView<?> parent, View view, int position,
-				long id) {
-
-			Intent intent = null;
 			switch (position) {
-			case PROFILE_SETTING:
 
-				intent = new Intent(SettingMenuItem.this,
+			case PROFILE_SETTING:
+				intent = new Intent(getActivity().getApplicationContext(),
 						ProfileSettingsActivity.class);
 				startActivity(intent);
 				break;
 
 			case PRIVACY_SETTING:
+				Fragment privacy_setting = new PrivacySettingFragment();
+				FragmentHelper.gotoFragment(getActivity(),
+						SettingMenuItem.this, privacy_setting, bundle);
 				break;
 
 			case BLOCKING:
-
+				Fragment blocking_setting = new BlockingFragment();
+				FragmentHelper.gotoFragment(getActivity(),
+						SettingMenuItem.this, blocking_setting, bundle);
 				break;
 
 			case NOTIFICATION:
-
+				Fragment notification = new NotificationFragment(getActivity());
+				FragmentHelper.gotoFragment(getActivity(),
+						SettingMenuItem.this, notification, bundle);
 				break;
 
 			}
 
+		} else if (SlidingMenuFragment.getHeading().equals(TERM_POLICIES)) {
+
+			switch (position) {
+			case STAT_RIGHTS:
+				Toast.makeText(getActivity(),
+						"Statement of rights and responsibilities",
+						Toast.LENGTH_SHORT).show();
+				Fragment terms_detail_fragment = new TermsPoliciesDetails();
+				FragmentHelper.gotoFragment(getActivity(),
+						SettingMenuItem.this, terms_detail_fragment, bundle);
+				break;
+			case DATA_USE_POLICY:
+
+				Toast.makeText(getActivity(), "Data use policy",
+						Toast.LENGTH_SHORT).show();
+
+				break;
+			case COMMUNITY_STANDARDS:
+
+				Toast.makeText(getActivity(), "Community standards",
+						Toast.LENGTH_SHORT).show();
+
+				break;
+
+			}
 		}
-	};
+
+	}
+
+	@Override
+	public void onClick(View view) {
+
+		switch (view.getId()) {
+		case R.id.cancel_btn:
+			onBack();
+			break;
+		}
+
+	}
+
+	@Override
+	public void onFragmentPause() {
+
+	}
+
+	@Override
+	public void onFragmentResume() {
+
+	}
+
+	@Override
+	public boolean onBack() {
+		if (!isBacking) {
+			isBacking = true;
+			((MainActivity) getActivity()).updateToMainScreenActionBar();
+			applyBackAnimation();
+		}
+		return true;
+	}
+
+	private void applyBackAnimation() {
+		AnimatorSet fideOutMap = new AnimatorSet();
+		fideOutMap.setDuration(250);
+		fideOutMap.addListener(new AnimatorListenerAdapter() {
+			@Override
+			public void onAnimationEnd(Animator anim) {
+				FragmentHelper.popFragment(getActivity());
+				isBacking = false;
+			}
+		});
+
+		fideOutMap.start();
+	}
+
+	@Override
+	public void onConfigurationChanged(Configuration newConfig) {
+		super.onConfigurationChanged(newConfig);
+	}
+
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+	}
+
+	@Override
+	public void onDetach() {
+		super.onDetach();
+	}
+
+	@Override
+	public void onPause() {
+		super.onPause();
+	}
+
+	@Override
+	public void onResume() {
+		super.onResume();
+	}
+
+	@Override
+	public void onStart() {
+		super.onStart();
+	}
+
+	@Override
+	public void onStop() {
+		super.onStop();
+	}
 
 }

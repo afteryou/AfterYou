@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/log_out_transperant_img"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/cancel_btn"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:background="@android:color/white"
+        android:gravity="center"
+        android:text="@string/cancelTxt"
+        android:textColor="@color/font_blue_color"
+        android:textSize="19sp" />
+
+    <TextView
+        android:id="@+id/cancel_btn_divider"
+        android:layout_width="match_parent"
+        android:layout_height="0.50dp"
+        android:layout_above="@id/cancel_btn"
+        android:background="@color/divider_color"
+        android:gravity="center"
+        android:text="@string/cancelTxt"
+        android:textColor="@color/font_blue_color"
+        android:textSize="19sp" />
+
+    <TextView
+        android:id="@+id/logout_btn"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:layout_above="@id/cancel_btn_divider"
+        android:background="@android:color/white"
+        android:gravity="center"
+        android:text="@string/log_out_txt"
+        android:textColor="@color/font_blue_color"
+        android:textSize="19sp" />
+
+    <TextView
+        android:id="@+id/logout_btn_divider"
+        android:layout_width="match_parent"
+        android:layout_height="0.50dp"
+        android:layout_above="@id/logout_btn"
+        android:background="@color/divider_color"
+        android:gravity="center"
+        android:text="@string/cancelTxt"
+        android:textColor="@color/font_blue_color"
+        android:textSize="19sp" />
+
+    <TextView
+        android:id="@+id/msg_txt"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:layout_above="@id/logout_btn_divider"
+        android:background="@android:color/white"
+        android:gravity="center"
+        android:text="@string/msg_txt"
+        android:textColor="@color/font_blue_color"
+        android:textSize="14sp" />
+
+</RelativeLayout>

@@ -30,6 +30,12 @@
     <string name="send_gift_txt">send gift</string>
     <string name="comment_txt">comment</string>
 
+    <!-- Terms Policies item -->
+    <string name="reset_pass">How do I reset my password?</string>
+    <string name="change_profile_pic">How do i change my profile pic?</string>
+    <string name="my_circle">How do I add to My Circle?</string>
+    <string name="people_recommend">How many people can I recommend to?</string>
+
     <!-- Left Drawer -->
     <string name="setting_txt">settings</string>
     <string name="import_txt">import</string>
@@ -37,10 +43,36 @@
     <string name="terms_policies_txt">terms &amp; policies</string>
     <string name="logout_txt">logout</string>
     <string name="null_txt"></string>
-    <string name="profile_setting">profile setting</string>
-    <string name="privacy_setting">privacy setting</string>
+    <string name="profile_setting">profile settings</string>
+    <string name="privacy_setting">privacy settings</string>
     <string name="blocking">blocking</string>
     <string name="notifications">notifications</string>
+    <string name="statement_of_rights">Statement of Rights &amp; Responsobilities</string>
+    <string name="terms_you_agree">Terms you agree when joining After You</string>
+    <string name="data_use_policies">Data Use Policy</string>
+    <string name="information_we_recive">Information we receive and howm it\'s used</string>
+    <string name="community_std">Community Standards</string>
+    <string name="whats_not_allowed">What\'s not allowed and how to report abuse</string>
+
+    <!-- Privacy Setting Screen -->
+
+    <string name="my_stuff_txt">who can see my stuff?</string>
+    <string name="contact_me">who can contact me?</string>
+    <string name="future_post">who can see my future posts?</string>
+    <string name="review_post">how do i review my posts?</string>
+    <string name="public_txt">public</string>
+    <string name="friends_txt">friends</string>
+    <string name="prospects_txt">prospects</string>
+    <string name="family_txt">family</string>
+    <string name="only_me_txt">only me</string>
+    <string name="privacy_info_msg">You can manage the privacy of things you share\nby using the audience selector right where you
+\npost. This control remembers your selection so
+\nfuture posts will be shared with the same 
+\naudience unless you change it.</string>
+
+    <!-- Blocking screen -->
+    <string name="block_someone_txt">how do I block someone?</string>
+    <string name="report_abuse_txt">how do I report abuse?</string>
 
     <!-- Login Screen -->
     <string name="email_hint">email</string>
@@ -69,6 +101,18 @@
     <string name="edit_small">edit</string>
     <string name="in_txt">In </string>
     <string name="from_txt">From </string>
+
+    <!-- Review lay -->
+
+    <string name="activity_log_txt">activity log</string>
+    <string name="activity_log_sub_txt">Only you can see your activity log.</string>
+    <string name="filter_txt">filter</string>
+    <string name="photos_txt">photos</string>
+    <string name="votes_txt">votes</string>
+    <string name="comments_filter_txt">comments</string>
+    <string name="refferals_txt">refferals</string>
+    <string name="gifts_txt">gifts</string>
+    <string name="birthdays_txt">birthdays</string>
 
     <!-- Voting Screen 006 -->
     <string name="congrates_txt">Congrats! its approved.</string>
@@ -113,7 +157,8 @@
     <string name="about_you_text">About You</string>
     <string name="app_id">431666200287780</string>
     <string name="aviary_id">75d935c7615a16a2</string>
-    <string name="Log_Out">Log Out</string>
+    <string name="log_out_txt">logout</string>
+    <string name="msg_txt">Are you sure you want to log out?</string>
     <string name="hello_user">Hello %1$s!</string>
     <string name="select_date">Select date</string>
     <string name="done_txt">Done</string>

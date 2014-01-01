@@ -176,9 +176,10 @@ public class NotificationFragment extends Fragment implements
 			if (position == 4) {
 
 				Fragment viewVotes = new ViewVotesFragment(mContext, 0);
-//				FragmentHelper.gotoFragment(getActivity(),
-//						NotificationFragment.this, viewVotes, bundle);
-				FragmentHelper.replaceFragment(getActivity(), viewVotes, bundle);
+				// FragmentHelper.gotoFragment(getActivity(),
+				// NotificationFragment.this, viewVotes, bundle);
+				FragmentHelper
+						.replaceFragment(getActivity(), viewVotes, bundle);
 
 			}
 
@@ -193,7 +194,9 @@ public class NotificationFragment extends Fragment implements
 			}
 
 		} else if (mButtonId == VOTES_BTN) {
+
 		} else {
+
 		}
 
 	}
@@ -210,11 +213,11 @@ public class NotificationFragment extends Fragment implements
 
 	@Override
 	public boolean onBack() {
-//		if (!isBacking) {
-//			isBacking = true;
-//			((MainActivity) getActivity()).updateToMainScreenActionBar();
-//			applyBackAnimation();
-//		}
+		// if (!isBacking) {
+		// isBacking = true;
+		// ((MainActivity) getActivity()).updateToMainScreenActionBar();
+		// applyBackAnimation();
+		// }
 		return true;
 	}
 

@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.view.LayoutInflater;
@@ -30,7 +31,6 @@ import android.widget.Toast;
 
 import com.beacon.afterui.R;
 import com.beacon.afterui.utils.FontUtils;
-import com.beacon.afterui.views.MainActivity;
 
 public class FriendListFragment extends Fragment implements OnClickListener,
 		FragmentLifecycle, OnItemClickListener {
@@ -48,17 +48,34 @@ public class FriendListFragment extends Fragment implements OnClickListener,
 	private static final int AFTER_YOU_BTN = 1;
 	private static final int CONTACTS_BTN = 2;
 	private static final int FACEBOOK_BTN = 3;
+	private static final int TWITTER_BTN = 4;
+	private static final int IMPORT_CONTACTS_BTN = 5;
+	private static final int IMPORT_FACEBOOK_BTN = 6;
+	private static final int IMPORT_TWITTER_BTN = 7;
+	private static final int IMPORT_GOOGLE_BTN = 8;
+
 	private static int mButtonId;
 	private Typeface mITCAvantGardeStdBk;
+	private String mWhichFragment;
+	private String FROM_HOT_VOTE_FRAGMENT = "from_hot_vote_fragment";
+	private String FROM_IMPORT_SIDEBAR = "from_import";
+
+	private Drawable mContactsDrawable;
+	private Drawable mfacebookDrawable;
+	private Drawable mTwitterDrawable;
+	private Drawable mGoogleDrawable;
+	private static int mFlag;
 
 	public FriendListFragment() {
 	}
 
-	public FriendListFragment(Context context) {
+	public FriendListFragment(Context context, String from) {
 
 		mContext = context;
 		mITCAvantGardeStdBk = FontUtils.loadTypeFace(mContext,
 				FontUtils.ITC_AVANT_GARDE_STD_BK);
+		mWhichFragment = from;
+
 	}
 
 	@Override
@@ -66,9 +83,20 @@ public class FriendListFragment extends Fragment implements OnClickListener,
 			Bundle savedInstanceState) {
 		View friendListView = inflater.inflate(R.layout.friend_list_screen,
 				null);
+		RelativeLayout searchLay = (RelativeLayout) friendListView
+				.findViewById(R.id.voting_search_lay);
+
+		TextView cancel_btn = (TextView) friendListView
+				.findViewById(R.id.voting_cancel_btn);
+		cancel_btn.setTypeface(mITCAvantGardeStdBk);
+
+		TextView setting_txt = (TextView) friendListView
+				.findViewById(R.id.voting_setting_txt);
+		setting_txt.setTypeface(mITCAvantGardeStdBk);
 
 		mSearchBox = (EditText) friendListView.findViewById(R.id.search_txt);
 		mSearchBox.setTypeface(mITCAvantGardeStdBk);
+
 		mAfterYouFrnd = (TextView) friendListView
 				.findViewById(R.id.after_you_friends_btn);
 		mAfterYouFrnd.setTypeface(mITCAvantGardeStdBk);
@@ -91,6 +119,36 @@ public class FriendListFragment extends Fragment implements OnClickListener,
 				.findViewById(R.id.voting_done_btn);
 		done_btn.setTypeface(mITCAvantGardeStdBk);
 
+		if (mWhichFragment.equals(FROM_IMPORT_SIDEBAR)) {
+			initTempImages();
+			mAfterYouFrnd.setCompoundDrawables(null, mContactsDrawable, null,
+					null);
+			mAfterYouFrnd.setText("contacts");
+			mContacts.setCompoundDrawables(null, mfacebookDrawable, null, null);
+			mContacts.setText("facebook");
+			mFacebookFrnd.setCompoundDrawables(null, mTwitterDrawable, null,
+					null);
+			mFacebookFrnd.setText("twitter");
+			mTwitterFrnd
+					.setCompoundDrawables(null, mGoogleDrawable, null, null);
+			mTwitterFrnd.setText("google+");
+
+			mSearchBox.setVisibility(View.GONE);
+			mSearchBtn.setVisibility(View.GONE);
+			done_btn.setVisibility(View.INVISIBLE);
+			searchLay.setBackground(null);
+			setting_txt.setText(SlidingMenuFragment.getHeading());
+
+			cancel_btn.setVisibility(View.VISIBLE);
+			setting_txt.setVisibility(View.VISIBLE);
+			cancel_btn.setOnClickListener(this);
+
+			mFlag = 1;
+
+		} else {
+			mFlag = 0;
+		}
+
 		mAfterYouFrnd.setOnClickListener(this);
 		mContacts.setOnClickListener(this);
 		mFacebookFrnd.setOnClickListener(this);
@@ -102,6 +160,31 @@ public class FriendListFragment extends Fragment implements OnClickListener,
 		return friendListView;
 	}
 
+	private void initTempImages() {
+		mContactsDrawable = mContext.getResources().getDrawable(
+				R.drawable.contacts_voting_img);
+		mContactsDrawable.setBounds(0, 0,
+				mContactsDrawable.getIntrinsicWidth(),
+				mContactsDrawable.getIntrinsicHeight());
+
+		mfacebookDrawable = mContext.getResources().getDrawable(
+				R.drawable.facebook_voting_img);
+		mfacebookDrawable.setBounds(0, 0,
+				mfacebookDrawable.getIntrinsicWidth(),
+				mfacebookDrawable.getIntrinsicHeight());
+
+		mTwitterDrawable = mContext.getResources().getDrawable(
+				R.drawable.twitter_voting_img);
+		mTwitterDrawable.setBounds(0, 0, mTwitterDrawable.getIntrinsicWidth(),
+				mTwitterDrawable.getIntrinsicHeight());
+
+		mGoogleDrawable = mContext.getResources().getDrawable(
+				R.drawable.google_plus_btn);
+		mGoogleDrawable.setBounds(0, 0, mGoogleDrawable.getIntrinsicWidth(),
+				mGoogleDrawable.getIntrinsicHeight());
+
+	}
+
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
@@ -109,26 +192,54 @@ public class FriendListFragment extends Fragment implements OnClickListener,
 		Fragment confirmFragment = new VoteConfirm(mContext);
 		if (mButtonId == AFTER_YOU_BTN) {
 
-//			FragmentHelper.gotoFragment(getActivity(), FriendListFragment.this,
-//					confirmFragment, bundle);
-			FragmentHelper.replaceFragment(getActivity(), confirmFragment, bundle);
+			// FragmentHelper.gotoFragment(getActivity(),
+			// FriendListFragment.this,
+			// confirmFragment, bundle);
+			mButtonId = 0;
+			FragmentHelper.replaceFragment(getActivity(), confirmFragment,
+					bundle);
 
 		} else if (mButtonId == CONTACTS_BTN) {
 
-//			FragmentHelper.gotoFragment(getActivity(), FriendListFragment.this,
-//					confirmFragment, bundle);
-			FragmentHelper.replaceFragment(getActivity(), confirmFragment, bundle);
+			// FragmentHelper.gotoFragment(getActivity(),
+			// FriendListFragment.this,
+			// confirmFragment, bundle);
+			mButtonId = 0;
+			FragmentHelper.replaceFragment(getActivity(), confirmFragment,
+					bundle);
 
 		} else if (mButtonId == FACEBOOK_BTN) {
 
-//			FragmentHelper.gotoFragment(getActivity(), FriendListFragment.this,
-//					confirmFragment, bundle);
-			FragmentHelper.replaceFragment(getActivity(), confirmFragment, bundle);
+			// FragmentHelper.gotoFragment(getActivity(),
+			// FriendListFragment.this,
+			// confirmFragment, bundle);
+			mButtonId = 0;
+			FragmentHelper.replaceFragment(getActivity(), confirmFragment,
+					bundle);
 
+		} else if (mButtonId == TWITTER_BTN) {
+			// FragmentHelper.gotoFragment(getActivity(),
+			// FriendListFragment.this,
+			// confirmFragment, bundle);
+			mButtonId = 0;
+			FragmentHelper.replaceFragment(getActivity(), confirmFragment,
+					bundle);
+		} else if (mButtonId == IMPORT_CONTACTS_BTN) {
+			mButtonId = 0;
+			Toast.makeText(mContext, "Import contacts", Toast.LENGTH_SHORT)
+					.show();
+		} else if (mButtonId == IMPORT_FACEBOOK_BTN) {
+			mButtonId = 0;
+			Toast.makeText(mContext, "Import facebook contacts",
+					Toast.LENGTH_SHORT).show();
+		} else if (mButtonId == IMPORT_TWITTER_BTN) {
+			mButtonId = 0;
+			Toast.makeText(mContext, "Import twitter contacts",
+					Toast.LENGTH_SHORT).show();
 		} else {
-//			FragmentHelper.gotoFragment(getActivity(), FriendListFragment.this,
-//					confirmFragment, bundle);
-			FragmentHelper.replaceFragment(getActivity(), confirmFragment, bundle);
+			mButtonId = 0;
+			Toast.makeText(mContext, "Import google+ contacts",
+					Toast.LENGTH_SHORT).show();
 		}
 	}
 
@@ -188,54 +299,96 @@ public class FriendListFragment extends Fragment implements OnClickListener,
 	public void onClick(View v) {
 		mFriendName = null;
 		mFriendImage = null;
-		switch (v.getId()) {
-		case R.id.after_you_friends_btn:
 
-			mFriendName = new String[] { "After you", "facebook", "Twitter",
-					"Contacts" };
-			mFriendImage = new int[] { R.drawable.sample_img,
-					R.drawable.sample_img, R.drawable.sample_img,
-					R.drawable.sample_img };
-			mFriendList.setAdapter(new FriendListAdapter(mFriendName,
-					mFriendImage));
-			mButtonId = 1;
-			break;
-		case R.id.contacts_btn:
-			// mFriendName = getPhoneContacts();
-			mFriendImage = new int[] { R.drawable.sample_img,
-					R.drawable.sample_img, R.drawable.sample_img,
-					R.drawable.sample_img };
-			mFriendList.setAdapter(new FriendListAdapter(getPhoneContacts(),
-					mFriendImage));
-			mButtonId = 2;
+		if (mFlag == 1) {
+			switch (v.getId()) {
+			case R.id.after_you_friends_btn:
 
-			break;
-		case R.id.facebook_voting_btn:
-			mFriendName = new String[] { "Salman", "Shahrukh", "Amir", "Saif" };
-			mFriendImage = new int[] { R.drawable.sample_img,
-					R.drawable.sample_img, R.drawable.sample_img,
-					R.drawable.sample_img };
-			mFriendList.setAdapter(new FriendListAdapter(mFriendName,
-					mFriendImage));
-			mButtonId = 3;
+				Toast.makeText(mContext, "Call the contacts addapter",
+						Toast.LENGTH_SHORT).show();
+				mButtonId = 5;
 
-			break;
-		case R.id.twitter_btn:
-			mFriendName = new String[] { "Karina", "Katrina", "Asin", "Deepika" };
-			mFriendImage = new int[] { R.drawable.sample_img,
-					R.drawable.sample_img, R.drawable.sample_img,
-					R.drawable.sample_img };
-			mFriendList.setAdapter(new FriendListAdapter(mFriendName,
-					mFriendImage));
-			break;
-		case R.id.search_btn:
-			Toast.makeText(mContext, "Search btn is pressed",
-					Toast.LENGTH_SHORT).show();
-			break;
-		case R.id.voting_done_btn:
-			onBack();
-			break;
+				break;
+			case R.id.contacts_btn:
 
+				Toast.makeText(mContext, "call the facebook adapter",
+						Toast.LENGTH_SHORT).show();
+				mButtonId = 6;
+
+				break;
+			case R.id.facebook_voting_btn:
+
+				Toast.makeText(mContext, "call the twitter adapter",
+						Toast.LENGTH_SHORT).show();
+				mButtonId = 7;
+
+				break;
+			case R.id.twitter_btn:
+				Toast.makeText(mContext, "call the google+ adapter",
+						Toast.LENGTH_SHORT).show();
+				mButtonId = 8;
+
+				break;
+			case R.id.voting_cancel_btn:
+				Toast.makeText(mContext, "Cancel btn is pressed",
+						Toast.LENGTH_SHORT).show();
+				onBack();
+				break;
+			}
+
+		} else {
+			switch (v.getId()) {
+			case R.id.after_you_friends_btn:
+
+				mFriendName = new String[] { "After you", "facebook",
+						"Twitter", "Contacts" };
+				mFriendImage = new int[] { R.drawable.sample_img,
+						R.drawable.sample_img, R.drawable.sample_img,
+						R.drawable.sample_img };
+				mFriendList.setAdapter(new FriendListAdapter(mFriendName,
+						mFriendImage));
+				mButtonId = 1;
+				break;
+			case R.id.contacts_btn:
+				// mFriendName = getPhoneContacts();
+				mFriendImage = new int[] { R.drawable.sample_img,
+						R.drawable.sample_img, R.drawable.sample_img,
+						R.drawable.sample_img };
+				mFriendList.setAdapter(new FriendListAdapter(
+						getPhoneContacts(), mFriendImage));
+				mButtonId = 2;
+
+				break;
+			case R.id.facebook_voting_btn:
+				mFriendName = new String[] { "Salman", "Shahrukh", "Amir",
+						"Saif" };
+				mFriendImage = new int[] { R.drawable.sample_img,
+						R.drawable.sample_img, R.drawable.sample_img,
+						R.drawable.sample_img };
+				mFriendList.setAdapter(new FriendListAdapter(mFriendName,
+						mFriendImage));
+				mButtonId = 3;
+
+				break;
+			case R.id.twitter_btn:
+				mFriendName = new String[] { "Karina", "Katrina", "Asin",
+						"Deepika" };
+				mFriendImage = new int[] { R.drawable.sample_img,
+						R.drawable.sample_img, R.drawable.sample_img,
+						R.drawable.sample_img };
+				mFriendList.setAdapter(new FriendListAdapter(mFriendName,
+						mFriendImage));
+				mButtonId = 4;
+				break;
+			case R.id.search_btn:
+				Toast.makeText(mContext, "Search btn is pressed",
+						Toast.LENGTH_SHORT).show();
+				break;
+			case R.id.voting_done_btn:
+				onBack();
+				break;
+
+			}
 		}
 
 	}
@@ -349,11 +502,11 @@ public class FriendListFragment extends Fragment implements OnClickListener,
 
 	@Override
 	public boolean onBack() {
-//		if (!isBacking) {
-//			isBacking = true;
-//			((MainActivity) getActivity()).updateToMainScreenActionBar();
-//			applyBackAnimation();
-//		}
+		// if (!isBacking) {
+		// isBacking = true;
+		// ((MainActivity) getActivity()).updateToMainScreenActionBar();
+		// applyBackAnimation();
+		// }
 		return true;
 	}
 

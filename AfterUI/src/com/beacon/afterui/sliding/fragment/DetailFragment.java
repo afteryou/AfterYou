@@ -15,7 +15,6 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.ViewGroup.MarginLayoutParams;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -27,7 +26,7 @@ import com.beacon.afterui.sliding.customViews.CustomGridView;
 import com.beacon.afterui.utils.FontUtils;
 import com.beacon.afterui.utils.ImageUtils;
 import com.beacon.afterui.utils.WindowUtils;
-import com.beacon.afterui.views.MainActivity;
+import com.beacon.afterui.views.data.CommentAdapter;
 import com.beacon.afterui.views.data.Interest;
 import com.beacon.afterui.views.data.InterestController;
 
@@ -71,8 +70,6 @@ public class DetailFragment extends Fragment implements FragmentLifecycle,
 
 	private ListView mCommentList;
 
-	private LayoutInflater mInflater;
-
 	private Typeface mITCAvantGardeStdBk;
 
 	public DetailFragment(Context mContext) {
@@ -103,7 +100,7 @@ public class DetailFragment extends Fragment implements FragmentLifecycle,
 		mDetailView = (ViewGroup) view.findViewById(R.id.detail_content);
 
 		mCommentList = (ListView) mDetailView.findViewById(R.id.comment_list);
-		mCommentList.setAdapter(new CommentAdapter());
+		mCommentList.setAdapter(new CommentAdapter(getActivity()));
 		Helper.getListViewSize(mCommentList);
 
 		mPhotosBtn = (TextView) view.findViewById(R.id.photos_btn);
@@ -234,10 +231,10 @@ public class DetailFragment extends Fragment implements FragmentLifecycle,
 		case R.id.gift_btn:
 
 			Fragment giftListFragment = new GiftListFragment();
-//			FragmentHelper.gotoFragment(getActivity(), DetailFragment.this,
-//					giftListFragment, bundle);
-			FragmentHelper.replaceFragment(getActivity(),
-                    giftListFragment, bundle);
+			// FragmentHelper.gotoFragment(getActivity(), DetailFragment.this,
+			// giftListFragment, bundle);
+			FragmentHelper.replaceFragment(getActivity(), giftListFragment,
+					bundle);
 			break;
 		case R.id.video_btn:
 
@@ -373,11 +370,11 @@ public class DetailFragment extends Fragment implements FragmentLifecycle,
 
 	@Override
 	public boolean onBack() {
-//		if (!isBacking) {
-//			isBacking = true;
-//			((MainActivity) getActivity()).updateToMainScreenActionBar();
-//			applyBackAnimation();
-//		}
+		// if (!isBacking) {
+		// isBacking = true;
+		// ((MainActivity) getActivity()).updateToMainScreenActionBar();
+		// applyBackAnimation();
+		// }
 		return true;
 	}
 
@@ -435,72 +432,4 @@ public class DetailFragment extends Fragment implements FragmentLifecycle,
 		}
 	}
 
-	private class CommentAdapter extends BaseAdapter {
-
-		public CommentAdapter() {
-
-			mInflater = LayoutInflater.from(mContext);
-		}
-
-		@Override
-		public int getCount() {
-			return 3;
-		}
-
-		@Override
-		public Object getItem(int arg0) {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public long getItemId(int arg0) {
-			// TODO Auto-generated method stub
-			return 0;
-		}
-
-		@Override
-		public View getView(int position, View view, ViewGroup parent) {
-
-			ViewHolder holder;
-
-			if (view == null) {
-				holder = new ViewHolder();
-				view = mInflater.inflate(R.layout.comments_item_detail, null);
-
-				holder.commentTxt = (TextView) view
-						.findViewById(R.id.comment_txt);
-				holder.commentTxt.setTypeface(mMyriadProRegularFont);
-
-				holder.commentUserImg = (ImageView) view
-						.findViewById(R.id.comment_user_img);
-
-				holder.commentUserName = (TextView) view
-						.findViewById(R.id.comment_user_name);
-				holder.commentUserName.setTypeface(mITCAvantGardeStdBk);
-
-				holder.timeTxt = (TextView) view
-						.findViewById(R.id.comment_time_txt);
-				holder.timeTxt.setTypeface(mMyriadProRegularFont);
-
-				view.setTag(holder);
-
-			} else {
-
-				holder = (ViewHolder) view.getTag();
-			}
-
-			return view;
-		}
-
-		private class ViewHolder {
-
-			private ImageView commentUserImg;
-			private TextView commentUserName;
-			private TextView commentTxt;
-			private TextView timeTxt;
-
-		}
-
-	}
 }

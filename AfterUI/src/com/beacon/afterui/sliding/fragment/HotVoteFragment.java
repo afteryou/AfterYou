@@ -26,6 +26,7 @@ public class HotVoteFragment extends Fragment implements OnClickListener,
 	private TextView mVoteBtn;
 	private TextView mHotBtn;
 	private Typeface mITCAvantGardeStdMdFont;
+	private String FROM_HOT_VOTE_FRAGMENT = "from_hot_vote_fragment";
 
 	public HotVoteFragment() {
 	}
@@ -83,11 +84,11 @@ public class HotVoteFragment extends Fragment implements OnClickListener,
 
 	@Override
 	public boolean onBack() {
-//		if (!isBacking) {
-//			isBacking = true;
-//			((MainActivity) getActivity()).updateToMainScreenActionBar();
-//			applyBackAnimation();
-//		}
+		// if (!isBacking) {
+		// isBacking = true;
+		// ((MainActivity) getActivity()).updateToMainScreenActionBar();
+		// applyBackAnimation();
+		// }
 		return true;
 	}
 
@@ -131,20 +132,20 @@ public class HotVoteFragment extends Fragment implements OnClickListener,
 		Bundle bundle = new Bundle();
 		switch (v.getId()) {
 		case R.id.vote_btn:
-			Fragment detail = new FriendListFragment(mContext);
-//			FragmentHelper.gotoFragment(getActivity(), HotVoteFragment.this,
-//					detail, bundle);
+			Fragment detail = new FriendListFragment(mContext,
+					FROM_HOT_VOTE_FRAGMENT);
+			// FragmentHelper.gotoFragment(getActivity(), HotVoteFragment.this,
+			// detail, bundle);
 			FragmentHelper.replaceFragment(getActivity(), detail, bundle);
 			break;
-			
+
 		case R.id.hot_btn:
 			Fragment notification = new NotificationFragment(mContext);
-//			FragmentHelper.gotoFragment(getActivity(), HotVoteFragment.this,
-//					notification, bundle);
+			// FragmentHelper.gotoFragment(getActivity(), HotVoteFragment.this,
+			// notification, bundle);
 			FragmentHelper.replaceFragment(getActivity(), notification, bundle);
 			break;
 		}
 
 	}
-
 }

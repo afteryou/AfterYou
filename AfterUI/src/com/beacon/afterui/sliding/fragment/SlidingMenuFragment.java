@@ -45,6 +45,7 @@ import com.beacon.afterui.provider.PreferenceEngine;
 import com.beacon.afterui.sliding.SlidingActivity;
 import com.beacon.afterui.sliding.customViews.ListViewAdapter;
 import com.beacon.afterui.utils.FontUtils;
+import com.beacon.afterui.utils.SetHead;
 import com.beacon.afterui.utils.customviews.CustomDialog;
 import com.beacon.afterui.utils.customviews.DialogHelper;
 import com.beacon.afterui.views.CapturePictureActivity;
@@ -85,6 +86,11 @@ public class SlidingMenuFragment extends Fragment implements
 	private static final int TERMS_POLICY = 2;
 	private static final int LOGOUT = 4;
 	private String[] mDashBoardTxt;
+	private String[] mHeadinItemTxt;
+	private String[] mSubHeadinItemTxt;
+	private int[] mImages;
+	private static String mHeadingTxt;
+	private String FROM_IMPORT_SIDEBAR = "from_import";
 
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -158,6 +164,15 @@ public class SlidingMenuFragment extends Fragment implements
 		return view;
 	}
 
+	public static void setHeadingText(String heading) {
+
+		mHeadingTxt = heading;
+	}
+
+	public static String getHeading() {
+		return mHeadingTxt;
+	}
+
 	private OnItemClickListener leftDrawerListner = new OnItemClickListener() {
 
 		@Override
@@ -166,64 +181,80 @@ public class SlidingMenuFragment extends Fragment implements
 
 			Intent intent = null;
 			Bundle bundle = new Bundle();
+
 			switch (position) {
 			case SETTING:
+				initSettingArray();
 
-				intent = new Intent(getActivity(), SettingMenuItem.class);
-				intent.putExtra("setting", mDashBoardTxt[position]);
-				startActivity(intent);
+				Fragment setting_menu_fragment = new SettingMenuItem(mImages,
+						mHeadinItemTxt);
+				setHeadingText("setting");
+				FragmentHelper
+						.gotoFragment(getActivity(), SlidingMenuFragment.this,
+								setting_menu_fragment, bundle);
+				// FragmentHelper.replaceFragment(getActivity(),
+				// setting_menu_fragment, bundle);
 				break;
 
 			case IMPORT_FREIND:
-				// onClickPickFriends();
-				Fragment friendList = new FriendListFragment(getActivity());
+				Fragment friendList = new FriendListFragment(getActivity(),
+						FROM_IMPORT_SIDEBAR);
+				setHeadingText("import");
+				// FragmentHelper.replaceFragment(getActivity(), friendList,
+				// bundle);
 				FragmentHelper.gotoFragment(getActivity(),
 						SlidingMenuFragment.this, friendList, bundle);
 				break;
 
 			case TERMS_POLICY:
+				initTermsPoliciesArray();
+				Fragment terms_policies = new SettingMenuItem(mImages,
+						mHeadinItemTxt, mSubHeadinItemTxt);
+				setHeadingText("Terms & Policies");
+				FragmentHelper.gotoFragment(getActivity(),
+						SlidingMenuFragment.this, terms_policies, bundle);
 
+				break;
+
+			case HELP_CENTER:
 				Fragment giftList = new GiftListFragment();
 				FragmentHelper.gotoFragment(getActivity(),
 						SlidingMenuFragment.this, giftList, bundle);
 
 				break;
 
-			case HELP_CENTER:
-
-				break;
-
 			case LOGOUT:
-				
-				CustomDialog dialog = DialogHelper.createMessageDialogBuilder(getActivity(), false).setMessage(
-		                getString(R.string.IDS_ASK_LOGOUT))
-		                .setPositiveButton(R.string.IDS_YES,
-		                    new DialogInterface.OnClickListener() {
-		                    @Override
-		                    public void onClick(DialogInterface arg0,
-		                        int arg1) {
-		        				PreferenceEngine prefEngine = PreferenceEngine
-		        						.getInstance(getActivity());
-		        				prefEngine.setUserSignedUpStatus(false);
-		        				exitApp();
-		                    }
-
-		                }).setNegativeButton(R.string.IDS_NO,
-		                    new DialogInterface.OnClickListener() {
-		                    @Override
-		                    public void onClick(DialogInterface dialog,
-		                        int which) {
-		                    }
-		                }).create();
-				dialog.show();
-
-
+				Fragment log_out_fragment = new LogOutFragment();
+				FragmentHelper.gotoFragment(getActivity(),
+						SlidingMenuFragment.this, log_out_fragment, bundle);
 				break;
 
 			}
 
 		}
 	};
+
+	private void initSettingArray() {
+
+		mHeadinItemTxt = getResources()
+				.getStringArray(R.array.setting_item_txt);
+		mImages = new int[] { R.drawable.profile_setting_img,
+				R.drawable.privacy_setting_img, R.drawable.blocking_img,
+				R.drawable.notifications_img };
+
+	}
+
+	private void initTermsPoliciesArray() {
+
+		mHeadinItemTxt = getResources().getStringArray(
+				R.array.term_policies_heading_item_txt);
+		mSubHeadinItemTxt = getResources().getStringArray(
+				R.array.term_policies_sub_heading_item_txt);
+		mImages = new int[] { R.drawable.rights_respo_img,
+				R.drawable.data_uses_policy_img,
+				R.drawable.comunity_standards_img };
+
+	}
 	
 	
 	private void exitApp() {

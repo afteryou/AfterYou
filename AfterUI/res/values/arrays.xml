@@ -174,5 +174,49 @@
         <item>@string/blocking</item>
         <item>@string/notifications</item>
     </string-array>
+    <string-array name="term_policies_heading_item_txt">
+        <item>@string/statement_of_rights</item>
+        <item>@string/data_use_policies</item>
+        <item>@string/community_std</item>
+    </string-array>
+    <string-array name="term_policies_sub_heading_item_txt">
+        <item>@string/terms_you_agree</item>
+        <item>@string/information_we_recive</item>
+        <item>@string/whats_not_allowed</item>
+    </string-array>
+    <string-array name="term_policies_detail_txt">
+        <item>@string/reset_pass</item>
+        <item>@string/change_profile_pic</item>
+        <item>@string/my_circle</item>
+        <item>@string/people_recommend</item>
+    </string-array>
+    <string-array name="privacy_setting_txt">
+        <item>@string/my_stuff_txt</item>
+        <item>@string/contact_me</item>
+    </string-array>
+    <string-array name="blocking_setting_txt">
+        <item>@string/block_someone_txt</item>
+        <item>@string/report_abuse_txt</item>
+    </string-array>
+    <string-array name="privacy_setting_menu_txt">
+        <item>@string/future_post</item>
+        <item>@string/review_post</item>
+    </string-array>
+    <string-array name="who_can_see_txt">
+        <item>@string/public_txt</item>
+        <item>@string/friends_txt</item>
+        <item>@string/prospects_txt</item>
+        <item>@string/family_txt</item>
+        <item>@string/only_me_txt</item>
+    </string-array>
+    <string-array name="filter_array">
+        <item>@string/activity_log_txt</item>
+        <item>@string/photos_txt</item>
+        <item>@string/votes_txt</item>
+        <item>@string/comments_filter_txt</item>
+        <item>@string/refferals_txt</item>
+        <item>@string/gifts_txt</item>
+        <item>@string/birthdays_txt</item>
+    </string-array>
 
 </resources>
