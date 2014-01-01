@@ -68,9 +68,9 @@ public class StuffSettingFragment extends Fragment implements
 			// FragmentHelper.replaceFragment(getActivity(),
 			// future_post_fragment,
 			// bundle);
-			FragmentHelper.gotoFragment(getActivity(),
-					StuffSettingFragment.this, future_post_fragment, bundle);
-
+//			FragmentHelper.gotoFragment(getActivity(),
+//					StuffSettingFragment.this, future_post_fragment, bundle);
+			FragmentHelper.replaceFragment(getActivity(), future_post_fragment, bundle);
 			break;
 		case WHO_REVIEW_POSTS:
 			Fragment review_post_fragment = new ReviewPostsFragment(

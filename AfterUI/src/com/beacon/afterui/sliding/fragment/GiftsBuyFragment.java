@@ -149,7 +149,7 @@ public class GiftsBuyFragment extends Fragment implements FragmentLifecycle,
             Log.d(TAG, "Setup finished.");
 
             if (!result.isSuccess()) {
-                // Oh noes, there was a problem.
+                // Oh no, there was a problem.
                 // complain("Problem setting up in-app billing: " + result);
                 Log.e(TAG,
                         "Something went wrong, try again! : "

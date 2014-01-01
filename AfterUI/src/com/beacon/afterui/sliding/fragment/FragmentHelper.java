@@ -101,7 +101,6 @@ public class FragmentHelper {
         if (keepInStack)
             transaction.addToBackStack(null);
 
-        Log.d("test", "replace : Total Fragment count : " + act.getFragmentManager().getBackStackEntryCount());
         transaction.commit();
     }
 

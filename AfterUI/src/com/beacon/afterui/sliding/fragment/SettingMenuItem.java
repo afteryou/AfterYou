@@ -125,20 +125,23 @@ public class SettingMenuItem extends Fragment implements FragmentLifecycle,
 
 			case PRIVACY_SETTING:
 				Fragment privacy_setting = new PrivacySettingFragment();
-				FragmentHelper.gotoFragment(getActivity(),
-						SettingMenuItem.this, privacy_setting, bundle);
+//				FragmentHelper.gotoFragment(getActivity(),
+//						SettingMenuItem.this, privacy_setting, bundle);
+				FragmentHelper.replaceFragment(getActivity(), privacy_setting, bundle);
 				break;
 
 			case BLOCKING:
 				Fragment blocking_setting = new BlockingFragment();
-				FragmentHelper.gotoFragment(getActivity(),
-						SettingMenuItem.this, blocking_setting, bundle);
+//				FragmentHelper.gotoFragment(getActivity(),
+//						SettingMenuItem.this, blocking_setting, bundle);
+				FragmentHelper.replaceFragment(getActivity(), blocking_setting, bundle);
 				break;
 
 			case NOTIFICATION:
 				Fragment notification = new NotificationFragment(getActivity());
-				FragmentHelper.gotoFragment(getActivity(),
-						SettingMenuItem.this, notification, bundle);
+//				FragmentHelper.gotoFragment(getActivity(),
+//						SettingMenuItem.this, notification, bundle);
+				FragmentHelper.replaceFragment(getActivity(), notification, bundle);
 				break;
 
 			}
@@ -151,8 +154,9 @@ public class SettingMenuItem extends Fragment implements FragmentLifecycle,
 						"Statement of rights and responsibilities",
 						Toast.LENGTH_SHORT).show();
 				Fragment terms_detail_fragment = new TermsPoliciesDetails();
-				FragmentHelper.gotoFragment(getActivity(),
-						SettingMenuItem.this, terms_detail_fragment, bundle);
+//				FragmentHelper.gotoFragment(getActivity(),
+//						SettingMenuItem.this, terms_detail_fragment, bundle);
+				FragmentHelper.replaceFragment(getActivity(), terms_detail_fragment, bundle);
 				break;
 			case DATA_USE_POLICY:
 
@@ -177,7 +181,7 @@ public class SettingMenuItem extends Fragment implements FragmentLifecycle,
 
 		switch (view.getId()) {
 		case R.id.cancel_btn:
-			onBack();
+			getActivity().onBackPressed();
 			break;
 		}
 
@@ -195,11 +199,11 @@ public class SettingMenuItem extends Fragment implements FragmentLifecycle,
 
 	@Override
 	public boolean onBack() {
-		if (!isBacking) {
-			isBacking = true;
-			((MainActivity) getActivity()).updateToMainScreenActionBar();
-			applyBackAnimation();
-		}
+//		if (!isBacking) {
+//			isBacking = true;
+//			((MainActivity) getActivity()).updateToMainScreenActionBar();
+//			applyBackAnimation();
+//		}
 		return true;
 	}
 

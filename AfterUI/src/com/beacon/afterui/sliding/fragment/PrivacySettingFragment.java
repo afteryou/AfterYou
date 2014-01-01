@@ -65,9 +65,10 @@ public class PrivacySettingFragment extends Fragment implements
 		switch (position) {
 		case WHO_SEE_STUFF:
 			Fragment privacy_setting_menu_fragment = new StuffSettingFragment();
-			FragmentHelper.gotoFragment(getActivity(),
-					PrivacySettingFragment.this, privacy_setting_menu_fragment,
-					bundle);
+//			FragmentHelper.gotoFragment(getActivity(),
+//					PrivacySettingFragment.this, privacy_setting_menu_fragment,
+//					bundle);
+			FragmentHelper.replaceFragment(getActivity(), privacy_setting_menu_fragment, bundle);
 			break;
 		case WHO_CONTACT_ME:
 

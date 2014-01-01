@@ -8,12 +8,12 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.app.Activity;
 import android.app.Fragment;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.view.ViewCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -43,11 +43,9 @@ import com.beacon.afterui.imageUtils.ImageCache;
 import com.beacon.afterui.log.AfterUIlog;
 import com.beacon.afterui.provider.PreferenceEngine;
 import com.beacon.afterui.sliding.SlidingActivity;
+import com.beacon.afterui.sliding.SlidingMenu;
 import com.beacon.afterui.sliding.customViews.ListViewAdapter;
 import com.beacon.afterui.utils.FontUtils;
-import com.beacon.afterui.utils.SetHead;
-import com.beacon.afterui.utils.customviews.CustomDialog;
-import com.beacon.afterui.utils.customviews.DialogHelper;
 import com.beacon.afterui.views.CapturePictureActivity;
 import com.beacon.afterui.views.MainActivity;
 import com.beacon.afterui.views.PickFriendsActivity;
@@ -91,11 +89,10 @@ public class SlidingMenuFragment extends Fragment implements
 	private int[] mImages;
 	private static String mHeadingTxt;
 	private String FROM_IMPORT_SIDEBAR = "from_import";
-
+	
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
 	}
 
 	@Override
@@ -189,21 +186,21 @@ public class SlidingMenuFragment extends Fragment implements
 				Fragment setting_menu_fragment = new SettingMenuItem(mImages,
 						mHeadinItemTxt);
 				setHeadingText("setting");
-				FragmentHelper
-						.gotoFragment(getActivity(), SlidingMenuFragment.this,
-								setting_menu_fragment, bundle);
-				// FragmentHelper.replaceFragment(getActivity(),
-				// setting_menu_fragment, bundle);
+//				FragmentHelper
+//						.gotoFragment(getActivity(), SlidingMenuFragment.this,
+//								setting_menu_fragment, bundle);
+				 FragmentHelper.replaceFragment(getActivity(),
+				 setting_menu_fragment, bundle);
 				break;
 
 			case IMPORT_FREIND:
 				Fragment friendList = new FriendListFragment(getActivity(),
 						FROM_IMPORT_SIDEBAR);
 				setHeadingText("import");
-				// FragmentHelper.replaceFragment(getActivity(), friendList,
-				// bundle);
-				FragmentHelper.gotoFragment(getActivity(),
-						SlidingMenuFragment.this, friendList, bundle);
+				 FragmentHelper.replaceFragment(getActivity(), friendList,
+				 bundle);
+//				FragmentHelper.gotoFragment(getActivity(),
+//						SlidingMenuFragment.this, friendList, bundle);
 				break;
 
 			case TERMS_POLICY:
@@ -211,29 +208,28 @@ public class SlidingMenuFragment extends Fragment implements
 				Fragment terms_policies = new SettingMenuItem(mImages,
 						mHeadinItemTxt, mSubHeadinItemTxt);
 				setHeadingText("Terms & Policies");
-				FragmentHelper.gotoFragment(getActivity(),
-						SlidingMenuFragment.this, terms_policies, bundle);
-
+//				FragmentHelper.gotoFragment(getActivity(),
+//						SlidingMenuFragment.this, terms_policies, bundle);
+				FragmentHelper.replaceFragment(getActivity(), terms_policies,
+		                 bundle);
 				break;
 
 			case HELP_CENTER:
-				Fragment giftList = new GiftListFragment();
-				FragmentHelper.gotoFragment(getActivity(),
-						SlidingMenuFragment.this, giftList, bundle);
-
 				break;
 
 			case LOGOUT:
 				Fragment log_out_fragment = new LogOutFragment();
-				FragmentHelper.gotoFragment(getActivity(),
-						SlidingMenuFragment.this, log_out_fragment, bundle);
+//				FragmentHelper.gotoFragment(getActivity(),
+//						SlidingMenuFragment.this, log_out_fragment, bundle);
+				FragmentHelper.replaceFragment(getActivity(), log_out_fragment,
+                        bundle);
 				break;
-
 			}
-
+			MainActivity mainActivity = (MainActivity) getActivity();
+            mainActivity.toggle(SlidingMenu.LEFT);
 		}
 	};
-
+	
 	private void initSettingArray() {
 
 		mHeadinItemTxt = getResources()
