@@ -19,4 +19,8 @@ public class NetworkConstants {
     {
         public static final int SIGN_IN_FAILED              = 300;
     }
+    
+    public static final String EMAIL_ALREADY_TAKEN_ERROR = "Email Already Exists!";
+    
+    public static final String ERROR_CODE = "error";
 }

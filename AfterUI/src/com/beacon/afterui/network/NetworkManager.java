@@ -118,19 +118,20 @@ public class NetworkManager {
                     Log.d(TAG, "SUCCESS : " + json.toString());
 
                     if (json == null || !json.has(ParsingConstants.ID)) {
+                    	
                         if (handler != null) {
                             handler.post(new Runnable() {
 
                                 @Override
                                 public void run() {
                                     if (listener != null) {
-                                        listener.onFailure(NetworkConstants.REQUEST_FAILED);
+                                        listener.onFailure(getErrorCode(json));
                                     }
                                 }
                             });
                         } else {
                             if (listener != null) {
-                                listener.onFailure(NetworkConstants.REQUEST_FAILED);
+                                listener.onFailure(getErrorCode(json));
                             }
                         }
                         return;
@@ -213,7 +214,22 @@ public class NetworkManager {
         }).start();
     }
 
-    public interface SignUpRequestListener {
+    protected static int getErrorCode(JSONObject json) {
+    	int errorCode = NetworkConstants.REQUEST_FAILED;
+    	try{
+    		if(json.getString(NetworkConstants.ERROR_CODE).equalsIgnoreCase(NetworkConstants.EMAIL_ALREADY_TAKEN_ERROR))
+    		{
+    			errorCode = NetworkConstants.SignUpRequestConstants.EMAIL_ALREADY_TAKEN;
+    		}
+    	}
+    	catch(JSONException ex)
+    	{
+    	
+    	}
+		return errorCode;
+	}
+
+	public interface SignUpRequestListener {
         public void onSignUp(final JSONObject json);
 
         public void onFailure(final int errorCode);

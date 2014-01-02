@@ -32,6 +32,7 @@ import com.beacon.afterui.R;
 import com.beacon.afterui.activity.BaseActivity;
 import com.beacon.afterui.application.AfterYouApplication;
 import com.beacon.afterui.constants.AppConstants;
+import com.beacon.afterui.network.NetworkConstants;
 import com.beacon.afterui.network.NetworkManager;
 import com.beacon.afterui.network.ParsingConstants;
 import com.beacon.afterui.provider.PreferenceEngine;
@@ -46,9 +47,10 @@ import com.facebook.SessionState;
 import com.facebook.Settings;
 import com.facebook.model.GraphUser;
 import com.google.analytics.tracking.android.EasyTracker;
+import com.beacon.afterui.network.NetworkManager.SignInRequestListener;
 import com.beacon.afterui.network.NetworkManager.SignUpRequestListener;
 
-public class LandingActivity extends BaseActivity implements OnClickListener,SignUpRequestListener {
+public class LandingActivity extends BaseActivity implements OnClickListener,SignUpRequestListener,SignInRequestListener {
 
     /** TAG */
     private static final String TAG = LandingActivity.class.getSimpleName();
@@ -149,6 +151,11 @@ public class LandingActivity extends BaseActivity implements OnClickListener,Sig
                 if (!prefEngine.isUserSignedUp()) {
                     updateView();
                 } else {
+                	
+                	if(prefEngine.isUserFromFacebook())
+                	{
+                	        prefEngine.setUsername(prefEngine.getUserEmail());
+                	}
                     // Already signed up, go to main activity.
                     Intent i = new Intent(LandingActivity.this,
                             MainActivity.class);
@@ -185,6 +192,7 @@ public class LandingActivity extends BaseActivity implements OnClickListener,Sig
         switch (v.getId()) {
 
         case R.id.afteryou_register:
+        	PreferenceEngine.getInstance(ctx).userFromFacebook(false);
             intent = new Intent(LandingActivity.this, SignUpActivity.class);
             AnalyticsUtils.logButtonPressEvent(this, "signup button", -1);
             break;
@@ -196,6 +204,7 @@ public class LandingActivity extends BaseActivity implements OnClickListener,Sig
             // values.put("source", "Test");
             //
             // getContentResolver().insert(AuthTable.CONTENT_URI, values);
+        	 PreferenceEngine.getInstance(ctx).userFromFacebook(false);
             intent = new Intent(LandingActivity.this, LoginScreen.class);
             AnalyticsUtils.logButtonPressEvent(this, "login button", -1);
             break;
@@ -411,7 +420,6 @@ public class LandingActivity extends BaseActivity implements OnClickListener,Sig
     @Override
     public void onSignUp(JSONObject json) {
 
-        removeDialog();
         Log.d(TAG, "onSignUp : ---> " + json);
         if (json == null) {
             // show some error and return.
@@ -432,12 +440,12 @@ public class LandingActivity extends BaseActivity implements OnClickListener,Sig
         Toast.makeText(this, "Signed Up", Toast.LENGTH_SHORT).show();
         PreferenceEngine prefEngine = PreferenceEngine
                 .getInstance(LandingActivity.this);
+        prefEngine.userFromFacebook(true);
         prefEngine.setUserSignedUpStatus(true);
-//        saveData();
         Intent intent = new Intent(LandingActivity.this,
                 ProfileSettingsActivity.class);
 
-            intent.putExtra(AppConstants.FACEBOOK_USER, true);
+        intent.putExtra(AppConstants.FACEBOOK_USER, true);
         
 
         try {
@@ -449,8 +457,53 @@ public class LandingActivity extends BaseActivity implements OnClickListener,Sig
 
     @Override
     public void onFailure(int errorCode) {
-        removeDialog();
-        Log.e(TAG, "onFailure() : " + errorCode);
-        showErrorDialog(R.string.err_sign_up);
+        
+        if(errorCode == NetworkConstants.SignUpRequestConstants.EMAIL_ALREADY_TAKEN)
+        {
+        	//TODO: Create a way for password for facebook.
+        	Map<String, String> data = new HashMap<String, String>();
+            data.put(ParsingConstants.EMAIL, PreferenceEngine.getInstance(ctx).getUserEmail());
+            data.put(ParsingConstants.PASSWORD, Session.getActiveSession().getAccessToken());
+            NetworkManager.signIn(data, this, new Handler());
+        }
+        else{
+        	removeDialog();
+        	Log.e(TAG, "onFailure() : " + errorCode);
+        	showErrorDialog(R.string.err_sign_up);
+        }
     }
+
+	@Override
+	public void onSignIn(JSONObject json) {
+        removeDialog();
+        if (json == null) {
+            // show error and return.
+            showErrorDialog(R.string.err_sign_in);
+            return;
+        }
+
+        if (json.has(ParsingConstants.ERROR)) {
+            // show error and return.
+            try {
+                showErrorDialog(json.getString(ParsingConstants.ERROR));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return;
+        }
+
+        PreferenceEngine prefEngine = PreferenceEngine
+                .getInstance(LandingActivity.this);
+        prefEngine.userFromFacebook(true);
+        prefEngine.setUsername(prefEngine.getUserEmail());
+        prefEngine.setUserSignedUpStatus(true);
+        Toast.makeText(this, "Signed In", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(LandingActivity.this, CapturePictureActivity.class);
+        try {
+            startActivity(intent);
+        } catch (ActivityNotFoundException e) {
+            Log.e(TAG, " Activity not found : " + e.getMessage());
+        }
+		
+	}
 }

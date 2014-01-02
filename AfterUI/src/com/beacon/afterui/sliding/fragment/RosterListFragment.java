@@ -424,17 +424,17 @@ public class RosterListFragment extends Fragment implements OnItemClickListener,
 
         final String lastLoggedIn = prefEngine.getLastLoggedIn();
 
-        if (!userName.equals(lastLoggedIn)) {
+        if (userName != null && !userName.equals(lastLoggedIn)) {
             // Clean DB.
             ContentResolver resolver = getActivity().getContentResolver();
             resolver.delete(RosterTable.CONTENT_URI, null, null);
 
             prefEngine.setLastLoggedIn(userName);
+       
+
+            int index = userName.indexOf("@");
+            userName = userName.substring(0, index);
         }
-
-        int index = userName.indexOf("@");
-        userName = userName.substring(0, index);
-
         mChatManager.login(userName, password, RosterListFragment.this,
                 mHandler);
 	}

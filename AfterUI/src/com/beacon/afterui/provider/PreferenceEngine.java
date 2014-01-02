@@ -822,4 +822,17 @@ public class PreferenceEngine {
         return getDefaultSharePreference().getBoolean(AppConstants.SIGNED_UP,
                 false);
     }
+    
+    public boolean isUserFromFacebook()
+    {
+        return getDefaultSharePreference().getBoolean(AppConstants.FACEBOOK_USER,
+                false);
+    }
+    
+    public void userFromFacebook(boolean userFacebook)
+    {
+    	Editor editor = getDefaultSharePreference().edit();
+        editor.putBoolean(AppConstants.FACEBOOK_USER, userFacebook);
+        editor.commit();
+    }
 }
