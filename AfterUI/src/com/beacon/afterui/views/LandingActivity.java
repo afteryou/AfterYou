@@ -1,12 +1,18 @@
 package com.beacon.afterui.views;
 
+import java.io.Serializable;
 import java.lang.ref.WeakReference;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -20,21 +26,29 @@ import android.widget.Button;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.beacon.afterui.R;
 import com.beacon.afterui.activity.BaseActivity;
 import com.beacon.afterui.application.AfterYouApplication;
 import com.beacon.afterui.constants.AppConstants;
+import com.beacon.afterui.network.NetworkManager;
+import com.beacon.afterui.network.ParsingConstants;
 import com.beacon.afterui.provider.PreferenceEngine;
 import com.beacon.afterui.utils.AnalyticsUtils;
+import com.beacon.afterui.utils.customviews.AfterYouDialogImpl;
+import com.beacon.afterui.utils.customviews.CustomProgressDialog;
+import com.beacon.afterui.utils.customviews.DialogHelper;
+import com.beacon.afterui.utils.customviews.ErrorDialog;
 import com.facebook.LoggingBehavior;
 import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.Settings;
 import com.facebook.model.GraphUser;
 import com.google.analytics.tracking.android.EasyTracker;
+import com.beacon.afterui.network.NetworkManager.SignUpRequestListener;
 
-public class LandingActivity extends BaseActivity implements OnClickListener {
+public class LandingActivity extends BaseActivity implements OnClickListener,SignUpRequestListener {
 
     /** TAG */
     private static final String TAG = LandingActivity.class.getSimpleName();
@@ -42,6 +56,8 @@ public class LandingActivity extends BaseActivity implements OnClickListener {
     private static final int SPLASH_END = 1;
     private static final int START_SPINNER = 2;
     private static final int STOP_SPINNER = 3;
+    private static final int FACEBOOK_RECIEVED_SUCCESS = 4;
+    private final String HASHMAP_BUNDLE = "UserData";
 
     private static final int SPALSH_VISIBLE_TIME = 3000;
 
@@ -51,6 +67,7 @@ public class LandingActivity extends BaseActivity implements OnClickListener {
     private Button sAfterYouLoginBtn;
     private Button sAfterYouSignupBtn;
 
+    private CustomProgressDialog mWaitProgress;
     private Context ctx;
 
     private Session.StatusCallback statusCallback = new SessionStatusCallback();
@@ -138,6 +155,11 @@ public class LandingActivity extends BaseActivity implements OnClickListener {
                     startActivity(i);
                 }
                 break;
+                
+            case FACEBOOK_RECIEVED_SUCCESS:
+            	
+            	signUp((HashMap<String, String>)msg.getData().getSerializable(HASHMAP_BUNDLE));
+            	break;
             case START_SPINNER:
                 startSpinner(true);
                 break;
@@ -203,21 +225,14 @@ public class LandingActivity extends BaseActivity implements OnClickListener {
         }
     }
 
-    public void startSpinner(boolean start) {
+    public void signUp(HashMap<String, String> serializableMap) {
+    	 NetworkManager.signUp( serializableMap, this, new Handler());
+		
+	}
+
+	public void startSpinner(boolean start) {
         if (start) {
-            // if (mCustomProgress == null) {
-            // mCustomProgress = (ProgressBar) findViewById(R.id.progress_bar);
-            // mCustomProgress.setIndeterminate(true);
-            // mCustomProgress.setIndeterminateDrawable(getResources()
-            // .getDrawable(R.drawable.progress_spinner));
-            // }
-            // if (progrssText == null) {
-            // progrssText = (TextView) findViewById(R.id.progress_text);
-            // progrssText.setText(getResources().getString(
-            // R.string.IDS_AUTHENTICATING));
-            // }
-            // progrssText.setVisibility(View.VISIBLE);
-            // mCustomProgress.setVisibility(View.VISIBLE);
+        	showProgressDialog();
         } else {
             if (progrssText != null && mCustomProgress != null) {
                 progrssText.setVisibility(View.GONE);
@@ -249,7 +264,7 @@ public class LandingActivity extends BaseActivity implements OnClickListener {
                 SPALSH_VISIBLE_TIME);
         Session session = Session.getActiveSession();
         if (!session.isOpened() && !session.isClosed()) {
-            session.openForRead(new Session.OpenRequest(this)
+            session.openForRead(new Session.OpenRequest(this).setPermissions(Arrays.asList("basic_info","user_birthday"))
                     .setCallback(statusCallback));
         } else {
             Session.openActiveSession(this, true, statusCallback);
@@ -277,22 +292,37 @@ public class LandingActivity extends BaseActivity implements OnClickListener {
                 public void onUserInfoFetched(GraphUser user) {
                     ((AfterYouApplication) getApplication()).setUser(user);
                     if (user != null) {
+                    	HashMap<String, String> data = new HashMap<String, String>();
                         if (user.getFirstName() != null) {
                             PreferenceEngine.getInstance(ctx).setFirstName(
                                     user.getFirstName());
+                            data.put("fname", user.getFirstName());
                         }
                         if (user.getLastName() != null) {
                             PreferenceEngine.getInstance(ctx).setLastName(
                                     user.getLastName());
+                            data.put("lname", user.getLastName());
                         }
                         if (user.getBirthday() != null) {
                             PreferenceEngine.getInstance(ctx).saveBirthday(
                                     user.getBirthday());
+                            data.put("dob", user.getBirthday());
                         }
-                        PreferenceEngine.getInstance(ctx).saveUserEmail(
+                        
+                        if(user.getProperty("email") != null)
+                        {
+                        	PreferenceEngine.getInstance(ctx).saveUserEmail(
                                 user.getProperty("email"));
+                        }
+                        else{
+                        	PreferenceEngine.getInstance(ctx).saveUserEmail(
+                                    user.getUsername()+"@facebook.com");
+                        	data.put("email", user.getUsername()+"@facebook.com");
+                        }
                         PreferenceEngine.getInstance(ctx).saveGender(
                                 user.getProperty("gender"));
+                        data.put("gender", user.getProperty("gender")+"");
+                        
                         PreferenceEngine.getInstance(ctx).saveProfileUserName(
                                 user.getUsername());
                         StringBuffer userInfo = new StringBuffer();
@@ -313,16 +343,22 @@ public class LandingActivity extends BaseActivity implements OnClickListener {
                         // if (userInfo.length() > 0) {
                         PreferenceEngine.getInstance(ctx).setSelfLangList(
                                 userInfo.toString());
-                        mSplashHandler.sendEmptyMessageDelayed(STOP_SPINNER,
-                                SPALSH_VISIBLE_TIME);
+                        
+                        
+                        data.put("password", Session.getActiveSession().getAccessToken());
+                        Bundle messageData = new Bundle();
+                        messageData.putSerializable(HASHMAP_BUNDLE, data);
+                        Message msg = new Message();
+                        msg.what = FACEBOOK_RECIEVED_SUCCESS;
+                        msg.setData(messageData);
+                        mSplashHandler.sendMessage(msg);
                         // }
                     }
 
                 }
             });
 
-            mSplashHandler.sendEmptyMessageDelayed(START_SPINNER,
-                    SPALSH_VISIBLE_TIME);
+            mSplashHandler.sendEmptyMessage(START_SPINNER);
             fetchUserInfo();
 
         } else {
@@ -333,5 +369,88 @@ public class LandingActivity extends BaseActivity implements OnClickListener {
 
         }
 
+    }
+
+    private void showProgressDialog() {
+        mWaitProgress = DialogHelper.createProgessDialog(this, null);
+        mWaitProgress.setMessage(this.getString(R.string.progress_sign_up));
+        mWaitProgress
+                .setOnCancelListener(new DialogInterface.OnCancelListener() {
+                    @Override
+                    public void onCancel(DialogInterface dialog) {
+                    }
+                });
+        mWaitProgress.show();
+    }
+
+    protected void removeDialog() {
+
+        if (null != this && null != mWaitProgress && mWaitProgress.isShowing()) {
+            mWaitProgress.dismiss();
+        }
+    }
+    
+    private void showErrorDialog(int stringResId) {
+        showErrorDialog(getResources().getString(stringResId));
+    }
+
+    private void showErrorDialog(final String message) {
+        ErrorDialog errDialog = new ErrorDialog(new AfterYouDialogImpl(this),
+                this, R.style.Theme_CustomDialog,
+                new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                }, message);
+        errDialog.show();
+    }
+
+    
+    @Override
+    public void onSignUp(JSONObject json) {
+
+        removeDialog();
+        Log.d(TAG, "onSignUp : ---> " + json);
+        if (json == null) {
+            // show some error and return.
+            showErrorDialog(R.string.err_sign_up);
+            return;
+        }
+
+        if (json.has(ParsingConstants.ERROR)) {
+            // show error and return.
+            try {
+                showErrorDialog(json.getString(ParsingConstants.ERROR));
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return;
+        }
+
+        Toast.makeText(this, "Signed Up", Toast.LENGTH_SHORT).show();
+        PreferenceEngine prefEngine = PreferenceEngine
+                .getInstance(LandingActivity.this);
+        prefEngine.setUserSignedUpStatus(true);
+//        saveData();
+        Intent intent = new Intent(LandingActivity.this,
+                ProfileSettingsActivity.class);
+
+            intent.putExtra(AppConstants.FACEBOOK_USER, true);
+        
+
+        try {
+            startActivity(intent);
+        } catch (ActivityNotFoundException e) {
+            Log.e(TAG, " Activity not found : " + e.getMessage());
+        }
+    }
+
+    @Override
+    public void onFailure(int errorCode) {
+        removeDialog();
+        Log.e(TAG, "onFailure() : " + errorCode);
+        showErrorDialog(R.string.err_sign_up);
     }
 }
