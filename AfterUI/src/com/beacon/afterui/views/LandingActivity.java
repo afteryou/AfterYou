@@ -130,7 +130,7 @@ public class LandingActivity extends BaseActivity implements OnClickListener,Sig
         }
 
         mSplashHandler = new SplashHandler(this);
-        mSplashHandler.sendEmptyMessageDelayed(SPLASH_END, SPALSH_VISIBLE_TIME);
+        mSplashHandler.sendEmptyMessage(SPLASH_END);
     }
 
     private class SplashHandler extends Handler {
