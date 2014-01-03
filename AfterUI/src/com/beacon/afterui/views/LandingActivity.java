@@ -355,6 +355,7 @@ public class LandingActivity extends BaseActivity implements OnClickListener,Sig
                         
                         
                         data.put("password", Session.getActiveSession().getAccessToken());
+                        data.put("isFB","true");
                         Bundle messageData = new Bundle();
                         messageData.putSerializable(HASHMAP_BUNDLE, data);
                         Message msg = new Message();

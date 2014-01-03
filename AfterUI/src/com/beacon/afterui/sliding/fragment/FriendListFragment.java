@@ -195,6 +195,8 @@ public class FriendListFragment extends Fragment implements OnClickListener,
 			// FragmentHelper.gotoFragment(getActivity(),
 			// FriendListFragment.this,
 			// confirmFragment, bundle);
+			mFriendList.setAdapter(new FriendListAdapter(
+					getPhoneContacts(), mFriendImage));
 			mButtonId = 0;
 			FragmentHelper.replaceFragment(getActivity(), confirmFragment,
 					bundle);
@@ -306,6 +308,8 @@ public class FriendListFragment extends Fragment implements OnClickListener,
 
 				Toast.makeText(mContext, "Call the contacts addapter",
 						Toast.LENGTH_SHORT).show();
+				mFriendList.setAdapter(new FriendListAdapter(
+						getPhoneContacts(), mFriendImage));
 				mButtonId = 5;
 
 				break;
@@ -462,8 +466,11 @@ public class FriendListFragment extends Fragment implements OnClickListener,
 					R.color.brown_background));
 			holder.userName.setTextSize(16f);
 			llp.setMargins(15, 0, 0, 0);
-			holder.userImage.setLayoutParams(llp);
-			holder.userImage.setImageResource(image[position]);
+			if(image!= null)
+			{
+				holder.userImage.setLayoutParams(llp);
+				holder.userImage.setImageResource(image[position]);
+			}
 
 			return view;
 		}
