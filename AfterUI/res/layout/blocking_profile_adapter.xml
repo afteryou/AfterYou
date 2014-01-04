@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/unblock_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="@dimen/lay_margine"
+        android:gravity="center_vertical"
+        android:text="@string/unblock_txt"
+        android:textColor="@color/time_color"
+        android:textSize="19sp" />
+
+    <TextView
+        android:id="@+id/block_user_name"
+        android:layout_width="wrap_content"
+        android:layout_height="60dp"
+        android:layout_alignParentLeft="true"
+        android:layout_toLeftOf="@id/unblock_txt"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/lay_margine"
+        android:textColor="@color/font_blue_color"
+        android:textSize="19sp" />
+
+</RelativeLayout>

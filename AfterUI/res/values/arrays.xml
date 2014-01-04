@@ -218,5 +218,35 @@
         <item>@string/gifts_txt</item>
         <item>@string/birthdays_txt</item>
     </string-array>
+    <string-array name="notification_by_array">
+        <item>@string/after_you_txt</item>
+        <item>@string/email_txt</item>
+        <item>@string/mobile_push_txt</item>
+        <item>@string/text_messages</item>
+    </string-array>
+    <string-array name="notification_for_array">
+        <item>@string/connects_btn</item>
+        <item>@string/refferals_txt</item>
+        <item>@string/votes_txt</item>
+        <item>@string/messages_txt</item>
+        <item>@string/comments_filter_txt</item>
+        <item>@string/gifts_txt</item>
+        <item>@string/birthdays_txt</item>
+    </string-array>
+    <string-array name="notification_email">
+        <item>@string/all_notification_txt</item>
+        <item>@string/import_notification_txt</item>
+        <item>@string/only_notification</item>
+    </string-array>
+    <string-array name="mobile_push">
+        <item>@string/connects_btn</item>
+        <item>@string/refferals_txt</item>
+        <item>@string/votes_txt</item>
+        <item>@string/messages_txt</item>
+        <item>@string/comments_filter_txt</item>
+        <item>@string/gifts_txt</item>
+        <item>@string/birthdays_txt</item>
+        <item>@string/activity_txt</item>
+    </string-array>
 
 </resources>

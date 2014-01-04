@@ -2,7 +2,6 @@ package com.beacon.afterui.views.data;
 
 import android.content.Context;
 import android.graphics.Typeface;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,24 +11,21 @@ import android.widget.TextView;
 
 import com.beacon.afterui.R;
 import com.beacon.afterui.utils.FontUtils;
-import com.beacon.afterui.utils.SetHead;
 
-public class FuturePostAdapter extends BaseAdapter {
+public class ReceiveNotificationForAdapter extends BaseAdapter {
 
 	private String[] mPrivacyPermission;
 	private Context mContext;
 	private LayoutInflater mLayoutInflater;
 	private Typeface mITCAvantGardeStdBkFont;
-	private String mClassName;
 
-	public FuturePostAdapter(Context context, String[] privacyPermission,
-			String className) {
+	public ReceiveNotificationForAdapter(Context context,
+			String[] privacyPermission) {
 		mContext = context;
 		mPrivacyPermission = privacyPermission;
 		mLayoutInflater = LayoutInflater.from(mContext);
 		mITCAvantGardeStdBkFont = FontUtils.loadTypeFace(mContext,
 				FontUtils.ITC_AVANT_GARDE_STD_BK);
-		mClassName = className;
 
 	}
 
@@ -56,32 +52,20 @@ public class FuturePostAdapter extends BaseAdapter {
 		if (view == null) {
 
 			holder = new ViewHolder();
-			view = mLayoutInflater.inflate(R.layout.who_see_posts, null);
+			view = mLayoutInflater.inflate(
+					R.layout.receive_notification_for_adapter, null);
 			holder.permittedUserTxt = (TextView) view
-					.findViewById(R.id.permitted_user_txt);
+					.findViewById(R.id.receive_notification_for);
 			holder.permittedUserTxt.setTypeface(mITCAvantGardeStdBkFont);
 			holder.permissionCheck = (CheckBox) view
-					.findViewById(R.id.permission_check);
-
-			if (mClassName.equals(SetHead.getConditionHead())) {
-				holder.permittedUserTxt.setTextSize(14.0f);
-				holder.permittedUserTxt.setLineSpacing(5f, 1f);
-			}
+					.findViewById(R.id.check_notification);
 
 			view.setTag(holder);
+
 		} else {
+
 			holder = (ViewHolder) view.getTag();
 		}
-		
-		view.setOnClickListener(new View.OnClickListener() {
-            
-            @Override
-            public void onClick(View v) {
-                ViewHolder holder = (ViewHolder) v.getTag();
-                holder.permissionCheck.performClick();
-            }
-        });
-		
 		holder.permittedUserTxt.setText(mPrivacyPermission[position]);
 		return view;
 	}
