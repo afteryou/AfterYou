@@ -1,8 +1,5 @@
 package com.beacon.afterui.sliding.fragment;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.animation.AnimatorSet;
 import android.app.Fragment;
 import android.content.res.Configuration;
 import android.graphics.Typeface;
@@ -16,12 +13,10 @@ import android.widget.Toast;
 
 import com.beacon.afterui.R;
 import com.beacon.afterui.utils.FontUtils;
-import com.beacon.afterui.views.MainActivity;
 
 public class LogOutFragment extends Fragment implements FragmentLifecycle,
 		OnClickListener {
 
-	private boolean isBacking;
 	private Typeface mITCAvantGardeStdBkFont;
 
 	public LogOutFragment() {
@@ -58,7 +53,7 @@ public class LogOutFragment extends Fragment implements FragmentLifecycle,
 					.show();
 			break;
 		case R.id.cancel_btn:
-			onBack();
+			getActivity().onBackPressed();
 			break;
 		}
 
@@ -72,30 +67,6 @@ public class LogOutFragment extends Fragment implements FragmentLifecycle,
 	@Override
 	public void onFragmentResume() {
 
-	}
-
-	@Override
-	public boolean onBack() {
-		if (!isBacking) {
-			isBacking = true;
-			((MainActivity) getActivity()).updateToMainScreenActionBar();
-			applyBackAnimation();
-		}
-		return true;
-	}
-
-	private void applyBackAnimation() {
-		AnimatorSet fideOutMap = new AnimatorSet();
-		fideOutMap.setDuration(250);
-		fideOutMap.addListener(new AnimatorListenerAdapter() {
-			@Override
-			public void onAnimationEnd(Animator anim) {
-				FragmentHelper.popFragment(getActivity());
-				isBacking = false;
-			}
-		});
-
-		fideOutMap.start();
 	}
 
 	@Override
@@ -131,5 +102,10 @@ public class LogOutFragment extends Fragment implements FragmentLifecycle,
 	@Override
 	public void onStop() {
 		super.onStop();
+	}
+
+	@Override
+	public boolean onBack() {
+		return false;
 	}
 }

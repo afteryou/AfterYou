@@ -29,6 +29,9 @@ public class BlockingFragment extends Fragment implements FragmentLifecycle,
 
 	public static final String CLASS_NAME = "blocking_fragment";
 
+	private static final int BLOCK_SOMEONE = 0;
+	private static final int REPORT_ABUSE = 1;
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
 			Bundle savedInstanceState) {
@@ -57,6 +60,23 @@ public class BlockingFragment extends Fragment implements FragmentLifecycle,
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
+
+		Bundle bundle = new Bundle();
+
+		switch (position) {
+		case BLOCK_SOMEONE:
+
+			Fragment blocking_fragment = new BlockingProfileFragment();
+			FragmentHelper.replaceFragment(getActivity(), blocking_fragment,
+					bundle);
+
+			break;
+		case REPORT_ABUSE:
+			Fragment report_abuse = new ReportAbuseFragment();
+			FragmentHelper.replaceFragment(getActivity(), report_abuse, bundle);
+			break;
+
+		}
 
 	}
 

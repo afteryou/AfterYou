@@ -53,8 +53,8 @@ public class FuturePostFragment extends Fragment implements FragmentLifecycle,
 		mCancelBtn.setTypeface(mITCAvantGardeStdBkFont);
 
 		mDetailsText = getResources().getStringArray(R.array.who_can_see_txt);
-		mListView
-				.setAdapter(new FuturePostAdapter(getActivity(), mDetailsText));
+		mListView.setAdapter(new FuturePostAdapter(getActivity(), mDetailsText,
+				""));
 
 		mListView.setOnItemClickListener(this);
 		mCancelBtn.setOnClickListener(this);

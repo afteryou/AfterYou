@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white" >
+
+    <TextView
+        android:id="@+id/cancel_btn_blocking_profile"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/lay_margine"
+        android:text="@string/cancelTxt"
+        android:textColor="@color/font_blue_color"
+        android:textSize="18sp" />
+
+    <View
+        android:id="@+id/cancel_btn_divider_blocking_profile"
+        android:layout_width="match_parent"
+        android:layout_height="0.50dp"
+        android:layout_below="@id/cancel_btn_blocking_profile"
+        android:background="@color/divider_color" />
+
+    <TextView
+        android:id="@+id/setting_txt_blocking_profile"
+        android:layout_width="match_parent"
+        android:layout_height="38dp"
+        android:layout_below="@id/cancel_btn_divider_blocking_profile"
+        android:background="@color/setting_color"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/lay_margine"
+        android:text="@string/blocking"
+        android:textColor="@color/font_blue_color"
+        android:textSize="19sp" />
+
+    <View
+        android:id="@+id/setting_divider_blocking_profile"
+        android:layout_width="match_parent"
+        android:layout_height="0.50dp"
+        android:layout_below="@id/setting_txt_blocking_profile"
+        android:background="@color/divider_color" />
+
+    <TextView
+        android:id="@+id/privacy_info_blocking_profile"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/setting_divider_blocking_profile"
+        android:gravity="center_vertical"
+        android:lineSpacingExtra="5.0sp"
+        android:paddingBottom="20dp"
+        android:paddingLeft="@dimen/lay_margine"
+        android:paddingRight="@dimen/lay_margine"
+        android:paddingTop="20dp"
+        android:text="@string/blocking_info_msg"
+        android:textColor="@color/font_blue_color"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/block_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="45dp"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/privacy_info_blocking_profile"
+        android:gravity="center"
+        android:paddingRight="@dimen/lay_margine"
+        android:text="@string/block_txt"
+        android:textColor="@color/font_blue_color"
+        android:textSize="19sp" />
+
+    <EditText
+        android:id="@+id/profile_name_box"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/privacy_info_blocking_profile"
+        android:layout_marginLeft="@dimen/lay_margine"
+        android:layout_marginRight="10dp"
+        android:layout_toLeftOf="@id/block_btn"
+        android:background="@drawable/profile_name_edittext_box"
+        android:hint="@string/type_profile_name_txt"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp"
+        android:singleLine="true"
+        android:textColor="@color/font_blue_color"
+        android:textColorHint="@color/font_blue_color"
+        android:textCursorDrawable="@null"
+        android:textSize="19sp" />
+
+    <View
+        android:id="@+id/profile_name_divider_blocking_profile"
+        android:layout_width="match_parent"
+        android:layout_height="0.50dp"
+        android:layout_below="@id/profile_name_box"
+        android:layout_marginTop="18dp"
+        android:background="@color/divider_color" />
+
+    <ListView
+        android:id="@+id/blocked_profile_user_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/profile_name_divider_blocking_profile"
+        android:divider="@color/divider_color"
+        android:dividerHeight="0.50dp"
+        android:listSelector="@drawable/listview_selector" >
+    </ListView>
+
+    <View
+        android:id="@+id/listview_divider_blocking_profile"
+        android:layout_width="match_parent"
+        android:layout_height="0.50dp"
+        android:layout_below="@id/blocked_profile_user_list"
+        android:background="@color/divider_color"
+        android:visibility="gone" />
+
+</RelativeLayout>

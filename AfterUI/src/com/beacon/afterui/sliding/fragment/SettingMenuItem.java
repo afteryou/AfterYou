@@ -138,7 +138,7 @@ public class SettingMenuItem extends Fragment implements FragmentLifecycle,
 				break;
 
 			case NOTIFICATION:
-				Fragment notification = new NotificationFragment(getActivity());
+				Fragment notification = new NotificationSettingFragment();
 //				FragmentHelper.gotoFragment(getActivity(),
 //						SettingMenuItem.this, notification, bundle);
 				FragmentHelper.replaceFragment(getActivity(), notification, bundle);

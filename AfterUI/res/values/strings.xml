@@ -65,14 +65,43 @@
     <string name="prospects_txt">prospects</string>
     <string name="family_txt">family</string>
     <string name="only_me_txt">only me</string>
-    <string name="privacy_info_msg">You can manage the privacy of things you share\nby using the audience selector right where you
-\npost. This control remembers your selection so
-\nfuture posts will be shared with the same 
-\naudience unless you change it.</string>
+    <string name="privacy_info_msg">You can manage the privacy of things you share\nby using the audience selector right where you\npost. This control remembers your selection so\nfuture posts will be shared with the same\naudience unless you change it.</string>
 
     <!-- Blocking screen -->
     <string name="block_someone_txt">how do I block someone?</string>
     <string name="report_abuse_txt">how do I report abuse?</string>
+    <string name="blocking_info_msg">Once you block someone, that person can no\nlonger see things you post on your profile,\nconnect, send gifts or start a chart.</string>
+    <string name="type_profile_name_txt">type profile name</string>
+    <string name="block_txt">block</string>
+    <string name="unblock_txt">unblock</string>
+
+    <!-- Report abuse -->
+    <string name="report_abuse_info_msg">In order to report abuse please type in your \nname, email, abuser’s profile name and leave us \na message. One of our representatives will be \ncontacting you shortly to create a resolution.</string>
+    <string name="user_name_txt">your name</string>
+    <string name="user_email_txt">email</string>
+    <string name="abusers_proile_name_txt">abuser\'s profile name</string>
+    <string name="write_comment_txt">write a comment</string>
+    <string name="report_abuse_btn">report abuse</string>
+    <string name="write_msg_txt_report_abuse">Message</string>
+
+    <!-- Notification setting screen -->
+    <string name="notification_by">receive notifications by</string>
+    <string name="notification_for">receive notifications for</string>
+    <string name="mobile_push_txt">mobile push</string>
+    <string name="text_messages">text message</string>
+
+    <!-- Notification by after you -->
+    <string name="after_you_head_txt">You’ll see every notification on afteryou but you\ncan turn off notifictions about specific posts as\nyou view them.</string>
+    <string name="adjust_txt">to adjust your notifications form\nyour settings.</string>
+    <string name="one_text">1.  Tap</string>
+    <string name="btn_txt">button</string>
+    <string name="two_txt">2.  Select</string>
+    <string name="third_txt">3.  From here you can edit the messages you will\nreceieve by email, mobile push and text\nmessage.</string>
+
+    <!-- email notification screen -->
+    <string name="all_notification_txt">All notifications, expect the ones you \nunsubscribe from.</string>
+    <string name="import_notification_txt">Important notifications about you or \nactivity you’ve missed.</string>
+    <string name="only_notification">Only notifications about your account, \nsecurity and privacy.</string>
 
     <!-- Login Screen -->
     <string name="email_hint">email</string>
@@ -113,6 +142,7 @@
     <string name="refferals_txt">refferals</string>
     <string name="gifts_txt">gifts</string>
     <string name="birthdays_txt">birthdays</string>
+    <string name="activity_txt">activity you’ve missed</string>
 
     <!-- Voting Screen 006 -->
     <string name="congrates_txt">Congrats! its approved.</string>
