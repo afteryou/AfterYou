@@ -2,6 +2,7 @@ package com.beacon.afterui.views.data;
 
 import android.content.Context;
 import android.graphics.Typeface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -68,11 +69,19 @@ public class FuturePostAdapter extends BaseAdapter {
 			}
 
 			view.setTag(holder);
-
 		} else {
-
 			holder = (ViewHolder) view.getTag();
 		}
+		
+		view.setOnClickListener(new View.OnClickListener() {
+            
+            @Override
+            public void onClick(View v) {
+                ViewHolder holder = (ViewHolder) v.getTag();
+                holder.permissionCheck.performClick();
+            }
+        });
+		
 		holder.permittedUserTxt.setText(mPrivacyPermission[position]);
 		return view;
 	}
