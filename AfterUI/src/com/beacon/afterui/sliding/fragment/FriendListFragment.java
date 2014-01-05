@@ -196,7 +196,7 @@ public class FriendListFragment extends Fragment implements OnClickListener,
 			// FriendListFragment.this,
 			// confirmFragment, bundle);
 			mFriendList.setAdapter(new FriendListAdapter(
-					getPhoneContacts(), mFriendImage));
+					getPhoneContacts(), R.drawable.sample_img));
 			mButtonId = 0;
 			FragmentHelper.replaceFragment(getActivity(), confirmFragment,
 					bundle);
@@ -309,7 +309,7 @@ public class FriendListFragment extends Fragment implements OnClickListener,
 				Toast.makeText(mContext, "Call the contacts addapter",
 						Toast.LENGTH_SHORT).show();
 				mFriendList.setAdapter(new FriendListAdapter(
-						getPhoneContacts(), mFriendImage));
+						getPhoneContacts(), R.drawable.sample_img));
 				mButtonId = 5;
 
 				break;
@@ -355,11 +355,8 @@ public class FriendListFragment extends Fragment implements OnClickListener,
 				break;
 			case R.id.contacts_btn:
 				// mFriendName = getPhoneContacts();
-				mFriendImage = new int[] { R.drawable.sample_img,
-						R.drawable.sample_img, R.drawable.sample_img,
-						R.drawable.sample_img };
 				mFriendList.setAdapter(new FriendListAdapter(
-						getPhoneContacts(), mFriendImage));
+						getPhoneContacts(), R.drawable.sample_img));
 				mButtonId = 2;
 
 				break;
@@ -400,6 +397,7 @@ public class FriendListFragment extends Fragment implements OnClickListener,
 	private class FriendListAdapter extends BaseAdapter {
 		private String[] friendName;
 		private int[] image;
+		private int contactImage;
 		private ArrayList<PhoneContactInfo> contactInfo;
 
 		public FriendListAdapter(String[] list, int[] userImage) {
@@ -408,9 +406,9 @@ public class FriendListFragment extends Fragment implements OnClickListener,
 		}
 
 		public FriendListAdapter(ArrayList<PhoneContactInfo> contactInfo,
-				int[] userImage) {
+				int userImage) {
 			this.contactInfo = contactInfo;
-			image = userImage;
+			contactImage = userImage;
 		}
 
 		@Override
@@ -459,18 +457,17 @@ public class FriendListFragment extends Fragment implements OnClickListener,
 			if (contactInfo != null) {
 				holder.userName.setText(contactInfo.get(position)
 						.getPhoneContactName());
+				holder.userImage.setLayoutParams(llp);
+				holder.userImage.setImageResource(contactImage);
 			} else {
 				holder.userName.setText(friendName[position]);
+				holder.userImage.setLayoutParams(llp);
+				holder.userImage.setImageResource(image[position]);
 			}
 			holder.userName.setTextColor(mContext.getResources().getColor(
 					R.color.brown_background));
 			holder.userName.setTextSize(16f);
 			llp.setMargins(15, 0, 0, 0);
-			if(image!= null)
-			{
-				holder.userImage.setLayoutParams(llp);
-				holder.userImage.setImageResource(image[position]);
-			}
 
 			return view;
 		}
