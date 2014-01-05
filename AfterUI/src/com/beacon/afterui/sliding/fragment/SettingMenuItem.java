@@ -125,16 +125,16 @@ public class SettingMenuItem extends Fragment implements FragmentLifecycle,
 
 			case PRIVACY_SETTING:
 				Fragment privacy_setting = new PrivacySettingFragment();
-//				FragmentHelper.gotoFragment(getActivity(),
-//						SettingMenuItem.this, privacy_setting, bundle);
-				FragmentHelper.replaceFragment(getActivity(), privacy_setting, bundle);
+				FragmentHelper.gotoFragment(getActivity(),
+						SettingMenuItem.this, privacy_setting, bundle,false);
+//				FragmentHelper.replaceFragment(getActivity(), privacy_setting, bundle);
 				break;
 
 			case BLOCKING:
 				Fragment blocking_setting = new BlockingFragment();
-//				FragmentHelper.gotoFragment(getActivity(),
-//						SettingMenuItem.this, blocking_setting, bundle);
-				FragmentHelper.replaceFragment(getActivity(), blocking_setting, bundle);
+				FragmentHelper.gotoFragment(getActivity(),
+						SettingMenuItem.this, blocking_setting, bundle,false);
+//				FragmentHelper.replaceFragment(getActivity(), blocking_setting, bundle);
 				break;
 
 			case NOTIFICATION:

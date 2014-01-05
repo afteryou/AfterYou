@@ -186,9 +186,6 @@ public class SlidingMenuFragment extends Fragment implements
 				Fragment setting_menu_fragment = new SettingMenuItem(mImages,
 						mHeadinItemTxt);
 				setHeadingText("setting");
-//				FragmentHelper
-//						.gotoFragment(getActivity(), SlidingMenuFragment.this,
-//								setting_menu_fragment, bundle);
 				 FragmentHelper.gotoFragment(getActivity(),SlidingMenuFragment.this,
 				 setting_menu_fragment, bundle);
 				break;
@@ -199,8 +196,6 @@ public class SlidingMenuFragment extends Fragment implements
 				setHeadingText("import");
 				 FragmentHelper.gotoFragment(getActivity(), SlidingMenuFragment.this,friendList,
 				 bundle);
-//				FragmentHelper.gotoFragment(getActivity(),
-//						SlidingMenuFragment.this, friendList, bundle);
 				break;
 
 			case TERMS_POLICY:
@@ -208,8 +203,6 @@ public class SlidingMenuFragment extends Fragment implements
 				Fragment terms_policies = new SettingMenuItem(mImages,
 						mHeadinItemTxt, mSubHeadinItemTxt);
 				setHeadingText("Terms & Policies");
-//				FragmentHelper.gotoFragment(getActivity(),
-//						SlidingMenuFragment.this, terms_policies, bundle);
 				FragmentHelper.gotoFragment(getActivity(), SlidingMenuFragment.this,terms_policies,
 		                 bundle);
 				break;
