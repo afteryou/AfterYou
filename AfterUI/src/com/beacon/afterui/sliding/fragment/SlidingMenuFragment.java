@@ -189,7 +189,7 @@ public class SlidingMenuFragment extends Fragment implements
 //				FragmentHelper
 //						.gotoFragment(getActivity(), SlidingMenuFragment.this,
 //								setting_menu_fragment, bundle);
-				 FragmentHelper.replaceFragment(getActivity(),
+				 FragmentHelper.gotoFragment(getActivity(),SlidingMenuFragment.this,
 				 setting_menu_fragment, bundle);
 				break;
 
@@ -197,7 +197,7 @@ public class SlidingMenuFragment extends Fragment implements
 				Fragment friendList = new FriendListFragment(getActivity(),
 						FROM_IMPORT_SIDEBAR);
 				setHeadingText("import");
-				 FragmentHelper.replaceFragment(getActivity(), friendList,
+				 FragmentHelper.gotoFragment(getActivity(), SlidingMenuFragment.this,friendList,
 				 bundle);
 //				FragmentHelper.gotoFragment(getActivity(),
 //						SlidingMenuFragment.this, friendList, bundle);
@@ -210,7 +210,7 @@ public class SlidingMenuFragment extends Fragment implements
 				setHeadingText("Terms & Policies");
 //				FragmentHelper.gotoFragment(getActivity(),
 //						SlidingMenuFragment.this, terms_policies, bundle);
-				FragmentHelper.replaceFragment(getActivity(), terms_policies,
+				FragmentHelper.gotoFragment(getActivity(), SlidingMenuFragment.this,terms_policies,
 		                 bundle);
 				break;
 
@@ -219,10 +219,7 @@ public class SlidingMenuFragment extends Fragment implements
 
 			case LOGOUT:
 				Fragment log_out_fragment = new LogOutFragment();
-//				FragmentHelper.gotoFragment(getActivity(),
-//						SlidingMenuFragment.this, log_out_fragment, bundle);
-				FragmentHelper.replaceFragment(getActivity(), log_out_fragment,
-                        bundle);
+				FragmentHelper.gotoFragment(getActivity(), SlidingMenuFragment.this, log_out_fragment, bundle);
 				break;
 			}
 			MainActivity mainActivity = (MainActivity) getActivity();
@@ -253,12 +250,6 @@ public class SlidingMenuFragment extends Fragment implements
 	}
 	
 	
-	private void exitApp() {
-		MainActivity activity  = (MainActivity)getActivity();
-		activity.exitApp();
-		
-	}
-
 	private void onClickPickFriends() {
 		startPickFriendsActivity();
 	}

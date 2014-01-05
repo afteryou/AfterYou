@@ -13,6 +13,7 @@ import android.widget.Toast;
 
 import com.beacon.afterui.R;
 import com.beacon.afterui.utils.FontUtils;
+import com.beacon.afterui.views.MainActivity;
 
 public class LogOutFragment extends Fragment implements FragmentLifecycle,
 		OnClickListener {
@@ -51,12 +52,19 @@ public class LogOutFragment extends Fragment implements FragmentLifecycle,
 		case R.id.logout_btn:
 			Toast.makeText(getActivity(), "Log out btn", Toast.LENGTH_SHORT)
 					.show();
+			exitApp();
 			break;
 		case R.id.cancel_btn:
 			getActivity().onBackPressed();
 			break;
 		}
 
+	}
+	
+	private void exitApp() {
+		MainActivity activity  = (MainActivity)getActivity();
+		activity.exitApp();
+		
 	}
 
 	@Override
