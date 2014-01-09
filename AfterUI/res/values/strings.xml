@@ -84,6 +84,34 @@
     <string name="report_abuse_btn">report abuse</string>
     <string name="write_msg_txt_report_abuse">Message</string>
 
+    <!-- Text Messages Screen -->
+    <string name="text_msg">text message</string>
+    <string name="registered_phones">registered phones</string>
+    <string name="remove_txt">remove</string>
+    <string name="text_msging_txt">text messaging</string>
+    <string name="text_notification">text notifications:</string>
+
+    <!-- messages screen -->
+    <string name="control_info">control how you receive text\nmessages when somebody\nsends you a message on\nafteryou.</string>
+    <string name="web_or_mobile_txt">When someone sends me a message on\nweb or mobile</string>
+    <string name="mobile">when someone sends me a message on\nmobile</string>
+    <string name="never_txt">Never</string>
+
+    <!-- Daily text limit screen -->
+    <string name="daily_txt_limit">daily text limit</string>
+    <string name="unlimited_txt">unlimited</string>
+    <string name="one_txt">1</string>
+    <string name="five_txt">5</string>
+    <string name="ten_txt">10</string>
+    <string name="fifteen_txt">15</string>
+    <string name="twenty_txt">20</string>
+    <string name="twenty_five_txt">25</string>
+    <string name="thirty_txt">30</string>
+    <string name="thirty_five_txt">35</string>
+    <string name="forty_txt">40</string>
+    <string name="forty_five_txt">45</string>
+    <string name="fifty_txt">50</string>
+
     <!-- Notification setting screen -->
     <string name="notification_by">receive notifications by</string>
     <string name="notification_for">receive notifications for</string>
@@ -160,6 +188,25 @@
 
     <!-- Profile Setting Screen -->
     <string name="profile_setup_txt">Profile Setup</string>
+    <string name="change_name_txt">change name</string>
+    <string name="save_txt">To save this setting please enter your password</string>
+    <string name="save_btn">save</string>
+    <string name="primary_email">primary email</string>
+    <string name="afteryou_email">afteryou email</string>
+    <string name="email_msg">Your afteryou email is based on your public\nusername. Email sent to this address goes to\nafteryou messages.</string>
+    <string name="change_email">change email</string>
+    <string name="change_password">change password</string>
+    <string name="current_password">current password</string>
+    <string name="retype_password">re-type new password</string>
+    <string name="new_password">new password</string>
+
+    <!-- Profile Setting screen sidebar -->
+    <string name="name_txt">name</string>
+    <string name="gender_txt">gender</string>
+    <string name="please_note_txt">Please note:</string>
+    <string name="learn_more_txt">Learn more...</string>
+    <string name="change_name_info">Please note: you can only change your name 4\nmore times, so make sure to use your real name.\nDon’t addany unusual capitalizatio, punctuation,\ncharacters or random words. Learn more...</string>
+    <string name="type_password">type your password</string>
 
     <!-- Sign Up Screen -->
     <string name="date_of_birth_txt">Date Of Birth</string>

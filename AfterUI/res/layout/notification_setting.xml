@@ -40,57 +40,68 @@
         android:layout_below="@id/notification_by"
         android:background="@color/divider_color" />
 
-    <ListView
-        android:id="@+id/notification_by_list"
+    <ScrollView
+        android:id="@+id/scroll_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/setting_divider_notification_setting"
-        android:divider="@color/divider_color"
-        android:dividerHeight="0.50dp"
-        android:listSelector="@drawable/listview_selector" >
-    </ListView>
+        android:layout_below="@id/setting_divider_notification_setting" >
 
-    <View
-        android:id="@+id/notification_by_divider"
-        android:layout_width="match_parent"
-        android:layout_height="0.50dp"
-        android:layout_below="@id/notification_by_list"
-        android:background="@color/divider_color" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
 
-    <TextView
-        android:id="@+id/notification_for"
-        android:layout_width="match_parent"
-        android:layout_height="38dp"
-        android:layout_below="@id/notification_by_divider"
-        android:background="@color/setting_color"
-        android:gravity="center_vertical"
-        android:paddingLeft="@dimen/lay_margine"
-        android:text="@string/notification_for"
-        android:textColor="@color/font_blue_color"
-        android:textSize="19sp" />
+            <ListView
+                android:id="@+id/notification_by_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:divider="@color/divider_color"
+                android:dividerHeight="0.50dp"
+                android:listSelector="@drawable/listview_selector" >
+            </ListView>
 
-    <View
-        android:id="@+id/notification_for_divider"
-        android:layout_width="match_parent"
-        android:layout_height="0.50dp"
-        android:layout_below="@id/notification_for"
-        android:background="@color/divider_color" />
+            <View
+                android:id="@+id/notification_by_divider"
+                android:layout_width="match_parent"
+                android:layout_height="0.50dp"
+                android:layout_below="@id/notification_by_list"
+                android:background="@color/divider_color" />
 
-    <ListView
-        android:id="@+id/notification_for_list"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/notification_for_divider"
-        android:divider="@color/divider_color"
-        android:dividerHeight="0.50dp"
-        android:listSelector="@drawable/listview_selector" >
-    </ListView>
+            <TextView
+                android:id="@+id/notification_for"
+                android:layout_width="match_parent"
+                android:layout_height="38dp"
+                android:layout_below="@id/notification_by_divider"
+                android:background="@color/setting_color"
+                android:gravity="center_vertical"
+                android:paddingLeft="@dimen/lay_margine"
+                android:text="@string/notification_for"
+                android:textColor="@color/font_blue_color"
+                android:textSize="19sp" />
 
-    <View
-        android:id="@+id/notification_for_list_divider"
-        android:layout_width="match_parent"
-        android:layout_height="0.50dp"
-        android:layout_below="@id/notification_for_list"
-        android:background="@color/divider_color" />
+            <View
+                android:id="@+id/notification_for_divider"
+                android:layout_width="match_parent"
+                android:layout_height="0.50dp"
+                android:layout_below="@id/notification_for"
+                android:background="@color/divider_color" />
+
+            <ListView
+                android:id="@+id/notification_for_list"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/notification_for_divider"
+                android:divider="@color/divider_color"
+                android:dividerHeight="0.50dp"
+                android:listSelector="@drawable/listview_selector" >
+            </ListView>
+
+            <View
+                android:id="@+id/notification_for_list_divider"
+                android:layout_width="match_parent"
+                android:layout_height="0.50dp"
+                android:layout_below="@id/notification_for_list"
+                android:background="@color/divider_color" />
+        </RelativeLayout>
+    </ScrollView>
 
 </RelativeLayout>

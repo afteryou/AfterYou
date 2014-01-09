@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white" >
+
+    <TextView
+        android:id="@+id/cancel_btn"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/lay_margine"
+        android:text="@string/cancelTxt"
+        android:textColor="@color/font_blue_color"
+        android:textSize="18sp" />
+
+    <View
+        android:id="@+id/cancel_btn_divider"
+        android:layout_width="match_parent"
+        android:layout_height="0.50dp"
+        android:layout_below="@id/cancel_btn"
+        android:background="@color/divider_color" />
+
+    <TextView
+        android:id="@+id/text_msg"
+        android:layout_width="match_parent"
+        android:layout_height="38dp"
+        android:layout_below="@id/cancel_btn_divider"
+        android:background="@color/setting_color"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/lay_margine"
+        android:text="@string/daily_txt_limit"
+        android:textColor="@color/font_blue_color"
+        android:textSize="19sp" />
+
+    <View
+        android:id="@+id/setting_divider"
+        android:layout_width="match_parent"
+        android:layout_height="0.50dp"
+        android:layout_below="@id/text_msg"
+        android:background="@color/divider_color" />
+
+    <ListView
+        android:id="@+id/daily_text_limit_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/setting_divider"
+        android:divider="@color/divider_color"
+        android:dividerHeight="0.50dp"
+        android:listSelector="@drawable/listview_selector" >
+    </ListView>
+
+    <View
+        android:id="@+id/list_divider"
+        android:layout_width="match_parent"
+        android:layout_height="0.50dp"
+        android:layout_below="@id/daily_text_limit_list"
+        android:background="@color/divider_color" />
+
+</RelativeLayout>

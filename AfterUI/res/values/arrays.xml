@@ -248,5 +248,44 @@
         <item>@string/birthdays_txt</item>
         <item>@string/activity_txt</item>
     </string-array>
+    <string-array name="msg_array">
+        <item>@string/web_or_mobile_txt</item>
+        <item>@string/mobile</item>
+        <item>@string/never_txt</item>
+    </string-array>
+    <string-array name="text_limit">
+        <item>@string/unlimited_txt</item>
+        <item>@string/one_txt</item>
+        <item>@string/five_txt</item>
+        <item>@string/ten_txt</item>
+        <item>@string/fifteen_txt</item>
+        <item>@string/twenty_txt</item>
+        <item>@string/twenty_five_txt</item>
+        <item>@string/thirty_txt</item>
+        <item>@string/thirty_five_txt</item>
+        <item>@string/forty_txt</item>
+        <item>@string/forty_five_txt</item>
+        <item>@string/fifty_txt</item>
+    </string-array>
+    <string-array name="profile_setting_detail_txt">
+        <item>@string/name_txt</item>
+        <item>@string/email_txt</item>
+        <item>@string/password_txt</item>
+        <item>@string/gender_txt</item>
+        <item>@string/birth_day_text</item>
+        <item>@string/relation_label</item>
+        <item>@string/religion_label</item>
+        <item>@string/havechild_label</item>
+        <item>@string/wantchild_label</item>
+        <item>@string/languages_label</item>
+        <item>@string/height_label</item>
+        <item>@string/bodyType_label</item>
+        <item>@string/comm_label</item>
+        <item>@string/diet_label</item>
+        <item>@string/smoke_label</item>
+        <item>@string/drink_label</item>
+        <item>@string/IDS_Education_Label</item>
+        <item>@string/IDS_Salary_Label</item>
+    </string-array>
 
 </resources>

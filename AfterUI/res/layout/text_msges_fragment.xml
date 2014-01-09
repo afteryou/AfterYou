@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white" >
+
+    <TextView
+        android:id="@+id/cancel_btn"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/lay_margine"
+        android:text="@string/cancelTxt"
+        android:textColor="@color/font_blue_color"
+        android:textSize="18sp" />
+
+    <View
+        android:id="@+id/cancel_btn_divider"
+        android:layout_width="match_parent"
+        android:layout_height="0.50dp"
+        android:layout_below="@id/cancel_btn"
+        android:background="@color/divider_color" />
+
+    <TextView
+        android:id="@+id/text_msg"
+        android:layout_width="match_parent"
+        android:layout_height="38dp"
+        android:layout_below="@id/cancel_btn_divider"
+        android:background="@color/setting_color"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/lay_margine"
+        android:text="@string/text_msg"
+        android:textColor="@color/font_blue_color"
+        android:textSize="19sp" />
+
+    <View
+        android:id="@+id/setting_divider"
+        android:layout_width="match_parent"
+        android:layout_height="0.50dp"
+        android:layout_below="@id/text_msg"
+        android:background="@color/divider_color" />
+
+    <RelativeLayout
+        android:id="@+id/registered_phone_lay"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:layout_below="@id/setting_divider"
+        android:gravity="center_vertical" >
+
+        <TextView
+            android:id="@+id/registered_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/lay_margine"
+            android:text="@string/registered_phones"
+            android:textColor="@color/font_blue_color"
+            android:textSize="19sp" />
+
+        <EditText
+            android:id="@+id/registered_no"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/registered_txt"
+            android:layout_marginLeft="@dimen/lay_margine"
+            android:background="#00000000"
+            android:paddingRight="6dp"
+            android:singleLine="true"
+            android:text="(305) 625-9222"
+            android:textColor="@color/font_blue_color"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/loction_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/registered_txt"
+            android:layout_toRightOf="@id/registered_no"
+            android:text="on verizon - "
+            android:textColor="@color/font_blue_color"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/remove_txt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/registered_txt"
+            android:layout_toRightOf="@id/loction_txt"
+            android:paddingRight="5dp"
+            android:text="@string/remove_txt"
+            android:textColor="@color/name_color"
+            android:textSize="14sp" />
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/reg_phone_divider"
+        android:layout_width="match_parent"
+        android:layout_height="0.50dp"
+        android:layout_below="@id/registered_phone_lay"
+        android:background="@color/divider_color" />
+
+    <TextView
+        android:id="@+id/text_msg_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="65dp"
+        android:layout_below="@id/reg_phone_divider"
+        android:layout_marginLeft="@dimen/lay_margine"
+        android:gravity="center_vertical"
+        android:text="@string/text_msging_txt"
+        android:textColor="@color/font_blue_color"
+        android:textSize="19sp" />
+
+    <TextView
+        android:id="@+id/text_msg_no"
+        android:layout_width="wrap_content"
+        android:layout_height="65dp"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/reg_phone_divider"
+        android:layout_marginRight="@dimen/lay_margine"
+        android:gravity="center_vertical"
+        android:text="(305) 625-9222"
+        android:textColor="@color/font_blue_color"
+        android:textSize="19sp" />
+
+    <View
+        android:id="@+id/text_msg_divider"
+        android:layout_width="match_parent"
+        android:layout_height="0.50dp"
+        android:layout_below="@id/text_msg_txt"
+        android:background="@color/divider_color" />
+
+    <RelativeLayout
+        android:id="@+id/notification_lay"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:layout_below="@id/text_msg_divider" >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/notification_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/lay_margine"
+                android:text="@string/notifications"
+                android:textColor="@color/font_blue_color"
+                android:textSize="19sp" />
+
+            <TextView
+                android:id="@+id/sub_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/notification_txt"
+                android:layout_marginLeft="@dimen/lay_margine"
+                android:paddingRight="5dp"
+                android:singleLine="true"
+                android:text="@string/text_notification"
+                android:textColor="@color/font_blue_color"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/on_off_txt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/notification_txt"
+                android:layout_toRightOf="@id/sub_txt"
+                android:singleLine="true"
+                android:text="off"
+                android:textColor="@color/font_blue_color"
+                android:textSize="14sp" />
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/edit_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="65dp"
+            android:layout_alignParentRight="true"
+            android:gravity="center_vertical"
+            android:paddingRight="@dimen/lay_margine"
+            android:text="@string/edit_small"
+            android:textColor="@color/name_color"
+            android:textSize="14sp" />
+    </RelativeLayout>
+
+    <View
+        android:id="@+id/notifications_divider"
+        android:layout_width="match_parent"
+        android:layout_height="0.50dp"
+        android:layout_below="@id/notification_lay"
+        android:background="@color/divider_color" />
+
+    <TextView
+        android:id="@+id/messages_txt"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:layout_below="@id/notifications_divider"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/lay_margine"
+        android:text="@string/messages_txt"
+        android:textColor="@color/font_blue_color"
+        android:textSize="19sp" />
+
+    <View
+        android:id="@+id/messages_divider"
+        android:layout_width="match_parent"
+        android:layout_height="0.50dp"
+        android:layout_below="@id/messages_txt"
+        android:background="@color/divider_color" />
+
+    <TextView
+        android:id="@+id/daily_text_limit"
+        android:layout_width="match_parent"
+        android:layout_height="65dp"
+        android:layout_below="@id/messages_divider"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/lay_margine"
+        android:text="@string/daily_txt_limit"
+        android:textColor="@color/font_blue_color"
+        android:textSize="19sp" />
+
+    <TextView
+        android:id="@+id/text_limit_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="65dp"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/messages_divider"
+        android:gravity="center_vertical"
+        android:paddingRight="@dimen/lay_margine"
+        android:textColor="@color/name_color"
+        android:textSize="14sp" />
+
+    <View
+        android:id="@+id/text_limit_txt_divider"
+        android:layout_width="match_parent"
+        android:layout_height="0.50dp"
+        android:layout_below="@id/daily_text_limit"
+        android:background="@color/divider_color" />
+
+</RelativeLayout>

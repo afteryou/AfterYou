@@ -6,10 +6,13 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.MeasureSpec;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -65,6 +68,7 @@ public class NotificationSettingFragment extends Fragment implements
 				R.array.notification_by_array);
 		mReceiveNotificationByList.setAdapter(new TermsPoliciesDetailsAdapter(
 				getActivity(), mDetailsText, CLASS_NAME));
+
 		SetHead.setConditionHead(CLASS_NAME);
 		mReceiveNotificationByList.setOnItemClickListener(this);
 
@@ -75,16 +79,45 @@ public class NotificationSettingFragment extends Fragment implements
 		mReceiveNotificationForList
 				.setAdapter(new ReceiveNotificationForAdapter(getActivity(),
 						mDetailsText));
+
 		mReceiveNotificationForList.setOnItemClickListener(this);
 
+		// Helper.getListViewSize(mReceiveNotificationByList);
+		// Helper.getListViewSize(mReceiveNotificationForList);
+		setListViewHeightBasedOnChildren(mReceiveNotificationByList);
+		setListViewHeightBasedOnChildren(mReceiveNotificationForList);
+
 		return view;
+	}
+
+	private static void setListViewHeightBasedOnChildren(ListView listView) {
+		ListAdapter listAdapter = listView.getAdapter();
+		if (listAdapter == null)
+			return;
+
+		int desiredWidth = MeasureSpec.makeMeasureSpec(listView.getWidth(),
+				MeasureSpec.UNSPECIFIED);
+		int totalHeight = 0;
+		View view = null;
+		for (int i = 0; i < listAdapter.getCount(); i++) {
+			view = listAdapter.getView(i, view, listView);
+			if (i == 0)
+				view.setLayoutParams(new ViewGroup.LayoutParams(desiredWidth,
+						LayoutParams.WRAP_CONTENT));
+
+			view.measure(desiredWidth, MeasureSpec.UNSPECIFIED);
+			totalHeight += view.getMeasuredHeight();
+		}
+		ViewGroup.LayoutParams params = listView.getLayoutParams();
+		params.height = totalHeight
+				+ (listView.getDividerHeight() * (listAdapter.getCount() - 1));
+		listView.setLayoutParams(params);
+		listView.requestLayout();
 	}
 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
-
-		Bundle bundle = new Bundle();
 
 		switch (parent.getId()) {
 		case R.id.notification_by_list:
@@ -92,23 +125,26 @@ public class NotificationSettingFragment extends Fragment implements
 			switch (position) {
 			case AFTER_YOU:
 				Fragment after_you_noti = new AfterYouNotificationBy();
-				FragmentHelper.replaceFragment(getActivity(), after_you_noti,
-						bundle);
+				FragmentHelper.replaceFragment(getActivity(), after_you_noti);
 
 				break;
 			case EMAIL:
 
 				Fragment email_notification_fragment = new EmailNotificationFragment();
 				FragmentHelper.replaceFragment(getActivity(),
-						email_notification_fragment, bundle);
+						email_notification_fragment);
 				break;
 			case MOBILE_PUSH:
 				Fragment mobile_notification_fragment = new MobilePushNotification();
 				FragmentHelper.replaceFragment(getActivity(),
-						mobile_notification_fragment, bundle);
+						mobile_notification_fragment);
 				break;
 			case TEXT_MESSGES:
-				
+
+				Fragment text_msg_fragment = new TextMessagesSettingFragment();
+				FragmentHelper
+						.replaceFragment(getActivity(), text_msg_fragment);
+
 				break;
 
 			}

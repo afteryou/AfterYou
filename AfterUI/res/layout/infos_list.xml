@@ -189,10 +189,10 @@
             android:id="@+id/news_details"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/details_button"
+            android:background="@drawable/sign_in_bg"
             android:gravity="center"
             android:text="@string/IDS_DETAILS"
-            android:textColor="@color/white"
+            android:textColor="@color/font_blue_color"
             android:textStyle="bold" />
     </RelativeLayout>
 

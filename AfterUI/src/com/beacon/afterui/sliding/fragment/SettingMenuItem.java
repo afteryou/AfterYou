@@ -111,37 +111,43 @@ public class SettingMenuItem extends Fragment implements FragmentLifecycle,
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
-		Intent intent = null;
+		// Intent intent = null;
 		Bundle bundle = new Bundle();
 		if (SlidingMenuFragment.getHeading().equals(SETTING)) {
 
 			switch (position) {
 
 			case PROFILE_SETTING:
-				intent = new Intent(getActivity().getApplicationContext(),
-						ProfileSettingsActivity.class);
-				startActivity(intent);
+				Fragment profile_setting_fragment = new ProfileSettingSideBar();
+				FragmentHelper.replaceFragment(getActivity(),
+						profile_setting_fragment);
+				// intent = new Intent(getActivity().getApplicationContext(),
+				// ProfileSettingsActivity.class);
+				// startActivity(intent);
 				break;
 
 			case PRIVACY_SETTING:
 				Fragment privacy_setting = new PrivacySettingFragment();
-				FragmentHelper.gotoFragment(getActivity(),
-						SettingMenuItem.this, privacy_setting, bundle,false);
-//				FragmentHelper.replaceFragment(getActivity(), privacy_setting, bundle);
+				// FragmentHelper.gotoFragment(getActivity(),
+				// SettingMenuItem.this, privacy_setting, bundle);
+				FragmentHelper.replaceFragment(getActivity(), privacy_setting,
+						bundle);
 				break;
 
 			case BLOCKING:
 				Fragment blocking_setting = new BlockingFragment();
-				FragmentHelper.gotoFragment(getActivity(),
-						SettingMenuItem.this, blocking_setting, bundle,false);
-//				FragmentHelper.replaceFragment(getActivity(), blocking_setting, bundle);
+				// FragmentHelper.gotoFragment(getActivity(),
+				// SettingMenuItem.this, blocking_setting, bundle);
+				FragmentHelper.replaceFragment(getActivity(), blocking_setting,
+						bundle);
 				break;
 
 			case NOTIFICATION:
 				Fragment notification = new NotificationSettingFragment();
-//				FragmentHelper.gotoFragment(getActivity(),
-//						SettingMenuItem.this, notification, bundle);
-				FragmentHelper.replaceFragment(getActivity(), notification, bundle);
+				// FragmentHelper.gotoFragment(getActivity(),
+				// SettingMenuItem.this, notification, bundle);
+				FragmentHelper.replaceFragment(getActivity(), notification,
+						bundle);
 				break;
 
 			}
@@ -154,9 +160,10 @@ public class SettingMenuItem extends Fragment implements FragmentLifecycle,
 						"Statement of rights and responsibilities",
 						Toast.LENGTH_SHORT).show();
 				Fragment terms_detail_fragment = new TermsPoliciesDetails();
-//				FragmentHelper.gotoFragment(getActivity(),
-//						SettingMenuItem.this, terms_detail_fragment, bundle);
-				FragmentHelper.replaceFragment(getActivity(), terms_detail_fragment, bundle);
+				// FragmentHelper.gotoFragment(getActivity(),
+				// SettingMenuItem.this, terms_detail_fragment, bundle);
+				FragmentHelper.replaceFragment(getActivity(),
+						terms_detail_fragment, bundle);
 				break;
 			case DATA_USE_POLICY:
 
@@ -199,11 +206,11 @@ public class SettingMenuItem extends Fragment implements FragmentLifecycle,
 
 	@Override
 	public boolean onBack() {
-//		if (!isBacking) {
-//			isBacking = true;
-//			((MainActivity) getActivity()).updateToMainScreenActionBar();
-//			applyBackAnimation();
-//		}
+		// if (!isBacking) {
+		// isBacking = true;
+		// ((MainActivity) getActivity()).updateToMainScreenActionBar();
+		// applyBackAnimation();
+		// }
 		return true;
 	}
 

@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white"
+    android:orientation="vertical" >
+
+    <TextView
+        android:id="@+id/cancel_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="45dp"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/lay_margine"
+        android:text="@string/cancelTxt"
+        android:textColor="@color/font_blue_color"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/done_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="45dp"
+        android:layout_alignParentRight="true"
+        android:gravity="center_vertical"
+        android:paddingRight="@dimen/lay_margine"
+        android:text="@string/doneTxt"
+        android:textColor="@color/font_blue_color"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/cancel_btn_divider"
+        android:layout_width="match_parent"
+        android:layout_height="0.50dp"
+        android:layout_below="@id/cancel_btn"
+        android:background="@color/divider_color" />
+
+    <TextView
+        android:id="@+id/setting_txt"
+        android:layout_width="match_parent"
+        android:layout_height="38dp"
+        android:layout_below="@id/cancel_btn_divider"
+        android:background="@color/setting_color"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/lay_margine"
+        android:text="@string/profile_setting"
+        android:textColor="@color/font_blue_color"
+        android:textSize="19sp" />
+
+    <View
+        android:id="@+id/setting_divider"
+        android:layout_width="match_parent"
+        android:layout_height="0.50dp"
+        android:layout_below="@id/setting_txt"
+        android:background="@color/divider_color" />
+
+    <TextView
+        android:id="@+id/about_you"
+        android:layout_width="wrap_content"
+        android:layout_height="38dp"
+        android:layout_below="@id/setting_divider"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/lay_margine"
+        android:text="@string/about_txt"
+        android:textColor="@color/name_color"
+        android:textSize="19sp" />
+
+    <ImageView
+        android:id="@+id/star_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/setting_divider"
+        android:layout_marginTop="12dp"
+        android:paddingRight="@dimen/lay_margine"
+        android:src="@drawable/star_image"
+        android:textColor="@color/font_blue_color"
+        android:textSize="15sp" />
+
+    <TextView
+        android:id="@+id/required_field_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="38dp"
+        android:layout_below="@id/setting_divider"
+        android:layout_toLeftOf="@id/star_img"
+        android:gravity="center_vertical"
+        android:paddingRight="1dp"
+        android:text="@string/required_field"
+        android:textColor="@color/font_blue_color"
+        android:textSize="15sp" />
+
+    <View
+        android:id="@+id/required_field_txt_divider"
+        android:layout_width="match_parent"
+        android:layout_height="0.50dp"
+        android:layout_below="@id/required_field_txt"
+        android:background="@color/divider_color" />
+
+    <ListView
+        android:id="@+id/profile_setting_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/required_field_txt_divider"
+        android:divider="@color/divider_color"
+        android:dividerHeight="0.50dp"
+        android:listSelector="@drawable/listview_selector" >
+    </ListView>
+
+</RelativeLayout>
