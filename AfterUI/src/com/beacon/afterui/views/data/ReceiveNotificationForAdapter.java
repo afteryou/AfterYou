@@ -66,6 +66,14 @@ public class ReceiveNotificationForAdapter extends BaseAdapter {
 
 			holder = (ViewHolder) view.getTag();
 		}
+		view.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				ViewHolder holder = (ViewHolder) v.getTag();
+				holder.permissionCheck.performClick();
+			}
+		});
 		holder.permittedUserTxt.setText(mPrivacyPermission[position]);
 		return view;
 	}

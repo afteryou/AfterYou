@@ -89,7 +89,8 @@ public class SlidingMenuFragment extends Fragment implements
 	private int[] mImages;
 	private static String mHeadingTxt;
 	private String FROM_IMPORT_SIDEBAR = "from_import";
-	
+	private int mCloseSideBar = 0;
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -182,32 +183,43 @@ public class SlidingMenuFragment extends Fragment implements
 			switch (position) {
 			case SETTING:
 				initSettingArray();
+				mCloseSideBar = 1;
 
 				Fragment setting_menu_fragment = new SettingMenuItem(mImages,
 						mHeadinItemTxt);
 				setHeadingText("setting");
-				 FragmentHelper.gotoFragment(getActivity(),SlidingMenuFragment.this,
-				 setting_menu_fragment, bundle);
+				// FragmentHelper
+				// .gotoFragment(getActivity(), SlidingMenuFragment.this,
+				// setting_menu_fragment, bundle);
+				FragmentHelper.replaceFragment(getActivity(),
+						setting_menu_fragment, bundle);
 				break;
 
 			case IMPORT_FREIND:
+				mCloseSideBar = 1;
 				Fragment friendList = new FriendListFragment(getActivity(),
 						FROM_IMPORT_SIDEBAR);
 				setHeadingText("import");
-				 FragmentHelper.gotoFragment(getActivity(), SlidingMenuFragment.this,friendList,
-				 bundle);
+				FragmentHelper.replaceFragment(getActivity(), friendList,
+						bundle);
+				// FragmentHelper.gotoFragment(getActivity(),
+				// SlidingMenuFragment.this, friendList, bundle);
 				break;
 
 			case TERMS_POLICY:
+				mCloseSideBar = 1;
 				initTermsPoliciesArray();
 				Fragment terms_policies = new SettingMenuItem(mImages,
 						mHeadinItemTxt, mSubHeadinItemTxt);
 				setHeadingText("Terms & Policies");
-				FragmentHelper.gotoFragment(getActivity(), SlidingMenuFragment.this,terms_policies,
-		                 bundle);
+				// FragmentHelper.gotoFragment(getActivity(),
+				// SlidingMenuFragment.this, terms_policies, bundle);
+				FragmentHelper.replaceFragment(getActivity(), terms_policies,
+						bundle);
 				break;
 
 			case HELP_CENTER:
+				mCloseSideBar = 1;
 				break;
 
 			case LOGOUT:
@@ -215,8 +227,10 @@ public class SlidingMenuFragment extends Fragment implements
 				FragmentHelper.gotoFragment(getActivity(), SlidingMenuFragment.this, log_out_fragment, bundle);
 				break;
 			}
-			MainActivity mainActivity = (MainActivity) getActivity();
-            mainActivity.toggle(SlidingMenu.LEFT);
+			if (mCloseSideBar == 1) {
+				MainActivity mainActivity = (MainActivity) getActivity();
+				mainActivity.toggle(SlidingMenu.LEFT);
+			}
 		}
 	};
 	

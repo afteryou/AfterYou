@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/white" >
+
+    <TextView
+        android:id="@+id/cancel_btn"
+        android:layout_width="match_parent"
+        android:layout_height="45dp"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/lay_margine"
+        android:text="@string/cancelTxt"
+        android:textColor="@color/font_blue_color"
+        android:textSize="18sp" />
+
+    <View
+        android:id="@+id/cancel_btn_divider"
+        android:layout_width="match_parent"
+        android:layout_height="0.50dp"
+        android:layout_below="@id/cancel_btn"
+        android:background="@color/divider_color" />
+
+    <TextView
+        android:id="@+id/text_msg"
+        android:layout_width="match_parent"
+        android:layout_height="38dp"
+        android:layout_below="@id/cancel_btn_divider"
+        android:background="@color/setting_color"
+        android:gravity="center_vertical"
+        android:paddingLeft="@dimen/lay_margine"
+        android:text="@string/messages_txt"
+        android:textColor="@color/font_blue_color"
+        android:textSize="19sp" />
+
+    <View
+        android:id="@+id/setting_divider"
+        android:layout_width="match_parent"
+        android:layout_height="0.50dp"
+        android:layout_below="@id/text_msg"
+        android:background="@color/divider_color" />
+
+    <TextView
+        android:id="@+id/msg_setting_info"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/setting_divider"
+        android:gravity="center_vertical"
+        android:lineSpacingExtra="5.0sp"
+        android:paddingBottom="15dp"
+        android:paddingLeft="@dimen/lay_margine"
+        android:paddingRight="@dimen/lay_margine"
+        android:paddingTop="15dp"
+        android:text="@string/control_info"
+        android:textColor="@color/font_blue_color"
+        android:textSize="19sp" />
+
+    <View
+        android:id="@+id/msg_setting_divider"
+        android:layout_width="match_parent"
+        android:layout_height="0.50dp"
+        android:layout_below="@id/msg_setting_info"
+        android:background="@color/divider_color" />
+
+    <ListView
+        android:id="@+id/msg_setting_list"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/msg_setting_divider"
+        android:divider="@color/divider_color"
+        android:dividerHeight="0.50dp"
+        android:listSelector="@drawable/listview_selector" >
+    </ListView>
+
+    <View
+        android:id="@+id/list_divider"
+        android:layout_width="match_parent"
+        android:layout_height="0.50dp"
+        android:layout_below="@id/msg_setting_list"
+        android:background="@color/divider_color" />
+
+</RelativeLayout>

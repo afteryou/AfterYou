@@ -41,181 +41,193 @@
         android:layout_below="@id/setting_txt_report_abuse"
         android:background="@color/divider_color" />
 
-    <TextView
-        android:id="@+id/privacy_info_report_abuse"
+    <ScrollView
+        android:id="@+id/lay_scroll"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/setting_divider_report_abuse"
-        android:gravity="center_vertical"
-        android:lineSpacingExtra="5.0sp"
-        android:paddingBottom="15dp"
-        android:paddingLeft="@dimen/lay_margine"
-        android:paddingRight="@dimen/lay_margine"
-        android:paddingTop="15dp"
-        android:text="@string/report_abuse_info_msg"
-        android:textColor="@color/font_blue_color"
-        android:textSize="14sp" />
+        android:layout_below="@id/setting_divider_report_abuse" >
 
-    <View
-        android:id="@+id/privacy_info_divider_report_abuse"
-        android:layout_width="match_parent"
-        android:layout_height="0.50dp"
-        android:layout_below="@id/privacy_info_report_abuse"
-        android:background="@color/divider_color" />
-
-    <EditText
-        android:id="@+id/name_box"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/privacy_info_divider_report_abuse"
-        android:background="@drawable/edit_box_report_abuse"
-        android:hint="@string/user_name_txt"
-        android:paddingLeft="@dimen/lay_margine"
-        android:paddingRight="@dimen/lay_margine"
-        android:singleLine="true"
-        android:textColor="@color/font_blue_color"
-        android:textColorHint="@color/font_blue_color"
-        android:textSize="19sp" />
-
-    <ImageView
-        android:id="@+id/name_cross_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@id/privacy_info_divider_report_abuse"
-        android:padding="20dp"
-        android:src="@drawable/cross_btn"
-        android:visibility="gone" />
-
-    <EditText
-        android:id="@+id/email_box"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/name_box"
-        android:background="@drawable/edit_box_report_abuse"
-        android:hint="@string/user_email_txt"
-        android:inputType="textEmailAddress"
-        android:paddingLeft="@dimen/lay_margine"
-        android:paddingRight="@dimen/lay_margine"
-        android:singleLine="true"
-        android:textColor="@color/font_blue_color"
-        android:textColorHint="@color/font_blue_color"
-        android:textSize="19sp" />
-
-    <ImageView
-        android:id="@+id/email_cross_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@id/name_box"
-        android:padding="20dp"
-        android:src="@drawable/cross_btn"
-        android:visibility="gone" />
-
-    <EditText
-        android:id="@+id/abusers_proile_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/email_box"
-        android:background="@drawable/edit_box_report_abuse"
-        android:hint="@string/abusers_proile_name_txt"
-        android:paddingLeft="@dimen/lay_margine"
-        android:paddingRight="@dimen/lay_margine"
-        android:singleLine="true"
-        android:textColor="@color/font_blue_color"
-        android:textColorHint="@color/font_blue_color"
-        android:textSize="19sp" />
-
-    <ImageView
-        android:id="@+id/abusers_cross_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@id/email_box"
-        android:padding="20dp"
-        android:src="@drawable/cross_btn"
-        android:visibility="gone" />
-
-    <RelativeLayout
-        android:id="@+id/write_comment_lay"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/abusers_proile_name" >
-
-        <EditText
-            android:id="@+id/write_comment"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/edit_box_report_abuse"
-            android:hint="@string/write_comment_txt"
-            android:inputType="textMultiLine"
-            android:maxLines="4"
-            android:paddingLeft="@dimen/lay_margine"
-            android:paddingRight="@dimen/lay_margine"
-            android:textColor="@color/font_blue_color"
-            android:textColorHint="@color/font_blue_color"
-            android:textSize="19sp" />
+            android:layout_height="wrap_content" >
 
-        <ImageView
-            android:id="@+id/write_comment_cross_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:padding="20dp"
-            android:src="@drawable/cross_btn"
-            android:visibility="gone" />
-    </RelativeLayout>
+            <TextView
+                android:id="@+id/privacy_info_report_abuse"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:lineSpacingExtra="5.0sp"
+                android:paddingBottom="15dp"
+                android:paddingLeft="@dimen/lay_margine"
+                android:paddingRight="@dimen/lay_margine"
+                android:paddingTop="15dp"
+                android:text="@string/report_abuse_info_msg"
+                android:textColor="@color/font_blue_color"
+                android:textSize="14sp" />
 
-    <TextView
-        android:id="@+id/report_abuse_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/write_comment_lay"
-        android:layout_centerInParent="true"
-        android:layout_marginTop="20dp"
-        android:background="@drawable/report_abuse_btn"
-        android:gravity="center"
-        android:text="@string/report_abuse_btn"
-        android:textColor="@color/font_blue_color"
-        android:textSize="19sp" />
+            <View
+                android:id="@+id/privacy_info_divider_report_abuse"
+                android:layout_width="match_parent"
+                android:layout_height="0.50dp"
+                android:layout_below="@id/privacy_info_report_abuse"
+                android:background="@color/divider_color" />
 
-    <LinearLayout
-        android:id="@+id/write_msg_lay"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="@drawable/chat_msg_bg"
-        android:orientation="horizontal"
-        android:weightSum="1" >
+            <EditText
+                android:id="@+id/name_box"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/privacy_info_divider_report_abuse"
+                android:background="@drawable/edit_box_report_abuse"
+                android:hint="@string/user_name_txt"
+                android:paddingLeft="@dimen/lay_margine"
+                android:paddingRight="@dimen/lay_margine"
+                android:singleLine="true"
+                android:textColor="@color/font_blue_color"
+                android:textColorHint="@color/font_blue_color"
+                android:textSize="19sp" />
 
-        <EditText
-            android:id="@+id/write_msg_txt"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginLeft="15dp"
-            android:layout_weight="0.8"
-            android:background="@drawable/chat_edit_box"
-            android:hint="@string/write_msg_txt_report_abuse"
-            android:inputType="textMultiLine"
-            android:maxLines="4"
-            android:paddingLeft="10dp"
-            android:textColor="@color/message_txt"
-            android:textSize="18sp" />
+            <ImageView
+                android:id="@+id/name_cross_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@id/privacy_info_divider_report_abuse"
+                android:padding="20dp"
+                android:src="@drawable/cross_btn"
+                android:visibility="gone" />
 
-        <TextView
-            android:id="@+id/post_btn"
-            android:layout_width="0dp"
-            android:layout_height="33dp"
-            android:layout_gravity="center"
-            android:layout_weight="0.2"
-            android:gravity="center"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:text="@string/post_txt"
-            android:textColor="@color/grey"
-            android:textSize="18sp" />
-    </LinearLayout>
+            <EditText
+                android:id="@+id/email_box"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/name_box"
+                android:background="@drawable/edit_box_report_abuse"
+                android:hint="@string/user_email_txt"
+                android:inputType="textEmailAddress"
+                android:paddingLeft="@dimen/lay_margine"
+                android:paddingRight="@dimen/lay_margine"
+                android:singleLine="true"
+                android:textColor="@color/font_blue_color"
+                android:textColorHint="@color/font_blue_color"
+                android:textSize="19sp" />
+
+            <ImageView
+                android:id="@+id/email_cross_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@id/name_box"
+                android:padding="20dp"
+                android:src="@drawable/cross_btn"
+                android:visibility="gone" />
+
+            <EditText
+                android:id="@+id/abusers_proile_name"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/email_box"
+                android:background="@drawable/edit_box_report_abuse"
+                android:hint="@string/abusers_proile_name_txt"
+                android:paddingLeft="@dimen/lay_margine"
+                android:paddingRight="@dimen/lay_margine"
+                android:singleLine="true"
+                android:textColor="@color/font_blue_color"
+                android:textColorHint="@color/font_blue_color"
+                android:textSize="19sp" />
+
+            <ImageView
+                android:id="@+id/abusers_cross_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_below="@id/email_box"
+                android:padding="20dp"
+                android:src="@drawable/cross_btn"
+                android:visibility="gone" />
+
+            <RelativeLayout
+                android:id="@+id/write_comment_lay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/abusers_proile_name" >
+
+                <EditText
+                    android:id="@+id/write_comment"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/edit_box_report_abuse"
+                    android:hint="@string/write_comment_txt"
+                    android:inputType="textMultiLine"
+                    android:maxLines="4"
+                    android:paddingLeft="@dimen/lay_margine"
+                    android:paddingRight="@dimen/lay_margine"
+                    android:textColor="@color/font_blue_color"
+                    android:textColorHint="@color/font_blue_color"
+                    android:textSize="19sp" />
+
+                <ImageView
+                    android:id="@+id/write_comment_cross_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:padding="20dp"
+                    android:src="@drawable/cross_btn"
+                    android:visibility="gone" />
+            </RelativeLayout>
+
+            <TextView
+                android:id="@+id/report_abuse_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/write_comment_lay"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/report_abuse_btn"
+                android:gravity="center"
+                android:text="@string/report_abuse_btn"
+                android:textColor="@color/font_blue_color"
+                android:textSize="19sp" />
+
+            <LinearLayout
+                android:id="@+id/write_msg_lay"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/report_abuse_btn"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/chat_msg_bg"
+                android:orientation="horizontal"
+                android:weightSum="1" >
+
+                <EditText
+                    android:id="@+id/write_msg_txt"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginLeft="15dp"
+                    android:layout_weight="0.8"
+                    android:background="@drawable/chat_edit_box"
+                    android:hint="@string/write_msg_txt_report_abuse"
+                    android:inputType="textMultiLine"
+                    android:maxLines="4"
+                    android:paddingLeft="10dp"
+                    android:textColor="@color/message_txt"
+                    android:textSize="18sp" />
+
+                <TextView
+                    android:id="@+id/post_btn"
+                    android:layout_width="0dp"
+                    android:layout_height="33dp"
+                    android:layout_gravity="center"
+                    android:layout_weight="0.2"
+                    android:gravity="center"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    android:text="@string/post_txt"
+                    android:textColor="@color/grey"
+                    android:textSize="18sp" />
+            </LinearLayout>
+        </RelativeLayout>
+    </ScrollView>
 
 </RelativeLayout>
