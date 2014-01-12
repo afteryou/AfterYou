@@ -4,6 +4,8 @@ import java.io.BufferedReader;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -46,6 +48,9 @@ import com.beacon.afterui.application.CrashHandler;
 import com.beacon.afterui.imageUtils.ImageCache;
 import com.beacon.afterui.imageUtils.ImageResizer;
 import com.beacon.afterui.log.AfterUIlog;
+import com.beacon.afterui.network.NetworkManager;
+import com.beacon.afterui.network.ParsingConstants;
+import com.beacon.afterui.provider.PreferenceEngine;
 import com.beacon.afterui.utils.FontUtils;
 import com.beacon.afterui.utils.ImageInfoUtils;
 import com.beacon.afterui.utils.ImageUtils;
@@ -85,6 +90,8 @@ public class CapturePictureActivity extends BaseActivity implements
 	private static final int ERROR_FILTERING_IMAGE = 7;
 	private static final int SAVE_IMAGE = 8;
 	private static final int SAVE_IMAGE_DONE = 9;
+	
+	private final String PROFILE_PIC_SERVER = "1";
 
 	private HandlerThread mDeamonThread;
 	private DeamonHandler mDeamonHandler;
@@ -137,59 +144,11 @@ public class CapturePictureActivity extends BaseActivity implements
 		mDoneBtn.setTypeface(typeFace);
 		profile_picture_id.setTypeface(typeFace);
 		no_pic_id.setTypeface(typeFace);
-		//
-		// TextView cancelTxt = (TextView) findViewById(R.id.cancel_txt);
-		// TextView takePhotoTxt = (TextView) findViewById(R.id.take_photo_txt);
-		// TextView doneTxt = (TextView) findViewById(R.id.done_txt);
-		// TextView chooseFromFbTxt = (TextView)
-		// findViewById(R.id.choose_from_fb_txt);
-		// TextView chooseFromLibraryTxt = (TextView)
-		// findViewById(R.id.choose_from_library_txt);
-		// TextView editTxt = (TextView) findViewById(R.id.edit_txt);
-		// TextView submitTxt = (TextView) findViewById(R.id.submit_txt);
-
-		// font myriadPro regular
-		// Typeface typeFaceRegular = Typeface.createFromAsset(getAssets(),
-		// "fonts/MyriadPro-Regular.otf");
-		// chooseFromFbTxt.setTypeface(typeFaceRegular);
-		// chooseFromLibraryTxt.setTypeface(typeFaceRegular);
-		// editTxt.setTypeface(typeFaceRegular);
-		// submitTxt.setTypeface(typeFaceRegular);
-		//
-		// // font myriadPro semibold
-		// Typeface typeFaceSemiBold = Typeface.createFromAsset(getAssets(),
-		// "fonts/MyriadPro-Semibold.otf");
-		// cancelTxt.setTypeface(typeFaceSemiBold);
-		// takePhotoTxt.setTypeface(typeFaceSemiBold);
-		// doneTxt.setTypeface(typeFaceSemiBold);
-		//
-		// mImageCropBtn = (ImageButton) findViewById(R.id.image_crop_btn);
-		// mImageRotateBtn = (ImageButton) findViewById(R.id.image_rotate_btn);
-		// mImageEffectBtn = (ImageButton) findViewById(R.id.image_effect_btn);
-		// mImageRedEyeBtn = (ImageButton) findViewById(R.id.image_red_eye_btn);
-		// mImageEditLayout = (RelativeLayout)
-		// findViewById(R.id.image_edit_layout);
-		//
-		// mCropImgSqaureGray = (ImageView)
-		// findViewById(R.id.crop_image_sqaure);
-		// mCropImgSqaureLine = (ImageView)
-		// findViewById(R.id.crop_image_sqaure_white);
 		mUserImage = (ImageView) findViewById(R.id.user_image);
 		noPicTxt = (TextView) findViewById(R.id.no_pic_id);
-		// // mUserImage.setImageDrawable(getResources().getDrawable(
-		// // R.drawable.capture_photo_bg));
-		// mUserImage.setRotation(0);
-		//
 		mEditBtn.setEnabled(true);
 		mEditBtn.setOnClickListener(this);
 		mChooseFromLiabraryBtn.setOnClickListener(this);
-		// mSubmitBtn.setOnClickListener(this);
-		// mImageCropBtn.setOnClickListener(this);
-		// mImageRotateBtn.setOnClickListener(this);
-		// mImageEffectBtn.setOnClickListener(this);
-		// mImageRedEyeBtn.setOnClickListener(this);
-		//
-		// mCancelBtn.setOnClickListener(this);
 		mDoneBtn.setOnClickListener(this);
 		//
 		mProfileImageCache = new ImageCache(this, PROFILE_PIC);
@@ -205,12 +164,6 @@ public class CapturePictureActivity extends BaseActivity implements
 		initDeamonThread();
 		//
 		handler = new UIHandler(getMainLooper());
-		// if (getIntent().hasExtra(AppConstants.FACEBOOK_USER)) {
-		// accessToken = ((AfterYouApplication) getApplication())
-		// .getOpenSession().getAccessToken();
-		//
-		// initView();
-		// }
 	}
 
 	private void initView() {
@@ -444,6 +397,12 @@ public class CapturePictureActivity extends BaseActivity implements
 		mProfileImageCache.addBitmapToCache(PROFILE_PIC, bitmap);
 		Bitmap thumb = ThumbnailUtils.extractThumbnail(bitmap, 50, 50);
 		mProfileThumbImageCache.addBitmapToCache(PROFILE_PIC_THUMB, thumb);
+		Map<String, String> data = new HashMap<String, String>();
+		data.put(ParsingConstants.ID, PreferenceEngine.getInstance(ctx).getUserID());
+		data.put(ParsingConstants.PROFILE_PIC, PROFILE_PIC_SERVER);
+		data.put(ParsingConstants.IMAGE_NAME,PROFILE_PIC);
+		data.put(ParsingConstants.IMAGE_ARRAY, mProfileImageCache.getBitmapArrayFromBitmap(bitmap));
+		NetworkManager.uploadImage(data, null, null);
 	}
 
 	@Override

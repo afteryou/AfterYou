@@ -37,6 +37,7 @@ import com.beacon.afterui.network.NetworkManager;
 import com.beacon.afterui.network.ParsingConstants;
 import com.beacon.afterui.provider.PreferenceEngine;
 import com.beacon.afterui.utils.AnalyticsUtils;
+import com.beacon.afterui.utils.FontUtils;
 import com.beacon.afterui.utils.customviews.AfterYouDialogImpl;
 import com.beacon.afterui.utils.customviews.CustomProgressDialog;
 import com.beacon.afterui.utils.customviews.DialogHelper;
@@ -104,8 +105,7 @@ public class LandingActivity extends BaseActivity implements OnClickListener,Sig
         mFacebookLogin.setOnClickListener(this);
         sAfterYouSignupBtn.setOnClickListener(this);
 
-        Typeface typeFace = Typeface.createFromAsset(getAssets(),
-                "fonts/ITCAvantGardeStd-BkCn.otf");
+        Typeface typeFace = FontUtils.loadTypeFace(getApplicationContext(), FontUtils.ITC_AVANT_GARDE_STD_BK);
 
         sAfterYouLoginBtn.setTypeface(typeFace);
         mFacebookLogin.setTypeface(typeFace);
@@ -459,6 +459,7 @@ public class LandingActivity extends BaseActivity implements OnClickListener,Sig
     @Override
     public void onFailure(int errorCode) {
         
+    	//Here since Facebook login is alaready authenticated by facebook, and hence we have tried to login.
         if(errorCode == NetworkConstants.SignUpRequestConstants.EMAIL_ALREADY_TAKEN)
         {
         	//TODO: Create a way for password for facebook.
@@ -476,7 +477,6 @@ public class LandingActivity extends BaseActivity implements OnClickListener,Sig
 
 	@Override
 	public void onSignIn(JSONObject json) {
-        removeDialog();
         if (json == null) {
             // show error and return.
             showErrorDialog(R.string.err_sign_in);
@@ -498,6 +498,13 @@ public class LandingActivity extends BaseActivity implements OnClickListener,Sig
         prefEngine.userFromFacebook(true);
         prefEngine.setUsername(prefEngine.getUserEmail());
         prefEngine.setUserSignedUpStatus(true);
+        try{
+        	prefEngine.setUserID(json.getString(ParsingConstants.ID));
+        }
+        catch(JSONException ex)
+        {
+        	
+        }        removeDialog();
         Toast.makeText(this, "Signed In", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(LandingActivity.this, CapturePictureActivity.class);
         try {

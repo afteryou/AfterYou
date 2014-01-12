@@ -835,4 +835,15 @@ public class PreferenceEngine {
         editor.putBoolean(AppConstants.FACEBOOK_USER, userFacebook);
         editor.commit();
     }
+    
+    public String getUserID() {
+        return getDefaultSharePreference().getString(AppConstants.USER_ID, null);
+    }
+
+    public void setUserID(final String userID) {
+        Editor editor = getDefaultSharePreference().edit();
+        editor.putString(AppConstants.USER_ID, userID);
+        editor.commit();
+
+    }
 }

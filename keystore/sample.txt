@@ -1,0 +1,8 @@
+
+Keystore type: JKS
+Keystore provider: SUN
+
+Your keystore contains 1 entry
+
+afteryou, Dec 2, 2013, PrivateKeyEntry, 
+Certificate fingerprint (SHA1): 08:83:17:E0:B9:88:6D:A4:45:58:3C:64:DB:B7:84:A3:8A:4E:05:69

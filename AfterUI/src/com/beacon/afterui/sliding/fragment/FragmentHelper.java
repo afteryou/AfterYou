@@ -95,6 +95,7 @@ public class FragmentHelper {
                 R.animator.fragment_slide_left_exit,
                 R.animator.fragment_slide_left_enter,
                 R.animator.fragment_slide_right_exit);
+        Log.d("test", "goto : Total Fragment count : " + act.getFragmentManager().getBackStackEntryCount());
         transaction.replace(act.findViewById(R.id.content_detail)
                 .getId(), fragment);
         transaction.show(fragment);

@@ -170,6 +170,17 @@ public class InterestAdapter extends BaseAdapter implements OnClickListener {
 			holder = new ViewHolder();
 			holder.imageView = (ScaleImageView) convertView
 					.findViewById(R.id.news_pic);
+			holder.imageView.setTag(new Integer(position));
+			holder.imageView.setOnClickListener(new View.OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					Toast.makeText(mContext,
+							"Clicked Button = " + ((Integer) v.getTag()),
+							Toast.LENGTH_LONG).show();
+					clickListner.onItemClick((Integer) v.getTag());
+				}
+			});
 			holder.nameView = (TextView) convertView
 					.findViewById(R.id.news_name);
 			holder.nameView.setTypeface(mITCAvantGardeStdBk);
@@ -211,9 +222,6 @@ public class InterestAdapter extends BaseAdapter implements OnClickListener {
 			// holder.add_req_text.setTypeface(typeFaceRegular);
 
 			holder.hot_btn = (ImageView) convertView.findViewById(R.id.hot_btn);
-			holder.checkDetails = (Button) convertView
-					.findViewById(R.id.news_details);
-			holder.checkDetails.setTypeface(mITCAvantGardeStdBk);
 
 			holder.vote_btn = (TextView) convertView
 					.findViewById(R.id.vote_btn);
@@ -236,16 +244,6 @@ public class InterestAdapter extends BaseAdapter implements OnClickListener {
 			holder.refferBtn.setOnClickListener(this);
 			holder.chatBtn.setOnClickListener(this);
 
-			holder.checkDetails.setOnClickListener(new View.OnClickListener() {
-
-				@Override
-				public void onClick(View v) {
-					Toast.makeText(mContext,
-							"Clicked Button = " + ((Integer) v.getTag()),
-							Toast.LENGTH_LONG).show();
-					clickListner.onItemClick((Integer) v.getTag());
-				}
-			});
 		} else {
 			holder = (ViewHolder) convertView.getTag();
 		}
@@ -267,7 +265,7 @@ public class InterestAdapter extends BaseAdapter implements OnClickListener {
 		// holder.likeCountView.setText(sp.getProfile_likes() + " likes");
 		// holder.commentCountView.setText(sp.getProfile_comments_count()
 		// + " comments");
-		holder.checkDetails.setTag(new Integer(position));
+		holder.imageView.setTag(new Integer(position));
 		convertView.setTag(holder);
 		if (sp.getDataSrc() != null) {
 			if (sp.getDataSrc() instanceof Integer) {
@@ -314,7 +312,6 @@ public class InterestAdapter extends BaseAdapter implements OnClickListener {
 		// TextView lastLoginTime;
 		// TextView likeCountView;
 		// TextView commentCountView;
-		Button checkDetails;
 		Object dataSrc;
 	}
 

@@ -10,6 +10,7 @@ import android.view.MenuItem;
 
 import com.beacon.afterui.application.AfterYouApplication;
 import com.beacon.afterui.log.AfterUIlog;
+import com.beacon.afterui.provider.PreferenceEngine;
 import com.beacon.afterui.sliding.SlidingActivity;
 import com.beacon.afterui.utils.DebugUtils;
 import com.beacon.afterui.utils.FacebookGraphUserInfo;
@@ -107,6 +108,7 @@ public class BaseActivity extends SlidingActivity {
         // cm.destroy();
         // android.os.Process.killProcess(android.os.Process.myPid());
         try {
+        	PreferenceEngine.getInstance(this).setUserSignedUpStatus(false);
             ActivityManager activityMgr = (ActivityManager) this
                     .getSystemService(ACTIVITY_SERVICE);
             activityMgr.killBackgroundProcesses(getPackageName());

@@ -250,6 +250,13 @@ public class LoginScreen extends BaseActivity implements OnClickListener,
         prefEngine.setUsername(mEmailText.getText().toString());
         prefEngine.setPassword(mPasswordText.getText().toString());
         prefEngine.setUserSignedUpStatus(true);
+        try{
+        	prefEngine.setUserID(json.getString(ParsingConstants.ID));
+        }
+        catch(JSONException ex)
+        {
+        	
+        }
         Toast.makeText(this, "Signed In", Toast.LENGTH_SHORT).show();
         Intent intent = new Intent(LoginScreen.this, CapturePictureActivity.class);
         try {

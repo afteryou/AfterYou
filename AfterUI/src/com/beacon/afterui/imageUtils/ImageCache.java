@@ -16,6 +16,7 @@
 
 package com.beacon.afterui.imageUtils;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 
 import android.content.Context;
@@ -23,6 +24,7 @@ import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.util.LruCache;
+import android.util.Base64;
 import android.util.Log;
 
 import com.beacon.afterui.BuildConfig;
@@ -196,6 +198,15 @@ public class ImageCache {
     public void clearCaches() {
         mDiskCache.clearCache();
         mMemoryCache.evictAll();
+    }
+    
+    public String getBitmapArrayFromBitmap(Bitmap bitmap)
+    {
+    	ByteArrayOutputStream bao = new ByteArrayOutputStream();
+    	bitmap.compress(Bitmap.CompressFormat.JPEG, 90, bao);
+        byte [] ba = bao.toByteArray();
+        String ba1= Base64.encodeToString(ba, 0);
+        return ba1;
     }
 
     /**
