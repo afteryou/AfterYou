@@ -11,7 +11,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -26,8 +25,8 @@ import com.beacon.afterui.R;
 import com.beacon.afterui.activity.BaseActivity;
 import com.beacon.afterui.constants.AppConstants;
 import com.beacon.afterui.network.NetworkManager;
+import com.beacon.afterui.network.NetworkManager.RequestListener;
 import com.beacon.afterui.network.ParsingConstants;
-import com.beacon.afterui.network.NetworkManager.SignInRequestListener;
 import com.beacon.afterui.provider.PreferenceEngine;
 import com.beacon.afterui.utils.AnalyticsUtils;
 import com.beacon.afterui.utils.FontUtils;
@@ -37,9 +36,10 @@ import com.beacon.afterui.utils.customviews.CustomProgressDialog;
 import com.beacon.afterui.utils.customviews.DialogHelper;
 import com.beacon.afterui.utils.customviews.ErrorDialog;
 import com.google.analytics.tracking.android.EasyTracker;
+import com.loopj.android.http.RequestParams;
 
 public class LoginScreen extends BaseActivity implements OnClickListener,
-		OnFocusChangeListener, SignInRequestListener {
+		OnFocusChangeListener, RequestListener {
 
 	/** TAG */
 	private static final String TAG = LoginScreen.class.getSimpleName();
@@ -161,7 +161,9 @@ public class LoginScreen extends BaseActivity implements OnClickListener,
 		data.put(ParsingConstants.EMAIL, mEmailText.getText().toString());
 		data.put(ParsingConstants.PASSWORD, mPasswordText.getText().toString());
 		showProgressDialog();
-		NetworkManager.signIn(data, this, new Handler());
+		RequestParams requestParams = new RequestParams(data);
+		NetworkManager.post(NetworkManager.SIGN_IN_REQUEST_URL, requestParams, this);
+//		signIn(data, this, new Handler());
 	}
 
 	private void showErrorDialog(int stringResId) {
@@ -222,7 +224,7 @@ public class LoginScreen extends BaseActivity implements OnClickListener,
 	}
 
 	@Override
-	public void onSignIn(JSONObject json) {
+	public void onSuccess(JSONObject json) {
 
 		removeDialog();
 		if (json == null) {

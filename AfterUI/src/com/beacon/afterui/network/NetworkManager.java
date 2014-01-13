@@ -4,7 +4,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -17,7 +16,6 @@ import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.HttpVersion;
 import org.apache.http.NameValuePair;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.conn.params.ConnManagerPNames;
@@ -39,7 +37,11 @@ import org.json.JSONObject;
 
 import android.os.Handler;
 import android.util.Log;
-import android.view.KeyCharacterMap.KeyData;
+
+import com.loopj.android.http.AsyncHttpClient;
+import com.loopj.android.http.AsyncHttpResponseHandler;
+import com.loopj.android.http.JsonHttpResponseHandler;
+import com.loopj.android.http.RequestParams;
 
 public class NetworkManager {
 
@@ -48,16 +50,67 @@ public class NetworkManager {
 
 	private static boolean DEBUG = true;
 
-	private static final String SIGN_UP_REQUEST_URL = "https://76.74.223.195/obweb/AYWS/saveUser.php";
+	private static final String BASE_URL = "https://76.74.223.195/obweb/AYWS/";
 
-	private static final String SIGN_IN_REQUEST_URL = "https://76.74.223.195/obweb/AYWS/loginUser.php";
+	public static final String SIGN_UP_REQUEST_URL = "saveUser.php";
 
-	private static final String ACTIVATE_USER = "https://76.74.223.195/obweb/AYWS/updateUserStatus.php";
+	public static final String SIGN_IN_REQUEST_URL = "loginUser.php";
 
-	private static final String UPLOAD_IMAGE = "https://76.74.223.195/obweb/AYWS/uploadUserImage.php";
+	public static final String ACTIVATE_USER = "updateUserStatus.php";
+
+	public static final String UPLOAD_IMAGE = "uploadUserImage.php";
+
+	public static AsyncHttpClient syncClient = new AsyncHttpClient();
+
+	public static void get(String url, RequestParams params,
+			final RequestListener listener) {
+		syncClient.get(getAbsoluteUrl(url), params,
+				new JsonHttpResponseHandler() {
+					@Override
+					public void onSuccess(JSONObject response) {
+						if (listener != null) {
+							listener.onSuccess(response);
+						}
+					}
+
+					@Override
+					public void onFailure(Throwable thr, JSONObject failed) {
+						if (listener != null) {
+							listener.onFailure(getErrorCode(failed));
+						}
+					}
+
+				});
+	}
+
+	public static void post(String url, RequestParams params,
+			final RequestListener listener) {
+		HostnameVerifier hostnameVerifier = org.apache.http.conn.ssl.SSLSocketFactory.ALLOW_ALL_HOSTNAME_VERIFIER;
+		SSLSocketFactory socketFactory = SSLSocketFactory.getSocketFactory();
+		socketFactory
+				.setHostnameVerifier((X509HostnameVerifier) hostnameVerifier);
+		syncClient.setSSLSocketFactory(socketFactory);
+		syncClient.post(getAbsoluteUrl(url), params,
+				new JsonHttpResponseHandler() {
+					@Override
+					public void onSuccess(JSONObject response) {
+						listener.onSuccess(response);
+					}
+
+					@Override
+					public void onFailure(Throwable thr, JSONObject failed) {
+						listener.onFailure(getErrorCode(failed));
+					}
+
+				});
+	}
+
+	private static String getAbsoluteUrl(String relativeUrl) {
+		return BASE_URL + relativeUrl;
+	}
 
 	public static void uploadImage(final Map<String, String> data,
-			final UploadImageListener listener, final Handler handler) {
+			final RequestListener listener, final Handler handler) {
 		if (DEBUG) {
 			Log.d(TAG, "ImageUpload()");
 		}
@@ -124,14 +177,14 @@ public class NetworkManager {
 								public void run() {
 
 									if (listener != null) {
-										listener.onImageUpload(json);
+										listener.onSuccess(json);
 									}
 
 								}
 							});
 						} else {
 							if (listener != null) {
-								listener.onImageUpload(json);
+								listener.onSuccess(json);
 							}
 
 						}
@@ -167,7 +220,7 @@ public class NetworkManager {
 	}
 
 	public static void signUp(final Map<String, String> data,
-			final SignUpRequestListener listener, final Handler handler) {
+			final RequestListener listener, final Handler handler) {
 		if (DEBUG) {
 			Log.d(TAG, "signUp()");
 		}
@@ -300,13 +353,13 @@ public class NetworkManager {
 								@Override
 								public void run() {
 									if (listener != null) {
-										listener.onSignUp(json);
+										listener.onSuccess(json);
 									}
 								}
 							});
 						} else {
 							if (listener != null) {
-								listener.onSignUp(json);
+								listener.onSuccess(json);
 							}
 						}
 					}
@@ -345,26 +398,14 @@ public class NetworkManager {
 		return errorCode;
 	}
 
-	public interface SignUpRequestListener {
-		public void onSignUp(final JSONObject json);
-
-		public void onFailure(final int errorCode);
-	}
-
-	public interface UploadImageListener {
-		public void onImageUpload(final JSONObject json);
-
-		public void onFailure(final int errorCode);
-	}
-
-	public interface SignInRequestListener {
-		public void onSignIn(final JSONObject json);
+	public interface RequestListener {
+		public void onSuccess(final JSONObject json);
 
 		public void onFailure(final int errorCode);
 	}
 
 	public static void signIn(final Map<String, String> data,
-			final SignInRequestListener listener, final Handler handler) {
+			final RequestListener listener, final Handler handler) {
 		if (DEBUG) {
 			Log.d(TAG, "signIn()");
 		}
@@ -436,13 +477,13 @@ public class NetworkManager {
 							@Override
 							public void run() {
 								if (listener != null) {
-									listener.onSignIn(json);
+									listener.onSuccess(json);
 								}
 							}
 						});
 					} else {
 						if (listener != null) {
-							listener.onSignIn(json);
+							listener.onSuccess(json);
 						}
 					}
 				} catch (IOException e) {

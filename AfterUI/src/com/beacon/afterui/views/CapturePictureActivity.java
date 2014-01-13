@@ -58,6 +58,7 @@ import com.beacon.afterui.utils.customviews.AfterYouDialogImpl;
 import com.beacon.afterui.utils.customviews.CustomProgressDialog;
 import com.beacon.afterui.utils.customviews.DialogHelper;
 import com.beacon.afterui.utils.customviews.ErrorDialog;
+import com.loopj.android.http.RequestParams;
 
 public class CapturePictureActivity extends BaseActivity implements
 		OnClickListener {
@@ -104,7 +105,7 @@ public class CapturePictureActivity extends BaseActivity implements
 	private TextView mChooseFromLiabraryBtn;
 	private TextView mFacebookBtn;
 
-	public static final String PROFILE_PIC = "profile_pic";
+	public static final String PROFILE_PIC = "profile_pic.png";
 	public static final String PROFILE_PIC_THUMB = "profile_pic_thumb";
 
 	private static final int SAVE_AFTER_ROTATE = 1001;
@@ -402,7 +403,8 @@ public class CapturePictureActivity extends BaseActivity implements
 		data.put(ParsingConstants.PROFILE_PIC, PROFILE_PIC_SERVER);
 		data.put(ParsingConstants.IMAGE_NAME,PROFILE_PIC);
 		data.put(ParsingConstants.IMAGE_ARRAY, mProfileImageCache.getBitmapArrayFromBitmap(bitmap));
-		NetworkManager.uploadImage(data, null, null);
+		NetworkManager.post(NetworkManager.UPLOAD_IMAGE, new RequestParams(data), null);
+		//uploadImage(data, null, null);
 	}
 
 	@Override

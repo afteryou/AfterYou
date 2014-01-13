@@ -19,4 +19,6 @@ public class ParsingConstants {
     public static final String PROFILE_PIC		 = "profile_picture";
     
     public static final String IMAGE_ARRAY		 = "imagearray";
+    
+    public static final String STATUS_ACTIVE	 = "active";
 }

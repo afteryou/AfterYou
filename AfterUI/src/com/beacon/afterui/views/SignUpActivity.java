@@ -35,8 +35,8 @@ import com.beacon.afterui.R;
 import com.beacon.afterui.activity.BaseActivity;
 import com.beacon.afterui.constants.AppConstants;
 import com.beacon.afterui.network.NetworkManager;
+import com.beacon.afterui.network.NetworkManager.RequestListener;
 import com.beacon.afterui.network.ParsingConstants;
-import com.beacon.afterui.network.NetworkManager.SignUpRequestListener;
 import com.beacon.afterui.provider.PreferenceEngine;
 import com.beacon.afterui.utils.Utilities;
 import com.beacon.afterui.utils.customviews.AfterYouDialogImpl;
@@ -44,9 +44,10 @@ import com.beacon.afterui.utils.customviews.CustomProgressDialog;
 import com.beacon.afterui.utils.customviews.CustomerDatePickDialog;
 import com.beacon.afterui.utils.customviews.DialogHelper;
 import com.beacon.afterui.utils.customviews.ErrorDialog;
+import com.loopj.android.http.RequestParams;
 
 public class SignUpActivity extends BaseActivity implements OnClickListener,
-		OnFocusChangeListener, SignUpRequestListener {
+		OnFocusChangeListener, RequestListener {
 
 	/** TAG */
 	private static final String TAG = SignUpActivity.class.getSimpleName();
@@ -72,6 +73,8 @@ public class SignUpActivity extends BaseActivity implements OnClickListener,
 	private static final int AUTO_SIGN_UP_END = 1;
 
 	private static final int AUTO_SIGN_UP_VISIBLE_TIME = 3000;
+
+	private boolean signUpinProg = false;
 
 	private TextView mLeftImage;
 
@@ -280,7 +283,9 @@ public class SignUpActivity extends BaseActivity implements OnClickListener,
 		data.put("gender", String.valueOf(mSelectedGender));
 
 		showProgressDialog();
-		NetworkManager.signUp(data, this, new Handler());
+		signUpinProg = true;
+		NetworkManager.post(NetworkManager.SIGN_UP_REQUEST_URL,
+				new RequestParams(data), this);
 		saveData();
 	}
 
@@ -472,41 +477,55 @@ public class SignUpActivity extends BaseActivity implements OnClickListener,
 	}
 
 	@Override
-	public void onSignUp(JSONObject json) {
+	public void onSuccess(JSONObject json) {
 
-		removeDialog();
-		Log.d(TAG, "onSignUp : ---> " + json);
-		if (json == null) {
-			// show some error and return.
-			showErrorDialog(R.string.err_sign_up);
-			return;
-		}
-
-		if (json.has(ParsingConstants.ERROR)) {
-			// show error and return.
+		if (signUpinProg) {
 			try {
-				showErrorDialog(json.getString(ParsingConstants.ERROR));
-			} catch (JSONException e) {
-				e.printStackTrace();
+				RequestParams params = new RequestParams();
+				params.put(ParsingConstants.USER_ID,
+						json.getString(ParsingConstants.ID));
+				params.put(ParsingConstants.STATUS,
+						ParsingConstants.STATUS_ACTIVE);
+				signUpinProg = false;
+				NetworkManager.post(NetworkManager.ACTIVATE_USER, params, this);
+			} catch (JSONException ex) {
+
 			}
-			return;
-		}
+		} else {
+			removeDialog();
+			Log.d(TAG, "onSignUp : ---> " + json);
+			if (json == null) {
+				// show some error and return.
+				showErrorDialog(R.string.err_sign_up);
+				return;
+			}
 
-		Toast.makeText(this, "Signed Up", Toast.LENGTH_SHORT).show();
-		PreferenceEngine prefEngine = PreferenceEngine
-				.getInstance(SignUpActivity.this);
-		prefEngine.setUserSignedUpStatus(true);
-		// saveData();
-		Intent intent = new Intent(SignUpActivity.this,
-				ProfileSettingsActivity.class);
-		if (isFromFacebook) {
-			intent.putExtra(AppConstants.FACEBOOK_USER, true);
-		}
+			if (json.has(ParsingConstants.ERROR)) {
+				// show error and return.
+				try {
+					showErrorDialog(json.getString(ParsingConstants.ERROR));
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+				return;
+			}
 
-		try {
-			startActivity(intent);
-		} catch (ActivityNotFoundException e) {
-			Log.e(TAG, " Activity not found : " + e.getMessage());
+			Toast.makeText(this, "Signed Up", Toast.LENGTH_SHORT).show();
+			PreferenceEngine prefEngine = PreferenceEngine
+					.getInstance(SignUpActivity.this);
+			prefEngine.setUserSignedUpStatus(true);
+			// saveData();
+			Intent intent = new Intent(SignUpActivity.this,
+					ProfileSettingsActivity.class);
+			if (isFromFacebook) {
+				intent.putExtra(AppConstants.FACEBOOK_USER, true);
+			}
+
+			try {
+				startActivity(intent);
+			} catch (ActivityNotFoundException e) {
+				Log.e(TAG, " Activity not found : " + e.getMessage());
+			}
 		}
 	}
 
