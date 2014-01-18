@@ -289,6 +289,9 @@ public class ChatManagerService extends Service implements
                 Collection<RosterEntry> rosterList = roster.getEntries();
 
                 final boolean DEBUG = false;
+                if (DEBUG) {
+                    Log.d( TAG, " Roster list size : " + rosterList.size());
+                }
 
                 for (RosterEntry rosterObject : rosterList) {
 
@@ -350,23 +353,23 @@ public class ChatManagerService extends Service implements
                                 values.put(RosterTable.AVATAR, user);
                             }
                         }
-
-                        ContentResolver resolver = getContentResolver();
-                        if (isUserPresent(user)) {
-                            // Update
-                            final String selection = RosterTable.USER_NAME
-                                    + "=?";
-                            final String[] selectionArgs = { user };
-
-                            resolver.update(RosterTable.CONTENT_URI, values,
-                                    selection, selectionArgs);
-
-                        } else {
-                            // Insert
-                            resolver.insert(RosterTable.CONTENT_URI, values);
-                        }
                     } catch (XMPPException e) {
                         e.printStackTrace();
+                    }
+                    
+                    ContentResolver resolver = getContentResolver();
+                    if (isUserPresent(user)) {
+                        // Update
+                        final String selection = RosterTable.USER_NAME
+                                + "=?";
+                        final String[] selectionArgs = { user };
+
+                        resolver.update(RosterTable.CONTENT_URI, values,
+                                selection, selectionArgs);
+
+                    } else {
+                        // Insert
+                        resolver.insert(RosterTable.CONTENT_URI, values);
                     }
                 }
                 Log.d(TAG, "Roster updated to DB!");
