@@ -50,6 +50,7 @@ public class MessageSettingFragment extends Fragment implements
 		SetHead.setConditionHead(CLASS_NAME);
 		mSetMsgList.setAdapter(new MessageSettingAdapter(getActivity(),
 				mMsgCondition, CLASS_NAME));
+		mSetMsgList.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
 
 		cancel_btn.setOnClickListener(this);
 		mSetMsgList.setOnItemClickListener(this);

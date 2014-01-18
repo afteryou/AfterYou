@@ -84,6 +84,10 @@ public class DailyTextLimitFragment extends Fragment implements
 	public void onItemClick(AdapterView<?> parent, View view, int position,
 			long id) {
 
+		TextView limitText = (TextView) view.findViewById(R.id.msg_limit_txt);
+		String text_limit = limitText.getText().toString();
+		SetHead.setLimitText(text_limit);
+
 	}
 
 }

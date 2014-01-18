@@ -57,6 +57,10 @@ public class LoginScreen extends BaseActivity implements OnClickListener,
 
 	private static final boolean isTest = false;
 
+	private static final String FNAME = "fname";
+
+	private static final String LNAME = "lname";
+
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -249,6 +253,7 @@ public class LoginScreen extends BaseActivity implements OnClickListener,
 		prefEngine.setUsername(mEmailText.getText().toString());
 		prefEngine.setPassword(mPasswordText.getText().toString());
 		prefEngine.setUserSignedUpStatus(true);
+		readName(json);
         try{
         	prefEngine.setUserID(json.getString(ParsingConstants.ID));
         }
@@ -270,5 +275,20 @@ public class LoginScreen extends BaseActivity implements OnClickListener,
 	public void onFailure(int errorCode) {
 		removeDialog();
 		showErrorDialog(R.string.err_sign_in);
+	}
+
+	private void readName(JSONObject json) {
+
+		try {
+			String fName = json.getString(FNAME);
+			String lname = json.getString(LNAME);
+			PreferenceEngine.getInstance(getApplicationContext()).setFirstName(
+					fName);
+			PreferenceEngine.getInstance(getApplicationContext()).setLastName(
+					lname);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+
 	}
 }

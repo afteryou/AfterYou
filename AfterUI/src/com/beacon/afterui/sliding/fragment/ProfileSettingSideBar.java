@@ -21,211 +21,231 @@ import com.beacon.afterui.utils.FontUtils;
 import com.beacon.afterui.views.data.ProfileSettingAdapter;
 
 public class ProfileSettingSideBar extends Fragment implements
-        FragmentLifecycle, OnClickListener, OnItemClickListener {
+		FragmentLifecycle, OnClickListener, OnItemClickListener {
 
-    private ListView mProfileSettingList;
-    private String[] mProfileSettingLable;
-    private Typeface ITCAvantGardeStdBkFont;
-    private Typeface MyriadProIt;
-    private static final int CHANGE_NAME = 0;
-    private static final int CHANGE_EMAIL = 1;
-    private static final int CHANGE_PASSWORD = 2;
+	private ListView mProfileSettingList;
+	private String[] mProfileSettingLable;
+	private Typeface ITCAvantGardeStdBkFont;
+	private Typeface MyriadProIt;
+	private static final int CHANGE_NAME = 0;
+	private static final int CHANGE_EMAIL = 1;
+	private static final int CHANGE_PASSWORD = 2;
 
-    private String[] mGetText;
+	private String[] mGetText;
 
-    private List<ProfileSettingModal> mInfoList;
-    
-    private static final String NAME = "name";
-    private static final String EMAIL = "email";
-    private static final String PASSWORD = "password";
+	private List<ProfileSettingModal> mInfoList;
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-            Bundle savedInstanceState) {
+	private static final String NAME = "name";
+	private static final String EMAIL = "email";
+	private static final String PASSWORD = "password";
+	private static final String GENDER = "gender";
+	private static final String BIRTHDATE = "birthdate";
+	private static final String RELATIONSHIP_STATUS = "relationship status";
 
-        initGetText();
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+			Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.profile_setting_sidebar, null);
-        ITCAvantGardeStdBkFont = FontUtils.loadTypeFace(getActivity()
-                .getApplicationContext(), FontUtils.ITC_AVANT_GARDE_STD_BK);
+		initGetText();
 
-        MyriadProIt = FontUtils.loadTypeFace(getActivity(), "MyriadPro-It.otf");
+		View view = inflater.inflate(R.layout.profile_setting_sidebar, null);
+		ITCAvantGardeStdBkFont = FontUtils.loadTypeFace(getActivity()
+				.getApplicationContext(), FontUtils.ITC_AVANT_GARDE_STD_BK);
 
-        TextView cancel_btn = (TextView) view.findViewById(R.id.cancel_btn);
-        cancel_btn.setTypeface(ITCAvantGardeStdBkFont);
+		MyriadProIt = FontUtils.loadTypeFace(getActivity(), "MyriadPro-It.otf");
 
-        TextView done_btn = (TextView) view.findViewById(R.id.done_btn);
-        done_btn.setTypeface(ITCAvantGardeStdBkFont);
+		TextView cancel_btn = (TextView) view.findViewById(R.id.cancel_btn);
+		cancel_btn.setTypeface(ITCAvantGardeStdBkFont);
 
-        TextView setting_txt = (TextView) view.findViewById(R.id.setting_txt);
-        setting_txt.setTypeface(ITCAvantGardeStdBkFont);
+		TextView done_btn = (TextView) view.findViewById(R.id.done_btn);
+		done_btn.setTypeface(ITCAvantGardeStdBkFont);
 
-        TextView about_you = (TextView) view.findViewById(R.id.about_you);
-        about_you.setTypeface(ITCAvantGardeStdBkFont);
+		TextView setting_txt = (TextView) view.findViewById(R.id.setting_txt);
+		setting_txt.setTypeface(ITCAvantGardeStdBkFont);
 
-        TextView required_field_txt = (TextView) view
-                .findViewById(R.id.required_field_txt);
-        required_field_txt.setTypeface(MyriadProIt);
+		TextView about_you = (TextView) view.findViewById(R.id.about_you);
+		about_you.setTypeface(ITCAvantGardeStdBkFont);
 
-        mProfileSettingList = (ListView) view
-                .findViewById(R.id.profile_setting_list);
-        mProfileSettingLable = getResources().getStringArray(
-                R.array.profile_setting_detail_txt);
-        
-        processInfo();
-        ProfileSettingAdapter adapter = new ProfileSettingAdapter(getActivity(),
-                mInfoList);
-        mProfileSettingList.setAdapter(adapter);
-        mProfileSettingList.setOnItemClickListener(this);
+		TextView required_field_txt = (TextView) view
+				.findViewById(R.id.required_field_txt);
+		required_field_txt.setTypeface(MyriadProIt);
 
-        return view;
-    }
+		mProfileSettingList = (ListView) view
+				.findViewById(R.id.profile_setting_list);
+		mProfileSettingLable = getResources().getStringArray(
+				R.array.profile_setting_detail_txt);
 
-    private void initGetText() {
-        String first_name = PreferenceEngine.getInstance(getActivity())
-                .getFirstName();
-        String last_name = PreferenceEngine.getInstance(getActivity())
-                .getLastName();
-        String user_name = first_name + " " + last_name;
-        String email = PreferenceEngine.getInstance(getActivity())
-                .getUserEmail();
-        String password = PreferenceEngine.getInstance(getActivity())
-                .getPassword();
-        String gender = PreferenceEngine.getInstance(getActivity()).getGender();
-        if (gender != null)
-            if (gender.equals("1")) {
-                gender = "male";
-            } else {
-                gender = "female";
-            }
-        else {
-            gender = "";
-        }
-        String birthdate = PreferenceEngine.getInstance(getActivity())
-                .getBirthday();
-        String relationship_status = PreferenceEngine
-                .getInstance(getActivity()).getSelfRelation();
+		processInfo();
+		ProfileSettingAdapter adapter = new ProfileSettingAdapter(
+				getActivity(), mInfoList);
+		mProfileSettingList.setAdapter(adapter);
+		mProfileSettingList.setOnItemClickListener(this);
 
-        String religion = PreferenceEngine.getInstance(getActivity())
-                .getSelfReligion();
-        boolean haveChildren = PreferenceEngine.getInstance(getActivity())
-                .getHaveChildren();
-        String haveChild = "";
-        if (haveChildren) {
+		return view;
+	}
 
-            haveChild = "yes";
+	private void initGetText() {
+		String first_name = PreferenceEngine.getInstance(getActivity())
+				.getFirstName();
+		String last_name = PreferenceEngine.getInstance(getActivity())
+				.getLastName();
+		String user_name = first_name + " " + last_name;
+		String email = PreferenceEngine.getInstance(getActivity())
+				.getUserEmail();
+		String password = PreferenceEngine.getInstance(getActivity())
+				.getPassword();
+		String gender = PreferenceEngine.getInstance(getActivity()).getGender();
+		if (gender != null)
+			if (gender.equals("1")) {
+				gender = "male";
+			} else {
+				gender = "female";
+			}
+		else {
+			gender = "";
+		}
+		String birthdate = PreferenceEngine.getInstance(getActivity())
+				.getBirthday();
+		String relationship_status = PreferenceEngine
+				.getInstance(getActivity()).getSelfRelation();
 
-        } else {
-            haveChild = "no";
-        }
+		String religion = PreferenceEngine.getInstance(getActivity())
+				.getSelfReligion();
+		boolean haveChildren = PreferenceEngine.getInstance(getActivity())
+				.getHaveChildren();
+		String haveChild = "";
+		if (haveChildren) {
 
-        boolean wantChild = PreferenceEngine.getInstance(getActivity())
-                .getWantChildren();
-        String want_child = "";
-        if (wantChild) {
+			haveChild = "yes";
 
-            want_child = "yes";
+		} else {
+			haveChild = "no";
+		}
 
-        } else {
-            want_child = "no";
-        }
+		boolean wantChild = PreferenceEngine.getInstance(getActivity())
+				.getWantChildren();
+		String want_child = "";
+		if (wantChild) {
 
-        String languages = PreferenceEngine.getInstance(getActivity())
-                .getSelfLangList();
+			want_child = "yes";
 
-        String height_foot = PreferenceEngine.getInstance(getActivity())
-                .getSelfHeightFoot();
-        String height_inches = PreferenceEngine.getInstance(getActivity())
-                .getSelfHeightInches();
-        String height = height_foot + " " + height_inches;
-        String body_type = PreferenceEngine.getInstance(getActivity())
-                .getSelfBodyType();
-        String community_type = PreferenceEngine.getInstance(getActivity())
-                .getSelfCommunity();
-        String diet = PreferenceEngine.getInstance(getActivity()).getSelfDiet();
-        String smoking = PreferenceEngine.getInstance(getActivity())
-                .getSelfSmoking();
-        String drinking = PreferenceEngine.getInstance(getActivity())
-                .getSelfDrinking();
-        String education = PreferenceEngine.getInstance(getActivity())
-                .getSelfEducation();
-        String salary = PreferenceEngine.getInstance(getActivity())
-                .getSelfSalary();
+		} else {
+			want_child = "no";
+		}
 
-        mGetText = new String[] { user_name, email, password, gender,
-                birthdate, relationship_status, religion, haveChild,
-                want_child, languages, height, body_type, community_type, diet,
-                smoking, drinking, education, salary };
-    }
+		String languages = PreferenceEngine.getInstance(getActivity())
+				.getSelfLangList();
 
-    public class ProfileSettingModal {
+		String height_foot = PreferenceEngine.getInstance(getActivity())
+				.getSelfHeightFoot();
+		String height_inches = PreferenceEngine.getInstance(getActivity())
+				.getSelfHeightInches();
+		String height;
+		if (height_foot == null || height_inches == null) {
+			height = "";
+		} else {
+			height = height_foot + " " + height_inches;
+		}
 
-        public String label;
-        public String info;
-        public boolean isRequired;
-    }
+		String body_type = PreferenceEngine.getInstance(getActivity())
+				.getSelfBodyType();
+		String community_type = PreferenceEngine.getInstance(getActivity())
+				.getSelfCommunity();
+		String diet = PreferenceEngine.getInstance(getActivity()).getSelfDiet();
+		String smoking = PreferenceEngine.getInstance(getActivity())
+				.getSelfSmoking();
+		String drinking = PreferenceEngine.getInstance(getActivity())
+				.getSelfDrinking();
+		String education = PreferenceEngine.getInstance(getActivity())
+				.getSelfEducation();
+		String salary = PreferenceEngine.getInstance(getActivity())
+				.getSelfSalary();
 
-    private void processInfo() {
-        mInfoList = new ArrayList<ProfileSettingModal>();
-        int length = mProfileSettingLable.length;
-        for (int i = 0; i < length; i++) {
-            ProfileSettingModal modal = new ProfileSettingModal();
-            modal.label = mProfileSettingLable[i];
-            modal.info = mGetText[i];
+		mGetText = new String[] { user_name, email, password, gender,
+				birthdate, relationship_status, religion, haveChild,
+				want_child, languages, height, body_type, community_type, diet,
+				smoking, drinking, education, salary };
+	}
 
-            if (modal.label.equalsIgnoreCase(NAME)
-                    || modal.label.equalsIgnoreCase(EMAIL)
-                    || modal.label.equalsIgnoreCase(PASSWORD)) {
-                modal.isRequired = true;
-            }
-            mInfoList.add(modal);
-        }
-    }
+	public class ProfileSettingModal {
 
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position,
-            long id) {
+		public String label;
+		public String info;
+		public boolean isRequired;
+		public boolean isCrossBtn;
+	}
 
-        switch (position) {
-        case CHANGE_NAME:
+	private void processInfo() {
+		mInfoList = new ArrayList<ProfileSettingModal>();
+		int length = mProfileSettingLable.length;
+		for (int i = 0; i < length; i++) {
+			ProfileSettingModal modal = new ProfileSettingModal();
+			modal.label = mProfileSettingLable[i];
+			modal.info = mGetText[i];
 
-            Fragment change_name = new ChangeNameFragment();
-            FragmentHelper.replaceFragment(getActivity(), change_name);
+			if (modal.label.equalsIgnoreCase(NAME)
+					|| modal.label.equalsIgnoreCase(EMAIL)
+					|| modal.label.equalsIgnoreCase(PASSWORD)
+					|| modal.label.equalsIgnoreCase(GENDER)
+					|| modal.label.equalsIgnoreCase(BIRTHDATE)
+					|| modal.label.equalsIgnoreCase(RELATIONSHIP_STATUS)) {
+				modal.isRequired = true;
+			}
+			if (modal.label.equalsIgnoreCase(NAME)
+					|| modal.label.equalsIgnoreCase(EMAIL)
+					|| modal.label.equalsIgnoreCase(PASSWORD)) {
 
-            break;
-        case CHANGE_EMAIL:
+				modal.isCrossBtn = true;
 
-            Fragment change_email = new ChangeEmailFragment();
-            FragmentHelper.replaceFragment(getActivity(), change_email);
+			}
+			mInfoList.add(modal);
+		}
+	}
 
-            break;
-        case CHANGE_PASSWORD:
-            Fragment change_password = new ChangePasswordFragment();
-            FragmentHelper.replaceFragment(getActivity(), change_password);
-            break;
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position,
+			long id) {
 
-        }
+		switch (position) {
+		case CHANGE_NAME:
 
-    }
+			Fragment change_name = new ChangeNameFragment();
+			FragmentHelper.replaceFragment(getActivity(), change_name);
 
-    @Override
-    public void onClick(View view) {
+			break;
+		case CHANGE_EMAIL:
 
-    }
+			Fragment change_email = new ChangeEmailFragment();
+			FragmentHelper.replaceFragment(getActivity(), change_email);
 
-    @Override
-    public void onFragmentPause() {
+			break;
+		case CHANGE_PASSWORD:
+			Fragment change_password = new ChangePasswordFragment();
+			FragmentHelper.replaceFragment(getActivity(), change_password);
+			break;
 
-    }
+		}
 
-    @Override
-    public void onFragmentResume() {
+	}
 
-    }
+	@Override
+	public void onClick(View view) {
 
-    @Override
-    public boolean onBack() {
-        return false;
-    }
+	}
+
+	@Override
+	public void onFragmentPause() {
+
+	}
+
+	@Override
+	public void onFragmentResume() {
+
+	}
+
+	@Override
+	public boolean onBack() {
+		return false;
+	}
 
 }

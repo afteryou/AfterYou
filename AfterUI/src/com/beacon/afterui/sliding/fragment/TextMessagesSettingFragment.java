@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.beacon.afterui.R;
 import com.beacon.afterui.utils.FontUtils;
+import com.beacon.afterui.utils.SetHead;
 
 public class TextMessagesSettingFragment extends Fragment implements
 		FragmentLifecycle, OnClickListener {
@@ -69,6 +70,8 @@ public class TextMessagesSettingFragment extends Fragment implements
 		TextView text_limit_txt = (TextView) view
 				.findViewById(R.id.text_limit_txt);
 		text_limit_txt.setTypeface(ITCAvantGardeStdBkFont);
+
+		text_limit_txt.setText(SetHead.getLimitText());
 
 		TextView messages_txt = (TextView) view.findViewById(R.id.messages_txt);
 		messages_txt.setTypeface(ITCAvantGardeStdBkFont);
