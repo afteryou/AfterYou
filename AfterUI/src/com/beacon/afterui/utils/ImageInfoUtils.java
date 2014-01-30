@@ -361,7 +361,8 @@ public class ImageInfoUtils {
         Uri uri = MediaStore.Images.Media.EXTERNAL_CONTENT_URI;
         String[] projection = { MediaStore.Images.Media._ID,
                 MediaStore.Images.Media.BUCKET_ID,
-                MediaStore.Images.Media.BUCKET_DISPLAY_NAME };
+                MediaStore.Images.Media.BUCKET_DISPLAY_NAME,
+                MediaStore.Images.Media.DATA};
 
         Cursor cursor = context.getContentResolver().query(uri, projection,
                 null, null, null);

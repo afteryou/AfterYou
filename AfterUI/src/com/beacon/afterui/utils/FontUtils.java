@@ -9,7 +9,9 @@ import android.text.TextUtils;
 public class FontUtils {
 
     public static final String ITC_AVANT_GARDE_STD_BK = "ITCAvantGardeStd-Bk.otf";
-
+    
+    public static final String MYRIAD_PRO_REGULAR = "MyriadPro-Regular.otf";
+    
     private static Hashtable<String, Typeface> mFontMap = new Hashtable<String, Typeface>();
 
     /**
