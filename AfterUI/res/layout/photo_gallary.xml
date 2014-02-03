@@ -38,22 +38,14 @@
             android:textSize="18sp" />
     </RelativeLayout>
 
-    <RelativeLayout
-        android:id="@+id/camera_roll_rl"
+    <GridView
+        android:id="@+id/photo_gallary_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/photo_album_layout"
-        android:layout_margin="10dp" >
-
-        <GridView
-            android:id="@+id/photo_gallary_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:columnWidth="90dp"
-            android:gravity="center"
-            android:numColumns="auto_fit"
-            android:stretchMode="spacingWidthUniform" >
-        </GridView>
-    </RelativeLayout>
-
-</RelativeLayout>
+        android:layout_margin="10dp"
+        android:columnWidth="90dp"
+        android:numColumns="auto_fit"
+        android:stretchMode="spacingWidthUniform" >
+    </GridView>
+</RelativeLayout>

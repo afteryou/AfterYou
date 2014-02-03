@@ -52,8 +52,6 @@ public class PhotoAlbumActivity extends BaseActivity implements
 
     private ImageFetcher mImageFetcher;
 
-    private Cursor mCursor;
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,8 +82,6 @@ public class PhotoAlbumActivity extends BaseActivity implements
         cacheParams.setMemCacheSizePercent(0.2f);
         com.beacon.afterui.views.gallery.ImageCache imageCache = new com.beacon.afterui.views.gallery.ImageCache(
                 cacheParams);
-        Log.d("ImageCache", imageCache.toString()
-                + "imagecashe object is created");
 
         mImageFetcher = new ImageFetcher(this, 50, imageCache);
         mImageFetcher.setLoadingImage(R.drawable.empty_photo);
@@ -182,16 +178,17 @@ public class PhotoAlbumActivity extends BaseActivity implements
     public void onItemClick(AdapterView<?> arg0, View arg1, int position,
             long id) {
 
-        if (mCursor == null || mCursor.getCount() < position) {
+        Cursor cursor = mAlbumCursorAdapter.getCursor();
+        if ( cursor == null || cursor.getCount() < position) {
             return;
         }
 
         Intent intent = new Intent(PhotoAlbumActivity.this,
                 PhotoGallaryActivity.class);
 
-        final String bucketId = mCursor.getString(mCursor
+        final String bucketId = cursor.getString(cursor
                 .getColumnIndex(ImageColumns.BUCKET_ID));
-        final String bucketName = mCursor.getString(mCursor
+        final String bucketName = cursor.getString(cursor
                 .getColumnIndex(ImageColumns.BUCKET_DISPLAY_NAME));
         intent.putExtra(ID, bucketId);
         intent.putExtra(NAME, bucketName);
@@ -215,14 +212,12 @@ public class PhotoAlbumActivity extends BaseActivity implements
         default:
             return null;
         }
-
     }
 
     @Override
     public void onLoadFinished(android.content.Loader<Cursor> loader,
             Cursor cursor) {
         mAlbumCursorAdapter.changeCursor(cursor);
-        mCursor = cursor;
 
         if (cursor.getCount() <= 0) {
             mNoImageGallary.setVisibility(View.VISIBLE);

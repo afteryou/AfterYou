@@ -1,190 +1,183 @@
 package com.beacon.afterui.views;
 
-import java.util.List;
-
-import android.content.DialogInterface;
+import android.content.Context;
+import android.content.CursorLoader;
 import android.content.Intent;
+import android.content.Loader;
+import android.database.Cursor;
 import android.graphics.Typeface;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.HandlerThread;
+import android.provider.MediaStore;
+import android.provider.MediaStore.Images.ImageColumns;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Button;
+import android.widget.CursorAdapter;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.aviary.android.feather.FeatherActivity;
 import com.beacon.afterui.R;
 import com.beacon.afterui.activity.BaseActivity;
 import com.beacon.afterui.utils.ImageInfoUtils;
-import com.beacon.afterui.utils.Photo;
-import com.beacon.afterui.utils.customviews.CustomProgressDialog;
-import com.beacon.afterui.utils.customviews.DialogHelper;
+import com.beacon.afterui.views.gallery.ImageCache.ImageCacheParams;
+import com.beacon.afterui.views.gallery.ImageFetcher;
 
 public class PhotoGallaryActivity extends BaseActivity implements
-		OnClickListener {
+        OnClickListener, android.app.LoaderManager.LoaderCallbacks<Cursor> {
 
-	private GridView mPhotoGridView;
-	private static final String ID = "id";
-	private String mId;
-	private String mName;
+    private GridView mPhotoGridView;
+    private String mId;
+    private String mName;
 
-	private TextView mCancelButton;
-	private TextView mDoneBtn;
+    private TextView mCancelButton;
+    private TextView mDoneBtn;
 
-	private List<Photo> mPhotoList;
+    private static final int PHOTO_LIST_LOADER_ID = 0;
 
-	private static final int LOADING_IMAGES = 1;
+    private PhotoGridAdapter mPhotoGridAdapter;
 
-	private static final int LOADING_IMAGES_COMPLETED = 2;
+    private ImageFetcher mImageFetcher;
 
-	private Handler mAlbumHandler;
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        setContentView(R.layout.photo_gallary);
+        setBehindLeftContentView(R.layout.photo_gallary);
+        setBehindRightContentView(R.layout.photo_gallary);
+        mId = getIntent().getStringExtra(PhotoAlbumActivity.ID);
+        mName = getIntent().getStringExtra(PhotoAlbumActivity.NAME);
 
-	private HandlerThread mHandlerThread;
+        // font myriadPro semibold
+        Typeface itcAvaStdBk = Typeface.createFromAsset(getAssets(),
+                "fonts/ITCAvantGardeStd-Bk.otf");
 
-	private ImageAdapter mImageAdapter;
-	private CustomProgressDialog wait_progress;
+        mPhotoGridView = (GridView) findViewById(R.id.photo_gallary_layout);
+        mPhotoGridView.setOnItemClickListener(mPhotoGridListener);
 
-	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);
-		setContentView(R.layout.photo_gallary);
-		setBehindLeftContentView(R.layout.photo_gallary);
-		setBehindRightContentView(R.layout.photo_gallary);
-		mId = getIntent().getStringExtra(PhotoAlbumActivity.ID);
-		mName = getIntent().getStringExtra(PhotoAlbumActivity.NAME);
+        mCancelButton = (TextView) findViewById(R.id.cancel_btn_photo_album);
+        mCancelButton.setOnClickListener(this);
+        mCancelButton.setTypeface(itcAvaStdBk);
 
-		// font myriadPro semibold
-		Typeface itcAvaStdBk = Typeface.createFromAsset(getAssets(),
-				"fonts/ITCAvantGardeStd-Bk.otf");
+        mDoneBtn = (TextView) findViewById(R.id.done_btn_photo_album);
+        mDoneBtn.setTypeface(itcAvaStdBk);
 
-		mPhotoGridView = (GridView) findViewById(R.id.photo_gallary_layout);
-		mPhotoGridView.setAdapter(new ImageAdapter(this));
-		mPhotoGridView.setOnItemClickListener(mPhotoGriedListener);
 
-		mCancelButton = (TextView) findViewById(R.id.cancel_btn_photo_album);
-		mCancelButton.setOnClickListener(this);
-		mCancelButton.setTypeface(itcAvaStdBk);
+        ImageCacheParams cacheParams = new com.beacon.afterui.views.gallery.ImageCache.ImageCacheParams();
+        cacheParams.setMemCacheSizePercent(0.2f);
+        com.beacon.afterui.views.gallery.ImageCache imageCache = new com.beacon.afterui.views.gallery.ImageCache(
+                cacheParams);
+        mImageFetcher = new ImageFetcher(this, 50, imageCache);
+        mImageFetcher.setLoadingImage(R.drawable.empty_photo);
 
-		mDoneBtn = (TextView) findViewById(R.id.done_btn_photo_album);
-		mDoneBtn.setTypeface(itcAvaStdBk);
+        mPhotoGridAdapter = new PhotoGridAdapter(this, null, true);
+        mPhotoGridView.setAdapter(mPhotoGridAdapter);
+        getLoaderManager().initLoader(PHOTO_LIST_LOADER_ID, null, this);
+    }
 
-		mHandlerThread = new HandlerThread("album_loader");
-		mHandlerThread.start();
-		mAlbumHandler = new Handler(mHandlerThread.getLooper());
 
-		mHandler.sendEmptyMessage(LOADING_IMAGES);
-	}
+    private OnItemClickListener mPhotoGridListener = new OnItemClickListener() {
 
-	private Handler mHandler = new Handler() {
-		public void handleMessage(android.os.Message msg) {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position,
+                long id) {
 
-			switch (msg.what) {
-			case LOADING_IMAGES:
-				mAlbumHandler.post(mLoadImages);
-				wait_progress = DialogHelper.createProgessDialog(
-						PhotoGallaryActivity.this, null);
-				wait_progress.setMessage(PhotoGallaryActivity.this
-						.getString(R.string.IDS_GETTING_PHOTOS_FROM_ALBUM));
-				wait_progress
-						.setOnCancelListener(new DialogInterface.OnCancelListener() {
-							@Override
-							public void onCancel(DialogInterface dialog) {
-								removeDialog();
-							}
-						});
-				wait_progress.show();
-				break;
+            Cursor cursor = mPhotoGridAdapter.getCursor();
+            if (cursor == null || cursor.getCount() < position) {
+                return;
+            }
 
-			case LOADING_IMAGES_COMPLETED:
-				mImageAdapter = new ImageAdapter(PhotoGallaryActivity.this);
-				mImageAdapter.setPhotoList(mPhotoList);
-				mPhotoGridView.setAdapter(mImageAdapter);
-				mImageAdapter.notifyDataSetChanged();
-				removeDialog();
-				break;
-			}
-		};
-	};
+            final String bucketId = cursor.getString(cursor
+                    .getColumnIndex(ImageColumns._ID));
+            final String imagePath = ImageInfoUtils.getPhotoPath(
+                    PhotoGallaryActivity.this, String.valueOf(bucketId));
+            Intent newIntent = new Intent(PhotoGallaryActivity.this,
+                    FeatherActivity.class);
+            newIntent.setData(Uri.parse(imagePath));
+            startActivityForResult(newIntent, 1);
+        }
+    };
 
-	protected void removeDialog() {
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-		if (null != PhotoGallaryActivity.this && null != wait_progress
-				&& wait_progress.isShowing()) {
+        switch (resultCode) {
+        case RESULT_OK:
+            setResult(RESULT_OK, data);
+            finish();
+            break;
+        }
+    }
 
-			wait_progress.dismiss();
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+        case R.id.cancel_btn_photo_album:
+            setResult(RESULT_CANCELED);
+            finish();
+            break;
+        }
+    }
 
-		}
+    private class PhotoGridAdapter extends CursorAdapter {
 
-	}
+        public PhotoGridAdapter(Context context, Cursor c, boolean autoRequery) {
+            super(context, c, autoRequery);
+        }
 
-	private Runnable mLoadImages = new Runnable() {
+        @Override
+        public void bindView(View view, Context context, Cursor cursor) {
 
-		@Override
-		public void run() {
-			mPhotoList = ImageInfoUtils.getPhotoList(PhotoGallaryActivity.this,
-					mId);
-			mHandler.sendEmptyMessage(LOADING_IMAGES_COMPLETED);
-		}
-	};
+            final String bucketId = cursor.getString(cursor
+                    .getColumnIndex(ImageColumns._ID));
+            mImageFetcher.loadImage(bucketId, (ImageView) view);
+        }
 
-	OnItemClickListener mPhotoGriedListener = new OnItemClickListener() {
+        @Override
+        public View newView(Context context, Cursor cursor, ViewGroup parent) {
+            ImageView photoImage = new ImageView(PhotoGallaryActivity.this);
+            photoImage.setScaleType(ImageView.ScaleType.FIT_XY);
+            photoImage.setBackgroundResource(R.drawable.image_border);
+            // photoImage.setPadding(1, 1, 1, 1);
+            return photoImage;
+        }
+    }
 
-		@Override
-		public void onItemClick(AdapterView<?> parent, View view, int position,
-				long id) {
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        switch (id) {
+        case PHOTO_LIST_LOADER_ID:
+            final String BUCKET_ORDER_BY = "datetaken DESC";
+            final String WHERE = MediaStore.Images.Media.BUCKET_ID + "=?";
+            final String WHERE_ARGS[] = { mId };
 
-			Photo photo = mPhotoList.get(position);
+            final String[] PROJECTION = { MediaStore.Images.Media._ID,
+                    MediaStore.Images.Media.BUCKET_ID,
+                    MediaStore.Images.Media.BUCKET_DISPLAY_NAME };
 
-			// Intent intent = new Intent(getApplicationContext(),
-			// FullImageActivity.class);
-			// intent.putExtra(ID, photo.coverId);
-			// startActivityForResult(intent, 1);
+            return new CursorLoader(this,
+                    MediaStore.Images.Media.EXTERNAL_CONTENT_URI, PROJECTION,
+                    WHERE, WHERE_ARGS, BUCKET_ORDER_BY);
 
-			String imagePath = ImageInfoUtils.getPhotoPath(
-					PhotoGallaryActivity.this, String.valueOf(photo.coverId));
-			Intent newIntent = new Intent(PhotoGallaryActivity.this,
-					FeatherActivity.class);
-			newIntent.setData(Uri.parse(imagePath));
-			startActivityForResult(newIntent, 1);
+        default:
+            return null;
+        }
+    }
 
-		}
-	};
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor cursor) {
+        mPhotoGridAdapter.changeCursor(cursor);
+    }
 
-	@Override
-	protected void onDestroy() {
+    @Override
+    public void onLoaderReset(Loader<Cursor> arg0) {
 
-		if (mHandlerThread != null && mHandlerThread.isAlive()) {
-			mHandlerThread.quit();
-		}
-
-		super.onDestroy();
-	}
-
-	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-		switch (resultCode) {
-		case RESULT_OK:
-			setResult(RESULT_OK, data);
-			finish();
-			break;
-		}
-	}
-
-	@Override
-	public void onClick(View v) {
-		switch (v.getId()) {
-		case R.id.cancel_btn_photo_album:
-			setResult(RESULT_CANCELED);
-			finish();
-			break;
-		}
-	}
+    }
 }
